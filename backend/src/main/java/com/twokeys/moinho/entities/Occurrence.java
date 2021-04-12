@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tb_occurrence")
+@Table(name="occurrence")
 public class Occurrence  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

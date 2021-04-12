@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import com.twokeys.moinho.entities.enums.StockMovementType;
 
 @Entity
-@Table(name="tb_stock_movement")
+@Table(name="stock_movement")
 public class StockMovement  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

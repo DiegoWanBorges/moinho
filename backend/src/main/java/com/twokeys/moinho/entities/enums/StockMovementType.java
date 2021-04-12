@@ -1,5 +1,7 @@
 package com.twokeys.moinho.entities.enums;
 
+import javax.validation.ValidationException;
+
 public enum StockMovementType {
 	AJUSTE_ESTOQUE(0),
 	PRODUCAO_ENTRADA(1),
@@ -10,11 +12,21 @@ public enum StockMovementType {
 	
 	private int stockMovementType;
 	
+
 	private StockMovementType(int stockMovementType) {
 		this.stockMovementType=stockMovementType;
 	}
 	
 	public int getStockMovementType() {
 		return stockMovementType;
+	}
+	
+	public static StockMovementType valueOf(int type) {
+		for (StockMovementType value : StockMovementType.values()) {
+			if (value.getStockMovementType()==type) {
+				return value;
+			}
+		}
+		throw new ValidationException();
 	}
 }

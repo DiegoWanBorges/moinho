@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tb_product")
+@Table(name="product")
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -29,15 +29,15 @@ public class Product implements Serializable {
 	private Unity unity;
 	
 	@ManyToOne
-	@JoinColumn(name="unity_id")
-	private Group group;
+	@JoinColumn(name="line_id")
+	private Line line;
 	
 	public Product() {
 		
 	}
 
 	public Product(Long id, String name, String description, String packaging, Double netWeight, Double grossWeight,
-			Unity unity, Group group) {
+			Unity unity, Line line) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -45,7 +45,7 @@ public class Product implements Serializable {
 		this.netWeight = netWeight;
 		this.grossWeight = grossWeight;
 		this.unity = unity;
-		this.group = group;
+		this.line = line;
 	}
 
 	public Long getId() {
@@ -104,12 +104,14 @@ public class Product implements Serializable {
 		this.unity = unity;
 	}
 
-	public Group getGroup() {
-		return group;
+
+
+	public Line getLine() {
+		return line;
 	}
 
-	public void setGroup(Group group) {
-		this.group = group;
+	public void setLine(Line line) {
+		this.line = line;
 	}
 
 	@Override

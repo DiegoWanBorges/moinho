@@ -11,14 +11,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tb_formulation")
+@Table(name="formulation")
 public class Formulation   implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Double fator;
+	private Double coefficient;
 	private String description;
 	@ManyToOne
 	@JoinColumn(name="product_id")
@@ -26,9 +26,9 @@ public class Formulation   implements Serializable {
 	
 	public  Formulation() {
 	}
-	public Formulation(Long id, Double fator, String description, Product product) {
+	public Formulation(Long id, Double coefficient, String description, Product product) {
 		this.id = id;
-		this.fator = fator;
+		this.coefficient = coefficient;
 		this.description = description;
 		this.product = product;
 	}
@@ -38,11 +38,12 @@ public class Formulation   implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Double getFator() {
-		return fator;
+	
+	public Double getCoefficient() {
+		return coefficient;
 	}
-	public void setFator(Double fator) {
-		this.fator = fator;
+	public void setCoefficient(Double coefficient) {
+		this.coefficient = coefficient;
 	}
 	public String getDescription() {
 		return description;

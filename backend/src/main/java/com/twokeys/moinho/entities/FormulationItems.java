@@ -10,21 +10,23 @@ import com.twokeys.moinho.entities.enums.FormulationItemsType;
 import com.twokeys.moinho.entities.pk.FormulationItemsPK;
 
 @Entity
-@Table(name="tb_formulation_items")
+@Table(name="formulation_items")
 public class FormulationItems implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@EmbeddedId
 	private FormulationItemsPK id;
+	private Double quantity;
 	private Integer round;
 	private FormulationItemsType type;
 	
 	public FormulationItems() {
 	}
 
-	public FormulationItems(Formulation formulation,Product product, Integer round, FormulationItemsType type) {
+	public FormulationItems(Formulation formulation,Product product,Double quantity, Integer round, FormulationItemsType type) {
 		this.id.setFormulation(formulation);
 		this.id.setProduct(product);
+		this.quantity=quantity;
 		this.round = round;
 		this.type = type;
 	}
@@ -42,6 +44,14 @@ public class FormulationItems implements Serializable {
 		id.setProduct(product);
 	}
 	
+	public Double getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Double quantity) {
+		this.quantity = quantity;
+	}
+
 	public Integer getRound() {
 		return round;
 	}

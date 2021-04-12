@@ -9,18 +9,19 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tb_group")
-public class Group   implements Serializable {
+@Table(name="line")
+public class Line   implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	public Group() {
+
+	public Line() {
 		
 	}
-	public Group(Long id, String name) {
+	public Line(Long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -51,7 +52,7 @@ public class Group   implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Group other = (Group) obj;
+		Line other = (Line) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
