@@ -115,4 +115,18 @@ public class ProductDTO implements Serializable {
 	public void setLine(LineDTO line) {
 		this.line = line;
 	}
+	public ProductDTO convertToDTO(Product entity) {
+		ProductDTO dto = new ProductDTO();
+		dto.setId( entity.getId());
+		dto.setName(entity.getName());
+		dto.setDescription(entity.getDescription());
+		dto.setPackaging(entity.getPackaging());
+		dto.setNetWeight(entity.getNetWeight());
+		dto.setGrossWeight(entity.getGrossWeight());
+		dto.setValidityDays(entity.getValidityDays());
+		dto.setUnity( new UnityDTO(entity.getUnity().getId(),entity.getUnity().getDescription())) ;
+		dto.setLine(new LineDTO(entity.getLine().getId(),entity.getLine().getName()));
+		return dto;
+	}
+	
 }
