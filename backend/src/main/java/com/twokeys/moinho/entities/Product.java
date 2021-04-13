@@ -23,7 +23,7 @@ public class Product implements Serializable {
 	private String packaging;
 	private Double netWeight;
 	private Double grossWeight;
-
+	private Integer validityDays;
 	@ManyToOne
 	@JoinColumn(name="unity_id")
 	private Unity unity;
@@ -37,13 +37,14 @@ public class Product implements Serializable {
 	}
 
 	public Product(Long id, String name, String description, String packaging, Double netWeight, Double grossWeight,
-			Unity unity, Line line) {
+			       Integer validityDays, Unity unity, Line line) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.packaging = packaging;
 		this.netWeight = netWeight;
 		this.grossWeight = grossWeight;
+		this.validityDays=validityDays;
 		this.unity = unity;
 		this.line = line;
 	}
@@ -94,6 +95,16 @@ public class Product implements Serializable {
 
 	public void setGrossWeight(Double grossWeight) {
 		this.grossWeight = grossWeight;
+	}
+
+	
+	
+	public Integer getValidityDays() {
+		return validityDays;
+	}
+
+	public void setValidityDays(Integer validityDays) {
+		this.validityDays = validityDays;
 	}
 
 	public Unity getUnity() {

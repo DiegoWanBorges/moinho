@@ -20,7 +20,7 @@ public class ProductionOrderItems implements Serializable {
 	@EmbeddedId
 	private ProductionOrderItemsPK id;
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long consumptioNumber;
+	private Long consumptionNumber;
 	private Double quantity;
 	private Double cost;
 	private Integer cancel;
@@ -30,13 +30,14 @@ public class ProductionOrderItems implements Serializable {
 	public ProductionOrderItems() {
 	}
 
-	public ProductionOrderItems(ProductionOrder productionOrder, Product product,Integer serie , Long consumptioNumber, Double quantity, Double cost,
-						        Integer cancel, Instant dateCancel, ProductionOrderItemsType type) {
+	public ProductionOrderItems(ProductionOrder productionOrder, Product product,Integer serie , Long consumptionNumber, 
+								Double quantity, Double cost,Integer cancel, Instant dateCancel, 
+								ProductionOrderItemsType type) {
 		super();
 		this.id.setProductionOrder(productionOrder);
 		this.id.setProduct(product);
 		this.id.setSerie(serie);
-		this.consumptioNumber = consumptioNumber;
+		this.consumptionNumber = consumptionNumber;
 		this.quantity = quantity;
 		this.cost = cost;
 		this.cancel = cancel;
@@ -66,12 +67,14 @@ public class ProductionOrderItems implements Serializable {
 		this.id.setSerie(serie);
 	}
 
-	public Long getConsumptioNumber() {
-		return consumptioNumber;
+	
+
+	public Long getConsumptionNumber() {
+		return consumptionNumber;
 	}
 
-	public void setConsumptioNumber(Long consumptioNumber) {
-		this.consumptioNumber = consumptioNumber;
+	public void setConsumptionNumber(Long consumptionNumber) {
+		this.consumptionNumber = consumptionNumber;
 	}
 
 	public Double getQuantity() {

@@ -3,6 +3,7 @@ package com.twokeys.moinho.entities;
 import java.io.Serializable;
 import java.time.Instant;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,8 +21,11 @@ public class ProductionOrder  implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant emission;
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant startDate;
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant endDate;
 	private Double expectedAmount;
 	private String observation;

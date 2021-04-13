@@ -18,12 +18,12 @@ INSERT INTO line(name)VALUES('EMBALAGEM');
 INSERT INTO line(name)VALUES('USO E CONSUMO');
 INSERT INTO line(name)VALUES('PRODUTO ACABADO');
 
-INSERT INTO product(description, gross_weight,name,net_weight,packaging,line_id,unity_id)VALUES('Leite in natura',1.032,'LEITE IN NATURA',1.032,'',2,'L');
-INSERT INTO product(description, gross_weight,name,net_weight,packaging,line_id,unity_id)VALUES('Saco utilizado para envase de leite em pó da marca Moinho',0.700,'SACO MOINHO 25 KG',0.700,'',3,'UN');
-INSERT INTO product(description, gross_weight,name,net_weight,packaging,line_id,unity_id)VALUES('Saco utilizado para envase de leite em pó',0.700,'SACO 25 KG PARDO',0.700,'',3,'UN');
-INSERT INTO product(description, gross_weight,name,net_weight,packaging,line_id,unity_id)VALUES('Abraçadeira utilizada para vedar o saco interno de leite',0.1,'ABRACADEIRA DE NYLON',0.1,'',3,'UN');
-INSERT INTO product(description, gross_weight,name,net_weight,packaging,line_id,unity_id)VALUES('Linha de poliester utilizada para para costurar a embalagem externa',1,'LINHA DE POLIESTER',1,'',3,'KG');  
-INSERT INTO product(description, gross_weight,name,net_weight,packaging,line_id,unity_id)VALUES('Leite em pó integral',1,'LEITE EM PO',1,'SC COM 25KG',5,'KG');
+INSERT INTO product(description, gross_weight,name,net_weight,packaging,line_id,unity_id,validity_days)VALUES('Leite in natura',1.032,'LEITE IN NATURA',1.032,'',2,'L',0);
+INSERT INTO product(description, gross_weight,name,net_weight,packaging,line_id,unity_id,validity_days)VALUES('Saco utilizado para envase de leite em pó da marca Moinho',0.700,'SACO MOINHO 25 KG',0.700,'',3,'UN',0);
+INSERT INTO product(description, gross_weight,name,net_weight,packaging,line_id,unity_id,validity_days)VALUES('Saco utilizado para envase de leite em pó',0.700,'SACO 25 KG PARDO',0.700,'',3,'UN',0);
+INSERT INTO product(description, gross_weight,name,net_weight,packaging,line_id,unity_id,validity_days)VALUES('Abraçadeira utilizada para vedar o saco interno de leite',0.1,'ABRACADEIRA DE NYLON',0.1,'',3,'UN',0);
+INSERT INTO product(description, gross_weight,name,net_weight,packaging,line_id,unity_id,validity_days)VALUES('Linha de poliester utilizada para para costurar a embalagem externa',1,'LINHA DE POLIESTER',1,'',3,'KG',0);  
+INSERT INTO product(description, gross_weight,name,net_weight,packaging,line_id,unity_id,validity_days)VALUES('Leite em pó integral',1,'LEITE EM PO',1,'SC COM 25KG',5,'KG',365);
 
 INSERT INTO STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,in,out)VALUES(TIMESTAMP WITH TIME ZONE '2021-04-01T20:50:07.12345Z','',0,5,1,1.20,50000,0);
 INSERT INTO STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,in,out)VALUES(TIMESTAMP WITH TIME ZONE '2021-04-10T20:50:07.12345Z','',0,5,1,1.25,10000,0);
