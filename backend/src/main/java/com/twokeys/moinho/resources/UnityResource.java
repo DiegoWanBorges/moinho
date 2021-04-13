@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import com.twokeys.moinho.dto.UnityDTO;
 import com.twokeys.moinho.services.UnityService;
 
@@ -26,7 +25,7 @@ public class UnityResource {
 	
 	@GetMapping
 	public ResponseEntity<List<UnityDTO>> findAll(String description){
-		List<UnityDTO> list = service.findAllPaged(description);
+		List<UnityDTO> list = service.findByDescriptionLikeIgnoreCase(description);
 		return ResponseEntity.ok().body(list);
 	}
 	

@@ -26,7 +26,7 @@ public class LineService {
 	private LineRepository repository;
 	
 	@Transactional(readOnly=true)
-	public List<LineDTO> findAllPaged(String name){
+	public List<LineDTO> findByNameLikeIgnoreCase(String name){
 		String nameConcat = "%"+name+"%";
 		
 		List<Line> list =  repository.findByNameLikeIgnoreCase(nameConcat);

@@ -26,7 +26,7 @@ public class UnityService {
 	private UnityRepository repository;
 	
 	@Transactional(readOnly=true)
-	public List<UnityDTO> findAllPaged(String description){
+	public List<UnityDTO> findByDescriptionLikeIgnoreCase(String description){
 		String nameConcat = "%"+description+"%";
 		
 		List<Unity> list =  repository.findByDescriptionLikeIgnoreCase(nameConcat);
