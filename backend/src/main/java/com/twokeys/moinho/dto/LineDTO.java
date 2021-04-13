@@ -1,8 +1,12 @@
 package com.twokeys.moinho.dto;
 
+import java.io.Serializable;
+
 import com.twokeys.moinho.entities.Line;
 
-public class LineDTO {
+public class LineDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private Long id;
 	private String name;
 	
