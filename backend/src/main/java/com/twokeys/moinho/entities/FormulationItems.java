@@ -15,7 +15,7 @@ public class FormulationItems implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@EmbeddedId
-	private FormulationItemsPK id;
+	private FormulationItemsPK id = new FormulationItemsPK();
 	private Double quantity;
 	private Integer round;
 	private FormulationItemsType type;

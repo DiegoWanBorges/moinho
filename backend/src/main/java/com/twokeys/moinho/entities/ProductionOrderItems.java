@@ -18,7 +18,7 @@ public class ProductionOrderItems implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@EmbeddedId
-	private ProductionOrderItemsPK id;
+	private ProductionOrderItemsPK id = new ProductionOrderItemsPK();
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long consumptionNumber;
 	private Double quantity;

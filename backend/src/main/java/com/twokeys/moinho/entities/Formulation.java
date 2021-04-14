@@ -1,6 +1,8 @@
 package com.twokeys.moinho.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -24,6 +27,9 @@ public class Formulation   implements Serializable {
 	@JoinColumn(name="product_id")
 	private Product product;
 	
+	@OneToMany(mappedBy = "id.formulation")
+	private List<FormulationItems> formulationItems = new ArrayList<>();
+		
 	public  Formulation() {
 	}
 	public Formulation(Long id, Double coefficient, String description, Product product) {
@@ -56,6 +62,10 @@ public class Formulation   implements Serializable {
 	}
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+	
+	public List<FormulationItems> getFormulationItems() {
+		return formulationItems;
 	}
 	@Override
 	public int hashCode() {

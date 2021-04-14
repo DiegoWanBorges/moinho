@@ -1,6 +1,8 @@
 package com.twokeys.moinho.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.twokeys.moinho.entities.Formulation;
 
@@ -11,6 +13,7 @@ public class FormulationDTO implements Serializable {
 	private Double coefficient;
 	private String description;
 	private ProductDTO product;
+	private List<FormulationItemsDTO> formulationItems = new ArrayList<>();
 	
 	public  FormulationDTO() {
 	}
@@ -22,11 +25,11 @@ public class FormulationDTO implements Serializable {
 		this.product = product;
 	}
 	public FormulationDTO(Formulation entity) {
-		ProductDTO productDTO = new ProductDTO();
 		this.id = entity.getId();
 		this.coefficient = entity.getCoefficient();
 		this.description = entity.getDescription();
-		this.product = productDTO.convertToDTO(entity.getProduct());
+		this.product = new ProductDTO(entity.getProduct());
+		entity.getFormulationItems().forEach(formulation -> formulationItems.add(new FormulationItemsDTO(formulation)));
 	}
 	public Long getId() {
 		return id;
@@ -58,6 +61,10 @@ public class FormulationDTO implements Serializable {
 
 	public void setProduct(ProductDTO product) {
 		this.product = product;
+	}
+
+	public List<FormulationItemsDTO> getFormulationItems() {
+		return formulationItems;
 	}
 	
 	

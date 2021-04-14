@@ -16,6 +16,7 @@ public class FormulationItemsPK implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="formulation_id")
 	private Formulation formulation;
+	
 	@ManyToOne
 	@JoinColumn(name="product_id")
 	private Product product;
@@ -27,6 +28,10 @@ public class FormulationItemsPK implements Serializable {
 	public FormulationItemsPK(Formulation formulation, Product product) {
 		this.formulation = formulation;
 		this.product = product;
+	}
+	public FormulationItemsPK(Long idFormulation, Long idProduct) {
+		this.formulation.setId(idFormulation);
+		this.product.setId(idProduct);
 	}
 
 	public Formulation getFormulation() {
