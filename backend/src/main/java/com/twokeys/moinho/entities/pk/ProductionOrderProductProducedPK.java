@@ -6,7 +6,6 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.twokeys.moinho.entities.Product;
 import com.twokeys.moinho.entities.ProductionOrder;
 
 @Embeddable
@@ -15,16 +14,15 @@ public class ProductionOrderProductProducedPK implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="production_order_id")
 	private ProductionOrder productionOrder;
-	@ManyToOne
-	@JoinColumn(name="product_id")
-	private Product product;
+	
+	private Integer pallet;
 	
 	public ProductionOrderProductProducedPK() {
 	}
 
-	public ProductionOrderProductProducedPK(ProductionOrder productionOrder, Product product) {
+	public ProductionOrderProductProducedPK(ProductionOrder productionOrder, Integer pallet) {
 		this.productionOrder = productionOrder;
-		this.product = product;
+		this.pallet = pallet;
 	}
 
 	public ProductionOrder getProductionOrder() {
@@ -35,19 +33,19 @@ public class ProductionOrderProductProducedPK implements Serializable {
 		this.productionOrder = productionOrder;
 	}
 
-	public Product getProduct() {
-		return product;
+	public Integer getPallet() {
+		return pallet;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setPallet(Integer pallet) {
+		this.pallet = pallet;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((product == null) ? 0 : product.hashCode());
+		result = prime * result + ((pallet == null) ? 0 : pallet.hashCode());
 		result = prime * result + ((productionOrder == null) ? 0 : productionOrder.hashCode());
 		return result;
 	}
@@ -61,10 +59,10 @@ public class ProductionOrderProductProducedPK implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ProductionOrderProductProducedPK other = (ProductionOrderProductProducedPK) obj;
-		if (product == null) {
-			if (other.product != null)
+		if (pallet == null) {
+			if (other.pallet != null)
 				return false;
-		} else if (!product.equals(other.product))
+		} else if (!pallet.equals(other.pallet))
 			return false;
 		if (productionOrder == null) {
 			if (other.productionOrder != null)
@@ -73,6 +71,8 @@ public class ProductionOrderProductProducedPK implements Serializable {
 			return false;
 		return true;
 	}
+
+	
 
 	
 	

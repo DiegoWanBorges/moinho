@@ -81,12 +81,16 @@ public class FormulationItemsService {
 	}
 	public void delete(Long idFormulation, Long idProduct) {
 		try {
-			FormulationItemsPK id =new FormulationItemsPK();
-			id.getProduct().setId(idProduct);
-			id.getFormulation().setId(idFormulation);
+			FormulationItemsPK id = new FormulationItemsPK();
+			Formulation formulation = new Formulation();
+			Product product = new Product();
+			formulation.setId(idFormulation);
+			product.setId(idProduct);
+			id.setFormulation(formulation);
+			id.setProduct(product);
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException("Id not found: " + idFormulation + " / " + idProduct);
+			throw new ResourceNotFoundException("Formulation id: " + idFormulation + " / Product id:" + idProduct + " Not found");
 		}catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Integrity violation");
 		}
