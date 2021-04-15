@@ -3,9 +3,10 @@ package com.twokeys.moinho.entities.enums;
 import javax.validation.ValidationException;
 
 public enum ProductionOrderItemsType {
-	ABERTO(0),
-	ENCERRADO(1),
-	CANCELADO(2);
+	NORMAL(0),
+	COMPLEMENTAR(1),
+	RETORNO(2),
+	EXTRA(3),;
 	
 	
 	private int productionOrderItemsType;

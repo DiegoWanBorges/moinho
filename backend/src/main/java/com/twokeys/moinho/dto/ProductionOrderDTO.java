@@ -110,4 +110,9 @@ public class ProductionOrderDTO   implements Serializable {
 	public void setFormulation(FormulationDTO formulation) {
 		this.formulation = formulation;
 	}
+
+	public List<ProductionOrderItemsDTO> getProductionOrderItems() {
+		return productionOrderItems;
+	}
+	
 }

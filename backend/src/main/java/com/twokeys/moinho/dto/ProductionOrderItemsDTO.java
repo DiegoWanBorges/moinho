@@ -9,6 +9,7 @@ import com.twokeys.moinho.entities.enums.ProductionOrderItemsType;
 public class ProductionOrderItemsDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	private Integer serie;
 	private Double quantity;
 	private Double cost;
 	private Integer cancel;
@@ -16,22 +17,27 @@ public class ProductionOrderItemsDTO implements Serializable {
 	private ProductionOrderItemsType type;
 	private Long productionOrederId;
 	private ProductDTO product;
+	
 	public ProductionOrderItemsDTO() {
 	}
 
-	public ProductionOrderItemsDTO(Long productionOrederId, ProductDTO product, Double quantity, Double cost,
+	public ProductionOrderItemsDTO(Long productionOrederId, ProductDTO product,Integer serie, 
+								   Double quantity, Double cost,
 								   Integer cancel, Instant dateCancel, ProductionOrderItemsType type) {
 		this.productionOrederId = productionOrederId;
 		this.product = product;
+		this.serie=serie;
 		this.quantity = quantity;
 		this.cost = cost;
 		this.cancel = cancel;
 		this.dateCancel = dateCancel;
 		this.type = type;
 	}
+	
 	public ProductionOrderItemsDTO(ProductionOrderItems entity) {
 		this.productionOrederId = entity.getProductionOrder().getId();
 		this.product = new ProductDTO(entity.getProduct());
+		this.serie=entity.getSerie();
 		this.quantity = entity.getQuantity();
 		this.cost = entity.getCost();
 		this.cancel = entity.getCancel();
@@ -93,6 +99,14 @@ public class ProductionOrderItemsDTO implements Serializable {
 
 	public void setProduct(ProductDTO product) {
 		this.product = product;
+	}
+
+	public Integer getSerie() {
+		return serie;
+	}
+
+	public void setSerie(Integer serie) {
+		this.serie = serie;
 	}
 	
 }
