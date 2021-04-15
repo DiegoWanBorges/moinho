@@ -26,10 +26,8 @@ public class FormulationItemsDTO implements Serializable {
 	}
 	
 	public FormulationItemsDTO(FormulationItems entity) {
-		ProductDTO prodDTO = new ProductDTO();
-		prodDTO = prodDTO.convertToDTO(entity.getProduct());
 		this.formulationId = entity.getFormulation().getId();
-		this.product = prodDTO;
+		this.product = new ProductDTO(entity.getProduct());
 		this.quantity = entity.getQuantity();
 		this.round = entity.getRound();
 		this.type = entity.getType();

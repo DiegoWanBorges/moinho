@@ -2,6 +2,8 @@ package com.twokeys.moinho.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
@@ -30,9 +33,13 @@ public class ProductionOrder  implements Serializable {
 	private Double expectedAmount;
 	private String observation;
 	private ProductionOrderStatus status;
+	
 	@ManyToOne
 	@JoinColumn(name="formulation_id")
 	private Formulation formulation;
+	
+	@OneToMany(mappedBy = "id.productionOrder")
+	private List<ProductionOrderItems> productionOrderItems = new ArrayList<>();
 	
 	public ProductionOrder() {
 	}
@@ -111,6 +118,12 @@ public class ProductionOrder  implements Serializable {
 
 	public void setFormulation(Formulation formulation) {
 		this.formulation = formulation;
+	}
+	
+	
+	
+	public List<ProductionOrderItems> getProductionOrderItems() {
+		return productionOrderItems;
 	}
 
 	@Override

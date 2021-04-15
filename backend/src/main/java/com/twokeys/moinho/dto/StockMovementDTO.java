@@ -35,8 +35,6 @@ public class StockMovementDTO   implements Serializable {
 		this.product = product;
 	}
 	public StockMovementDTO(StockMovement entity) {
-		ProductDTO prodDTO = new ProductDTO();
-		prodDTO = prodDTO.convertToDTO(entity.getProduct());
 		this.id = entity.getId();
 		this.date = entity.getDate();
 		this.in = entity.getIn();
@@ -45,7 +43,7 @@ public class StockMovementDTO   implements Serializable {
 		this.description = entity.getDescription();
 		this.type = entity.getType();
 		this.idOrignMovement = entity.getIdOrignMovement();
-		this.product = prodDTO;
+		this.product = new ProductDTO(entity.getProduct());
 	}
 
 	public Long getId() {
