@@ -29,11 +29,7 @@ public class FormulationItemsPK implements Serializable {
 		this.formulation = formulation;
 		this.product = product;
 	}
-	public FormulationItemsPK(Long idFormulation, Long idProduct) {
-		this.formulation.setId(idFormulation);
-		this.product.setId(idProduct);
-	}
-
+	
 	public Formulation getFormulation() {
 		return formulation;
 	}

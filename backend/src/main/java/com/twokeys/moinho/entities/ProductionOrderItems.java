@@ -7,6 +7,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.twokeys.moinho.entities.enums.ProductionOrderItemsType;
@@ -19,10 +20,11 @@ public class ProductionOrderItems implements Serializable {
 	
 	@EmbeddedId
 	private ProductionOrderItemsPK id = new ProductionOrderItemsPK();
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long consumptionNumber;
 	private Double quantity;
-	private Double cost;
+	private Double cost; 
 	private Integer cancel;
 	private Instant dateCancel;
 	private ProductionOrderItemsType type;
@@ -30,14 +32,13 @@ public class ProductionOrderItems implements Serializable {
 	public ProductionOrderItems() {
 	}
 
-	public ProductionOrderItems(ProductionOrder productionOrder, Product product,Integer serie , Long consumptionNumber, 
+	public ProductionOrderItems(ProductionOrder productionOrder, Product product, Integer serie, Long consumptionNumber,
 								Double quantity, Double cost,Integer cancel, Instant dateCancel, 
 								ProductionOrderItemsType type) {
-		super();
 		this.id.setProductionOrder(productionOrder);
 		this.id.setProduct(product);
 		this.id.setSerie(serie);
-		this.consumptionNumber = consumptionNumber;
+		this.consumptionNumber=consumptionNumber;
 		this.quantity = quantity;
 		this.cost = cost;
 		this.cancel = cancel;
@@ -66,9 +67,7 @@ public class ProductionOrderItems implements Serializable {
 	public void setSerie(Integer serie) {
 		this.id.setSerie(serie);
 	}
-
 	
-
 	public Long getConsumptionNumber() {
 		return consumptionNumber;
 	}

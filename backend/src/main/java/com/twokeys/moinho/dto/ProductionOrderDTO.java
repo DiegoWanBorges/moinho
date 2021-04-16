@@ -46,7 +46,20 @@ public class ProductionOrderDTO   implements Serializable {
 		this.formulation = new FormulationDTO(entity.getFormulation());
 		entity.getProductionOrderItems().forEach(items -> productionOrderItems.add(new ProductionOrderItemsDTO(items)));
 	}
-
+	public ProductionOrderDTO(ProductionOrder entity,List<ProductionOrderItemsDTO> productionOrderItems) {
+		this.id = entity.getId();
+		this.emission = entity.getEmission();
+		this.startDate = entity.getStartDate();
+		this.endDate = entity.getEndDate();
+		this.expectedAmount = entity.getExpectedAmount();
+		this.observation = entity.getObservation();
+		this.status = entity.getStatus();
+		this.formulation = new FormulationDTO(entity.getFormulation());
+		this.productionOrderItems.addAll(productionOrderItems);
+	}
+	
+	
+	
 	public Long getId() {
 		return id;
 	}

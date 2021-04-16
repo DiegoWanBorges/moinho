@@ -7,7 +7,7 @@ import com.twokeys.moinho.entities.ProductionOrderItems;
 import com.twokeys.moinho.entities.pk.ProductionOrderItemsPK;
 
 @Repository
-public interface ProductionOrderItemRepository extends JpaRepository<ProductionOrderItems, ProductionOrderItemsPK> {
+public interface ProductionOrderItemsRepository extends JpaRepository<ProductionOrderItems, ProductionOrderItemsPK> {
 		
 }
 

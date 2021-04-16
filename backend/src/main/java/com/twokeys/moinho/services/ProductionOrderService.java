@@ -1,13 +1,15 @@
 package com.twokeys.moinho.services;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,13 +22,14 @@ import com.twokeys.moinho.entities.enums.ProductionOrderItemsType;
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
 import com.twokeys.moinho.repositories.FormulationRepository;
 import com.twokeys.moinho.repositories.ProductionOrderRepository;
-import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 
 
 
 @Service
 public class ProductionOrderService {
+	protected final Log logger = LogFactory.getLog(getClass());
+	
 	@Autowired
 	private ProductionOrderRepository repository;
 	
@@ -36,8 +39,12 @@ public class ProductionOrderService {
 	@Autowired
 	private FormulationService formulationService;
 	
-	@Transactional(readOnly=true)
-	public ProductionOrderDTO createProductionOrder(Long formulationId, Double ammount){
+	@Autowired
+	private ProductionOrderItemsService productionOrderItemsService;
+	
+	
+	@Transactional
+	public ProductionOrderDTO createProductionOrder(Long formulationId, Double ammount,Boolean persistence){
 		FormulationDTO formulation = formulationService.findById(formulationId);
 		ProductionOrderDTO productionOrder = new ProductionOrderDTO();
 		ProductionOrderItemsDTO productionOrderItems; 
@@ -57,7 +64,11 @@ public class ProductionOrderService {
 		productionOrder.setExpectedAmount(ammount);
 		productionOrder.setStatus(ProductionOrderStatus.ABERTO);
 		productionOrder.setFormulation(formulation);
-		return productionOrder;
+		if (persistence) {
+			return insert(productionOrder);
+		}else {
+			return productionOrder;
+		}
 		
 	}
 	
@@ -67,16 +78,25 @@ public class ProductionOrderService {
 		ProductionOrder entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		return new ProductionOrderDTO(entity);
 	}
+	
 	@Transactional
 	public ProductionOrderDTO insert(ProductionOrderDTO dto) {
 		try {
-		ProductionOrder entity =new ProductionOrder();
+			ProductionOrder entity =new ProductionOrder();
 			convertToEntity(dto, entity);
-			return new ProductionOrderDTO(repository.save(entity));
+			entity=repository.save(entity);
+			List<ProductionOrderItemsDTO> list = new ArrayList<>();
+			
+			for(ProductionOrderItemsDTO item : dto.getProductionOrderItems()) {
+				item.setProductionOrderId(entity.getId());
+				list.add(productionOrderItemsService.insert(item));	
+			}
+			return new ProductionOrderDTO(entity,list);
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
 		}
 	}
+	
 	@Transactional
 	public ProductionOrderDTO update(Long id, ProductionOrderDTO dto) {
 		try {
@@ -88,16 +108,7 @@ public class ProductionOrderService {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}
 	}
-	public void delete(Long id) {
-		try {
-			repository.deleteById(id);
-		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundException("Id not found: " + id);
-		}catch (DataIntegrityViolationException e) {
-			throw new DatabaseException("Integrity violation");
-		}
-		
-	}
+	
 	public void convertToEntity(ProductionOrderDTO dto, ProductionOrder entity) {
 		entity.setEmission(dto.getEmission());
 		entity.setEndDate(dto.getEndDate());

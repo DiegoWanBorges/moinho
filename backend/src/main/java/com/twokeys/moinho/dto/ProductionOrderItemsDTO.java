@@ -9,24 +9,26 @@ import com.twokeys.moinho.entities.enums.ProductionOrderItemsType;
 public class ProductionOrderItemsDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	private Long consumptionNumber;
 	private Integer serie;
 	private Double quantity;
 	private Double cost;
 	private Integer cancel;
 	private Instant dateCancel;
 	private ProductionOrderItemsType type;
-	private Long productionOrederId;
+	private Long productionOrderId;
 	private ProductDTO product;
 	
 	public ProductionOrderItemsDTO() {
 	}
 
-	public ProductionOrderItemsDTO(Long productionOrederId, ProductDTO product,Integer serie, 
+	public ProductionOrderItemsDTO(Long productionOrderId, ProductDTO product, Integer serie,Long consumptionNumber,
 								   Double quantity, Double cost,
 								   Integer cancel, Instant dateCancel, ProductionOrderItemsType type) {
-		this.productionOrederId = productionOrederId;
+		this.productionOrderId = productionOrderId;
 		this.product = product;
 		this.serie=serie;
+		this.consumptionNumber=consumptionNumber;
 		this.quantity = quantity;
 		this.cost = cost;
 		this.cancel = cancel;
@@ -35,9 +37,10 @@ public class ProductionOrderItemsDTO implements Serializable {
 	}
 	
 	public ProductionOrderItemsDTO(ProductionOrderItems entity) {
-		this.productionOrederId = entity.getProductionOrder().getId();
+		this.productionOrderId = entity.getProductionOrder().getId();
 		this.product = new ProductDTO(entity.getProduct());
 		this.serie=entity.getSerie();
+		this.consumptionNumber=entity.getConsumptionNumber();
 		this.quantity = entity.getQuantity();
 		this.cost = entity.getCost();
 		this.cancel = entity.getCancel();
@@ -85,12 +88,12 @@ public class ProductionOrderItemsDTO implements Serializable {
 		this.type = type;
 	}
 
-	public Long getProductionOrederId() {
-		return productionOrederId;
+	public Long getProductionOrderId() {
+		return productionOrderId;
 	}
 
-	public void setProductionOrederId(Long productionOrederId) {
-		this.productionOrederId = productionOrederId;
+	public void setProductionOrderId(Long productionOrderId) {
+		this.productionOrderId = productionOrderId;
 	}
 
 	public ProductDTO getProduct() {
@@ -107,6 +110,14 @@ public class ProductionOrderItemsDTO implements Serializable {
 
 	public void setSerie(Integer serie) {
 		this.serie = serie;
+	}
+
+	public Long getConsumptionNumber() {
+		return consumptionNumber;
+	}
+
+	public void setConsumptionNumber(Long consumptionNumber) {
+		this.consumptionNumber = consumptionNumber;
 	}
 	
 }
