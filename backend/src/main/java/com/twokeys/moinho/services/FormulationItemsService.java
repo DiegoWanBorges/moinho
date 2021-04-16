@@ -98,7 +98,9 @@ public class FormulationItemsService {
 	}
 	public void convertToEntity(FormulationItemsDTO dto, FormulationItems entity) {
 		Formulation formulation = formulationRepository.getOne(dto.getFormulationId());
+		
 		Product product = productRepository.getOne(dto.getProduct().getId());
+		
 		entity.setProduct(product);
 		entity.setFormulation(formulation);
 		entity.setQuantity(dto.getQuantity());

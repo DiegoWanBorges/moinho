@@ -13,7 +13,6 @@ public class ProductionOrderItemsDTO implements Serializable {
 	private Integer serie;
 	private Double quantity;
 	private Double cost;
-	private Integer cancel;
 	private Instant dateCancel;
 	private ProductionOrderItemsType type;
 	private Long productionOrderId;
@@ -23,15 +22,13 @@ public class ProductionOrderItemsDTO implements Serializable {
 	}
 
 	public ProductionOrderItemsDTO(Long productionOrderId, ProductDTO product, Integer serie,Long consumptionNumber,
-								   Double quantity, Double cost,
-								   Integer cancel, Instant dateCancel, ProductionOrderItemsType type) {
+								   Double quantity, Double cost,Instant dateCancel, ProductionOrderItemsType type) {
 		this.productionOrderId = productionOrderId;
 		this.product = product;
 		this.serie=serie;
 		this.consumptionNumber=consumptionNumber;
 		this.quantity = quantity;
 		this.cost = cost;
-		this.cancel = cancel;
 		this.dateCancel = dateCancel;
 		this.type = type;
 	}
@@ -43,7 +40,6 @@ public class ProductionOrderItemsDTO implements Serializable {
 		this.consumptionNumber=entity.getConsumptionNumber();
 		this.quantity = entity.getQuantity();
 		this.cost = entity.getCost();
-		this.cancel = entity.getCancel();
 		this.dateCancel = entity.getDateCancel();
 		this.type = entity.getType();
 	}
@@ -62,14 +58,6 @@ public class ProductionOrderItemsDTO implements Serializable {
 
 	public void setCost(Double cost) {
 		this.cost = cost;
-	}
-
-	public Integer getCancel() {
-		return cancel;
-	}
-
-	public void setCancel(Integer cancel) {
-		this.cancel = cancel;
 	}
 
 	public Instant getDateCancel() {

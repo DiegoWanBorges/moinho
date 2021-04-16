@@ -1,8 +1,5 @@
 package com.twokeys.moinho.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.EntityNotFoundException;
 
 import org.apache.commons.logging.Log;
@@ -13,20 +10,20 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.twokeys.moinho.dto.ProductionOrderItemsDTO;
+import com.twokeys.moinho.dto.ProductionOrderProducedDTO;
 import com.twokeys.moinho.entities.Product;
 import com.twokeys.moinho.entities.ProductionOrder;
-import com.twokeys.moinho.entities.ProductionOrderItems;
+import com.twokeys.moinho.entities.ProductionOrderProduced;
 import com.twokeys.moinho.repositories.ProductRepository;
-import com.twokeys.moinho.repositories.ProductionOrderItemsRepository;
+import com.twokeys.moinho.repositories.ProductionOrderProducedRepository;
 import com.twokeys.moinho.repositories.ProductionOrderRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 @Service
-public class ProductionOrderItemsService {
+public class ProductionOrderProducedService {
 	protected final Log logger = LogFactory.getLog(getClass());
 	@Autowired
-	private ProductionOrderItemsRepository repository;
+	private ProductionOrderProducedRepository repository;
 	@Autowired 
 	private ProductRepository productRepository; 
 	@Autowired
@@ -34,27 +31,17 @@ public class ProductionOrderItemsService {
 		
 	
 	@Transactional
-	public List<ProductionOrderItemsDTO> insert(List<ProductionOrderItemsDTO> dto) {
+	public ProductionOrderProducedDTO insert(ProductionOrderProducedDTO dto) {
 		try {
-			ProductionOrderItems entity = new ProductionOrderItems();
-			List<ProductionOrderItems> entityList = new ArrayList<>();
+			ProductionOrderProduced entity = new ProductionOrderProduced();
 			ProductionOrder order = new ProductionOrder();
-			order.setId(dto.get(0).getProductionOrderId());
 			
-			Integer serie = repository.findMaxSerie(order) + 1;
-		
-			for(ProductionOrderItemsDTO itemDto : dto){
-				entity = new ProductionOrderItems();
-				itemDto.setSerie(serie);
-				entity= convertToEntity(itemDto);
-				entityList.add(entity);
-			}
-			entityList = repository.saveAll(entityList);
-			dto.clear();
-			for(ProductionOrderItems item: entityList) {
-				dto.add(new ProductionOrderItemsDTO(item));
-			}
-			return dto;
+			order.setId(dto.getProductionOrderId());
+			Integer pallet = repository.findMaxPallet(order) + 1;
+			dto.setPallet(pallet);
+			
+			convertToEntity(dto, entity);
+			return new ProductionOrderProducedDTO(repository.save(entity));
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
 		}catch(DataIntegrityViolationException e) {
@@ -65,16 +52,15 @@ public class ProductionOrderItemsService {
 		
 	}
 	
-	public ProductionOrderItems convertToEntity(ProductionOrderItemsDTO dto) {
-			ProductionOrderItems entity = new ProductionOrderItems(); 
+	public void convertToEntity(ProductionOrderProducedDTO dto,ProductionOrderProduced entity) {
 			ProductionOrder productionOrder = productionOrderRepository.getOne(dto.getProductionOrderId());
 			Product product = productRepository.getOne(dto.getProduct().getId());
-			entity.setSerie(dto.getSerie());
-			entity.setProduct(product);
 			entity.setProductionOrder(productionOrder);
+			entity.setProduct(product);
+			entity.setPallet(dto.getPallet());
+			
 			entity.setQuantity(dto.getQuantity());
-			entity.setCost(dto.getCost());
-			entity.setType(dto.getType());
-			return entity;
+			entity.setManufacturingDate(dto.getManufacturingDate());
+			entity.setLote(dto.getLote());
 	}
 }

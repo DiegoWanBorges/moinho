@@ -14,7 +14,6 @@ public class ProductionOrderProductProducedPK implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="production_order_id")
 	private ProductionOrder productionOrder;
-	
 	private Integer pallet;
 	
 	public ProductionOrderProductProducedPK() {
@@ -71,11 +70,4 @@ public class ProductionOrderProductProducedPK implements Serializable {
 			return false;
 		return true;
 	}
-
-	
-
-	
-	
-	
-	
 }

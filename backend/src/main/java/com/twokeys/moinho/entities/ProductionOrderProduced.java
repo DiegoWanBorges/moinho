@@ -1,5 +1,6 @@
 package com.twokeys.moinho.entities;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 import javax.persistence.Column;
@@ -12,7 +13,8 @@ import javax.persistence.Table;
 import com.twokeys.moinho.entities.pk.ProductionOrderProductProducedPK;
 @Entity
 @Table(name="production_order_produced")
-public class ProductionOrderProduced {
+public class ProductionOrderProduced implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	@EmbeddedId
 	private ProductionOrderProductProducedPK id = new ProductionOrderProductProducedPK();
@@ -20,10 +22,6 @@ public class ProductionOrderProduced {
 	private Instant manufacturingDate;
 	private String lote;
 	private Double quantity;
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant creatAt;
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant cancelDate;
 	@ManyToOne
 	@JoinColumn(name="product_id")
 	private Product product;
@@ -32,14 +30,12 @@ public class ProductionOrderProduced {
 	}
 
 	public ProductionOrderProduced(ProductionOrder productionOrder,Integer pallet, Instant manufacturingDate, String lote,
-			Double quantity, Instant creatAt, Instant cancelDate, Product product) {
+								   Double quantity,   Product product) {
 		this.id.setProductionOrder(productionOrder);
 		this.id.setPallet(pallet);
 		this.manufacturingDate = manufacturingDate;
 		this.lote = lote;
 		this.quantity = quantity;
-		this.creatAt = creatAt;
-		this.cancelDate = cancelDate;
 		this.product = product;
 	}
 
@@ -82,23 +78,6 @@ public class ProductionOrderProduced {
 	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 	}
-
-	public Instant getCreatAt() {
-		return creatAt;
-	}
-
-	public void setCreatAt(Instant creatAt) {
-		this.creatAt = creatAt;
-	}
-
-	public Instant getCancelDate() {
-		return cancelDate;
-	}
-
-	public void setCancelDate(Instant cancelDate) {
-		this.cancelDate = cancelDate;
-	}
-
 	public Product getProduct() {
 		return product;
 	}

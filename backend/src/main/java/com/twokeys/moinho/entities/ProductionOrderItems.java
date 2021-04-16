@@ -5,9 +5,6 @@ import java.time.Instant;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.twokeys.moinho.entities.enums.ProductionOrderItemsType;
@@ -21,11 +18,9 @@ public class ProductionOrderItems implements Serializable {
 	@EmbeddedId
 	private ProductionOrderItemsPK id = new ProductionOrderItemsPK();
 	
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long consumptionNumber;
 	private Double quantity;
 	private Double cost; 
-	private Integer cancel;
 	private Instant dateCancel;
 	private ProductionOrderItemsType type;
 	
@@ -33,7 +28,7 @@ public class ProductionOrderItems implements Serializable {
 	}
 
 	public ProductionOrderItems(ProductionOrder productionOrder, Product product, Integer serie, Long consumptionNumber,
-								Double quantity, Double cost,Integer cancel, Instant dateCancel, 
+								Double quantity, Double cost, Instant dateCancel, 
 								ProductionOrderItemsType type) {
 		this.id.setProductionOrder(productionOrder);
 		this.id.setProduct(product);
@@ -41,7 +36,6 @@ public class ProductionOrderItems implements Serializable {
 		this.consumptionNumber=consumptionNumber;
 		this.quantity = quantity;
 		this.cost = cost;
-		this.cancel = cancel;
 		this.dateCancel = dateCancel;
 		this.type = type;
 	}
@@ -90,14 +84,6 @@ public class ProductionOrderItems implements Serializable {
 
 	public void setCost(Double cost) {
 		this.cost = cost;
-	}
-
-	public Integer getCancel() {
-		return cancel;
-	}
-
-	public void setCancel(Integer cancel) {
-		this.cancel = cancel;
 	}
 
 	public Instant getDateCancel() {

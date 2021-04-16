@@ -1,5 +1,7 @@
 package com.twokeys.moinho.services;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +55,12 @@ public class ProductionOrderService {
 		for (FormulationItemsDTO formulationItems : formulation.getFormulationItems()) {
 			quantityItem= (ammount*formulationItems.getQuantity())/formulation.getCoefficient();
 			productionOrderItems = new ProductionOrderItemsDTO();
-			productionOrderItems.setSerie(1);
 			productionOrderItems.setCost(0.0);
-			productionOrderItems.setQuantity(quantityItem);
+			if (formulationItems.getRound()==1) {
+				productionOrderItems.setQuantity( Double.valueOf(new BigDecimal(quantityItem).setScale(0,RoundingMode.UP).toString()));
+			}else {
+				productionOrderItems.setQuantity(quantityItem);
+			}
 			productionOrderItems.setType(ProductionOrderItemsType.NORMAL);
 			productionOrderItems.setProduct(formulationItems.getProduct());
 			productionOrder.getProductionOrderItems().add(productionOrderItems);
@@ -89,8 +94,10 @@ public class ProductionOrderService {
 			
 			for(ProductionOrderItemsDTO item : dto.getProductionOrderItems()) {
 				item.setProductionOrderId(entity.getId());
-				list.add(productionOrderItemsService.insert(item));	
 			}
+			
+			list=productionOrderItemsService.insert(dto.getProductionOrderItems());
+			
 			return new ProductionOrderDTO(entity,list);
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
