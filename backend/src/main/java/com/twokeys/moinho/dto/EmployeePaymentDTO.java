@@ -30,7 +30,7 @@ public class EmployeePaymentDTO implements Serializable {
 			this.id = entity.getId();
 			this.date = entity.getDate();
 			this.employee = new EmployeeDTO(entity.getEmployee());
-			this.employeePaymentType = new EmployeePaymentTypeDTO(entity.getTypePaymentEmployee());
+			this.employeePaymentType = new EmployeePaymentTypeDTO(entity.getEmployeePaymentType());
 			this.paymentAmount = entity.getPaymentAmount();
 		}
 
