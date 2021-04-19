@@ -39,9 +39,9 @@ public class Formulation   implements Serializable {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="formulation_apportionment", 
 			joinColumns = @JoinColumn(name="formulation_id"),
-			inverseJoinColumns = @JoinColumn(name="production_apportionment_id")
+			inverseJoinColumns = @JoinColumn(name="formulation_apportionment_type_id")
 			)
-	private Set<ProductionApportionment> productionApportionments = new HashSet<>();
+	private Set<FormulationApportionmentType> productionApportionments = new HashSet<>();
 	
 	@OneToMany(mappedBy = "id.formulation")
 	private List<FormulationItems> formulationItems = new ArrayList<>();
@@ -88,7 +88,7 @@ public class Formulation   implements Serializable {
 		this.product = product;
 	}
 	
-	public Set<ProductionApportionment> getProductionApportionments() {
+	public Set<FormulationApportionmentType> getProductionApportionments() {
 		return productionApportionments;
 	}
 	public List<FormulationItems> getFormulationItems() {

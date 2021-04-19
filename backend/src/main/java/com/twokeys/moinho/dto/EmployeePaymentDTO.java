@@ -12,25 +12,25 @@ public class EmployeePaymentDTO implements Serializable {
 		private Long id;
 		private Instant date;
 		private EmployeeDTO employee;
-		private TypePaymentEmployeeDTO typePaymentEmployee;
+		private EmployeePaymentTypeDTO employeePaymentType;
 		private Double paymentAmount;
 		
 		public EmployeePaymentDTO() {
 		}
 
 		public EmployeePaymentDTO(Long id, Instant date, EmployeeDTO employee,
-								  TypePaymentEmployeeDTO typePaymentEmployee, Double paymentAmount) {
+								  EmployeePaymentTypeDTO employeePaymentType, Double paymentAmount) {
 			this.id = id;
 			this.date = date;
 			this.employee = employee;
-			this.typePaymentEmployee = typePaymentEmployee;
+			this.employeePaymentType = employeePaymentType;
 			this.paymentAmount = paymentAmount;
 		}
 		public EmployeePaymentDTO(EmployeePayment entity) {
 			this.id = entity.getId();
 			this.date = entity.getDate();
 			this.employee = new EmployeeDTO(entity.getEmployee());
-			this.typePaymentEmployee = new TypePaymentEmployeeDTO(entity.getTypePaymentEmployee());
+			this.employeePaymentType = new EmployeePaymentTypeDTO(entity.getTypePaymentEmployee());
 			this.paymentAmount = entity.getPaymentAmount();
 		}
 
@@ -58,12 +58,14 @@ public class EmployeePaymentDTO implements Serializable {
 			this.employee = employee;
 		}
 
-		public TypePaymentEmployeeDTO getTypePaymentEmployee() {
-			return typePaymentEmployee;
+		
+
+		public EmployeePaymentTypeDTO getEmployeePaymentType() {
+			return employeePaymentType;
 		}
 
-		public void setTypePaymentEmployee(TypePaymentEmployeeDTO typePaymentEmployee) {
-			this.typePaymentEmployee = typePaymentEmployee;
+		public void setEmployeePaymentType(EmployeePaymentTypeDTO employeePaymentType) {
+			this.employeePaymentType = employeePaymentType;
 		}
 
 		public Double getPaymentAmount() {

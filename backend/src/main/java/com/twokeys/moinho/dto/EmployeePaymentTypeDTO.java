@@ -2,22 +2,22 @@ package com.twokeys.moinho.dto;
 
 import java.io.Serializable;
 
-import com.twokeys.moinho.entities.TypePaymentEmployee;
+import com.twokeys.moinho.entities.EmployeePaymentType;
 
-public class TypePaymentEmployeeDTO  implements Serializable {
+public class EmployeePaymentTypeDTO  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private String name;
 	
-	public TypePaymentEmployeeDTO() {
+	public EmployeePaymentTypeDTO() {
 	}
 
-	public TypePaymentEmployeeDTO(Long id, String name) {
+	public EmployeePaymentTypeDTO(Long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
-	public TypePaymentEmployeeDTO(TypePaymentEmployee entity ) {
+	public EmployeePaymentTypeDTO(EmployeePaymentType entity ) {
 		this.id = entity.getId();
 		this.name = entity.getName();
 	}

@@ -14,7 +14,7 @@ public class FormulationDTO implements Serializable {
 	private String description;
 	private ProductDTO product;
 	private SectorDTO sector;
-	private List<ProductionApportionmentDTO> apportionments = new ArrayList<>();
+	private List<FormulationApportionmentTypeDTO> apportionments = new ArrayList<>();
 	private List<FormulationItemsDTO> formulationItems = new ArrayList<>();
 	
 	public  FormulationDTO() {
@@ -33,7 +33,7 @@ public class FormulationDTO implements Serializable {
 		this.description = entity.getDescription();
 		this.product = new ProductDTO(entity.getProduct());
 		this.sector = new SectorDTO(entity.getSector());
-		entity.getProductionApportionments().forEach(apportionment -> apportionments.add(new ProductionApportionmentDTO(apportionment)));
+		entity.getProductionApportionments().forEach(apportionment -> apportionments.add(new FormulationApportionmentTypeDTO(apportionment)));
 		entity.getFormulationItems().forEach(formulation -> formulationItems.add(new FormulationItemsDTO(formulation)));
 	}
 	public Long getId() {
@@ -76,7 +76,7 @@ public class FormulationDTO implements Serializable {
 		this.sector = sector;
 	}
 
-	public List<ProductionApportionmentDTO> getApportionments() {
+	public List<FormulationApportionmentTypeDTO> getApportionments() {
 		return apportionments;
 	}
 

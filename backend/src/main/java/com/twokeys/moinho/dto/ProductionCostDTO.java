@@ -10,13 +10,13 @@ public class ProductionCostDTO implements Serializable {
 	
 	private Long id;
 	private Instant date;
-	private ProductionApportionmentDTO productionApportionment;
+	private FormulationApportionmentTypeDTO productionApportionment;
 	private Double paymentAmount;
 	
 	public ProductionCostDTO() {
 	}
 
-	public ProductionCostDTO(Long id, Instant date, ProductionApportionmentDTO productionApportionment,
+	public ProductionCostDTO(Long id, Instant date, FormulationApportionmentTypeDTO productionApportionment,
 							 Double paymentAmount) {
 		this.id = id;
 		this.date = date;
@@ -26,7 +26,7 @@ public class ProductionCostDTO implements Serializable {
 	public ProductionCostDTO(ProductionCost entity) {
 		this.id = entity.getId();
 		this.date = entity.getDate();
-		this.productionApportionment = new ProductionApportionmentDTO(entity.getProductionApportionment());
+		this.productionApportionment = new FormulationApportionmentTypeDTO(entity.getProductionApportionment());
 		this.paymentAmount = entity.getPaymentAmount();
 	}
 
@@ -46,11 +46,11 @@ public class ProductionCostDTO implements Serializable {
 		this.date = date;
 	}
 
-	public ProductionApportionmentDTO getProductionApportionment() {
+	public FormulationApportionmentTypeDTO getProductionApportionment() {
 		return productionApportionment;
 	}
 
-	public void setProductionApportionment(ProductionApportionmentDTO productionApportionment) {
+	public void setProductionApportionment(FormulationApportionmentTypeDTO productionApportionment) {
 		this.productionApportionment = productionApportionment;
 	}
 

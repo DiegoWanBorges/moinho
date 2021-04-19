@@ -28,15 +28,15 @@ public class EmployeePayment  implements Serializable {
 	private Employee employee;
 	
 	@ManyToOne
-	@JoinColumn(name="typePaymentEmployee_id")
-	private TypePaymentEmployee typePaymentEmployee;
+	@JoinColumn(name="employee_payment_type_id")
+	private EmployeePaymentType typePaymentEmployee;
 	
 	private Double paymentAmount;
 	
 	public EmployeePayment() {
 	}
 
-	public EmployeePayment(Long id, Instant date, Employee employee, TypePaymentEmployee typePaymentEmployee,
+	public EmployeePayment(Long id, Instant date, Employee employee, EmployeePaymentType typePaymentEmployee,
 						   Double paymentAmount) {
 		this.id = id;
 		this.date = date;
@@ -69,11 +69,11 @@ public class EmployeePayment  implements Serializable {
 		this.employee = employee;
 	}
 
-	public TypePaymentEmployee getTypePaymentEmployee() {
+	public EmployeePaymentType getTypePaymentEmployee() {
 		return typePaymentEmployee;
 	}
 
-	public void setTypePaymentEmployee(TypePaymentEmployee typePaymentEmployee) {
+	public void setTypePaymentEmployee(EmployeePaymentType typePaymentEmployee) {
 		this.typePaymentEmployee = typePaymentEmployee;
 	}
 

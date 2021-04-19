@@ -24,15 +24,15 @@ public class ProductionCost   implements Serializable {
 	private Instant date;
 	
 	@ManyToOne
-	@JoinColumn(name="productionApportionment_id")
-	private ProductionApportionment productionApportionment;
+	@JoinColumn(name="formulation_apportionment_type_id")
+	private FormulationApportionmentType productionApportionment;
 	
 	private Double paymentAmount;
 	
 	public ProductionCost() {
 	}
 
-	public ProductionCost(Long id, Instant date, ProductionApportionment productionApportionment,
+	public ProductionCost(Long id, Instant date, FormulationApportionmentType productionApportionment,
 						  Double paymentAmount) {
 		this.id = id;
 		this.date = date;
@@ -56,11 +56,11 @@ public class ProductionCost   implements Serializable {
 		this.date = date;
 	}
 
-	public ProductionApportionment getProductionApportionment() {
+	public FormulationApportionmentType getProductionApportionment() {
 		return productionApportionment;
 	}
 
-	public void setProductionApportionment(ProductionApportionment productionApportionment) {
+	public void setProductionApportionment(FormulationApportionmentType productionApportionment) {
 		this.productionApportionment = productionApportionment;
 	}
 
