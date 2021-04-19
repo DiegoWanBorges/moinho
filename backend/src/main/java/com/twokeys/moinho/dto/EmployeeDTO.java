@@ -41,11 +41,11 @@ public class EmployeeDTO implements Serializable {
 		this.name = name;
 	}
 
-	public SectorDTO getSectorDTO() {
+	public SectorDTO getSector() {
 		return sector;
 	}
 
-	public void setSectorDTO(SectorDTO sector) {
+	public void setSector(SectorDTO sector) {
 		this.sector = sector;
 	}
 	
