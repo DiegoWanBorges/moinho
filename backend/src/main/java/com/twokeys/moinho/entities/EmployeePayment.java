@@ -21,7 +21,7 @@ public class EmployeePayment  implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant payDay;
+	private Instant date;
 	
 	@ManyToOne
 	@JoinColumn(name="employee_id")
@@ -36,10 +36,10 @@ public class EmployeePayment  implements Serializable {
 	public EmployeePayment() {
 	}
 
-	public EmployeePayment(Long id, Instant payDay, Employee employee, TypePaymentEmployee typePaymentEmployee,
-			Double paymentAmount) {
+	public EmployeePayment(Long id, Instant date, Employee employee, TypePaymentEmployee typePaymentEmployee,
+						   Double paymentAmount) {
 		this.id = id;
-		this.payDay = payDay;
+		this.date = date;
 		this.employee = employee;
 		this.typePaymentEmployee = typePaymentEmployee;
 		this.paymentAmount = paymentAmount;
@@ -53,12 +53,12 @@ public class EmployeePayment  implements Serializable {
 		this.id = id;
 	}
 
-	public Instant getPayDay() {
-		return payDay;
+	public Instant getDate() {
+		return date;
 	}
 
-	public void setPayDay(Instant payDay) {
-		this.payDay = payDay;
+	public void setDate(Instant date) {
+		this.date = date;
 	}
 
 	public Employee getEmployee() {

@@ -21,7 +21,7 @@ public class ProductionCost   implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant payDay;
+	private Instant date;
 	
 	@ManyToOne
 	@JoinColumn(name="productionApportionment_id")
@@ -32,11 +32,10 @@ public class ProductionCost   implements Serializable {
 	public ProductionCost() {
 	}
 
-	public ProductionCost(Long id, Instant payDay, ProductionApportionment productionApportionment,
-			Double paymentAmount) {
-		super();
+	public ProductionCost(Long id, Instant date, ProductionApportionment productionApportionment,
+						  Double paymentAmount) {
 		this.id = id;
-		this.payDay = payDay;
+		this.date = date;
 		this.productionApportionment = productionApportionment;
 		this.paymentAmount = paymentAmount;
 	}
@@ -49,12 +48,12 @@ public class ProductionCost   implements Serializable {
 		this.id = id;
 	}
 
-	public Instant getPayDay() {
-		return payDay;
+	public Instant getDate() {
+		return date;
 	}
 
-	public void setPayDay(Instant payDay) {
-		this.payDay = payDay;
+	public void setDate(Instant date) {
+		this.date = date;
 	}
 
 	public ProductionApportionment getProductionApportionment() {
