@@ -18,16 +18,19 @@ public class FormulationItems implements Serializable {
 	private FormulationItemsPK id = new FormulationItemsPK();
 	private Double quantity;
 	private Integer round;
+	private Integer rawMaterial;
 	private FormulationItemsType type;
 	
 	public FormulationItems() {
 	}
 
-	public FormulationItems(Formulation formulation,Product product,Double quantity, Integer round, FormulationItemsType type) {
+	public FormulationItems(Formulation formulation,Product product,Double quantity, Integer round, 
+							Integer rawMaterial,FormulationItemsType type) {
 		this.id.setFormulation(formulation);
 		this.id.setProduct(product);
 		this.quantity=quantity;
 		this.round = round;
+		this.rawMaterial=rawMaterial;
 		this.type = type;
 	}
 	
@@ -58,6 +61,14 @@ public class FormulationItems implements Serializable {
 
 	public void setRound(Integer round) {
 		this.round = round;
+	}
+	
+	public Integer getRawMaterial() {
+		return rawMaterial;
+	}
+
+	public void setRawMaterial(Integer rawMaterial) {
+		this.rawMaterial = rawMaterial;
 	}
 
 	public FormulationItemsType getType() {

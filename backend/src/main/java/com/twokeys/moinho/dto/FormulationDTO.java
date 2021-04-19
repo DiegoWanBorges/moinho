@@ -13,22 +13,27 @@ public class FormulationDTO implements Serializable {
 	private Double coefficient;
 	private String description;
 	private ProductDTO product;
+	private SectorDTO sector;
+	private List<ProductionApportionmentDTO> apportionments = new ArrayList<>();
 	private List<FormulationItemsDTO> formulationItems = new ArrayList<>();
 	
 	public  FormulationDTO() {
 	}
 
-	public FormulationDTO(Long id, Double coefficient, String description, ProductDTO product) {
+	public FormulationDTO(Long id, Double coefficient, String description, ProductDTO product,SectorDTO sector) {
 		this.id = id;
 		this.coefficient = coefficient;
 		this.description = description;
 		this.product = product;
+		this.sector = sector;
 	}
 	public FormulationDTO(Formulation entity) {
 		this.id = entity.getId();
 		this.coefficient = entity.getCoefficient();
 		this.description = entity.getDescription();
 		this.product = new ProductDTO(entity.getProduct());
+		this.sector = new SectorDTO(entity.getSector());
+		entity.getProductionApportionments().forEach(apportionment -> apportionments.add(new ProductionApportionmentDTO(apportionment)));
 		entity.getFormulationItems().forEach(formulation -> formulationItems.add(new FormulationItemsDTO(formulation)));
 	}
 	public Long getId() {
@@ -61,6 +66,18 @@ public class FormulationDTO implements Serializable {
 
 	public void setProduct(ProductDTO product) {
 		this.product = product;
+	}
+	
+	public SectorDTO getSector() {
+		return sector;
+	}
+
+	public void setSector(SectorDTO sector) {
+		this.sector = sector;
+	}
+
+	public List<ProductionApportionmentDTO> getApportionments() {
+		return apportionments;
 	}
 
 	public List<FormulationItemsDTO> getFormulationItems() {
