@@ -11,6 +11,7 @@ public class FormulationItemsDTO implements Serializable {
 	private Long formulationId;
 	private Double quantity;
 	private Integer round;
+	private Integer rawMaterial;
 	private FormulationItemsType type;
 	private ProductDTO product;
 
@@ -18,11 +19,12 @@ public class FormulationItemsDTO implements Serializable {
 	}
 
 	public FormulationItemsDTO(Long formulationId, ProductDTO product, Double quantity, Integer round,
-							   FormulationItemsType type) {
+							   FormulationItemsType type,Integer rawMaterial) {
 		this.formulationId = formulationId;
 		this.product = product;
 		this.quantity = quantity;
 		this.round = round;
+		this.rawMaterial=rawMaterial;
 		this.type = type;
 	}
 	
@@ -32,6 +34,7 @@ public class FormulationItemsDTO implements Serializable {
 		this.quantity = entity.getQuantity();
 		this.round = entity.getRound();
 		this.type = entity.getType();
+		this.rawMaterial=entity.getRawMaterial();
 	}
 
 	public Long getFormulationId() {
@@ -75,4 +78,13 @@ public class FormulationItemsDTO implements Serializable {
 	public void setType(FormulationItemsType type) {
 		this.type = type;
 	}
+
+	public Integer getRawMaterial() {
+		return rawMaterial;
+	}
+
+	public void setRawMaterial(Integer rawMaterial) {
+		this.rawMaterial = rawMaterial;
+	}
+	
 }

@@ -87,6 +87,7 @@ public class ProductionOrderItemsService {
 			entity.setCost(dto.getCost());
 			entity.setType(dto.getType());
 			entity.setOccurrence(occurrence);
+			entity.setRawMaterial(dto.getRawMaterial());
 			return entity;
 	}
 }

@@ -3,7 +3,7 @@ package com.twokeys.moinho.entities.enums;
 import javax.validation.ValidationException;
 
 public enum ProductionApportionmentType {
-	MATERIA_PRIMA(0),
+	VOLUME_MATERIA_PRIMA(0),
 	TEMPO_PRODUCAO(1);
 	private int productionApportionmentType;
 	

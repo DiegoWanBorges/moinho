@@ -15,6 +15,7 @@ public class ProductionOrderItemsDTO implements Serializable {
 	private Double cost;
 	private Instant dateCancel;
 	private ProductionOrderItemsType type;
+	private Integer rawMaterial;
 	private Long productionOrderId;
 	private ProductDTO product;
 	private OccurrenceDTO occurrence;
@@ -24,7 +25,7 @@ public class ProductionOrderItemsDTO implements Serializable {
 
 	public ProductionOrderItemsDTO(Long productionOrderId, ProductDTO product, Integer serie,Long consumptionNumber,
 								   Double quantity, Double cost,Instant dateCancel, ProductionOrderItemsType type,
-								   OccurrenceDTO occurrence) {
+								   OccurrenceDTO occurrence,Integer rawMaterial) {
 		this.productionOrderId = productionOrderId;
 		this.product = product;
 		this.serie=serie;
@@ -34,6 +35,7 @@ public class ProductionOrderItemsDTO implements Serializable {
 		this.dateCancel = dateCancel;
 		this.type = type;
 		this.occurrence = occurrence;
+		this.rawMaterial=rawMaterial;
 	}
 	
 	public ProductionOrderItemsDTO(ProductionOrderItems entity) {
@@ -46,6 +48,7 @@ public class ProductionOrderItemsDTO implements Serializable {
 		this.dateCancel = entity.getDateCancel();
 		this.type = entity.getType();
 		this.occurrence = new OccurrenceDTO(entity.getOccurrence());
+		this.rawMaterial=entity.getRawMaterial();
 	}
 
 	public Double getQuantity() {
@@ -79,7 +82,13 @@ public class ProductionOrderItemsDTO implements Serializable {
 	public void setType(ProductionOrderItemsType type) {
 		this.type = type;
 	}
+	public Integer getRawMaterial() {
+		return rawMaterial;
+	}
 
+	public void setRawMaterial(Integer rawMaterial) {
+		this.rawMaterial = rawMaterial;
+	}
 	public Long getProductionOrderId() {
 		return productionOrderId;
 	}
@@ -119,5 +128,7 @@ public class ProductionOrderItemsDTO implements Serializable {
 	public void setOccurrence(OccurrenceDTO occurrence) {
 		this.occurrence = occurrence;
 	}
+
+
 	
 }

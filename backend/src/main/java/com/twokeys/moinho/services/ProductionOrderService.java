@@ -60,6 +60,8 @@ public class ProductionOrderService {
 			productionOrderItems = new ProductionOrderItemsDTO();
 			productionOrderItems.setCost(0.0);
 			productionOrderItems.setOccurrence(occurrence);
+			productionOrderItems.setRawMaterial(formulationItems.getRawMaterial());
+			
 			if (formulationItems.getRound()==1) {
 				productionOrderItems.setQuantity( Double.valueOf(new BigDecimal(quantityItem).setScale(0,RoundingMode.UP).toString()));
 			}else {

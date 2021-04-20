@@ -25,17 +25,18 @@ public class ProductionOrderItems implements Serializable {
 	private Double cost; 
 	private Instant dateCancel;
 	private ProductionOrderItemsType type;
-	
+	private Integer rawMaterial;
 	@ManyToOne
 	@JoinColumn(name="occurrence_id",nullable = true)
 	private Occurrence occurrence;
+	
 	
 	public ProductionOrderItems() {
 	}
 
 	public ProductionOrderItems(ProductionOrder productionOrder, Product product, Integer serie, Long consumptionNumber,
 								Double quantity, Double cost, Instant dateCancel,ProductionOrderItemsType type,
-								Occurrence occurrence) {
+								Occurrence occurrence,Integer rawMaterial) {
 		this.id.setProductionOrder(productionOrder);
 		this.id.setProduct(product);
 		this.id.setSerie(serie);
@@ -45,6 +46,7 @@ public class ProductionOrderItems implements Serializable {
 		this.dateCancel = dateCancel;
 		this.type = type;
 		this.occurrence=occurrence;
+		this.rawMaterial=rawMaterial;
 	}
 
 	public ProductionOrder getProductionOrder() {
@@ -117,6 +119,14 @@ public class ProductionOrderItems implements Serializable {
 
 	public void setOccurrence(Occurrence occurrence) {
 		this.occurrence = occurrence;
+	}
+	
+	public Integer getRawMaterial() {
+		return rawMaterial;
+	}
+
+	public void setRawMaterial(Integer rawMaterial) {
+		this.rawMaterial = rawMaterial;
 	}
 
 	@Override
