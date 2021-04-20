@@ -14,17 +14,19 @@ public class EmployeePaymentDTO implements Serializable {
 		private EmployeeDTO employee;
 		private EmployeePaymentTypeDTO employeePaymentType;
 		private Double paymentAmount;
+		private String description;
 		
 		public EmployeePaymentDTO() {
 		}
 
 		public EmployeePaymentDTO(Long id, Instant date, EmployeeDTO employee,
-								  EmployeePaymentTypeDTO employeePaymentType, Double paymentAmount) {
+								  EmployeePaymentTypeDTO employeePaymentType, Double paymentAmount,String description) {
 			this.id = id;
 			this.date = date;
 			this.employee = employee;
 			this.employeePaymentType = employeePaymentType;
 			this.paymentAmount = paymentAmount;
+			this.description=description;
 		}
 		public EmployeePaymentDTO(EmployeePayment entity) {
 			this.id = entity.getId();
@@ -32,6 +34,7 @@ public class EmployeePaymentDTO implements Serializable {
 			this.employee = new EmployeeDTO(entity.getEmployee());
 			this.employeePaymentType = new EmployeePaymentTypeDTO(entity.getEmployeePaymentType());
 			this.paymentAmount = entity.getPaymentAmount();
+			this.description=entity.getDescription();
 		}
 
 		public Long getId() {
@@ -74,5 +77,14 @@ public class EmployeePaymentDTO implements Serializable {
 
 		public void setPaymentAmount(Double paymentAmount) {
 			this.paymentAmount = paymentAmount;
-		}		
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String description) {
+			this.description = description;
+		}
+		
 }

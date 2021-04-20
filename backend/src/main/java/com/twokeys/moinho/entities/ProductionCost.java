@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="productionCost")
+@Table(name="production_cost")
 public class ProductionCost   implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -24,20 +24,21 @@ public class ProductionCost   implements Serializable {
 	private Instant date;
 	
 	@ManyToOne
-	@JoinColumn(name="formulation_apportionment_type_id")
-	private ApportionmentType productionApportionment;
+	@JoinColumn(name="apportionment_type_id")
+	private ApportionmentType apportionmentType;
 	
 	private Double paymentAmount;
-	
+	private String description;
 	public ProductionCost() {
 	}
 
-	public ProductionCost(Long id, Instant date, ApportionmentType productionApportionment,
-						  Double paymentAmount) {
+	public ProductionCost(Long id, Instant date, ApportionmentType apportionmentType,
+						  Double paymentAmount,String description) {
 		this.id = id;
 		this.date = date;
-		this.productionApportionment = productionApportionment;
+		this.apportionmentType = apportionmentType;
 		this.paymentAmount = paymentAmount;
+		this.description=description;
 	}
 
 	public Long getId() {
@@ -56,12 +57,14 @@ public class ProductionCost   implements Serializable {
 		this.date = date;
 	}
 
-	public ApportionmentType getProductionApportionment() {
-		return productionApportionment;
+	
+
+	public ApportionmentType getApportionmentType() {
+		return apportionmentType;
 	}
 
-	public void setProductionApportionment(ApportionmentType productionApportionment) {
-		this.productionApportionment = productionApportionment;
+	public void setApportionmentType(ApportionmentType apportionmentType) {
+		this.apportionmentType = apportionmentType;
 	}
 
 	public Double getPaymentAmount() {
@@ -70,6 +73,14 @@ public class ProductionCost   implements Serializable {
 
 	public void setPaymentAmount(Double paymentAmount) {
 		this.paymentAmount = paymentAmount;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override

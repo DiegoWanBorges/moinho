@@ -10,24 +10,27 @@ public class ProductionCostDTO implements Serializable {
 	
 	private Long id;
 	private Instant date;
-	private ApportionmentTypeDTO productionApportionment;
+	private ApportionmentTypeDTO apportionmentType;
 	private Double paymentAmount;
+	private String description;
 	
 	public ProductionCostDTO() {
 	}
 
-	public ProductionCostDTO(Long id, Instant date, ApportionmentTypeDTO productionApportionment,
-							 Double paymentAmount) {
+	public ProductionCostDTO(Long id, Instant date, ApportionmentTypeDTO apportionmentType,
+							 Double paymentAmount,String description) {
 		this.id = id;
 		this.date = date;
-		this.productionApportionment = productionApportionment;
+		this.apportionmentType = apportionmentType;
 		this.paymentAmount = paymentAmount;
+		this.description=description;
 	}
 	public ProductionCostDTO(ProductionCost entity) {
 		this.id = entity.getId();
 		this.date = entity.getDate();
-		this.productionApportionment = new ApportionmentTypeDTO(entity.getProductionApportionment());
+		this.apportionmentType = new ApportionmentTypeDTO(entity.getApportionmentType());
 		this.paymentAmount = entity.getPaymentAmount();
+		this.description=entity.getDescription();
 	}
 
 	public Long getId() {
@@ -46,12 +49,12 @@ public class ProductionCostDTO implements Serializable {
 		this.date = date;
 	}
 
-	public ApportionmentTypeDTO getProductionApportionment() {
-		return productionApportionment;
+	public ApportionmentTypeDTO getApportionmentType() {
+		return apportionmentType;
 	}
 
-	public void setProductionApportionment(ApportionmentTypeDTO productionApportionment) {
-		this.productionApportionment = productionApportionment;
+	public void setApportionmentType(ApportionmentTypeDTO apportionmentType) {
+		this.apportionmentType = apportionmentType;
 	}
 
 	public Double getPaymentAmount() {
@@ -60,6 +63,14 @@ public class ProductionCostDTO implements Serializable {
 
 	public void setPaymentAmount(Double paymentAmount) {
 		this.paymentAmount = paymentAmount;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	

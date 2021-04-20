@@ -39,7 +39,7 @@ public class Formulation   implements Serializable {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="formulation_apportionment", 
 			joinColumns = @JoinColumn(name="formulation_id"),
-			inverseJoinColumns = @JoinColumn(name="cost_apportionment_type_id")
+			inverseJoinColumns = @JoinColumn(name="apportionment_type_id")
 			)
 	private Set<ApportionmentType> apportionmentType = new HashSet<>();
 	

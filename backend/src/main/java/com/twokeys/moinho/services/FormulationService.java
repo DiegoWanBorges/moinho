@@ -12,10 +12,14 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.twokeys.moinho.dto.ApportionmentTypeDTO;
 import com.twokeys.moinho.dto.FormulationDTO;
+import com.twokeys.moinho.entities.ApportionmentType;
 import com.twokeys.moinho.entities.Formulation;
+import com.twokeys.moinho.repositories.ApportionmentTypeRepository;
 import com.twokeys.moinho.repositories.FormulationRepository;
 import com.twokeys.moinho.repositories.ProductRepository;
+import com.twokeys.moinho.repositories.SectorRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 
@@ -29,6 +33,11 @@ public class FormulationService {
 	@Autowired
 	private ProductRepository productRepository;
 	
+	@Autowired
+	private SectorRepository sectorRepository;
+	
+	@Autowired
+	private ApportionmentTypeRepository apportionmentTypeRepository;
 	
 	@Transactional(readOnly=true)
 	public List<FormulationDTO> findByNameLikeIgnoreCase(String description){
@@ -75,8 +84,18 @@ public class FormulationService {
 		
 	}
 	public void convertToEntity(FormulationDTO dto, Formulation entity) {
+		
+		
 		entity.setCoefficient(dto.getCoefficient());
 		entity.setDescription(dto.getDescription());
 		entity.setProduct(productRepository.getOne(dto.getProduct().getId()));
+		entity.setSector(sectorRepository.getOne(dto.getSector().getId()));
+		
+		entity.getApportionmentType().clear();
+		for (ApportionmentTypeDTO apportionmentDTO : dto.getApportionments()) {
+			ApportionmentType apportionment = apportionmentTypeRepository.getOne(apportionmentDTO.getId());
+			entity.getApportionmentType().add(apportionment);
+		}
+		
 	}
 }

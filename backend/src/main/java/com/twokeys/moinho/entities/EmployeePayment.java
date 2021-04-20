@@ -32,17 +32,18 @@ public class EmployeePayment  implements Serializable {
 	private EmployeePaymentType employeePaymentType;
 	
 	private Double paymentAmount;
-	
+	private String description;
 	public EmployeePayment() {
 	}
 
 	public EmployeePayment(Long id, Instant date, Employee employee, EmployeePaymentType employeePaymentType,
-						   Double paymentAmount) {
+						   Double paymentAmount,String description) {
 		this.id = id;
 		this.date = date;
 		this.employee = employee;
 		this.employeePaymentType = employeePaymentType;
 		this.paymentAmount = paymentAmount;
+		this.description=description;
 	}
 
 	public Long getId() {
@@ -85,6 +86,14 @@ public class EmployeePayment  implements Serializable {
 
 	public void setPaymentAmount(Double paymentAmount) {
 		this.paymentAmount = paymentAmount;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
