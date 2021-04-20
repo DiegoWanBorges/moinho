@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.twokeys.moinho.dto.FormulationDTO;
 import com.twokeys.moinho.dto.FormulationItemsDTO;
+import com.twokeys.moinho.dto.OccurrenceDTO;
 import com.twokeys.moinho.dto.ProductionOrderDTO;
 import com.twokeys.moinho.dto.ProductionOrderItemsDTO;
 import com.twokeys.moinho.entities.ProductionOrder;
@@ -50,17 +51,21 @@ public class ProductionOrderService {
 		FormulationDTO formulation = formulationService.findById(formulationId);
 		ProductionOrderDTO productionOrder = new ProductionOrderDTO();
 		ProductionOrderItemsDTO productionOrderItems; 
+		OccurrenceDTO occurrence = new OccurrenceDTO(1L,"NORMAL");
 		Double quantityItem =0.0;
-	
+		
 		for (FormulationItemsDTO formulationItems : formulation.getFormulationItems()) {
+			occurrence = new OccurrenceDTO(1L,"NORMAL");
 			quantityItem= (ammount*formulationItems.getQuantity())/formulation.getCoefficient();
 			productionOrderItems = new ProductionOrderItemsDTO();
 			productionOrderItems.setCost(0.0);
+			productionOrderItems.setOccurrence(occurrence);
 			if (formulationItems.getRound()==1) {
 				productionOrderItems.setQuantity( Double.valueOf(new BigDecimal(quantityItem).setScale(0,RoundingMode.UP).toString()));
 			}else {
 				productionOrderItems.setQuantity(quantityItem);
 			}
+			
 			productionOrderItems.setType(ProductionOrderItemsType.NORMAL);
 			productionOrderItems.setProduct(formulationItems.getProduct());
 			productionOrder.getProductionOrderItems().add(productionOrderItems);
@@ -74,7 +79,7 @@ public class ProductionOrderService {
 		}else {
 			return productionOrder;
 		}
-		
+		 
 	}
 	
 	@Transactional(readOnly=true)
@@ -90,6 +95,7 @@ public class ProductionOrderService {
 			ProductionOrder entity =new ProductionOrder();
 			convertToEntity(dto, entity);
 			entity=repository.save(entity);
+			
 			List<ProductionOrderItemsDTO> list = new ArrayList<>();
 			
 			for(ProductionOrderItemsDTO item : dto.getProductionOrderItems()) {

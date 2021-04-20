@@ -2,27 +2,30 @@ package com.twokeys.moinho.dto;
 
 import java.io.Serializable;
 
-import com.twokeys.moinho.entities.FormulationApportionmentType;
+import com.twokeys.moinho.entities.ApportionmentType;
 import com.twokeys.moinho.entities.enums.ProductionApportionmentType;
 
-public class FormulationApportionmentTypeDTO implements Serializable {
+public class ApportionmentTypeDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private String name;
 	private ProductionApportionmentType type;
-	public FormulationApportionmentTypeDTO() {
+	
+	public ApportionmentTypeDTO() {
 	}
-	public FormulationApportionmentTypeDTO(Long id, String name, ProductionApportionmentType type) {
+	
+	public ApportionmentTypeDTO(Long id, String name, ProductionApportionmentType type) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
 	}
-	public FormulationApportionmentTypeDTO(FormulationApportionmentType entity) {
+	public ApportionmentTypeDTO(ApportionmentType entity) {
 		this.id = entity.getId();
 		this.name = entity.getName();
 		this.type = entity.getType();
 	}
+	
 	public Long getId() {
 		return id;
 	}

@@ -20,7 +20,7 @@ public class FormulationItems implements Serializable {
 	private Integer round;
 	private Integer rawMaterial;
 	private FormulationItemsType type;
-	
+
 	public FormulationItems() {
 	}
 
@@ -78,7 +78,7 @@ public class FormulationItems implements Serializable {
 	public void setType(FormulationItemsType type) {
 		this.type = type;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

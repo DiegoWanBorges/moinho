@@ -13,6 +13,7 @@ public class FormulationItemsDTO implements Serializable {
 	private Integer round;
 	private FormulationItemsType type;
 	private ProductDTO product;
+
 	public FormulationItemsDTO() {
 	}
 
@@ -74,6 +75,4 @@ public class FormulationItemsDTO implements Serializable {
 	public void setType(FormulationItemsType type) {
 		this.type = type;
 	}
-	
-	
 }

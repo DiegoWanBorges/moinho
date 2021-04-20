@@ -5,6 +5,8 @@ import java.time.Instant;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.twokeys.moinho.entities.enums.ProductionOrderItemsType;
@@ -24,12 +26,16 @@ public class ProductionOrderItems implements Serializable {
 	private Instant dateCancel;
 	private ProductionOrderItemsType type;
 	
+	@ManyToOne
+	@JoinColumn(name="occurrence_id",nullable = true)
+	private Occurrence occurrence;
+	
 	public ProductionOrderItems() {
 	}
 
 	public ProductionOrderItems(ProductionOrder productionOrder, Product product, Integer serie, Long consumptionNumber,
-								Double quantity, Double cost, Instant dateCancel, 
-								ProductionOrderItemsType type) {
+								Double quantity, Double cost, Instant dateCancel,ProductionOrderItemsType type,
+								Occurrence occurrence) {
 		this.id.setProductionOrder(productionOrder);
 		this.id.setProduct(product);
 		this.id.setSerie(serie);
@@ -38,6 +44,7 @@ public class ProductionOrderItems implements Serializable {
 		this.cost = cost;
 		this.dateCancel = dateCancel;
 		this.type = type;
+		this.occurrence=occurrence;
 	}
 
 	public ProductionOrder getProductionOrder() {
@@ -102,6 +109,16 @@ public class ProductionOrderItems implements Serializable {
 		this.type = type;
 	}
 
+	
+	
+	public Occurrence getOccurrence() {
+		return occurrence;
+	}
+
+	public void setOccurrence(Occurrence occurrence) {
+		this.occurrence = occurrence;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -109,7 +126,8 @@ public class ProductionOrderItems implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
+	
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

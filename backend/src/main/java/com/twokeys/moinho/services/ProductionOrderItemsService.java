@@ -14,9 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.twokeys.moinho.dto.ProductionOrderItemsDTO;
+import com.twokeys.moinho.entities.Occurrence;
 import com.twokeys.moinho.entities.Product;
 import com.twokeys.moinho.entities.ProductionOrder;
 import com.twokeys.moinho.entities.ProductionOrderItems;
+import com.twokeys.moinho.repositories.OccurrenceRepository;
 import com.twokeys.moinho.repositories.ProductRepository;
 import com.twokeys.moinho.repositories.ProductionOrderItemsRepository;
 import com.twokeys.moinho.repositories.ProductionOrderRepository;
@@ -31,7 +33,8 @@ public class ProductionOrderItemsService {
 	private ProductRepository productRepository; 
 	@Autowired
 	private ProductionOrderRepository productionOrderRepository;
-		
+	@Autowired
+	private OccurrenceRepository occurrenceRepository;
 	
 	@Transactional
 	public List<ProductionOrderItemsDTO> insert(List<ProductionOrderItemsDTO> dto) {
@@ -39,7 +42,10 @@ public class ProductionOrderItemsService {
 			ProductionOrderItems entity = new ProductionOrderItems();
 			List<ProductionOrderItems> entityList = new ArrayList<>();
 			ProductionOrder order = new ProductionOrder();
+			
 			order.setId(dto.get(0).getProductionOrderId());
+			
+			
 			
 			Integer serie = repository.findMaxSerie(order) + 1;
 		
@@ -51,6 +57,7 @@ public class ProductionOrderItemsService {
 			}
 			entityList = repository.saveAll(entityList);
 			dto.clear();
+			
 			for(ProductionOrderItems item: entityList) {
 				dto.add(new ProductionOrderItemsDTO(item));
 			}
@@ -67,14 +74,19 @@ public class ProductionOrderItemsService {
 	
 	public ProductionOrderItems convertToEntity(ProductionOrderItemsDTO dto) {
 			ProductionOrderItems entity = new ProductionOrderItems(); 
+			
 			ProductionOrder productionOrder = productionOrderRepository.getOne(dto.getProductionOrderId());
 			Product product = productRepository.getOne(dto.getProduct().getId());
+			
+			Occurrence occurrence = occurrenceRepository.getOne(dto.getOccurrence().getId());
+			
 			entity.setSerie(dto.getSerie());
 			entity.setProduct(product);
 			entity.setProductionOrder(productionOrder);
 			entity.setQuantity(dto.getQuantity());
 			entity.setCost(dto.getCost());
 			entity.setType(dto.getType());
+			entity.setOccurrence(occurrence);
 			return entity;
 	}
 }
