@@ -14,8 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.twokeys.moinho.dto.ApportionmentTypeDTO;
 import com.twokeys.moinho.dto.FormulationDTO;
+import com.twokeys.moinho.dto.SectorDTO;
 import com.twokeys.moinho.entities.ApportionmentType;
 import com.twokeys.moinho.entities.Formulation;
+import com.twokeys.moinho.entities.Sector;
 import com.twokeys.moinho.repositories.ApportionmentTypeRepository;
 import com.twokeys.moinho.repositories.FormulationRepository;
 import com.twokeys.moinho.repositories.ProductRepository;
@@ -89,12 +91,17 @@ public class FormulationService {
 		entity.setCoefficient(dto.getCoefficient());
 		entity.setDescription(dto.getDescription());
 		entity.setProduct(productRepository.getOne(dto.getProduct().getId()));
-		entity.setSector(sectorRepository.getOne(dto.getSector().getId()));
 		
-		entity.getApportionmentType().clear();
+		entity.getApportionmentTypes().clear();
 		for (ApportionmentTypeDTO apportionmentDTO : dto.getApportionments()) {
 			ApportionmentType apportionment = apportionmentTypeRepository.getOne(apportionmentDTO.getId());
-			entity.getApportionmentType().add(apportionment);
+			entity.getApportionmentTypes().add(apportionment);
+		}
+		
+		entity.getSectors().clear();
+		for (SectorDTO sectorDTO : dto.getSectors()) {
+			Sector sector = sectorRepository.getOne(sectorDTO.getId());
+			entity.getSectors().add(sector);
 		}
 		
 	}

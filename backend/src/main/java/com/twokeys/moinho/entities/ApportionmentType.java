@@ -19,8 +19,10 @@ public class ApportionmentType  implements Serializable {
 	private Long id;
 	private String name;
 	private ProductionApportionmentType type;
+	
 	public ApportionmentType() {
 	}
+	
 	public ApportionmentType(Long id, String name, ProductionApportionmentType type) {
 		this.id = id;
 		this.name = name;

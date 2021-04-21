@@ -8,37 +8,37 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="production_cost")
-public class ProductionCost   implements Serializable {
+@Table(name="payment")
+@Inheritance(strategy = InheritanceType.JOINED)
+
+public abstract class Payment implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant date;
-	
-	@ManyToOne
-	@JoinColumn(name="apportionment_type_id")
-	private ApportionmentType apportionmentType;
-	
-	private Double paymentAmount;
 	private String description;
-	public ProductionCost() {
+	private Double value;
+	private String documentNumber;
+	
+	public Payment() {
 	}
 
-	public ProductionCost(Long id, Instant date, ApportionmentType apportionmentType,
-						  Double paymentAmount,String description) {
+	public Payment(Long id, Instant date, String description, Double value, String documentNumber) {
+		super();
 		this.id = id;
 		this.date = date;
-		this.apportionmentType = apportionmentType;
-		this.paymentAmount = paymentAmount;
-		this.description=description;
+		this.description = description;
+		this.value = value;
+		this.documentNumber = documentNumber;
 	}
 
 	public Long getId() {
@@ -57,30 +57,28 @@ public class ProductionCost   implements Serializable {
 		this.date = date;
 	}
 
-	
-
-	public ApportionmentType getApportionmentType() {
-		return apportionmentType;
-	}
-
-	public void setApportionmentType(ApportionmentType apportionmentType) {
-		this.apportionmentType = apportionmentType;
-	}
-
-	public Double getPaymentAmount() {
-		return paymentAmount;
-	}
-
-	public void setPaymentAmount(Double paymentAmount) {
-		this.paymentAmount = paymentAmount;
-	}
-
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Double getValue() {
+		return value;
+	}
+
+	public void setValue(Double value) {
+		this.value = value;
+	}
+
+	public String getDocumentNumber() {
+		return documentNumber;
+	}
+
+	public void setDocumentNumber(String documentNumber) {
+		this.documentNumber = documentNumber;
 	}
 
 	@Override
@@ -99,7 +97,7 @@ public class ProductionCost   implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ProductionCost other = (ProductionCost) obj;
+		Payment other = (Payment) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

@@ -3,10 +3,10 @@ package com.twokeys.moinho.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.twokeys.moinho.entities.ProductionCost;
+import com.twokeys.moinho.entities.OperationalPayment;
 
 @Repository
-public interface ProductionCostRepository extends JpaRepository<ProductionCost, Long> {
+public interface OperationalPaymentRepository extends JpaRepository<OperationalPayment, Long> {
 
 		
 }

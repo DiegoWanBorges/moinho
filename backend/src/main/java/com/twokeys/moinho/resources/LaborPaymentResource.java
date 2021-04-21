@@ -14,36 +14,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.twokeys.moinho.dto.EmployeePaymentDTO;
-import com.twokeys.moinho.services.EmployeePaymentService;
+import com.twokeys.moinho.dto.LaborPaymentDTO;
+import com.twokeys.moinho.services.LaborPaymentService;
 
 @RestController
-@RequestMapping(value="/employeepayments")
-public class EmployeePaymentResource {
+@RequestMapping(value="/laborpayments")
+public class LaborPaymentResource {
 	@Autowired
-	EmployeePaymentService service;
+	LaborPaymentService service;
 	
 	
 	
 	@GetMapping(value="/{id}")
-	public ResponseEntity<EmployeePaymentDTO> findById(@PathVariable Long id){
+	public ResponseEntity<LaborPaymentDTO> findById(@PathVariable Long id){
 		return  ResponseEntity.ok().body(service.findById(id));
 	}
 	@PostMapping
-	public ResponseEntity<EmployeePaymentDTO> insert(@RequestBody EmployeePaymentDTO dto){
+	public ResponseEntity<LaborPaymentDTO> insert(@RequestBody LaborPaymentDTO dto){
 		dto = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				  .buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
 	@PutMapping(value="/{id}")
-	public ResponseEntity<EmployeePaymentDTO> update(@PathVariable Long id,@RequestBody EmployeePaymentDTO dto){
+	public ResponseEntity<LaborPaymentDTO> update(@PathVariable Long id,@RequestBody LaborPaymentDTO dto){
 		dto = service.update(id,dto);
 		
 		return ResponseEntity.ok().body(dto); 
 	}
 	@DeleteMapping(value="/{id}")
-	public ResponseEntity<EmployeePaymentDTO> delete(@PathVariable Long id){
+	public ResponseEntity<LaborPaymentDTO> delete(@PathVariable Long id){
 		service.delete(id);
 		return ResponseEntity.noContent().build(); 
 	}

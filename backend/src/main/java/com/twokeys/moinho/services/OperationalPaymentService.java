@@ -10,45 +10,45 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.twokeys.moinho.dto.ProductionCostDTO;
-import com.twokeys.moinho.entities.ProductionCost;
+import com.twokeys.moinho.dto.OperationalPaymentDTO;
+import com.twokeys.moinho.entities.OperationalPayment;
 import com.twokeys.moinho.repositories.ApportionmentTypeRepository;
-import com.twokeys.moinho.repositories.ProductionCostRepository;
+import com.twokeys.moinho.repositories.OperationalPaymentRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 
 
 
 @Service
-public class ProductionCostService {
+public class OperationalPaymentService {
 	@Autowired
-	private ProductionCostRepository repository;
+	private OperationalPaymentRepository repository;
 	@Autowired
 	private ApportionmentTypeRepository apportionmentRepository;
 	
 	@Transactional(readOnly=true)
-	public ProductionCostDTO findById(Long id){
-		Optional<ProductionCost> obj = repository.findById(id);
-		ProductionCost entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-		return new ProductionCostDTO(entity);
+	public OperationalPaymentDTO findById(Long id){
+		Optional<OperationalPayment> obj = repository.findById(id);
+		OperationalPayment entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+		return new OperationalPaymentDTO(entity);
 	}
 	@Transactional
-	public ProductionCostDTO insert(ProductionCostDTO dto) {
+	public OperationalPaymentDTO insert(OperationalPaymentDTO dto) {
 		try {
-		ProductionCost entity =new ProductionCost();
+		OperationalPayment entity =new OperationalPayment();
 			convertToEntity(dto, entity);
-			return new ProductionCostDTO(repository.save(entity));
+			return new OperationalPaymentDTO(repository.save(entity));
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
 		}
 	}
 	@Transactional
-	public ProductionCostDTO update(Long id, ProductionCostDTO dto) {
+	public OperationalPaymentDTO update(Long id, OperationalPaymentDTO dto) {
 		try {
-			ProductionCost entity = repository.getOne(id);
+			OperationalPayment entity = repository.getOne(id);
 			convertToEntity(dto, entity);
 			entity = repository.save(entity);
-			return new ProductionCostDTO(entity);
+			return new OperationalPaymentDTO(entity);
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}
@@ -62,10 +62,11 @@ public class ProductionCostService {
 			throw new DatabaseException("Integrity violation");
 		}
 	}
-	public void convertToEntity(ProductionCostDTO dto, ProductionCost entity) {
+	public void convertToEntity(OperationalPaymentDTO dto, OperationalPayment entity) {
 		entity.setDate(dto.getDate());
 		entity.setDescription(dto.getDescription());
-		entity.setPaymentAmount(dto.getPaymentAmount());
+		entity.setDocumentNumber(dto.getDocumentNumber());
+		entity.setValue(dto.getValue());
 		entity.setApportionmentType(apportionmentRepository.getOne(dto.getApportionmentType().getId()));
 	}
 }

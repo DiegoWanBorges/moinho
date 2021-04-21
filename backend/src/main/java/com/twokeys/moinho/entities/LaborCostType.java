@@ -9,18 +9,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="employeePaymentType")
-public class EmployeePaymentType  implements Serializable {
+@Table(name="laborCostType")
+public class LaborCostType  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	
-	public EmployeePaymentType() {
+	public LaborCostType() {
 	}
 
-	public EmployeePaymentType(Long id, String name) {
+	public LaborCostType(Long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -57,7 +57,7 @@ public class EmployeePaymentType  implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EmployeePaymentType other = (EmployeePaymentType) obj;
+		LaborCostType other = (LaborCostType) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

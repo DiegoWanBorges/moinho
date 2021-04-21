@@ -1,7 +1,6 @@
 package com.twokeys.moinho.resources;
 
 import java.net.URI;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,40 +14,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.twokeys.moinho.dto.EmployeePaymentTypeDTO;
-import com.twokeys.moinho.services.EmployeePaymentTypeService;
+import com.twokeys.moinho.dto.OperationalPaymentDTO;
+import com.twokeys.moinho.services.OperationalPaymentService;
 
 @RestController
-@RequestMapping(value="/employeespaymentstypes")
-public class EmployeePaymentTypeResource {
+@RequestMapping(value="/operationalpayments")
+public class OperationalPaymentResource {
 	@Autowired
-	EmployeePaymentTypeService service;
-	
-	@GetMapping
-	public ResponseEntity<List<EmployeePaymentTypeDTO>> findAll(String name){
-		List<EmployeePaymentTypeDTO> list = service.findByNameLikeIgnoreCase(name);
-		return ResponseEntity.ok().body(list);
-	}
-	
+	OperationalPaymentService service;
+
 	@GetMapping(value="/{id}")
-	public ResponseEntity<EmployeePaymentTypeDTO> findById(@PathVariable Long id){
+	public ResponseEntity<OperationalPaymentDTO> findById(@PathVariable Long id){
 		return  ResponseEntity.ok().body(service.findById(id));
 	}
 	@PostMapping
-	public ResponseEntity<EmployeePaymentTypeDTO> insert(@RequestBody EmployeePaymentTypeDTO dto){
+	public ResponseEntity<OperationalPaymentDTO> insert(@RequestBody OperationalPaymentDTO dto){
 		dto = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				  .buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
 	@PutMapping(value="/{id}")
-	public ResponseEntity<EmployeePaymentTypeDTO> update(@PathVariable Long id,@RequestBody EmployeePaymentTypeDTO dto){
+	public ResponseEntity<OperationalPaymentDTO> update(@PathVariable Long id,@RequestBody OperationalPaymentDTO dto){
 		dto = service.update(id,dto);
 		
 		return ResponseEntity.ok().body(dto); 
 	}
 	@DeleteMapping(value="/{id}")
-	public ResponseEntity<EmployeePaymentTypeDTO> delete(@PathVariable Long id){
+	public ResponseEntity<OperationalPaymentDTO> delete(@PathVariable Long id){
 		service.delete(id);
 		return ResponseEntity.noContent().build(); 
 	}

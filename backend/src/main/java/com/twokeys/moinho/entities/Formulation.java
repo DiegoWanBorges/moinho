@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,27 +31,29 @@ public class Formulation   implements Serializable {
 	@JoinColumn(name="product_id")
 	private Product product;
 	
-	@ManyToOne
-	@JoinColumn(name="sector_id")
-	private Sector sector;
-
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="formulation_apportionment", 
 			joinColumns = @JoinColumn(name="formulation_id"),
 			inverseJoinColumns = @JoinColumn(name="apportionment_type_id")
 			)
-	private Set<ApportionmentType> apportionmentType = new HashSet<>();
+	private Set<ApportionmentType> apportionmentTypes = new HashSet<>();
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name="formulation_sector", 
+			   joinColumns = @JoinColumn(name="formulation_id"),
+			   inverseJoinColumns = @JoinColumn(name="sector_id")
+			)
+	private Set<Sector> sectors = new HashSet<>();
 	
 	@OneToMany(mappedBy = "id.formulation")
 	private List<FormulationItems> formulationItems = new ArrayList<>();
 		
 	public  Formulation() {
 	}
-	public Formulation(Long id, Double coefficient, String description,Sector sector, Product product) {
+	public Formulation(Long id, Double coefficient, String description,Product product) {
 		this.id = id;
 		this.coefficient = coefficient;
 		this.description = description;
-		this.sector=sector;
 		this.product = product;
 	}
 	public Long getId() {
@@ -75,12 +76,6 @@ public class Formulation   implements Serializable {
 		this.description = description;
 	}
 	
-	public Sector getSector() {
-		return sector;
-	}
-	public void setSector(Sector sector) {
-		this.sector = sector;
-	}
 	public Product getProduct() {
 		return product;
 	}
@@ -88,9 +83,11 @@ public class Formulation   implements Serializable {
 		this.product = product;
 	}
 	
-	
-	public Set<ApportionmentType> getApportionmentType() {
-		return apportionmentType;
+	public Set<ApportionmentType> getApportionmentTypes() {
+		return apportionmentTypes;
+	}
+	public Set<Sector> getSectors() {
+		return sectors;
 	}
 	public List<FormulationItems> getFormulationItems() {
 		return formulationItems;
@@ -118,7 +115,4 @@ public class Formulation   implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
 }
