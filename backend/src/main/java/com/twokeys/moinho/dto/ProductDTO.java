@@ -15,13 +15,13 @@ public class ProductDTO implements Serializable {
 	private Double grossWeight;
 	private Integer validityDays;
 	private UnityDTO unity;
-	private LineDTO line;
+	private GroupDTO group;
 	
 	public ProductDTO() {
 	}
 
 	public ProductDTO(Long id, String name, String description, String packaging, Double netWeight, Double grossWeight,
-			Integer validityDays, UnityDTO unity, LineDTO line) {
+			Integer validityDays, UnityDTO unity, GroupDTO group) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -30,7 +30,7 @@ public class ProductDTO implements Serializable {
 		this.grossWeight = grossWeight;
 		this.validityDays = validityDays;
 		this.unity = unity;
-		this.line = line;
+		this.group = group;
 	}
 	public ProductDTO(Product entity) {
 		this.id = entity.getId();
@@ -41,7 +41,7 @@ public class ProductDTO implements Serializable {
 		this.grossWeight = entity.getGrossWeight();
 		this.validityDays = entity.getValidityDays();
 		this.unity = new UnityDTO(entity.getUnity().getId(),entity.getUnity().getDescription()) ;
-		this.line = new LineDTO(entity.getLine().getId(),entity.getLine().getName());
+		this.group = new GroupDTO(entity.getGroup().getId(),entity.getGroup().getName());
 	}
 
 	public Long getId() {
@@ -108,12 +108,14 @@ public class ProductDTO implements Serializable {
 		this.unity = unity;
 	}
 
-	public LineDTO getLine() {
-		return line;
+	public GroupDTO getGroup() {
+		return group;
 	}
 
-	public void setLine(LineDTO line) {
-		this.line = line;
+	public void setGroup(GroupDTO group) {
+		this.group = group;
 	}
+
+	
 
 }

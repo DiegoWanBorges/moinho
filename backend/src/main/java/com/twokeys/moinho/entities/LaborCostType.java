@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="laborCostType")
+@Table(name="tb_labor_cost_type")
 public class LaborCostType  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id

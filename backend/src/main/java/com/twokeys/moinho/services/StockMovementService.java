@@ -80,7 +80,7 @@ public class StockMovementService {
 		entity.setDescription(dto.getDescription());
 		entity.setDate(Instant.now());
 		entity.setIdOrignMovement(dto.getIdOrignMovement());
-		entity.setIn(dto.getIn());
+		entity.setEntry(dto.getEntry());
 		entity.setOut(dto.getOut());
 		entity.setProduct(productRepository.getOne(dto.getProduct().getId()));
 	}

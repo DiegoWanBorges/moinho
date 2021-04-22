@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="unity")
+@Table(name="tb_unity")
 public class Unity   implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

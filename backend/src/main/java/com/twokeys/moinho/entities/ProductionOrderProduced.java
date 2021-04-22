@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 import com.twokeys.moinho.entities.pk.ProductionOrderProductProducedPK;
 @Entity
-@Table(name="production_order_produced")
+@Table(name="tb_production_order_produced")
 public class ProductionOrderProduced implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -25,18 +25,22 @@ public class ProductionOrderProduced implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="product_id")
 	private Product product;
+	@ManyToOne
+	@JoinColumn(name="produced_product_status_id")
+	private ProducedProductStatus producedProductStatus;
 	
 	public ProductionOrderProduced(){	
 	}
 
 	public ProductionOrderProduced(ProductionOrder productionOrder,Integer pallet, Instant manufacturingDate, String lote,
-								   Double quantity,   Product product) {
+								   Double quantity,   Product product,ProducedProductStatus producedProductStatus) {
 		this.id.setProductionOrder(productionOrder);
 		this.id.setPallet(pallet);
 		this.manufacturingDate = manufacturingDate;
 		this.lote = lote;
 		this.quantity = quantity;
 		this.product = product;
+		this.producedProductStatus=producedProductStatus;
 	}
 
 	public ProductionOrder getProductionOrder() {
@@ -84,6 +88,14 @@ public class ProductionOrderProduced implements Serializable {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public ProducedProductStatus getProducedProductStatus() {
+		return producedProductStatus;
+	}
+
+	public void setProducedProductStatus(ProducedProductStatus producedProductStatus) {
+		this.producedProductStatus = producedProductStatus;
 	}
 
 	

@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="formulation")
+@Table(name="tb_formulation")
 public class Formulation   implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -32,14 +32,14 @@ public class Formulation   implements Serializable {
 	private Product product;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="formulation_apportionment", 
+	@JoinTable(name="tb_formulation_apportionment", 
 			joinColumns = @JoinColumn(name="formulation_id"),
 			inverseJoinColumns = @JoinColumn(name="apportionment_type_id")
 			)
 	private Set<ApportionmentType> apportionmentTypes = new HashSet<>();
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="formulation_sector", 
+	@JoinTable(name="tb_formulation_sector", 
 			   joinColumns = @JoinColumn(name="formulation_id"),
 			   inverseJoinColumns = @JoinColumn(name="sector_id")
 			)

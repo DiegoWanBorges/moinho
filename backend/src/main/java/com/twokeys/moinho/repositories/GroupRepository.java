@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.twokeys.moinho.entities.Line;
+import com.twokeys.moinho.entities.Group;
 
 @Repository
-public interface LineRepository extends JpaRepository<Line, Long> {
+public interface GroupRepository extends JpaRepository<Group, Long> {
 
-	List<Line> findByNameLikeIgnoreCase(String nameConcat);
+	List<Group> findByNameLikeIgnoreCase(String nameConcat);
 		
 }
 

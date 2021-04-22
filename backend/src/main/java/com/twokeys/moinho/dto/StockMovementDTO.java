@@ -11,7 +11,7 @@ public class StockMovementDTO   implements Serializable {
 	
 	private Long id;
 	private Instant date;
-	private Double in;
+	private Double entry;
 	private Double out;
 	private Double cost;
 	private String description;
@@ -22,11 +22,11 @@ public class StockMovementDTO   implements Serializable {
 	public StockMovementDTO() {	
 	}
 
-	public StockMovementDTO(Long id, Instant date, Double in, Double out, Double cost, String description,
+	public StockMovementDTO(Long id, Instant date, Double entry, Double out, Double cost, String description,
 							StockMovementType type, Long idOrignMovement, ProductDTO product) {
 		this.id = id;
 		this.date = date;
-		this.in = in;
+		this.entry = entry;
 		this.out = out;
 		this.cost = cost;
 		this.description = description;
@@ -37,7 +37,7 @@ public class StockMovementDTO   implements Serializable {
 	public StockMovementDTO(StockMovement entity) {
 		this.id = entity.getId();
 		this.date = entity.getDate();
-		this.in = entity.getIn();
+		this.entry = entity.getEntry();
 		this.out = entity.getOut();
 		this.cost = entity.getCost();
 		this.description = entity.getDescription();
@@ -62,12 +62,12 @@ public class StockMovementDTO   implements Serializable {
 		this.date = date;
 	}
 
-	public Double getIn() {
-		return in;
+	public Double getEntry() {
+		return entry;
 	}
 
-	public void setIn(Double in) {
-		this.in = in;
+	public void setEntry(Double entry) {
+		this.entry = entry;
 	}
 
 	public Double getOut() {

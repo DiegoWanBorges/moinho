@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import com.twokeys.moinho.entities.enums.StockMovementType;
 
 @Entity
-@Table(name="stock_movement")
+@Table(name="tb_stock_movement")
 public class StockMovement  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -24,7 +24,7 @@ public class StockMovement  implements Serializable {
 	private Long id;
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant date;
-	private Double in;
+	private Double entry;
 	private Double out;
 	private Double cost;
 	private String description;
@@ -37,11 +37,11 @@ public class StockMovement  implements Serializable {
 	public StockMovement() {	
 	}
 
-	public StockMovement(Long id, Instant date, Double in, Double out, Double cost, String description,
+	public StockMovement(Long id, Instant date, Double entry, Double out, Double cost, String description,
 						 StockMovementType type, Long idOrignMovement, Product product) {
 		this.id = id;
 		this.date = date;
-		this.in = in;
+		this.entry = entry;
 		this.out = out;
 		this.cost = cost;
 		this.description = description;
@@ -66,12 +66,14 @@ public class StockMovement  implements Serializable {
 		this.date = date;
 	}
 
-	public Double getIn() {
-		return in;
+	
+
+	public Double getEntry() {
+		return entry;
 	}
 
-	public void setIn(Double in) {
-		this.in = in;
+	public void setEntry(Double entry) {
+		this.entry = entry;
 	}
 
 	public Double getOut() {

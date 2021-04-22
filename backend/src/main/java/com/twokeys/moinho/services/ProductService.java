@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.twokeys.moinho.dto.ProductDTO;
 import com.twokeys.moinho.entities.Product;
-import com.twokeys.moinho.repositories.LineRepository;
+import com.twokeys.moinho.repositories.GroupRepository;
 import com.twokeys.moinho.repositories.ProductRepository;
 import com.twokeys.moinho.repositories.UnityRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
@@ -29,7 +29,7 @@ public class ProductService {
 	@Autowired
 	private UnityRepository unityRepository;
 	@Autowired
-	private LineRepository lineRepository;
+	private GroupRepository groupRepository;
 	
 	
 	
@@ -87,6 +87,6 @@ public class ProductService {
 		entity.setGrossWeight(dto.getGrossWeight());
 		entity.setValidityDays(dto.getValidityDays());
 		entity.setUnity(unityRepository.getOne(dto.getUnity().getId()));
-		entity.setLine(lineRepository.getOne(dto.getLine().getId()));
+		entity.setGroup(groupRepository.getOne(dto.getGroup().getId()));
 	}
 }

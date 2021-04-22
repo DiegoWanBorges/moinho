@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 import com.twokeys.moinho.entities.enums.ProductionApportionmentType;
 @Entity
-@Table(name="apportionment_type")
+@Table(name="tb_apportionment_type")
 public class ApportionmentType  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

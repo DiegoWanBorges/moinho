@@ -12,46 +12,46 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.twokeys.moinho.dto.LineDTO;
-import com.twokeys.moinho.entities.Line;
-import com.twokeys.moinho.repositories.LineRepository;
+import com.twokeys.moinho.dto.ProducedProductStatusDTO;
+import com.twokeys.moinho.entities.ProducedProductStatus;
+import com.twokeys.moinho.repositories.ProducedProductStatusRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 
 
 
 @Service
-public class LineService {
+public class ProducedProductStatusService {
 	@Autowired
-	private LineRepository repository;
+	private ProducedProductStatusRepository repository;
 	
 	@Transactional(readOnly=true)
-	public List<LineDTO> findByNameLikeIgnoreCase(String name){
+	public List<ProducedProductStatusDTO> findByNameLikeIgnoreCase(String name){
 		String nameConcat = "%"+name+"%";
 		
-		List<Line> list =  repository.findByNameLikeIgnoreCase(nameConcat);
-		return list.stream().map(x -> new LineDTO(x)).collect(Collectors.toList());
+		List<ProducedProductStatus> list =  repository.findByNameLikeIgnoreCase(nameConcat);
+		return list.stream().map(x -> new ProducedProductStatusDTO(x)).collect(Collectors.toList());
 		
 	}
 	@Transactional(readOnly=true)
-	public LineDTO findById(Long id){
-		Optional<Line> obj = repository.findById(id);
-		Line entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-		return new LineDTO(entity);
+	public ProducedProductStatusDTO findById(Long id){
+		Optional<ProducedProductStatus> obj = repository.findById(id);
+		ProducedProductStatus entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+		return new ProducedProductStatusDTO(entity);
 	}
 	@Transactional
-	public LineDTO insert(LineDTO dto) {
-			Line entity =new Line();
+	public ProducedProductStatusDTO insert(ProducedProductStatusDTO dto) {
+			ProducedProductStatus entity =new ProducedProductStatus();
 			entity.setName(dto.getName());
-			return new LineDTO(repository.save(entity));
+			return new ProducedProductStatusDTO(repository.save(entity));
 	}
 	@Transactional
-	public LineDTO update(Long id, LineDTO dto) {
+	public ProducedProductStatusDTO update(Long id, ProducedProductStatusDTO dto) {
 		try {
-			Line entity = repository.getOne(id);
+			ProducedProductStatus entity = repository.getOne(id);
 			entity.setName(dto.getName());
 			entity = repository.save(entity);
-			return new LineDTO(entity);
+			return new ProducedProductStatusDTO(entity);
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}

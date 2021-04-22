@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
 @Entity
-@Table(name="production_order")
+@Table(name="tb_production_order")
 public class ProductionOrder  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -40,6 +40,9 @@ public class ProductionOrder  implements Serializable {
 	
 	@OneToMany(mappedBy = "id.productionOrder")
 	private List<ProductionOrderItems> productionOrderItems = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "id.productionOrder")
+	private List<ProductionOrderProduced> productionOrderProduceds = new ArrayList<>();
 	
 	public ProductionOrder() {
 	}
@@ -119,11 +122,13 @@ public class ProductionOrder  implements Serializable {
 	public void setFormulation(Formulation formulation) {
 		this.formulation = formulation;
 	}
-	
-	
-	
+		
 	public List<ProductionOrderItems> getProductionOrderItems() {
 		return productionOrderItems;
+	}
+	
+	public List<ProductionOrderProduced> getProductionOrderProduceds() {
+		return productionOrderProduceds;
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="laborPayment")
+@Table(name="tb_labor_payment")
 public class LaborPayment  extends Payment {
 	private static final long serialVersionUID = 1L;
 		

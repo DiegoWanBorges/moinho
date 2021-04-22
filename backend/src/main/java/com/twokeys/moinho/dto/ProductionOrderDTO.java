@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.twokeys.moinho.entities.ProductionOrder;
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
 
@@ -12,14 +13,18 @@ public class ProductionOrderDTO   implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", timezone="GMT-3")
 	private Instant emission;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", timezone="GMT-3")
 	private Instant startDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", timezone="GMT-3")
 	private Instant endDate;
 	private Double expectedAmount;
 	private String observation;
 	private ProductionOrderStatus status;
 	private FormulationDTO formulation;
 	private List<ProductionOrderItemsDTO> productionOrderItems = new ArrayList<>();
+	private List<ProductionOrderProducedDTO> productionOrderProduceds = new ArrayList<>();
 	
 	public ProductionOrderDTO() {
 	}
@@ -45,6 +50,7 @@ public class ProductionOrderDTO   implements Serializable {
 		this.status = entity.getStatus();
 		this.formulation = new FormulationDTO(entity.getFormulation());
 		entity.getProductionOrderItems().forEach(items -> productionOrderItems.add(new ProductionOrderItemsDTO(items)));
+		entity.getProductionOrderProduceds().forEach(produced -> productionOrderProduceds.add(new ProductionOrderProducedDTO(produced)));
 	}
 	public ProductionOrderDTO(ProductionOrder entity,List<ProductionOrderItemsDTO> productionOrderItems) {
 		this.id = entity.getId();
@@ -126,6 +132,10 @@ public class ProductionOrderDTO   implements Serializable {
 
 	public List<ProductionOrderItemsDTO> getProductionOrderItems() {
 		return productionOrderItems;
+	}
+
+	public List<ProductionOrderProducedDTO> getProductionOrderProduceds() {
+		return productionOrderProduceds;
 	}
 	
 }

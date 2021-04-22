@@ -13,7 +13,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="payment")
+@Table(name="tb_payment")
 @Inheritance(strategy = InheritanceType.JOINED)
 
 public abstract class Payment implements Serializable {

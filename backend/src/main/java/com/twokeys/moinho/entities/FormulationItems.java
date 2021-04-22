@@ -10,7 +10,7 @@ import com.twokeys.moinho.entities.enums.FormulationItemsType;
 import com.twokeys.moinho.entities.pk.FormulationItemsPK;
 
 @Entity
-@Table(name="formulation_items")
+@Table(name="tb_formulation_items")
 public class FormulationItems implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

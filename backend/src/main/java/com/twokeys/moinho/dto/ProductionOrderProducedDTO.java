@@ -3,6 +3,7 @@ package com.twokeys.moinho.dto;
 import java.io.Serializable;
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.twokeys.moinho.entities.ProductionOrderProduced;
 
 public class ProductionOrderProducedDTO implements Serializable {
@@ -10,22 +11,25 @@ public class ProductionOrderProducedDTO implements Serializable {
 	
 	private Long productionOrderId;
 	private Integer pallet;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", timezone="GMT-3")
 	private Instant manufacturingDate;
 	private String lote;
 	private Double quantity;
 	private ProductDTO product;
+	private ProducedProductStatusDTO producedProductStatus;
 	
 	public ProductionOrderProducedDTO(){	
 	}
 
 	public ProductionOrderProducedDTO(Long productionOrderId, Integer pallet, Instant manufacturingDate, String lote,
-									  Double quantity, ProductDTO product) {
+									  Double quantity, ProductDTO product,ProducedProductStatusDTO producedProductStatus) {
 		this.productionOrderId = productionOrderId;
 		this.pallet = pallet;
 		this.manufacturingDate = manufacturingDate;
 		this.lote = lote;
 		this.quantity = quantity;
 		this.product = product;
+		this.producedProductStatus=producedProductStatus;
 	}
 	public ProductionOrderProducedDTO(ProductionOrderProduced entity) {
 		this.productionOrderId = entity.getProductionOrder().getId();
@@ -34,6 +38,7 @@ public class ProductionOrderProducedDTO implements Serializable {
 		this.lote = entity.getLote();
 		this.quantity = entity.getQuantity();
 		this.product = new ProductDTO(entity.getProduct());
+		this.producedProductStatus = new ProducedProductStatusDTO(entity.getProducedProductStatus());
 	}
 
 	public Long getProductionOrderId() {
@@ -82,6 +87,14 @@ public class ProductionOrderProducedDTO implements Serializable {
 
 	public void setProduct(ProductDTO product) {
 		this.product = product;
+	}
+
+	public ProducedProductStatusDTO getProducedProductStatus() {
+		return producedProductStatus;
+	}
+
+	public void setProducedProductStatus(ProducedProductStatusDTO producedProductStatus) {
+		this.producedProductStatus = producedProductStatus;
 	}
 	
 	

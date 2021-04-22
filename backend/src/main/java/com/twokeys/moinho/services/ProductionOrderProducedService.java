@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.twokeys.moinho.dto.ProductionOrderProducedDTO;
+import com.twokeys.moinho.entities.ProducedProductStatus;
 import com.twokeys.moinho.entities.Product;
 import com.twokeys.moinho.entities.ProductionOrder;
 import com.twokeys.moinho.entities.ProductionOrderProduced;
+import com.twokeys.moinho.repositories.ProducedProductStatusRepository;
 import com.twokeys.moinho.repositories.ProductRepository;
 import com.twokeys.moinho.repositories.ProductionOrderProducedRepository;
 import com.twokeys.moinho.repositories.ProductionOrderRepository;
@@ -28,6 +30,8 @@ public class ProductionOrderProducedService {
 	private ProductRepository productRepository; 
 	@Autowired
 	private ProductionOrderRepository productionOrderRepository;
+	@Autowired
+	private ProducedProductStatusRepository producedProductStatusRepository;
 		
 	
 	@Transactional
@@ -55,10 +59,12 @@ public class ProductionOrderProducedService {
 	public void convertToEntity(ProductionOrderProducedDTO dto,ProductionOrderProduced entity) {
 			ProductionOrder productionOrder = productionOrderRepository.getOne(dto.getProductionOrderId());
 			Product product = productRepository.getOne(dto.getProduct().getId());
+			ProducedProductStatus producedProductStatus=producedProductStatusRepository.getOne(dto.getProducedProductStatus().getId()); 
+			
 			entity.setProductionOrder(productionOrder);
 			entity.setProduct(product);
 			entity.setPallet(dto.getPallet());
-			
+			entity.setProducedProductStatus(producedProductStatus);
 			entity.setQuantity(dto.getQuantity());
 			entity.setManufacturingDate(dto.getManufacturingDate());
 			entity.setLote(dto.getLote());

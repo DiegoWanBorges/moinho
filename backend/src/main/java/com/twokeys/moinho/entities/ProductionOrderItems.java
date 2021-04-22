@@ -13,7 +13,7 @@ import com.twokeys.moinho.entities.enums.ProductionOrderItemsType;
 import com.twokeys.moinho.entities.pk.ProductionOrderItemsPK;
 
 @Entity
-@Table(name="production_order_items")
+@Table(name="tb_production_order_items")
 public class ProductionOrderItems implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
