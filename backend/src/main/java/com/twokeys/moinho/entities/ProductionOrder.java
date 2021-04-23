@@ -2,6 +2,7 @@ package com.twokeys.moinho.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class ProductionOrder  implements Serializable {
 	}
 
 	public ProductionOrder(Long id, Instant emission, Instant startDate, Instant endDate, Double expectedAmount,
-			String observation, ProductionOrderStatus status, Formulation formulation) {
+						   String observation, ProductionOrderStatus status, Formulation formulation) {
 		this.id = id;
 		this.emission = emission;
 		this.startDate = startDate;
@@ -114,7 +115,12 @@ public class ProductionOrder  implements Serializable {
 	public void setStatus(ProductionOrderStatus status) {
 		this.status = status;
 	}
-
+	public long  getProductionMinutes() {
+		if (status==ProductionOrderStatus.ENCERRADO) {
+		return	startDate.until(endDate, ChronoUnit.MINUTES);
+		}
+		return 0L;
+	}
 	public Formulation getFormulation() {
 		return formulation;
 	}
@@ -130,7 +136,7 @@ public class ProductionOrder  implements Serializable {
 	public List<ProductionOrderProduced> getProductionOrderProduceds() {
 		return productionOrderProduceds;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

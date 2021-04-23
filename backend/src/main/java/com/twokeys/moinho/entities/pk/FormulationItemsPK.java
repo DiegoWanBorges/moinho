@@ -22,7 +22,6 @@ public class FormulationItemsPK implements Serializable {
 	private Product product;
 	
 	public FormulationItemsPK() {
-		
 	}
 
 	public FormulationItemsPK(Formulation formulation, Product product) {
