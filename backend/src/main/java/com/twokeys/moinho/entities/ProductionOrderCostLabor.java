@@ -75,5 +75,10 @@ public class ProductionOrderCostLabor implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "ProductionOrderCostLabor [id=" + id + ", value=" + value + "]";
+	}
 	
 }

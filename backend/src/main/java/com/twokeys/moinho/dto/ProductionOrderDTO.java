@@ -26,6 +26,7 @@ public class ProductionOrderDTO   implements Serializable {
 	private FormulationDTO formulation;
 	private List<ProductionOrderItemsDTO> productionOrderItems = new ArrayList<>();
 	private List<ProductionOrderProducedDTO> productionOrderProduceds = new ArrayList<>();
+	private List<ProductionOrderCostLaborDTO> productionOrderCostLabor = new ArrayList<>();
 	
 	public ProductionOrderDTO() {
 	}
@@ -52,6 +53,7 @@ public class ProductionOrderDTO   implements Serializable {
 		this.formulation = new FormulationDTO(entity.getFormulation());
 		entity.getProductionOrderItems().forEach(items -> productionOrderItems.add(new ProductionOrderItemsDTO(items)));
 		entity.getProductionOrderProduceds().forEach(produced -> productionOrderProduceds.add(new ProductionOrderProducedDTO(produced)));
+		entity.getProductionOrderCostLabor().forEach(costLabor -> productionOrderCostLabor.add(new ProductionOrderCostLaborDTO(costLabor)));
 	}
 	public ProductionOrderDTO(ProductionOrder entity,List<ProductionOrderItemsDTO> productionOrderItems) {
 		this.id = entity.getId();
@@ -142,6 +144,10 @@ public class ProductionOrderDTO   implements Serializable {
 
 	public List<ProductionOrderProducedDTO> getProductionOrderProduceds() {
 		return productionOrderProduceds;
+	}
+
+	public List<ProductionOrderCostLaborDTO> getProductionOrderCostLabor() {
+		return productionOrderCostLabor;
 	}
 	
 }

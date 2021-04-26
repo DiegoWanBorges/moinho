@@ -45,6 +45,10 @@ public class ProductionOrder  implements Serializable {
 	@OneToMany(mappedBy = "id.productionOrder")
 	private List<ProductionOrderProduced> productionOrderProduceds = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "id.productionOrder")
+	private List<ProductionOrderCostLabor> productionOrderCostLabor = new ArrayList<>();
+	
+	
 	public ProductionOrder() {
 	}
 
@@ -137,6 +141,10 @@ public class ProductionOrder  implements Serializable {
 		return productionOrderProduceds;
 	}
 	
+	public List<ProductionOrderCostLabor> getProductionOrderCostLabor() {
+		return productionOrderCostLabor;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

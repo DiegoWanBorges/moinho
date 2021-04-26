@@ -29,7 +29,7 @@ public class Product implements Serializable {
 	private Unity unity;
 	
 	@ManyToOne
-	@JoinColumn(name="line_id")
+	@JoinColumn(name="group_id")
 	private Group group;
 	
 	public Product() {
