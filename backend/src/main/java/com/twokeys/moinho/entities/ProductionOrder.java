@@ -48,6 +48,9 @@ public class ProductionOrder  implements Serializable {
 	@OneToMany(mappedBy = "id.productionOrder")
 	private List<ProductionOrderCostLabor> productionOrderCostLabor = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "id.productionOrder")
+	private List<ProductionOrderOperationalCost> productionOrderOperationalCost = new ArrayList<>();
+	
 	
 	public ProductionOrder() {
 	}
@@ -125,6 +128,7 @@ public class ProductionOrder  implements Serializable {
 		}
 		return 0L;
 	}
+	
 	public Formulation getFormulation() {
 		return formulation;
 	}
@@ -143,6 +147,9 @@ public class ProductionOrder  implements Serializable {
 	
 	public List<ProductionOrderCostLabor> getProductionOrderCostLabor() {
 		return productionOrderCostLabor;
+	}
+	public List<ProductionOrderOperationalCost> getProductionOrderOperationalCost() {
+		return productionOrderOperationalCost;
 	}
 
 	@Override

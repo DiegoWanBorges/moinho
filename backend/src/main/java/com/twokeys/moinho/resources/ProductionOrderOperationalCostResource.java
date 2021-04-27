@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.twokeys.moinho.services.ProductionOrderCostLaborService;
+import com.twokeys.moinho.services.ProductionOrderOperationalCostService;
 
 @RestController
-@RequestMapping(value="/productionordercostlabors")
-public class ProductionOrderCostLaborResource {
+@RequestMapping(value="/productionorderoperationalcosts")
+public class ProductionOrderOperationalCostResource {
 	@Autowired
-	ProductionOrderCostLaborService service;
+	ProductionOrderOperationalCostService service;
 	
 	@PostMapping
 	public void createProductionOrder(@RequestParam("startdate")  LocalDateTime startDate,
@@ -24,7 +24,7 @@ public class ProductionOrderCostLaborResource {
 		Instant i1 = startDate.toInstant(ZoneOffset.UTC);
 		Instant i2 = endDate.toInstant(ZoneOffset.UTC);
 		
-		service.LaborPaymentApportionment(i1, i2);
+		service.prorateOperatingCost(i1, i2);
 	}
 	
 	

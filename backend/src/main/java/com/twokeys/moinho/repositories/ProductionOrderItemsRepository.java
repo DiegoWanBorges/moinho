@@ -13,5 +13,11 @@ public interface ProductionOrderItemsRepository extends JpaRepository<Production
 	 
 	@Query("SELECT COALESCE(MAX(obj.id.serie),0) FROM ProductionOrderItems obj where obj.id.productionOrder = :order")
 	Integer findMaxSerie(ProductionOrder order);
+	
+	@Query("SELECT SUM(obj.quantity) FROM ProductionOrderItems obj "
+		 + " where obj.id.productionOrder = :order "
+		 + " and obj.rawMaterial=1")
+	Double findTotalRawMaterial(ProductionOrder order);
+	
 }
 
