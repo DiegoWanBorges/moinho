@@ -1,5 +1,7 @@
 package com.twokeys.moinho.services;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +9,8 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -25,6 +29,7 @@ import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class StockMovementService {
+	protected final Log logger = LogFactory.getLog(getClass());
 	@Autowired
 	private StockMovementRepository repository;
 	@Autowired
@@ -47,9 +52,21 @@ public class StockMovementService {
 	@Transactional
 	public StockMovementDTO insert(StockMovementDTO dto) {
 		try {
-		StockMovement entity =new StockMovement();
+			StockMovement entity =new StockMovement();
+			Product product = new Product();
+			List<Object[]> stockBalance;
 			convertToEntity(dto, entity);
-			return new StockMovementDTO(repository.save(entity));
+			entity =repository.save(entity);
+			
+			/*Atualiza o custo e saldo de estoque*/
+			product = productRepository.findById(entity.getProduct().getId()).get();
+			stockBalance=repository.stockBalance(product.getId());
+			product.setStockBalance(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[3]).setScale(2,RoundingMode.HALF_UP).toString()));
+			product.setAverageCost(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[4]).setScale(2,RoundingMode.HALF_UP).toString()));
+			product.setCostLastEntry(entity.getCost());
+			productRepository.save(product);
+			
+			return new StockMovementDTO(entity);
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
 		}
@@ -58,8 +75,19 @@ public class StockMovementService {
 	public StockMovementDTO update(Long id, StockMovementDTO dto) {
 		try {
 			StockMovement entity = repository.getOne(id);
+			Product product = new Product();
+			List<Object[]> stockBalance;
 			convertToEntity(dto, entity);
 			entity = repository.save(entity);
+			
+			/*Atualiza o custo e saldo de estoque*/
+			product = productRepository.findById(entity.getProduct().getId()).get();
+			stockBalance=repository.stockBalance(product.getId());
+			product.setStockBalance(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[3]).setScale(2,RoundingMode.HALF_UP).toString()));
+			product.setAverageCost(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[4]).setScale(2,RoundingMode.HALF_UP).toString()));
+			product.setCostLastEntry(entity.getCost());
+			productRepository.save(product);
+			
 			return new StockMovementDTO(entity);
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);

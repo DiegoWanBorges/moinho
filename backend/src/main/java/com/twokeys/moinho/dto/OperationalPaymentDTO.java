@@ -3,12 +3,14 @@ package com.twokeys.moinho.dto;
 import java.io.Serializable;
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.twokeys.moinho.entities.OperationalPayment;
 
 public class OperationalPaymentDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", timezone="GMT-3")
 	private Instant date;
 	private String description;
 	private String documentNumber;

@@ -24,6 +24,11 @@ public class Product implements Serializable {
 	private Double netWeight;
 	private Double grossWeight;
 	private Integer validityDays;
+	private Double costLastEntry;
+	private Double averageCost;
+	private Double rawMaterialConversion;
+	private Double stockBalance;
+	
 	@ManyToOne
 	@JoinColumn(name="unity_id")
 	private Unity unity;
@@ -33,22 +38,28 @@ public class Product implements Serializable {
 	private Group group;
 	
 	public Product() {
-		
 	}
-
+	
 	public Product(Long id, String name, String description, String packaging, Double netWeight, Double grossWeight,
-			       Integer validityDays, Unity unity, Group group) {
+				   Integer validityDays, Double costLastEntry, Double averageCost, Double rawMaterialConversion,
+				   Double stockBalance, Unity unity, Group group) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.packaging = packaging;
 		this.netWeight = netWeight;
 		this.grossWeight = grossWeight;
-		this.validityDays=validityDays;
+		this.validityDays = validityDays;
+		this.costLastEntry = costLastEntry;
+		this.averageCost = averageCost;
+		this.rawMaterialConversion = rawMaterialConversion;
+		this.stockBalance = stockBalance;
 		this.unity = unity;
 		this.group = group;
 	}
-
+	
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -97,14 +108,44 @@ public class Product implements Serializable {
 		this.grossWeight = grossWeight;
 	}
 
-	
-	
 	public Integer getValidityDays() {
 		return validityDays;
 	}
 
 	public void setValidityDays(Integer validityDays) {
 		this.validityDays = validityDays;
+	}
+
+	public Double getCostLastEntry() {
+		return costLastEntry;
+	}
+
+	public void setCostLastEntry(Double costLastEntry) {
+		this.costLastEntry = costLastEntry;
+	}
+
+	public Double getAverageCost() {
+		return averageCost;
+	}
+
+	public void setAverageCost(Double averageCost) {
+		this.averageCost = averageCost;
+	}
+
+	public Double getRawMaterialConversion() {
+		return rawMaterialConversion;
+	}
+
+	public void setRawMaterialConversion(Double rawMaterialConversion) {
+		this.rawMaterialConversion = rawMaterialConversion;
+	}
+
+	public Double getStockBalance() {
+		return stockBalance;
+	}
+
+	public void setStockBalance(Double stockBalance) {
+		this.stockBalance = stockBalance;
 	}
 
 	public Unity getUnity() {
@@ -114,7 +155,6 @@ public class Product implements Serializable {
 	public void setUnity(Unity unity) {
 		this.unity = unity;
 	}
-
 
 	public Group getGroup() {
 		return group;

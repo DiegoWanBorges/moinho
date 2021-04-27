@@ -2,7 +2,6 @@ package com.twokeys.moinho.dto;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,12 +125,7 @@ public class ProductionOrderDTO   implements Serializable {
 	public void setStatus(ProductionOrderStatus status) {
 		this.status = status;
 	}
-	public long  getProductionMinutes() {
-		if (status==ProductionOrderStatus.ENCERRADO) {
-		return	startDate.until(endDate, ChronoUnit.MINUTES);
-		}
-		return 0L;
-	}
+	
 	public FormulationDTO getFormulation() {
 		return formulation;
 	}
