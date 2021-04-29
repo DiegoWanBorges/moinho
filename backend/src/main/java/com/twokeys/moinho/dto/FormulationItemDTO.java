@@ -2,24 +2,24 @@ package com.twokeys.moinho.dto;
 
 import java.io.Serializable;
 
-import com.twokeys.moinho.entities.FormulationItems;
-import com.twokeys.moinho.entities.enums.FormulationItemsType;
+import com.twokeys.moinho.entities.FormulationItem;
+import com.twokeys.moinho.entities.enums.FormulationItemType;
 
-public class FormulationItemsDTO implements Serializable {
+public class FormulationItemDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long formulationId;
 	private Double quantity;
-	private Integer round;
-	private Integer rawMaterial;
-	private FormulationItemsType type;
+	private boolean round;
+	private boolean rawMaterial;
+	private FormulationItemType type;
 	private ProductDTO product;
 
-	public FormulationItemsDTO() {
+	public FormulationItemDTO() {
 	}
 
-	public FormulationItemsDTO(Long formulationId, ProductDTO product, Double quantity, Integer round,
-							   FormulationItemsType type,Integer rawMaterial) {
+	public FormulationItemDTO(Long formulationId, ProductDTO product, Double quantity, boolean round,
+							   FormulationItemType type,boolean rawMaterial) {
 		this.formulationId = formulationId;
 		this.product = product;
 		this.quantity = quantity;
@@ -28,7 +28,7 @@ public class FormulationItemsDTO implements Serializable {
 		this.type = type;
 	}
 	
-	public FormulationItemsDTO(FormulationItems entity) {
+	public FormulationItemDTO(FormulationItem entity) {
 		this.formulationId = entity.getFormulation().getId();
 		this.product = new ProductDTO(entity.getProduct());
 		this.quantity = entity.getQuantity();
@@ -63,27 +63,27 @@ public class FormulationItemsDTO implements Serializable {
 		this.quantity = quantity;
 	}
 
-	public Integer getRound() {
+	public boolean getRound() {
 		return round;
 	}
 
-	public void setRound(Integer round) {
+	public void setRound(boolean round) {
 		this.round = round;
 	}
 
-	public FormulationItemsType getType() {
+	public FormulationItemType getType() {
 		return type;
 	}
 
-	public void setType(FormulationItemsType type) {
+	public void setType(FormulationItemType type) {
 		this.type = type;
 	}
 
-	public Integer getRawMaterial() {
+	public boolean getRawMaterial() {
 		return rawMaterial;
 	}
 
-	public void setRawMaterial(Integer rawMaterial) {
+	public void setRawMaterial(boolean rawMaterial) {
 		this.rawMaterial = rawMaterial;
 	}
 	

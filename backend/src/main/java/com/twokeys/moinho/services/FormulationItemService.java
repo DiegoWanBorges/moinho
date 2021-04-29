@@ -12,12 +12,12 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.twokeys.moinho.dto.FormulationItemsDTO;
+import com.twokeys.moinho.dto.FormulationItemDTO;
 import com.twokeys.moinho.entities.Formulation;
-import com.twokeys.moinho.entities.FormulationItems;
+import com.twokeys.moinho.entities.FormulationItem;
 import com.twokeys.moinho.entities.Product;
-import com.twokeys.moinho.entities.pk.FormulationItemsPK;
-import com.twokeys.moinho.repositories.FormulationItemsRepository;
+import com.twokeys.moinho.entities.pk.FormulationItemPK;
+import com.twokeys.moinho.repositories.FormulationItemRepository;
 import com.twokeys.moinho.repositories.FormulationRepository;
 import com.twokeys.moinho.repositories.ProductRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
@@ -26,18 +26,18 @@ import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 
 
 @Service
-public class FormulationItemsService {
+public class FormulationItemService {
 	protected final Log logger = LogFactory.getLog(getClass());
 	@Autowired
-	private FormulationItemsRepository repository;
+	private FormulationItemRepository repository;
 	@Autowired 
 	private ProductRepository productRepository; 
 	@Autowired
 	private FormulationRepository formulationRepository;
 	
 	@Transactional(readOnly=true)
-	public FormulationItemsDTO findById(Long idFormulation, Long idProduct){
-		FormulationItemsPK id =new FormulationItemsPK();
+	public FormulationItemDTO findById(Long idFormulation, Long idProduct){
+		FormulationItemPK id =new FormulationItemPK();
 		Formulation formulation = new Formulation();
 		
 		formulation.setId(idFormulation);
@@ -45,24 +45,24 @@ public class FormulationItemsService {
 		id.setProduct(productRepository.getOne(idProduct));
 		
 		
-		Optional<FormulationItems> obj = repository.findById(id);
-		FormulationItems entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-		return new FormulationItemsDTO(entity);
+		Optional<FormulationItem> obj = repository.findById(id);
+		FormulationItem entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+		return new FormulationItemDTO(entity);
 	}
 	@Transactional
-	public FormulationItemsDTO insert(FormulationItemsDTO dto) {
+	public FormulationItemDTO insert(FormulationItemDTO dto) {
 		try {
-			FormulationItems entity =new FormulationItems();
+			FormulationItem entity =new FormulationItem();
 			convertToEntity(dto, entity);
-			return new FormulationItemsDTO(repository.save(entity));
+			return new FormulationItemDTO(repository.save(entity));
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
 		}
 	}
 	@Transactional
-	public FormulationItemsDTO update(FormulationItemsDTO dto) {
+	public FormulationItemDTO update(FormulationItemDTO dto) {
 		try {
-			FormulationItemsPK id = new FormulationItemsPK();
+			FormulationItemPK id = new FormulationItemPK();
 			Formulation formulation = new Formulation();
 			Product product = new Product();
 			formulation.setId(dto.getFormulationId());
@@ -70,18 +70,18 @@ public class FormulationItemsService {
 			id.setFormulation(formulation);
 			id.setProduct(product);
 			
-			FormulationItems entity = repository.getOne(id);
+			FormulationItem entity = repository.getOne(id);
 			
 			convertToEntity(dto, entity);
 			entity = repository.save(entity);
-			return new FormulationItemsDTO(entity);
+			return new FormulationItemDTO(entity);
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: ");
 		}
 	}
 	public void delete(Long idFormulation, Long idProduct) {
 		try {
-			FormulationItemsPK id = new FormulationItemsPK();
+			FormulationItemPK id = new FormulationItemPK();
 			Formulation formulation = new Formulation();
 			Product product = new Product();
 			formulation.setId(idFormulation);
@@ -96,7 +96,7 @@ public class FormulationItemsService {
 		}
 		
 	}
-	public void convertToEntity(FormulationItemsDTO dto, FormulationItems entity) {
+	public void convertToEntity(FormulationItemDTO dto, FormulationItem entity) {
 		Formulation formulation = formulationRepository.getOne(dto.getFormulationId());
 		Product product = productRepository.getOne(dto.getProduct().getId());
 		

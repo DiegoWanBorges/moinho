@@ -16,12 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.twokeys.moinho.dto.FormulationDTO;
-import com.twokeys.moinho.dto.FormulationItemsDTO;
+import com.twokeys.moinho.dto.FormulationItemDTO;
 import com.twokeys.moinho.dto.OccurrenceDTO;
 import com.twokeys.moinho.dto.ProductionOrderDTO;
-import com.twokeys.moinho.dto.ProductionOrderItemsDTO;
+import com.twokeys.moinho.dto.ProductionOrderItemDTO;
 import com.twokeys.moinho.entities.ProductionOrder;
-import com.twokeys.moinho.entities.enums.ProductionOrderItemsType;
+import com.twokeys.moinho.entities.enums.ProductionOrderItemType;
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
 import com.twokeys.moinho.repositories.FormulationRepository;
 import com.twokeys.moinho.repositories.ProductionOrderRepository;
@@ -43,32 +43,29 @@ public class ProductionOrderService {
 	private FormulationService formulationService;
 	
 	@Autowired
-	private ProductionOrderItemsService productionOrderItemsService;
+	private ProductionOrderItemService productionOrderItemsService;
 	
 	
 	@Transactional
 	public ProductionOrderDTO createProductionOrder(Long formulationId, Double ammount,Boolean persistence){
 		FormulationDTO formulation = formulationService.findById(formulationId);
 		ProductionOrderDTO productionOrder = new ProductionOrderDTO();
-		ProductionOrderItemsDTO productionOrderItems; 
+		ProductionOrderItemDTO productionOrderItems; 
 		OccurrenceDTO occurrence = new OccurrenceDTO(1L,"NORMAL");
 		Double quantityItem =0.0;
 		
-		for (FormulationItemsDTO formulationItems : formulation.getFormulationItems()) {
+		for (FormulationItemDTO formulationItems : formulation.getFormulationItems()) {
 			occurrence = new OccurrenceDTO(1L,"NORMAL");
 			quantityItem= (ammount*formulationItems.getQuantity())/formulation.getCoefficient();
-			productionOrderItems = new ProductionOrderItemsDTO();
-			productionOrderItems.setCost(0.0);
+			productionOrderItems = new ProductionOrderItemDTO();
 			productionOrderItems.setOccurrence(occurrence);
 			productionOrderItems.setRawMaterial(formulationItems.getRawMaterial());
-			
-			if (formulationItems.getRound()==1) {
+			if (formulationItems.getRound()) {
 				productionOrderItems.setQuantity( Double.valueOf(new BigDecimal(quantityItem).setScale(0,RoundingMode.UP).toString()));
 			}else {
-				productionOrderItems.setQuantity(quantityItem);
+				productionOrderItems.setQuantity(Double.valueOf(new BigDecimal(quantityItem).setScale(2,RoundingMode.HALF_UP).toString()));
 			}
-			
-			productionOrderItems.setType(ProductionOrderItemsType.NORMAL);
+			productionOrderItems.setType(ProductionOrderItemType.NORMAL);
 			productionOrderItems.setProduct(formulationItems.getProduct());
 			productionOrder.getProductionOrderItems().add(productionOrderItems);
 		}
@@ -98,9 +95,9 @@ public class ProductionOrderService {
 			convertToEntity(dto, entity);
 			entity=repository.save(entity);
 			
-			List<ProductionOrderItemsDTO> list = new ArrayList<>();
+			List<ProductionOrderItemDTO> list = new ArrayList<>();
 			
-			for(ProductionOrderItemsDTO item : dto.getProductionOrderItems()) {
+			for(ProductionOrderItemDTO item : dto.getProductionOrderItems()) {
 				item.setProductionOrderId(entity.getId());
 			}
 			

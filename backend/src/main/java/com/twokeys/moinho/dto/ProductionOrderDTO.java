@@ -23,7 +23,7 @@ public class ProductionOrderDTO   implements Serializable {
 	private String observation;
 	private ProductionOrderStatus status;
 	private FormulationDTO formulation;
-	private List<ProductionOrderItemsDTO> productionOrderItems = new ArrayList<>();
+	private List<ProductionOrderItemDTO> productionOrderItems = new ArrayList<>();
 	private List<ProductionOrderProducedDTO> productionOrderProduceds = new ArrayList<>();
 	private List<ProductionOrderCostLaborDTO> productionOrderCostLabor = new ArrayList<>();
 	private List<ProductionOrderOperationalCostDTO> productionOrderOperationalCost = new ArrayList<>();
@@ -51,12 +51,12 @@ public class ProductionOrderDTO   implements Serializable {
 		this.observation = entity.getObservation();
 		this.status = entity.getStatus();
 		this.formulation = new FormulationDTO(entity.getFormulation());
-		entity.getProductionOrderItems().forEach(items -> productionOrderItems.add(new ProductionOrderItemsDTO(items)));
+		entity.getProductionOrderItems().forEach(items -> productionOrderItems.add(new ProductionOrderItemDTO(items)));
 		entity.getProductionOrderProduceds().forEach(produced -> productionOrderProduceds.add(new ProductionOrderProducedDTO(produced)));
 		entity.getProductionOrderCostLabor().forEach(costLabor -> productionOrderCostLabor.add(new ProductionOrderCostLaborDTO(costLabor)));
 		entity.getProductionOrderOperationalCost().forEach(costOperational -> productionOrderOperationalCost.add(new ProductionOrderOperationalCostDTO(costOperational)));
 	}
-	public ProductionOrderDTO(ProductionOrder entity,List<ProductionOrderItemsDTO> productionOrderItems) {
+	public ProductionOrderDTO(ProductionOrder entity,List<ProductionOrderItemDTO> productionOrderItems) {
 		this.id = entity.getId();
 		this.emission = entity.getEmission();
 		this.startDate = entity.getStartDate();
@@ -134,7 +134,7 @@ public class ProductionOrderDTO   implements Serializable {
 		this.formulation = formulation;
 	}
 
-	public List<ProductionOrderItemsDTO> getProductionOrderItems() {
+	public List<ProductionOrderItemDTO> getProductionOrderItems() {
 		return productionOrderItems;
 	}
 

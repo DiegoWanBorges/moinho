@@ -1,51 +1,47 @@
 package com.twokeys.moinho.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
 
-import com.twokeys.moinho.entities.ProductionOrderItems;
-import com.twokeys.moinho.entities.enums.ProductionOrderItemsType;
+import com.twokeys.moinho.entities.ProductionOrderItem;
+import com.twokeys.moinho.entities.enums.ProductionOrderItemType;
 
-public class ProductionOrderItemsDTO implements Serializable {
+public class ProductionOrderItemDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private Long consumptionNumber;
+	private Long stockId;
 	private Integer serie;
 	private Double quantity;
 	private Double cost;
-	private Instant dateCancel;
-	private ProductionOrderItemsType type;
-	private Integer rawMaterial;
+	private ProductionOrderItemType type;
+	private boolean rawMaterial;
 	private Long productionOrderId;
 	private ProductDTO product;
 	private OccurrenceDTO occurrence;
 	
-	public ProductionOrderItemsDTO() {
+	public ProductionOrderItemDTO() {
 	}
 
-	public ProductionOrderItemsDTO(Long productionOrderId, ProductDTO product, Integer serie,Long consumptionNumber,
-								   Double quantity, Double cost,Instant dateCancel, ProductionOrderItemsType type,
-								   OccurrenceDTO occurrence,Integer rawMaterial) {
+	public ProductionOrderItemDTO(Long productionOrderId, ProductDTO product, Integer serie,Long stockId,
+								   Double quantity, Double cost, ProductionOrderItemType type,
+								   OccurrenceDTO occurrence,boolean rawMaterial) {
 		this.productionOrderId = productionOrderId;
 		this.product = product;
 		this.serie=serie;
-		this.consumptionNumber=consumptionNumber;
+		this.stockId=stockId;
 		this.quantity = quantity;
 		this.cost = cost;
-		this.dateCancel = dateCancel;
 		this.type = type;
 		this.occurrence = occurrence;
 		this.rawMaterial=rawMaterial;
 	}
 	
-	public ProductionOrderItemsDTO(ProductionOrderItems entity) {
+	public ProductionOrderItemDTO(ProductionOrderItem entity) {
 		this.productionOrderId = entity.getProductionOrder().getId();
 		this.product = new ProductDTO(entity.getProduct());
 		this.serie=entity.getSerie();
-		this.consumptionNumber=entity.getConsumptionNumber();
+		this.stockId=entity.getStockId();
 		this.quantity = entity.getQuantity();
 		this.cost = entity.getCost();
-		this.dateCancel = entity.getDateCancel();
 		this.type = entity.getType();
 		this.occurrence = new OccurrenceDTO(entity.getOccurrence());
 		this.rawMaterial=entity.getRawMaterial();
@@ -67,26 +63,18 @@ public class ProductionOrderItemsDTO implements Serializable {
 		this.cost = cost;
 	}
 
-	public Instant getDateCancel() {
-		return dateCancel;
-	}
-
-	public void setDateCancel(Instant dateCancel) {
-		this.dateCancel = dateCancel;
-	}
-
-	public ProductionOrderItemsType getType() {
+	public ProductionOrderItemType getType() {
 		return type;
 	}
 
-	public void setType(ProductionOrderItemsType type) {
+	public void setType(ProductionOrderItemType type) {
 		this.type = type;
 	}
-	public Integer getRawMaterial() {
+	public boolean getRawMaterial() {
 		return rawMaterial;
 	}
 
-	public void setRawMaterial(Integer rawMaterial) {
+	public void setRawMaterial(boolean rawMaterial) {
 		this.rawMaterial = rawMaterial;
 	}
 	public Long getProductionOrderId() {
@@ -113,12 +101,12 @@ public class ProductionOrderItemsDTO implements Serializable {
 		this.serie = serie;
 	}
 
-	public Long getConsumptionNumber() {
-		return consumptionNumber;
+	public Long getStockId() {
+		return stockId;
 	}
 
-	public void setConsumptionNumber(Long consumptionNumber) {
-		this.consumptionNumber = consumptionNumber;
+	public void setStockId(Long stockId) {
+		this.stockId = stockId;
 	}
 
 	public OccurrenceDTO getOccurrence() {

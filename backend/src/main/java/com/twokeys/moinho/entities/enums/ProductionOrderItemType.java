@@ -2,7 +2,7 @@ package com.twokeys.moinho.entities.enums;
 
 import javax.validation.ValidationException;
 
-public enum ProductionOrderItemsType {
+public enum ProductionOrderItemType {
 	NORMAL(0),
 	COMPLEMENTAR(1),
 	RETORNO(2),
@@ -11,7 +11,7 @@ public enum ProductionOrderItemsType {
 	
 	private int productionOrderItemsType;
 	
-	private ProductionOrderItemsType(int productionOrderItemsType) {
+	private ProductionOrderItemType(int productionOrderItemsType) {
 		this.productionOrderItemsType=productionOrderItemsType;
 	}
 	
@@ -19,8 +19,8 @@ public enum ProductionOrderItemsType {
 		return productionOrderItemsType;
 	}
 	
-	public static ProductionOrderItemsType valueOf(int type) {
-		for (ProductionOrderItemsType value : ProductionOrderItemsType.values()) {
+	public static ProductionOrderItemType valueOf(int type) {
+		for (ProductionOrderItemType value : ProductionOrderItemType.values()) {
 			if (value.getProductionOrderItemsType()==type) {
 				return value;
 			}

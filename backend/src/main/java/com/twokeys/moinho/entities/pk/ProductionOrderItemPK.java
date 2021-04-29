@@ -10,7 +10,7 @@ import com.twokeys.moinho.entities.Product;
 import com.twokeys.moinho.entities.ProductionOrder;
 
 @Embeddable
-public class ProductionOrderItemsPK implements Serializable {
+public class ProductionOrderItemPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@ManyToOne
@@ -23,10 +23,10 @@ public class ProductionOrderItemsPK implements Serializable {
 	
 	private Integer serie;
 	
-	public ProductionOrderItemsPK() {
+	public ProductionOrderItemPK() {
 	}
 
-	public ProductionOrderItemsPK(ProductionOrder productionOrder, Product product,Integer serie) {
+	public ProductionOrderItemPK(ProductionOrder productionOrder, Product product,Integer serie) {
 		this.productionOrder = productionOrder;
 		this.product = product;
 		this.serie=serie;

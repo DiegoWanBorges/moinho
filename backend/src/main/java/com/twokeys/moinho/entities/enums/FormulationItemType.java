@@ -2,14 +2,14 @@ package com.twokeys.moinho.entities.enums;
 
 import javax.validation.ValidationException;
 
-public enum FormulationItemsType {
+public enum FormulationItemType {
 	NORMAL(0),
 	EXTRA(1);
 	
 	
 	private int formulationItemsType;
 	
-	private FormulationItemsType(int formulationItemsType) {
+	private FormulationItemType(int formulationItemsType) {
 		this.formulationItemsType=formulationItemsType;
 	}
 	
@@ -17,8 +17,8 @@ public enum FormulationItemsType {
 		return formulationItemsType;
 	}
 	
-	public static FormulationItemsType valueOf(int type) {
-		for (FormulationItemsType value : FormulationItemsType.values()) {
+	public static FormulationItemType valueOf(int type) {
+		for (FormulationItemType value : FormulationItemType.values()) {
 			if (value.getformulationItemsType()==type) {
 				return value;
 			}

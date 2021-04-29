@@ -31,9 +31,6 @@ public class ProductService {
 	@Autowired
 	private GroupRepository groupRepository;
 	
-	
-	
-	
 	@Transactional(readOnly=true)
 	public List<ProductDTO> findByNameLikeIgnoreCase(String name){
 		String nameConcat = "%"+name+"%";
@@ -56,6 +53,10 @@ public class ProductService {
 			return new ProductDTO(repository.save(entity));
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
+		}catch (DataIntegrityViolationException e ) {
+			throw new DatabaseException("Database integrity reference");
+		}catch(Exception e) {
+			throw new ResourceNotFoundException("Gereric error found");
 		}
 	}
 	@Transactional
@@ -66,7 +67,11 @@ public class ProductService {
 			entity = repository.save(entity);
 			return new ProductDTO(entity);
 		}catch(EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Id not found: " + id);
+			throw new ResourceNotFoundException("Id not found");
+		}catch (DataIntegrityViolationException e ) {
+			throw new DatabaseException("Database integrity reference");
+		}catch(Exception e) {
+			throw new ResourceNotFoundException("Gereric error found");
 		}
 	}
 	public void delete(Long id) {

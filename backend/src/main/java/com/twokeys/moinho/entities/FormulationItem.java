@@ -6,26 +6,26 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.twokeys.moinho.entities.enums.FormulationItemsType;
-import com.twokeys.moinho.entities.pk.FormulationItemsPK;
+import com.twokeys.moinho.entities.enums.FormulationItemType;
+import com.twokeys.moinho.entities.pk.FormulationItemPK;
 
 @Entity
-@Table(name="tb_formulation_items")
-public class FormulationItems implements Serializable {
+@Table(name="tb_formulation_item")
+public class FormulationItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@EmbeddedId
-	private FormulationItemsPK id = new FormulationItemsPK();
+	private FormulationItemPK id = new FormulationItemPK();
 	private Double quantity;
-	private Integer round;
-	private Integer rawMaterial;
-	private FormulationItemsType type;
+	private boolean round;
+	private boolean rawMaterial;
+	private FormulationItemType type;
 
-	public FormulationItems() {
+	public FormulationItem() {
 	}
 
-	public FormulationItems(Formulation formulation,Product product,Double quantity, Integer round, 
-							Integer rawMaterial,FormulationItemsType type) {
+	public FormulationItem(Formulation formulation,Product product,Double quantity, boolean round, 
+						   boolean rawMaterial,FormulationItemType type) {
 		this.id.setFormulation(formulation);
 		this.id.setProduct(product);
 		this.quantity=quantity;
@@ -55,27 +55,27 @@ public class FormulationItems implements Serializable {
 		this.quantity = quantity;
 	}
 
-	public Integer getRound() {
+	public boolean getRound() {
 		return round;
 	}
 
-	public void setRound(Integer round) {
+	public void setRound(boolean round) {
 		this.round = round;
 	}
 	
-	public Integer getRawMaterial() {
+	public boolean getRawMaterial() {
 		return rawMaterial;
 	}
 
-	public void setRawMaterial(Integer rawMaterial) {
+	public void setRawMaterial(boolean rawMaterial) {
 		this.rawMaterial = rawMaterial;
 	}
 
-	public FormulationItemsType getType() {
+	public FormulationItemType getType() {
 		return type;
 	}
 
-	public void setType(FormulationItemsType type) {
+	public void setType(FormulationItemType type) {
 		this.type = type;
 	}
 	
@@ -95,7 +95,7 @@ public class FormulationItems implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FormulationItems other = (FormulationItems) obj;
+		FormulationItem other = (FormulationItem) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

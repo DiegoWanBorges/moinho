@@ -14,14 +14,21 @@ public class ProductDTO implements Serializable {
 	private Double netWeight;
 	private Double grossWeight;
 	private Integer validityDays;
+	private Double costLastEntry;
+	private Double averageCost;
+	private Double rawMaterialConversion;
+	private Double stockBalance;
 	private UnityDTO unity;
 	private GroupDTO group;
 	
 	public ProductDTO() {
 	}
 
+	
 	public ProductDTO(Long id, String name, String description, String packaging, Double netWeight, Double grossWeight,
-			Integer validityDays, UnityDTO unity, GroupDTO group) {
+			Integer validityDays, Double costLastEntry, Double averageCost, Double rawMaterialConversion,
+			Double stockBalance, UnityDTO unity, GroupDTO group) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -29,9 +36,15 @@ public class ProductDTO implements Serializable {
 		this.netWeight = netWeight;
 		this.grossWeight = grossWeight;
 		this.validityDays = validityDays;
+		this.costLastEntry = costLastEntry;
+		this.averageCost = averageCost;
+		this.rawMaterialConversion = rawMaterialConversion;
+		this.stockBalance = stockBalance;
 		this.unity = unity;
 		this.group = group;
 	}
+
+
 	public ProductDTO(Product entity) {
 		this.id = entity.getId();
 		this.name = entity.getName();
@@ -40,6 +53,10 @@ public class ProductDTO implements Serializable {
 		this.netWeight = entity.getNetWeight();
 		this.grossWeight = entity.getGrossWeight();
 		this.validityDays = entity.getValidityDays();
+		this.costLastEntry = entity.getCostLastEntry();
+		this.averageCost = entity.getAverageCost();
+		this.rawMaterialConversion = entity.getRawMaterialConversion();
+		this.stockBalance = entity.getStockBalance();
 		this.unity = new UnityDTO(entity.getUnity().getId(),entity.getUnity().getDescription()) ;
 		this.group = new GroupDTO(entity.getGroup().getId(),entity.getGroup().getName());
 	}
@@ -99,6 +116,48 @@ public class ProductDTO implements Serializable {
 	public void setValidityDays(Integer validityDays) {
 		this.validityDays = validityDays;
 	}
+	
+	
+	
+	public Double getCostLastEntry() {
+		return costLastEntry;
+	}
+
+
+	public void setCostLastEntry(Double costLastEntry) {
+		this.costLastEntry = costLastEntry;
+	}
+
+
+	public Double getAverageCost() {
+		return averageCost;
+	}
+
+
+	public void setAverageCost(Double averageCost) {
+		this.averageCost = averageCost;
+	}
+
+
+	public Double getRawMaterialConversion() {
+		return rawMaterialConversion;
+	}
+
+
+	public void setRawMaterialConversion(Double rawMaterialConversion) {
+		this.rawMaterialConversion = rawMaterialConversion;
+	}
+
+
+	public Double getStockBalance() {
+		return stockBalance;
+	}
+
+
+	public void setStockBalance(Double stockBalance) {
+		this.stockBalance = stockBalance;
+	}
+
 
 	public UnityDTO getUnity() {
 		return unity;

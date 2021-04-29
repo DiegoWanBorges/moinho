@@ -10,7 +10,7 @@ import com.twokeys.moinho.entities.Formulation;
 import com.twokeys.moinho.entities.Product;
 
 @Embeddable
-public class FormulationItemsPK implements Serializable {
+public class FormulationItemPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 		
 	@ManyToOne
@@ -21,10 +21,10 @@ public class FormulationItemsPK implements Serializable {
 	@JoinColumn(name="product_id")
 	private Product product;
 	
-	public FormulationItemsPK() {
+	public FormulationItemPK() {
 	}
 
-	public FormulationItemsPK(Formulation formulation, Product product) {
+	public FormulationItemPK(Formulation formulation, Product product) {
 		this.formulation = formulation;
 		this.product = product;
 	}
@@ -62,7 +62,7 @@ public class FormulationItemsPK implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FormulationItemsPK other = (FormulationItemsPK) obj;
+		FormulationItemPK other = (FormulationItemPK) obj;
 		if (formulation == null) {
 			if (other.formulation != null)
 				return false;

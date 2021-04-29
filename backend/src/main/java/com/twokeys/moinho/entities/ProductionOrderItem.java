@@ -1,7 +1,6 @@
 package com.twokeys.moinho.entities;
 
 import java.io.Serializable;
-import java.time.Instant;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -9,41 +8,38 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.twokeys.moinho.entities.enums.ProductionOrderItemsType;
-import com.twokeys.moinho.entities.pk.ProductionOrderItemsPK;
+import com.twokeys.moinho.entities.enums.ProductionOrderItemType;
+import com.twokeys.moinho.entities.pk.ProductionOrderItemPK;
 
 @Entity
-@Table(name="tb_production_order_items")
-public class ProductionOrderItems implements Serializable {
+@Table(name="tb_production_order_item")
+public class ProductionOrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@EmbeddedId
-	private ProductionOrderItemsPK id = new ProductionOrderItemsPK();
+	private ProductionOrderItemPK id = new ProductionOrderItemPK();
 	
-	private Long consumptionNumber;
+	private Long stockId;
 	private Double quantity;
 	private Double cost; 
-	private Instant dateCancel;
-	private ProductionOrderItemsType type;
-	private Integer rawMaterial;
+	private ProductionOrderItemType type;
+	private boolean rawMaterial;
 	@ManyToOne
 	@JoinColumn(name="occurrence_id",nullable = true)
 	private Occurrence occurrence;
-	
-	
-	public ProductionOrderItems() {
+		
+	public ProductionOrderItem() {
 	}
 
-	public ProductionOrderItems(ProductionOrder productionOrder, Product product, Integer serie, Long consumptionNumber,
-								Double quantity, Double cost, Instant dateCancel,ProductionOrderItemsType type,
-								Occurrence occurrence,Integer rawMaterial) {
+	public ProductionOrderItem(ProductionOrder productionOrder, Product product, Integer serie, Long stockId,
+							   Double quantity, Double cost,ProductionOrderItemType type,
+							   Occurrence occurrence,boolean rawMaterial) {
 		this.id.setProductionOrder(productionOrder);
 		this.id.setProduct(product);
 		this.id.setSerie(serie);
-		this.consumptionNumber=consumptionNumber;
+		this.stockId=stockId;
 		this.quantity = quantity;
 		this.cost = cost;
-		this.dateCancel = dateCancel;
 		this.type = type;
 		this.occurrence=occurrence;
 		this.rawMaterial=rawMaterial;
@@ -71,12 +67,12 @@ public class ProductionOrderItems implements Serializable {
 		this.id.setSerie(serie);
 	}
 	
-	public Long getConsumptionNumber() {
-		return consumptionNumber;
+	public Long getStockId() {
+		return stockId;
 	}
 
-	public void setConsumptionNumber(Long consumptionNumber) {
-		this.consumptionNumber = consumptionNumber;
+	public void setStockId(Long stockId) {
+		this.stockId = stockId;
 	}
 
 	public Double getQuantity() {
@@ -95,23 +91,13 @@ public class ProductionOrderItems implements Serializable {
 		this.cost = cost;
 	}
 
-	public Instant getDateCancel() {
-		return dateCancel;
-	}
-
-	public void setDateCancel(Instant dateCancel) {
-		this.dateCancel = dateCancel;
-	}
-
-	public ProductionOrderItemsType getType() {
+	public ProductionOrderItemType getType() {
 		return type;
 	}
 
-	public void setType(ProductionOrderItemsType type) {
+	public void setType(ProductionOrderItemType type) {
 		this.type = type;
 	}
-
-	
 	
 	public Occurrence getOccurrence() {
 		return occurrence;
@@ -121,11 +107,11 @@ public class ProductionOrderItems implements Serializable {
 		this.occurrence = occurrence;
 	}
 	
-	public Integer getRawMaterial() {
+	public boolean getRawMaterial() {
 		return rawMaterial;
 	}
 
-	public void setRawMaterial(Integer rawMaterial) {
+	public void setRawMaterial(boolean rawMaterial) {
 		this.rawMaterial = rawMaterial;
 	}
 
@@ -146,7 +132,7 @@ public class ProductionOrderItems implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ProductionOrderItems other = (ProductionOrderItems) obj;
+		ProductionOrderItem other = (ProductionOrderItem) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -154,10 +140,4 @@ public class ProductionOrderItems implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-	
-	
 }

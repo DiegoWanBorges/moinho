@@ -40,7 +40,7 @@ public class ProductionOrder  implements Serializable {
 	private Formulation formulation;
 	
 	@OneToMany(mappedBy = "id.productionOrder")
-	private List<ProductionOrderItems> productionOrderItems = new ArrayList<>();
+	private List<ProductionOrderItem> productionOrderItems = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "id.productionOrder")
 	private List<ProductionOrderProduced> productionOrderProduceds = new ArrayList<>();
@@ -137,7 +137,7 @@ public class ProductionOrder  implements Serializable {
 		this.formulation = formulation;
 	}
 		
-	public List<ProductionOrderItems> getProductionOrderItems() {
+	public List<ProductionOrderItem> getProductionOrderItems() {
 		return productionOrderItems;
 	}
 	

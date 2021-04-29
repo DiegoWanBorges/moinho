@@ -56,19 +56,25 @@ public class StockMovementService {
 			Product product = new Product();
 			List<Object[]> stockBalance;
 			convertToEntity(dto, entity);
+			
 			entity =repository.save(entity);
 			
 			/*Atualiza o custo e saldo de estoque*/
 			product = productRepository.findById(entity.getProduct().getId()).get();
 			stockBalance=repository.stockBalance(product.getId());
+			
 			product.setStockBalance(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[3]).setScale(2,RoundingMode.HALF_UP).toString()));
 			product.setAverageCost(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[4]).setScale(2,RoundingMode.HALF_UP).toString()));
 			product.setCostLastEntry(entity.getCost());
 			productRepository.save(product);
-			
+
 			return new StockMovementDTO(entity);
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
+		}catch (DataIntegrityViolationException e ) {
+			throw new DatabaseException("Database integrity reference");
+		}catch(Exception e) {
+			throw new ResourceNotFoundException("Gereric error found");
 		}
 	}
 	@Transactional
@@ -110,6 +116,7 @@ public class StockMovementService {
 		entity.setIdOrignMovement(dto.getIdOrignMovement());
 		entity.setEntry(dto.getEntry());
 		entity.setOut(dto.getOut());
+		entity.setType(dto.getType());
 		entity.setProduct(productRepository.getOne(dto.getProduct().getId()));
 	}
 }

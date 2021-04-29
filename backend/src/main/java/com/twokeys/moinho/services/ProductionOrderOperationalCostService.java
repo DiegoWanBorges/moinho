@@ -20,7 +20,7 @@ import com.twokeys.moinho.entities.ProductionOrder;
 import com.twokeys.moinho.entities.ProductionOrderOperationalCost;
 import com.twokeys.moinho.entities.enums.ProductionApportionmentType;
 import com.twokeys.moinho.repositories.OperationalPaymentRepository;
-import com.twokeys.moinho.repositories.ProductionOrderItemsRepository;
+import com.twokeys.moinho.repositories.ProductionOrderItemRepository;
 import com.twokeys.moinho.repositories.ProductionOrderOperationalCostRepository;
 import com.twokeys.moinho.repositories.ProductionOrderRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
@@ -39,7 +39,7 @@ public class ProductionOrderOperationalCostService {
 	@Autowired
 	private OperationalPaymentRepository operationalPaymentRepository; 
 	@Autowired
-	private ProductionOrderItemsRepository productionOrderItemsRepository;
+	private ProductionOrderItemRepository productionOrderItemsRepository;
 	
 	@Transactional
 	public void prorateOperatingCost(Instant startDate, Instant endDate){
@@ -69,7 +69,7 @@ public class ProductionOrderOperationalCostService {
 						id = apportionmentId.longValue();
 						/*Recupera as Ordens de produções, vinculadas aos rateios operacionais*/
 						listProductionOrder = productionOrderRepository.listProductionOrderByStartDateAndFormulationSector(startDate, endDate,id);
-						
+					
 						for(ProductionOrder item: listProductionOrder) {
 							productionDurationTotal+=item.getProductionMinutes();
 						}

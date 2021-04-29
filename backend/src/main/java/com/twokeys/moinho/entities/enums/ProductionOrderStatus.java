@@ -5,8 +5,8 @@ import javax.validation.ValidationException;
 public enum ProductionOrderStatus {
 	ABERTO(0),
 	ENCERRADO(1),
-	CANCELADO(2);
-	
+	CANCELADO(2),
+	APURACAO_FINALIZADA(3);
 	
 	private int productionOrderStatus;
 	

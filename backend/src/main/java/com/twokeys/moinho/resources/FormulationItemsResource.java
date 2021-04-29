@@ -14,34 +14,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.twokeys.moinho.dto.FormulationItemsDTO;
-import com.twokeys.moinho.services.FormulationItemsService;
+import com.twokeys.moinho.dto.FormulationItemDTO;
+import com.twokeys.moinho.services.FormulationItemService;
 
 @RestController
 @RequestMapping(value="/formulationsitems")
 public class FormulationItemsResource {
 	@Autowired
-	FormulationItemsService service;
+	FormulationItemService service;
 		
 	@GetMapping(value="/{idFormulation},{idProduct}")
-	public ResponseEntity<FormulationItemsDTO> findById(@PathVariable Long  idFormulation,@PathVariable Long  idProduct){
+	public ResponseEntity<FormulationItemDTO> findById(@PathVariable Long  idFormulation,@PathVariable Long  idProduct){
 		return  ResponseEntity.ok().body(service.findById(idFormulation,idProduct));
 	}
 	
 	@PostMapping
-	public ResponseEntity<FormulationItemsDTO> insert(@RequestBody FormulationItemsDTO dto){
+	public ResponseEntity<FormulationItemDTO> insert(@RequestBody FormulationItemDTO dto){
 		dto = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				  .buildAndExpand(dto.getFormulationId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
 	@PutMapping
-	public ResponseEntity<FormulationItemsDTO> update(@RequestBody FormulationItemsDTO dto){
+	public ResponseEntity<FormulationItemDTO> update(@RequestBody FormulationItemDTO dto){
 		dto = service.update(dto);
 		return ResponseEntity.ok().body(dto); 
 	}
 	@DeleteMapping(value="/{idFormulation},{idProduct}")
-	public ResponseEntity<FormulationItemsDTO> delete(@PathVariable Long  idFormulation,
+	public ResponseEntity<FormulationItemDTO> delete(@PathVariable Long  idFormulation,
 													  @PathVariable Long  idProduct){
 		service.delete(idFormulation,idProduct);
 		return ResponseEntity.noContent().build(); 

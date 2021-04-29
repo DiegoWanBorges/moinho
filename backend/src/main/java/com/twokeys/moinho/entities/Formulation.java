@@ -46,7 +46,7 @@ public class Formulation   implements Serializable {
 	private Set<Sector> sectors = new HashSet<>();
 	
 	@OneToMany(mappedBy = "id.formulation")
-	private List<FormulationItems> formulationItems = new ArrayList<>();
+	private List<FormulationItem> formulationItems = new ArrayList<>();
 		
 	public  Formulation() {
 	}
@@ -89,7 +89,7 @@ public class Formulation   implements Serializable {
 	public Set<Sector> getSectors() {
 		return sectors;
 	}
-	public List<FormulationItems> getFormulationItems() {
+	public List<FormulationItem> getFormulationItems() {
 		return formulationItems;
 	}
 	@Override
