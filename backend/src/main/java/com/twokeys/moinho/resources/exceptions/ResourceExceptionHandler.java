@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
+import com.twokeys.moinho.services.exceptions.StockMovementException;
+import com.twokeys.moinho.services.exceptions.UntreatedException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -37,7 +39,7 @@ public class ResourceExceptionHandler {
 		err.setPath(request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
-	
+
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest request){
 		HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
@@ -60,6 +62,26 @@ public class ResourceExceptionHandler {
 		err.setTimeStamp(Instant.now());
 		err.setStatus(HttpStatus.BAD_REQUEST.value());
 		err.setError("Bad Request");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+	@ExceptionHandler(StockMovementException.class)
+	public ResponseEntity<StandardError> stockMovementException(StockMovementException e, HttpServletRequest request){
+		StandardError err = new StandardError();
+		err.setTimeStamp(Instant.now());
+		err.setStatus(HttpStatus.BAD_REQUEST.value());
+		err.setError("Stock Exception");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+	@ExceptionHandler(UntreatedException.class)
+	public ResponseEntity<StandardError> untreatedException(UntreatedException e, HttpServletRequest request){
+		StandardError err = new StandardError();
+		err.setTimeStamp(Instant.now());
+		err.setStatus(HttpStatus.BAD_REQUEST.value());
+		err.setError("Stock Exception");
 		err.setMessage(e.getMessage());
 		err.setPath(request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);

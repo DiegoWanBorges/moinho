@@ -19,6 +19,7 @@ import com.twokeys.moinho.repositories.ProductRepository;
 import com.twokeys.moinho.repositories.UnityRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
+import com.twokeys.moinho.services.exceptions.UntreatedException;
 
 
 
@@ -48,15 +49,15 @@ public class ProductService {
 	@Transactional
 	public ProductDTO insert(ProductDTO dto) {
 		try {
-		Product entity =new Product();
-			convertToEntity(dto, entity);
-			return new ProductDTO(repository.save(entity));
+			 Product entity =new Product();
+			 convertToEntity(dto, entity);
+			 return new ProductDTO(repository.save(entity));
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
 		}catch (DataIntegrityViolationException e ) {
 			throw new DatabaseException("Database integrity reference");
 		}catch(Exception e) {
-			throw new ResourceNotFoundException("Gereric error found");
+			throw new UntreatedException("untreated exception: " + e.getMessage());
 		}
 	}
 	@Transactional

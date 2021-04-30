@@ -25,6 +25,7 @@ import com.twokeys.moinho.repositories.ProductionOrderOperationalCostRepository;
 import com.twokeys.moinho.repositories.ProductionOrderRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
+import com.twokeys.moinho.services.exceptions.UntreatedException;
 
 
 
@@ -117,8 +118,8 @@ public class ProductionOrderOperationalCostService {
 						break;
 				}	
 			}
-		} catch (Exception e) {
-			logger.error(e.getMessage());
+		}catch(Exception e) {
+			throw new UntreatedException("untreated exception: " + e.getMessage());
 		}
 	}
 	
@@ -131,6 +132,8 @@ public class ProductionOrderOperationalCostService {
 			throw new ResourceNotFoundException("ProductionOrder id:" + ProductionOrderId + " Not found");
 		}catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Integrity violation");
+		}catch(Exception e) {
+			throw new UntreatedException("untreated exception: " + e.getMessage());
 		}
 	}
 }

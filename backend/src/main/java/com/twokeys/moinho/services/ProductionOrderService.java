@@ -26,6 +26,7 @@ import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
 import com.twokeys.moinho.repositories.FormulationRepository;
 import com.twokeys.moinho.repositories.ProductionOrderRepository;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
+import com.twokeys.moinho.services.exceptions.UntreatedException;
 
 
 
@@ -106,6 +107,8 @@ public class ProductionOrderService {
 			return new ProductionOrderDTO(entity,list);
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
+		}catch(Exception e) {
+			throw new UntreatedException("untreated exception: " + e.getMessage());
 		}
 	}
 	
@@ -118,6 +121,8 @@ public class ProductionOrderService {
 			return new ProductionOrderDTO(entity);
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
+		}catch(Exception e) {
+			throw new UntreatedException("untreated exception: " + e.getMessage());
 		}
 	}
 	

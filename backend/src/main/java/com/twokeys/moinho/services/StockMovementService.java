@@ -24,6 +24,7 @@ import com.twokeys.moinho.repositories.ProductRepository;
 import com.twokeys.moinho.repositories.StockMovementRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
+import com.twokeys.moinho.services.exceptions.UntreatedException;
 
 
 
@@ -74,7 +75,7 @@ public class StockMovementService {
 		}catch (DataIntegrityViolationException e ) {
 			throw new DatabaseException("Database integrity reference");
 		}catch(Exception e) {
-			throw new ResourceNotFoundException("Gereric error found");
+			throw new UntreatedException("untreated exception: " + e.getMessage());
 		}
 	}
 	@Transactional
@@ -97,6 +98,8 @@ public class StockMovementService {
 			return new StockMovementDTO(entity);
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
+		}catch(Exception e) {
+			throw new UntreatedException("untreated exception: " + e.getMessage());
 		}
 	}
 	public void delete(Long id) {
@@ -106,6 +109,8 @@ public class StockMovementService {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Integrity violation");
+		}catch(Exception e) {
+			throw new UntreatedException("untreated exception: " + e.getMessage());
 		}
 		
 	}

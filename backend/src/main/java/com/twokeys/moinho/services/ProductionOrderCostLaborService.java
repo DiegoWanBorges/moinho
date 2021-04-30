@@ -25,6 +25,7 @@ import com.twokeys.moinho.repositories.ProductionOrderCostLaborRepository;
 import com.twokeys.moinho.repositories.ProductionOrderRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
+import com.twokeys.moinho.services.exceptions.UntreatedException;
 
 
 
@@ -89,8 +90,8 @@ public class ProductionOrderCostLaborService {
 					repository.save(productionOrderCostLabor);
 				}
 			}
-			} catch (Exception e) {
-				logger.error(e.getMessage());
-			}
+		}catch(Exception e) {
+			throw new UntreatedException("untreated exception: " + e.getMessage());
+		}
 	}	
 }

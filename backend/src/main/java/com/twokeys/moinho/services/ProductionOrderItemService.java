@@ -3,13 +3,9 @@ package com.twokeys.moinho.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +24,8 @@ import com.twokeys.moinho.repositories.ParameterRepository;
 import com.twokeys.moinho.repositories.ProductRepository;
 import com.twokeys.moinho.repositories.ProductionOrderItemRepository;
 import com.twokeys.moinho.repositories.ProductionOrderRepository;
-import com.twokeys.moinho.services.exceptions.DatabaseException;
-import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
+import com.twokeys.moinho.services.exceptions.StockMovementException;
+import com.twokeys.moinho.services.exceptions.UntreatedException;
 @Service
 public class ProductionOrderItemService {
 	protected final Log logger = LogFactory.getLog(getClass());
@@ -63,7 +59,7 @@ public class ProductionOrderItemService {
 				/*Validar estoque*/
 				if (parameter.isProductionOrderWithoutStock()==false && itemDto.getType()!=ProductionOrderItemType.RETORNO  ) {
 					if (product.getStockBalance() < itemDto.getQuantity()) {
-						throw new ResourceNotFoundException("Product id: "+itemDto.getProduct().getId() +" - " + itemDto.getProduct().getDescription() + " out of stock");
+					throw new StockMovementException("Product id " + itemDto.getProduct().getId() + " out of stock");
 					}
 				}
 				entity = new ProductionOrderItem();
@@ -103,20 +99,16 @@ public class ProductionOrderItemService {
 			}
 			entityList = repository.saveAll(entityList);
 			dto.clear();
-			/*Realiza o consumo no estoque*/
 			for(ProductionOrderItem item: entityList) {
 				dto.add(new ProductionOrderItemDTO(item));
 			}	
 			return dto;
-		}catch(EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Id not found");
-		}catch(DataIntegrityViolationException e) {
-			throw new DatabaseException("Id not found");
-		}catch(ConstraintViolationException e) {
-			throw new DatabaseException("Id not found");
+		}catch(StockMovementException e) {
+			throw new StockMovementException(e.getMessage());
+		}catch(Exception e) {
+			throw new UntreatedException("untreated exception: " + e.getMessage());
 		}
 	}
-	
 	public ProductionOrderItem convertToEntity(ProductionOrderItemDTO dto) {
 			ProductionOrderItem entity = new ProductionOrderItem(); 
 			entity.setSerie(dto.getSerie());
