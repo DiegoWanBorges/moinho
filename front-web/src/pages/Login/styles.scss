@@ -1,5 +1,7 @@
 .login-main{
     display: flex;
+    justify-content: space-around;
+    padding: 20px;
 }
 .login-inf{
    text-align: center;
@@ -18,6 +20,11 @@
     color: #000000;
 }
 .login-auth{
-
-    padding: 10px !important;
+   padding: 10px !important;
+}
+@media (max-width: 1190px){
+    .login-inf{
+        display: none;
+    }
+   
 }
