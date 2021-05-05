@@ -65,5 +65,5 @@ type AccessToken = {
 
 export const logout = () =>{
    localStorage.removeItem('authData')
-   history.replace('/auth/login')
+   history.replace('/')
 }

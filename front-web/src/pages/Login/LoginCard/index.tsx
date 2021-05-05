@@ -36,7 +36,6 @@ function LoginCard() {
             <h1 className="login-card-title">
                 Informe suas credênciais:
            </h1>
-
             <input
                 className="login-card-input"
                 type="email"
@@ -55,24 +54,24 @@ function LoginCard() {
                     {errors.username.message}
                 </div>
             )}
-
             <input
                 className="login-card-input login-card-input-pwd"
                 type="password"
                 placeholder="Senha"
                 name="password"
-                ref={register({ required: "Campo obrigatório"})}
+                ref={register({ required: "Campo obrigatório" })}
             />
             {errors.password && (
-                    <div className="invalid-feedback d-block">
-                            {errors.password.message}
-                    </div>
+                <div className="invalid-feedback d-block">
+                    {errors.password.message}
+                </div>
             )}
             <button
                 className="login-card-btn"
             >
                 LOGAR
             </button>
+           
             {
                 hasError && (
                     <div className="alert alert-danger mt-5">

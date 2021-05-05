@@ -2,18 +2,18 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import './styles.scss';
 import menu from 'core/assets/images/menu.svg';
-import { getAccessTokenDecoded } from 'core/utils/auth';
+import { getAccessTokenDecoded, logout } from 'core/utils/auth';
 
 function NavBar() {
   const [drawerActive, setDrawerActive] = useState(false);
   const [currentUser, setCurrentUser] = useState('');
-    const location = useLocation();
-   
-   
-    useEffect(() => {
-        const currenUserData = getAccessTokenDecoded();
-        setCurrentUser(currenUserData.user_name);
-    }, [location])
+  const location = useLocation();
+
+
+  useEffect(() => {
+    const currenUserData = getAccessTokenDecoded();
+    setCurrentUser(currenUserData.user_name);
+  }, [location])
 
   return (
     <nav className="nav-main">
@@ -21,17 +21,17 @@ function NavBar() {
       <Link to="/home" className="nav-title-text">
         <h4>Moinho</h4>
       </Link>
-
-      <button
-        className="menu-mobile-btn"
-        type="button"
-        onClick={() => setDrawerActive(!drawerActive)}
-      >
-        <img src={menu} alt="mobile menu" />
-      </button>
+      {currentUser && (
+        <button
+          className="menu-mobile-btn"
+          type="button"
+          onClick={() => setDrawerActive(!drawerActive)}
+        >
+          <img src={menu} alt="mobile menu" />
+        </button>)}
 
       <div className={drawerActive ? "menu-mobile-container" : "menu-container"}>
-      {currentUser && (<ul className="main-menu">
+        {currentUser && (<ul className="main-menu">
           <li >
             <NavLink className="nav-link" to="/registrations" exact onClick={() => setDrawerActive(false)}>
               CADASTROS
@@ -56,9 +56,17 @@ function NavBar() {
             <NavLink className="nav-link" to="/calculation" onClick={() => setDrawerActive(false)} >
               APURAÇÃO
             </NavLink>
-          </li> 
-         </ul>)}
-        
+          </li>
+          <a
+            href="#logout"
+            className="nav-btn-logout"
+            onClick={logout}
+            
+          >
+            Sair
+          </a>
+        </ul>)}
+
       </div>
     </nav>
   );
