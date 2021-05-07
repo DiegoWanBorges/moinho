@@ -35,7 +35,6 @@ public class ProductService {
 	@Transactional(readOnly=true)
 	public List<ProductDTO> findByNameLikeIgnoreCase(String name){
 		String nameConcat = "%"+name+"%";
-		
 		List<Product> list =  repository.findByNameLikeIgnoreCase(nameConcat);
 		return list.stream().map(x -> new ProductDTO(x)).collect(Collectors.toList());
 		

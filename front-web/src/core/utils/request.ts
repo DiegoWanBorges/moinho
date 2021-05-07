@@ -16,7 +16,6 @@ axios.interceptors.response.use(function (response) {
     switch(error.response.status) { 
         case 401: { 
            logout();
-
            break; 
         } 
      }
@@ -37,8 +36,6 @@ export const makePrivateRequest =(params: AxiosRequestConfig) => {
     }
     return makeRequest({...params,headers});
 }
-
-
 
 export const makeLogin = (loginData: LoginData ) => {
     const token= `${CLIENTE_ID}:${CLIENTE_SECRET}`;;

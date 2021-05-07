@@ -62,14 +62,11 @@ function NavBar() {
               APURAÇÃO
             </NavLink>
           </li>
-          <a
-            href="#logout"
-            className="nav-btn-logout"
-            onClick={logout}
-            
-          >
-            Sair
-          </a>
+          <li>
+            <NavLink className="nav-link" to="" onClick={() => logout()} >
+              SAIR
+            </NavLink>
+          </li>
         </ul>)}
 
       </div>

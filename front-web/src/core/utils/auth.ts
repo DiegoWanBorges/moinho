@@ -41,7 +41,6 @@ type AccessToken = {
  }
 
  export const isTokenValid = () => {
-    console.log("IsTokenValid")
      const { exp } = getAccessTokenDecoded();
         if(Date.now() <= exp*1000){
             return true;
@@ -50,8 +49,6 @@ type AccessToken = {
  }
  export const isAuthenticated = () =>{
    const sessionData = getSessionData();
-   console.log("IsAuth")
-   console.log(sessionData)
    return sessionData.access_token && isTokenValid();
  }
 

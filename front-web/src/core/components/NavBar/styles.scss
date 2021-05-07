@@ -1,5 +1,7 @@
 .nav-main{
     background-color:#0670b8;
+    width: 100% !important;
+    max-width: 100% !important;
     height: 70px;
     color: #FFF;
     display: flex;
@@ -19,8 +21,7 @@
 .menu-container{
     width: 55%;
     display: flex;
-    flex: 1;
-    justify-content: center;
+    justify-content: flex-end;
     flex-wrap: nowrap;
 }
 .main-menu{
@@ -38,12 +39,16 @@
         padding-left: 10px;   
         &.active{
             font-weight: bold;
-            color: #FFF;
+            color: #FFF !important;
+
         }
         &:hover{
+            color: #FFF !important;
+        }
+        &:visited{
             color: #FFF;
         }
-        text-decoration: none;
+        
 }
 .nav-btn-logout{
     font-size: 24px;

@@ -28,6 +28,8 @@ const Routes = () => {
                 <ProtectedRoute path='/home' exact>
                     <Home />
                 </ProtectedRoute>
+              
+                <Redirect from="/registrations" to="/registrations/parameters" exact/>
                 <PrivateRoute path="/registrations">
                     <Registration />
                 </PrivateRoute>

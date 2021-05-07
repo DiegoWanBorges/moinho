@@ -4,3 +4,4 @@ export type Parameter ={
     productionOrderWithoutStock: boolean;
     typeCostUsed: String;
 }
+
