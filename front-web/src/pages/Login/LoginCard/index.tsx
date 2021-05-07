@@ -34,7 +34,7 @@ function LoginCard() {
     return (
         <form className="login-card-main" onSubmit={handleSubmit(onSubmit)}>
             <h1 className="login-card-title">
-                Informe suas credênciais:
+                Informe suas credenciais:
            </h1>
             <input
                 className="login-card-input"

@@ -6,7 +6,7 @@ function Login() {
       <div className="login-main">
         <div className="login-inf">
             <img className="login-img" alt="" src={ImageLogin}  />
-            <h3 className="login-inf-title">Sistema de controle de produção<br/> e apuração de custo</h3>
+            <h3 className="login-inf-title">Controle de produção<br/> e apuração de custo</h3>
         </div>
         
             <LoginCard/>

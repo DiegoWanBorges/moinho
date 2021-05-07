@@ -1,18 +1,17 @@
 import PrivateRoute from 'core/routes/PrivateRoutes'
-import React from 'react'
-import { Switch } from 'react-router-dom'
-import ApportionmentTypes from './ApportionmentTypes'
-import NavBarRegistration from './Components/NavBar'
-import Employees from './Employees'
-import Groups from './Groups'
-import LaborCostTypes from './LaborCosTypes'
-import Parameters from './Parameters'
-import Product from './Product'
-import Sectors from './Sectors'
-
 import './styles.scss'
-import Unity from './Unity'
-import Users from './Users'
+
+import { Switch } from 'react-router-dom'
+import ApportionmentTypes from './Components/ApportionmentTypes'
+import NavBarRegistration from './Components/NavBar'
+import Parameters from './Components/Parameters'
+import Users from './Components/Users'
+import Groups from './Components/Groups'
+import Unity from './Components/Unity'
+import Product from './Components/Product'
+import Sectors from './Components/Sectors'
+import Employees from './Components/Employees'
+import LaborCostTypes from './Components/LaborCosTypes'
 
 const Registration = () => (
     <div className="admin-container">

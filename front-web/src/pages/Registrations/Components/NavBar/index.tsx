@@ -18,7 +18,7 @@ const NavBarRegistration = () => (
                 <NavLink to="/registrations/groups" className="nav-registration-item">Grupos</NavLink>
             </li>
             <li>
-                <NavLink to="/registrations/units" className="nav-registration-item">Unidade</NavLink>
+                <NavLink to="/registrations/units" className="nav-registration-item">Unidades</NavLink>
             </li>
             <li>
                 <NavLink to="/registrations/products" className="nav-registration-item">Produtos</NavLink>
@@ -30,10 +30,10 @@ const NavBarRegistration = () => (
                 <NavLink to="/registrations/employees" className="nav-registration-item">Funcionários</NavLink>
             </li>
             <li>
-                <NavLink to="/registrations/laborcostypes" className="nav-registration-item">Tipo Pagamento Funcionário</NavLink>
+                <NavLink to="/registrations/laborcostypes" className="nav-registration-item">Tipos Pagamento Funcionário</NavLink>
             </li>
             <li>
-                <NavLink to="/registrations/apportionmenttypes" className="nav-registration-item">Tipo de Rateio</NavLink>
+                <NavLink to="/registrations/apportionmenttypes" className="nav-registration-item">Tipos de Rateio</NavLink>
             </li>
             
         </ul>
