@@ -11,7 +11,7 @@ function UserCard() {
 
           <div className="user-card-action">
                 <Link
-                    to={`registrations/users/1`}
+                    to={`/registrations/users/1`}
                     type="button"
                     className="btn btn-outline-secondary user-card-action-btn user-card-action-btn-edit">
                     EDITAR

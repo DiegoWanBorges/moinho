@@ -1,4 +1,8 @@
 INSERT INTO tb_user (name,email,password) VALUES ('Diego Wandrofski Borges','diego@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+INSERT INTO tb_user (name,email,password) VALUES ('Machado de Assis','machado@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+INSERT INTO tb_user (name,email,password) VALUES ('José de Alencar','jose@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+INSERT INTO tb_user (name,email,password) VALUES ('Monteiro Lobato','monteiro@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
+
 
 INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
 INSERT INTO tb_role (authority) VALUES ('ROLE_PARAMETER');
@@ -7,6 +11,9 @@ INSERT INTO tb_role (authority) VALUES ('ROLE_GROUP');
 INSERT INTO tb_role (authority) VALUES ('ROLE_UNITY');
 
 INSERT INTO tb_user_role (user_id, role_id) VALUES (1, 1);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 1);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (3, 1);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (4, 1);
 
 INSERT INTO tb_unity(id,description)VALUES('UN','UNIDADE');
 INSERT INTO tb_unity(id,description)VALUES('KG','KILO');

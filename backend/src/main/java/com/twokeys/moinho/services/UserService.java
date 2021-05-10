@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -43,6 +45,13 @@ public class UserService implements UserDetailsService {
 		String nameConcat = "%" + name + "%";
 		List<User> list = repository.findByNameLikeIgnoreCase(nameConcat);
 		return list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
+	}
+	@Transactional(readOnly=true)
+	public Page<UserDTO> findAllPaged(String name,PageRequest pageRequest){
+	String nameConcat ="%"+name+"%";
+	Page<User> list = repository.findByNameLikeIgnoreCase(nameConcat,pageRequest);
+		return list.map(x -> new UserDTO(x));
+		
 	}
 
 	@Transactional(readOnly = true)
