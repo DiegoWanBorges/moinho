@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.validation.ValidationException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.twokeys.moinho.dto.RoleDTO;
 import com.twokeys.moinho.dto.UserDTO;
 import com.twokeys.moinho.dto.UserInsertDTO;
+import com.twokeys.moinho.dto.UserUpdateDTO;
 import com.twokeys.moinho.entities.Role;
 import com.twokeys.moinho.entities.User;
 import com.twokeys.moinho.repositories.RoleRepository;
@@ -69,7 +72,26 @@ public class UserService implements UserDetailsService {
 		entity.setPassword(passwordEncoder.encode(dto.getPassword()));
 		return new UserDTO(repository.save(entity));
 	}
-
+	
+	@Transactional
+	public UserDTO update(Long id, UserUpdateDTO dto) {
+		User entity = repository.findById(id).get();
+		
+		logger.info(entity.getEmail());
+		logger.info(dto.getEmail());
+	
+		if (entity.getEmail().equals(dto.getEmail())==false)  {
+			if (repository.findByEmail(dto.getEmail()) != null) { 
+				throw new ValidationException("Email já cadastrado");
+			}
+		}
+		copyDtoToEntity(dto, entity);
+		logger.info(dto.getPassword());
+		if (dto.isUpdatePassword()) {
+			entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+		}
+		return new UserDTO(repository.save(entity));
+	}
 	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
@@ -101,5 +123,6 @@ public class UserService implements UserDetailsService {
 		logger.info("Usuario encontrado: " + username);
 		return user;
 	}
+	
 
 }

@@ -1,0 +1,27 @@
+.user-filters-container{
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: flex;
+    
+    }
+    .input-search-user{
+        display: flex;
+        border: 1px solid #E1E1E1;
+        align-items: center;
+        flex: 1;
+        input{
+            border: none;
+            &::placeholder{
+                color: #9E9E9E;
+            }
+            &:focus{
+                box-shadow: none;
+            }
+        }
+    }
+    @media(max-width:576px){
+        .user-btn-filter-clean{
+            font-size: 0.7em;
+        }
+    }

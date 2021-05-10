@@ -1,17 +1,22 @@
+import { User } from 'core/types/Users';
 import { Link } from 'react-router-dom';
 import './styles.scss';
 
-function UserCard() {
+type Props={
+    user:User;
+    onRemove: (productId:number) =>void;
+}
+const UserCard = ({ user,onRemove }:Props) => {
     return (
         <div className="user-card">
           <div className="user-card-inf">
-            <h5>Diego Wandrofski Borges</h5>
-            <small>diego@gmail.com</small>
+            <h5>{user.name}</h5>
+            <small>{user.email}</small>
           </div>
 
           <div className="user-card-action">
                 <Link
-                    to={`/registrations/users/1`}
+                    to={`/registrations/users/${user.id}`}
                     type="button"
                     className="btn btn-outline-secondary user-card-action-btn user-card-action-btn-edit">
                     EDITAR
@@ -20,6 +25,7 @@ function UserCard() {
                 <button
                     type="button"
                     className="btn btn-outline-danger user-card-action-btn"
+                    onClick={() => onRemove(user.id)}
                 >
                     EXCLUIR
                     </button>

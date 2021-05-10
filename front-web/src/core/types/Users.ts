@@ -1,6 +1,11 @@
+export type UsersResponse ={
+    content: User[];
+    totalPages: number;
+}
+
 export type Role ={
     id:number;
-    name:string;
+    authority:string;
 }
 
 export type User={

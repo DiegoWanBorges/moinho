@@ -1,4 +1,5 @@
 import { Route, Switch } from 'react-router';
+import UserForm from './Form';
 import UserList from './List';
 import './styles.scss';
 
@@ -10,7 +11,7 @@ function Users() {
                     <UserList />
                 </Route>
                 <Route path="/registrations/users/:userId">
-                    
+                    <UserForm/>
                 </Route>
             </Switch>
         </div>
