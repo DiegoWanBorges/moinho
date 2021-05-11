@@ -1,11 +1,11 @@
-.user-filters-container{
+.filters-container{
     width: 100%;
     padding: 10px 20px;
     border-radius: 10px;
     display: flex;
     
     }
-    .input-search-user{
+    .input-search{
         display: flex;
         border: 1px solid #E1E1E1;
         align-items: center;
@@ -21,14 +21,14 @@
         }
     }
     @media(max-width:576px){
-        .user-filters-container{
+        .filters-container{
             width: 100%;
             padding: 10px 20px;
             border-radius: 10px;
             display: flex;
             flex-direction: column;
         }
-        .input-search-user{
+        .input-search{
             width: 100%;
         }
     }
