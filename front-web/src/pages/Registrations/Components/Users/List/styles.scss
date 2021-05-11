@@ -7,3 +7,14 @@
     margin-left: 10px;
 
 }
+
+@media (max-width: 576px){
+    .user-list-add-filter{
+        display: flex;
+        width: 100% !important;
+        flex-direction: column;
+    }
+    .user-list-btn-add{
+        width: 100%;
+    }
+}

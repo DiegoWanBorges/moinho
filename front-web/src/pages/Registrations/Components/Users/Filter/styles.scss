@@ -21,7 +21,15 @@
         }
     }
     @media(max-width:576px){
-        .user-btn-filter-clean{
-            font-size: 0.7em;
+        .user-filters-container{
+            width: 100%;
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        .input-search-user{
+            width: 100%;
         }
     }
+

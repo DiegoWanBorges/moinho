@@ -44,3 +44,31 @@
 .user-form-btn-save{
     margin-left: 20px;
 }
+
+@media (max-width: 576px){
+    .user-form-main{
+        flex-direction: column;
+    }
+    .user-form-password{
+        flex-direction: column;
+    }
+    .user-form-name{
+        width: 100%;
+    }
+    .user-form-email{
+        width: 100%;
+    }
+    .user-form-select{
+        width: 100%;
+    }
+    .user-form-password-1{
+        width: 100%;
+    }
+    .user-form-password-2{
+        width: 100%;
+    }
+    .user-form-actions{
+        margin-top: 20px;
+        justify-content: space-around;
+    }
+}

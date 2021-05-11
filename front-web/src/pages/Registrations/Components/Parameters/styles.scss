@@ -30,3 +30,10 @@
     border-radius: 15px;
     font-size: 20px;
 }
+@media (max-width: 576px){
+    .parameter-content-type-cost{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+}

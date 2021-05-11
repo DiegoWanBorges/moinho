@@ -27,9 +27,10 @@ function UserForm() {
     const [isLoadingRoles, setIsLoadingRoles] = useState(false);
     const [roles, setRoles] = useState<Role[]>([]);
     const [updatePassword, setUpdatePassword] = useState(false);
+   
     useEffect(() => {
         !isEditing && setUpdatePassword(true);
-    }, [])
+    }, [isEditing])
     
     useEffect(() => {
         setIsLoadingRoles(true);
@@ -73,6 +74,9 @@ function UserForm() {
             })
     }
 
+    const handleCancel = ()=>{
+        history.push("./")
+    }
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="user-form">
             <div className="user-form-main">
@@ -200,6 +204,7 @@ function UserForm() {
             <div className="user-form-actions">
                 <button
                     className="btn btn-outline-danger"
+                    onClick={handleCancel}
                 >
                     CANCELAR
                 </button>

@@ -67,7 +67,7 @@ function UserList() {
         <div className="user-list">
            <div className="user-list-add-filter">
                <button
-                className="btn btn-primary btn-lg"
+                className="btn btn-primary btn-lg user-list-btn-add"
                 onClick={handCreate}
                >
                    ADCIONAR

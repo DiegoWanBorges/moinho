@@ -20,3 +20,19 @@
 .user-card-action-btn-edit{
     margin-right: 5px;
 }
+@media (max-width: 576px){
+    .user-card{
+        display: flex;
+        flex-direction: column;
+        padding: auto;
+    }
+    .user-card-action-btn{
+        width: 100%;
+    }
+    .user-card-inf{
+        width: 100%;
+    }
+    .user-card-action{
+        width: 100%;
+    }
+}
