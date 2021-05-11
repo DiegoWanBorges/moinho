@@ -7,7 +7,7 @@ import NavBarRegistration from './Components/NavBar'
 import Parameters from './Components/Parameters'
 import Users from './Components/Users'
 import Groups from './Components/Groups'
-import Unity from './Components/Unity'
+import Units from './Components/Units'
 import Product from './Components/Product'
 import Sectors from './Components/Sectors'
 import Employees from './Components/Employees'
@@ -28,7 +28,7 @@ const Registration = () => (
                     <Groups />
                 </PrivateRoute>
                 <PrivateRoute path="/registrations/units">
-                    <Unity />
+                    <Units />
                 </PrivateRoute>
                 <PrivateRoute path="/registrations/products">
                     <Product />

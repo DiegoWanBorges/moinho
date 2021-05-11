@@ -1,0 +1,40 @@
+.unity-form{
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 20px;
+}
+.unity-form-main{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.unity-form-name{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.unity-form-actions{
+    margin-top: 10px;
+    display: flex;
+    
+}
+.unity-form-btn-save{
+    margin-left: 20px;
+}
+
+@media (max-width: 576px){
+    .unity-form-main{
+        flex-direction: column;
+    }
+    .unity-form-password{
+        flex-direction: column;
+    }
+    .unity-form-name{
+        width: 100%;
+    }
+    .unity-form-actions{
+        margin-top: 20px;
+        justify-content: space-around;
+    }
+}

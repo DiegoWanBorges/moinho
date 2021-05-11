@@ -1,0 +1,38 @@
+.unity-card{
+    display: flex;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 15px;
+
+}
+.unity-card-inf{
+    width: 50%;
+}
+.unity-card-action{
+    display: flex;
+    width: 50%;
+    
+}
+.unity-card-action-btn{
+    border-radius: 10px;
+    width: 45%;
+}
+.unity-card-action-btn-edit{
+    margin-right: 5px;
+}
+@media (max-width: 576px){
+    .unity-card{
+        display: flex;
+        flex-direction: column;
+        padding: auto;
+    }
+    .unity-card-action-btn{
+        width: 100%;
+    }
+    .unity-card-inf{
+        width: 100%;
+    }
+    .unity-card-action{
+        width: 100%;
+    }
+}
