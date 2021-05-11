@@ -9,6 +9,8 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,11 +30,16 @@ public class ApportionmentTypeService {
 	@Transactional(readOnly=true)
 	public List<ApportionmentTypeDTO> findByNameLikeIgnoreCase(String name){
 		String nameConcat = "%"+name+"%";
-		
 		List<ApportionmentType> list =  repository.findByNameLikeIgnoreCase(nameConcat);
 		return list.stream().map(x -> new ApportionmentTypeDTO(x)).collect(Collectors.toList());
-		
 	}
+	@Transactional(readOnly=true)
+	public Page<ApportionmentTypeDTO> findAllPaged(String name,PageRequest pageRequest){
+	String nameConcat ="%"+name+"%";
+	Page<ApportionmentType> list = repository.findByNameLikeIgnoreCase(nameConcat,pageRequest);
+		return list.map(x -> new ApportionmentTypeDTO(x));
+	}
+	
 	@Transactional(readOnly=true)
 	public ApportionmentTypeDTO findById(Long id){
 		Optional<ApportionmentType> obj = repository.findById(id);

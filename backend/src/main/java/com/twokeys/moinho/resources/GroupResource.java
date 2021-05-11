@@ -4,6 +4,9 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +28,23 @@ public class GroupResource {
 	@Autowired
 	GroupService service;
 
-	
 	@GetMapping
-	public ResponseEntity<List<GroupDTO>> findAll(@RequestParam(value = "name")String name){
+	public ResponseEntity<Page<GroupDTO>> findAll(
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "name", defaultValue = "") String  name,
+			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction
+			){
+		PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
+		
+		Page<GroupDTO> list = service.findAllPaged(name,pageRequest);
+				
+		return ResponseEntity.ok().body(list);
+	}
+	@GetMapping
+	@RequestMapping(params = "listname")
+	public ResponseEntity<List<GroupDTO>> findAll(@RequestParam(value = "listname")String name){
 		List<GroupDTO> list = service.findByNameLikeIgnoreCase(name);
 		return ResponseEntity.ok().body(list);
 	}

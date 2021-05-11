@@ -9,6 +9,8 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,9 +30,14 @@ public class UnityService {
 	@Transactional(readOnly=true)
 	public List<UnityDTO> findByDescriptionLikeIgnoreCase(String description){
 		String nameConcat = "%"+description+"%";
-		
 		List<Unity> list =  repository.findByDescriptionLikeIgnoreCase(nameConcat);
 		return list.stream().map(x -> new UnityDTO(x)).collect(Collectors.toList());
+	}
+	@Transactional(readOnly=true)
+	public Page<UnityDTO> findAllPaged(String description,PageRequest pageRequest){
+	String nameConcat ="%"+description+"%";
+	Page<Unity> list = repository.findByDescriptionLikeIgnoreCase(nameConcat,pageRequest);
+		return list.map(x -> new UnityDTO(x));
 		
 	}
 	@Transactional(readOnly=true)

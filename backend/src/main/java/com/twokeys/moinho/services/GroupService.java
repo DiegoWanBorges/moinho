@@ -9,6 +9,8 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +32,13 @@ public class GroupService {
 		String nameConcat = "%"+name+"%";
 		
 		List<Group> list =  repository.findByNameLikeIgnoreCase(nameConcat);
-		return list.stream().map(x -> new GroupDTO(x)).collect(Collectors.toList());
+		return list.stream().map(x -> new GroupDTO(x)).collect(Collectors.toList());	
+	}
+	@Transactional(readOnly=true)
+	public Page<GroupDTO> findAllPaged(String name,PageRequest pageRequest){
+	String nameConcat ="%"+name+"%";
+	Page<Group> list = repository.findByNameLikeIgnoreCase(nameConcat,pageRequest);
+		return list.map(x -> new GroupDTO(x));
 		
 	}
 	@Transactional(readOnly=true)

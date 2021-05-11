@@ -41,15 +41,13 @@ public class UserResource {
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction
 			){
 		PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
-		
 		Page<UserDTO> list = service.findAllPaged(name,pageRequest);
-				
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping
-	@RequestMapping(params = "userlist")
-	public ResponseEntity<List<UserDTO>> findAll(@RequestParam(value="userlist")String name){
+	@RequestMapping(params = "listname")
+	public ResponseEntity<List<UserDTO>> findAll(@RequestParam(value="listname")String name){
 		return ResponseEntity.ok().body(service.findByName(name));
 	}
 	@GetMapping(value="/{id}")

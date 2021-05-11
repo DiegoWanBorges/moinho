@@ -54,7 +54,6 @@ public class UserService implements UserDetailsService {
 	String nameConcat ="%"+name+"%";
 	Page<User> list = repository.findByNameLikeIgnoreCase(nameConcat,pageRequest);
 		return list.map(x -> new UserDTO(x));
-		
 	}
 
 	@Transactional(readOnly = true)

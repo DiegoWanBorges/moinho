@@ -11,6 +11,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,10 +36,14 @@ public class EmployeeService {
 	@Transactional(readOnly=true)
 	public List<EmployeeDTO> findByNameLikeIgnoreCase(String name){
 		String nameConcat = "%"+name+"%";
-		
 		List<Employee> list =  repository.findByNameLikeIgnoreCase(nameConcat);
 		return list.stream().map(x -> new EmployeeDTO(x)).collect(Collectors.toList());
-		
+	}
+	@Transactional(readOnly=true)
+	public Page<EmployeeDTO> findAllPaged(String name,PageRequest pageRequest){
+	String nameConcat ="%"+name+"%";
+	Page<Employee> list = repository.findByNameLikeIgnoreCase(nameConcat,pageRequest);
+		return list.map(x -> new EmployeeDTO(x));
 	}
 	@Transactional(readOnly=true)
 	public EmployeeDTO findById(Long id){

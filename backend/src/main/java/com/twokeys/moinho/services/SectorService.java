@@ -9,6 +9,8 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,10 +30,14 @@ public class SectorService {
 	@Transactional(readOnly=true)
 	public List<SectorDTO> findByNameLikeIgnoreCase(String name){
 		String nameConcat = "%"+name+"%";
-		
 		List<Sector> list =  repository.findByNameLikeIgnoreCase(nameConcat);
 		return list.stream().map(x -> new SectorDTO(x)).collect(Collectors.toList());
-		
+	}
+	@Transactional(readOnly=true)
+	public Page<SectorDTO> findAllPaged(String name,PageRequest pageRequest){
+	String nameConcat ="%"+name+"%";
+	Page<Sector> list = repository.findByNameLikeIgnoreCase(nameConcat,pageRequest);
+		return list.map(x -> new SectorDTO(x));
 	}
 	@Transactional(readOnly=true)
 	public SectorDTO findById(Long id){
