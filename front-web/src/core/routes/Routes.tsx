@@ -6,6 +6,7 @@ import Login from '../../pages/Login'
 import { isTokenValid } from 'core/utils/auth';
 import PrivateRoute from './PrivateRoutes';
 import Registration from 'pages/Registrations';
+import Formulation from 'pages/Formulations';
 
 
 const Routes = () => {
@@ -32,6 +33,11 @@ const Routes = () => {
                 <Redirect from="/registrations" to="/registrations/parameters" exact/>
                 <PrivateRoute path="/registrations">
                     <Registration />
+                </PrivateRoute>
+                
+                <Redirect from="/formulations" to="/formulations/registrations" exact/>
+                <PrivateRoute path="/formulations">
+                    <Formulation />
                 </PrivateRoute>
             </Switch>
         </Router>

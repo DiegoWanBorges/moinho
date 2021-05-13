@@ -38,7 +38,7 @@ function NavBar() {
             </NavLink>
           </li>
           <li>
-            <NavLink className="nav-link" to="/formulation" onClick={() => setDrawerActive(false)}>
+            <NavLink className="nav-link" to="/formulations" onClick={() => setDrawerActive(false)}>
               FORMULAÇÃO
             </NavLink>
           </li>

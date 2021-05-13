@@ -1,58 +1,58 @@
 import Filter from 'core/components/Filter';
 import Pagination from 'core/components/Pagination';
-import { UsersResponse } from 'core/types/User';
+import { FormulationResponse } from 'core/types/Formulation';
 import { makePrivateRequest } from 'core/utils/request';
 import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
-import UserCard from '../Card';
-
+import FormulationCard from '../Card';
 import './styles.scss';
 
-function UserList() {
-    const [usersResponse, setUsersResponse] = useState<UsersResponse>();
+function FormulationList() {
+    const [formulationsResponse, setFormulationsResponse] = useState<FormulationResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
-    const getUsers = useCallback(() => {
+  
+    const getFormulations = useCallback(() => {
         const params = {
             page: activePage,
             linesPerPage: 3,
-            name:name,
+            description:name,
             orderBy:"id",
             direction:"DESC"
         }
-        makePrivateRequest({ url: '/users', params })
-            .then(response => setUsersResponse(response.data))
+        makePrivateRequest({ url: '/formulations', params })
+            .then(response => setFormulationsResponse(response.data))
             .finally(() => {
     
             })
     }, [activePage,name])
 
     useEffect(() => {
-        getUsers();
-    }, [getUsers])
+        getFormulations();
+    }, [getFormulations])
 
     const history = useHistory();
 
 
     const handCreate = () => {
-        history.push("/registrations/users/new");
+        history.push("/formulations/registrations/new");
     }
-    const onRemove = (userId: number) => {
-        const confirm = window.confirm("Deseja excluir o usuário selecionado?");
+    const onRemove = (formulationId: number) => {
+        const confirm = window.confirm("Deseja excluir a formulação selecionada?");
         if (confirm) {
             makePrivateRequest({
-                url: `/users/${userId}`,
+                url: `/formulations/${formulationId}`,
                 method: 'DELETE'
             })
                 .then(() => {
-                    toast.success("Usuário excluido com sucesso!")
-                    history.push('/registrations/users')
-                    getUsers();
+                    toast.success("Formulação excluida com sucesso!")
+                    history.push('/formulations/registrations')
+                    getFormulations();
                 })
                 .catch(() => {
-                    toast.error("Falha ao excluir usuário!")
-                    history.push('/registrations/users')
+                    toast.error("Falha ao excluir formulação!")
+                    history.push('/formulations/registrations')
                 })
         }
     }
@@ -65,10 +65,10 @@ function UserList() {
         setName('');
     }
     return (
-        <div className="user-list">
-           <div className="user-list-add-filter">
+        <div className="group-list">
+           <div className="group-list-add-filter">
                <button
-                className="btn btn-primary btn-lg user-list-btn-add"
+                className="btn btn-primary btn-lg group-list-btn-add"
                 onClick={handCreate}
                >
                    ADCIONAR
@@ -77,20 +77,20 @@ function UserList() {
                         name={name}
                         handleChangeName={handleChangeName}
                         clearFilters={clearFilters}
-                        placeholder="Digite o nome do usuário"
+                        placeholder="Digite o nome do grupo"
                 />
            </div>
            <div className="admin-list-container">
-                {usersResponse?.content.map(user => (
-                    <UserCard
-                        user={user} key={user.id}
+                {formulationsResponse?.content.map(formulation => (
+                    <FormulationCard
+                        formulation={formulation} key={formulation.id}
                         onRemove={onRemove}
                     />
                 ))}
 
-                {usersResponse &&
+                {formulationsResponse &&
                     <Pagination
-                        totalPages={usersResponse?.totalPages}
+                        totalPages={formulationsResponse?.totalPages}
                         onChange={page => setActivePage(page)}
                     />
                 }
@@ -98,4 +98,4 @@ function UserList() {
         </div>
     );
 }
-export default UserList;
+export default FormulationList;

@@ -1,4 +1,4 @@
-import { User } from 'core/types/Users';
+import { User } from 'core/types/User';
 import { Link } from 'react-router-dom';
 import './styles.scss';
 

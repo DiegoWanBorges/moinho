@@ -1,0 +1,38 @@
+.sector-card{
+    display: flex;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 15px;
+
+}
+.sector-card-inf{
+    width: 50%;
+}
+.sector-card-action{
+    display: flex;
+    width: 50%;
+    
+}
+.sector-card-action-btn{
+    border-radius: 10px;
+    width: 45%;
+}
+.sector-card-action-btn-edit{
+    margin-right: 5px;
+}
+@media (max-width: 576px){
+    .sector-card{
+        display: flex;
+        flex-direction: column;
+        padding: auto;
+    }
+    .sector-card-action-btn{
+        width: 100%;
+    }
+    .sector-card-inf{
+        width: 100%;
+    }
+    .sector-card-action{
+        width: 100%;
+    }
+}

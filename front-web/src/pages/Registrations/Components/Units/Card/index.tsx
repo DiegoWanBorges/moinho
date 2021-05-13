@@ -11,7 +11,7 @@ const UnityCard = ({ unity,onRemove }:Props) => {
         <div className="unity-card">
          
           <div className="unity-card-inf">
-            <h5>{unity.description}</h5>
+            <h5>{unity.id +" - "+ unity.description}</h5>
           </div>
 
           <div className="unity-card-action">

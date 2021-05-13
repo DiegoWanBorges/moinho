@@ -1,4 +1,4 @@
-import { Role } from 'core/types/Users';
+import { Role } from 'core/types/User';
 import { makePrivateRequest } from 'core/utils/request';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';

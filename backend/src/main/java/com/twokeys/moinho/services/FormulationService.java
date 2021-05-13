@@ -9,17 +9,19 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.twokeys.moinho.dto.OperationalCostTypeDTO;
 import com.twokeys.moinho.dto.FormulationDTO;
+import com.twokeys.moinho.dto.OperationalCostTypeDTO;
 import com.twokeys.moinho.dto.SectorDTO;
-import com.twokeys.moinho.entities.OperationalCostType;
 import com.twokeys.moinho.entities.Formulation;
+import com.twokeys.moinho.entities.OperationalCostType;
 import com.twokeys.moinho.entities.Sector;
-import com.twokeys.moinho.repositories.OperationalCostTypeRepository;
 import com.twokeys.moinho.repositories.FormulationRepository;
+import com.twokeys.moinho.repositories.OperationalCostTypeRepository;
 import com.twokeys.moinho.repositories.ProductRepository;
 import com.twokeys.moinho.repositories.SectorRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
@@ -46,8 +48,15 @@ public class FormulationService {
 		String nameConcat = "%"+description+"%";
 		List<Formulation> list =  repository.findByDescriptionLikeIgnoreCase(nameConcat);
 		return list.stream().map(x -> new FormulationDTO(x)).collect(Collectors.toList());
-		
 	}
+	
+	@Transactional(readOnly=true)
+	public Page<FormulationDTO> findAllPaged(String description,PageRequest pageRequest){
+	String nameConcat ="%"+description+"%";
+	Page<Formulation> list = repository.findByDescriptionLikeIgnoreCase(nameConcat,pageRequest);
+		return list.map(x -> new FormulationDTO(x));
+	}
+	
 	@Transactional(readOnly=true)
 	public FormulationDTO findById(Long id){
 		Optional<Formulation> obj = repository.findById(id);
