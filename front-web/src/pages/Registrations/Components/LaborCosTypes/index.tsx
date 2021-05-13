@@ -1,10 +1,21 @@
+import { Route, Switch } from 'react-router';
+import LaborCostTypeForm from './Form';
+import LaborCostTypeList from './List';
+
 import './styles.scss';
 
-function LaborCostTypes() {
+function LaborCostType() {
     return (
-        <div className="home-main">
-           <h1>Tipo pagamento funcionario</h1>
+        <div>
+            <Switch>
+                <Route path="/registrations/laborcosttypes" exact>
+                    <LaborCostTypeList/>
+                </Route>
+                <Route path="/registrations/laborcosttypes/:laborCostTypeId">
+                    <LaborCostTypeForm/>
+                </Route>
+            </Switch>
         </div>
     );
 }
-export default LaborCostTypes;
+export default LaborCostType;

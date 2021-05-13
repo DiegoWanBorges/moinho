@@ -39,7 +39,7 @@ const Registration = () => (
                 <PrivateRoute path="/registrations/employees">
                     <Employees />
                 </PrivateRoute>
-                <PrivateRoute path="/registrations/laborcostypes">
+                <PrivateRoute path="/registrations/laborcosttypes">
                     <LaborCostTypes />
                 </PrivateRoute>
                 <PrivateRoute path="/registrations/apportionmenttypes">
