@@ -23,7 +23,7 @@ import com.twokeys.moinho.dto.SectorDTO;
 import com.twokeys.moinho.services.SectorService;
 
 @RestController
-@RequestMapping(value="/sections")
+@RequestMapping(value="/sectors")
 public class SectorResource {
 	@Autowired
 	SectorService service;

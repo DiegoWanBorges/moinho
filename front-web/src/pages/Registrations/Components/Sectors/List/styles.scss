@@ -1,0 +1,20 @@
+.sector-list-add-filter{
+    display: flex;
+    align-items: center;
+}
+.sector-list-input-filter{
+    width: 100%;
+    margin-left: 10px;
+
+}
+
+@media (max-width: 576px){
+    .sector-list-add-filter{
+        display: flex;
+        width: 100% !important;
+        flex-direction: column;
+    }
+    .sector-list-btn-add{
+        width: 100%;
+    }
+}
