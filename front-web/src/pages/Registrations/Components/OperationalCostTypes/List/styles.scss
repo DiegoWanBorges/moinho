@@ -1,0 +1,20 @@
+.operationalCostTypeCard-list-add-filter{
+    display: flex;
+    align-items: center;
+}
+.operationalCostTypeCard-list-input-filter{
+    width: 100%;
+    margin-left: 10px;
+
+}
+
+@media (max-width: 576px){
+    .operationalCostTypeCard-list-add-filter{
+        display: flex;
+        width: 100% !important;
+        flex-direction: column;
+    }
+    .operationalCostTypeCard-list-btn-add{
+        width: 100%;
+    }
+}

@@ -1,0 +1,38 @@
+.operationalCostTypeCard-card{
+    display: flex;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 15px;
+
+}
+.operationalCostTypeCard-card-inf{
+    width: 50%;
+}
+.operationalCostTypeCard-card-action{
+    display: flex;
+    width: 50%;
+    
+}
+.operationalCostTypeCard-card-action-btn{
+    border-radius: 10px;
+    width: 45%;
+}
+.operationalCostTypeCard-card-action-btn-edit{
+    margin-right: 5px;
+}
+@media (max-width: 576px){
+    .operationalCostTypeCard-card{
+        display: flex;
+        flex-direction: column;
+        padding: auto;
+    }
+    .operationalCostTypeCard-card-action-btn{
+        width: 100%;
+    }
+    .operationalCostTypeCard-card-inf{
+        width: 100%;
+    }
+    .operationalCostTypeCard-card-action{
+        width: 100%;
+    }
+}

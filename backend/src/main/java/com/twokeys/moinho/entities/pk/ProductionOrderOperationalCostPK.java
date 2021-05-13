@@ -5,7 +5,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.twokeys.moinho.entities.ApportionmentType;
+import com.twokeys.moinho.entities.OperationalCostType;
 import com.twokeys.moinho.entities.ProductionOrder;
 
 @Embeddable
@@ -18,12 +18,12 @@ public class ProductionOrderOperationalCostPK implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name="apportionmentType_id")
-	private ApportionmentType apportionmentType;
+	private OperationalCostType apportionmentType;
 	
 	public ProductionOrderOperationalCostPK() {
 	}
 
-	public ProductionOrderOperationalCostPK(ProductionOrder productionOrder, ApportionmentType apportionmentType) {
+	public ProductionOrderOperationalCostPK(ProductionOrder productionOrder, OperationalCostType apportionmentType) {
 		this.productionOrder = productionOrder;
 		this.apportionmentType = apportionmentType;
 	}
@@ -36,11 +36,11 @@ public class ProductionOrderOperationalCostPK implements Serializable {
 		this.productionOrder = productionOrder;
 	}
 
-	public ApportionmentType getApportionmentType() {
+	public OperationalCostType getApportionmentType() {
 		return apportionmentType;
 	}
 
-	public void setApportionmentType(ApportionmentType apportionmentType) {
+	public void setApportionmentType(OperationalCostType apportionmentType) {
 		this.apportionmentType = apportionmentType;
 	}
 

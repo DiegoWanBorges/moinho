@@ -14,55 +14,55 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.twokeys.moinho.dto.ApportionmentTypeDTO;
-import com.twokeys.moinho.entities.ApportionmentType;
-import com.twokeys.moinho.repositories.ApportionmentTypeRepository;
+import com.twokeys.moinho.dto.OperationalCostTypeDTO;
+import com.twokeys.moinho.entities.OperationalCostType;
+import com.twokeys.moinho.repositories.OperationalCostTypeRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 
 
 
 @Service
-public class ApportionmentTypeService {
+public class OperationalCostTypeService {
 	@Autowired
-	private ApportionmentTypeRepository repository;
+	private OperationalCostTypeRepository repository;
 	
 	@Transactional(readOnly=true)
-	public List<ApportionmentTypeDTO> findByNameLikeIgnoreCase(String name){
+	public List<OperationalCostTypeDTO> findByNameLikeIgnoreCase(String name){
 		String nameConcat = "%"+name+"%";
-		List<ApportionmentType> list =  repository.findByNameLikeIgnoreCase(nameConcat);
-		return list.stream().map(x -> new ApportionmentTypeDTO(x)).collect(Collectors.toList());
+		List<OperationalCostType> list =  repository.findByNameLikeIgnoreCase(nameConcat);
+		return list.stream().map(x -> new OperationalCostTypeDTO(x)).collect(Collectors.toList());
 	}
 	@Transactional(readOnly=true)
-	public Page<ApportionmentTypeDTO> findAllPaged(String name,PageRequest pageRequest){
+	public Page<OperationalCostTypeDTO> findAllPaged(String name,PageRequest pageRequest){
 	String nameConcat ="%"+name+"%";
-	Page<ApportionmentType> list = repository.findByNameLikeIgnoreCase(nameConcat,pageRequest);
-		return list.map(x -> new ApportionmentTypeDTO(x));
+	Page<OperationalCostType> list = repository.findByNameLikeIgnoreCase(nameConcat,pageRequest);
+		return list.map(x -> new OperationalCostTypeDTO(x));
 	}
 	
 	@Transactional(readOnly=true)
-	public ApportionmentTypeDTO findById(Long id){
-		Optional<ApportionmentType> obj = repository.findById(id);
-		ApportionmentType entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-		return new ApportionmentTypeDTO(entity);
+	public OperationalCostTypeDTO findById(Long id){
+		Optional<OperationalCostType> obj = repository.findById(id);
+		OperationalCostType entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+		return new OperationalCostTypeDTO(entity);
 	}
 	@Transactional
-	public ApportionmentTypeDTO insert(ApportionmentTypeDTO dto) {
+	public OperationalCostTypeDTO insert(OperationalCostTypeDTO dto) {
 		try {
-		ApportionmentType entity =new ApportionmentType();
+		OperationalCostType entity =new OperationalCostType();
 			convertToEntity(dto, entity);
-			return new ApportionmentTypeDTO(repository.save(entity));
+			return new OperationalCostTypeDTO(repository.save(entity));
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
 		}
 	}
 	@Transactional
-	public ApportionmentTypeDTO update(Long id, ApportionmentTypeDTO dto) {
+	public OperationalCostTypeDTO update(Long id, OperationalCostTypeDTO dto) {
 		try {
-			ApportionmentType entity = repository.getOne(id);
+			OperationalCostType entity = repository.getOne(id);
 			convertToEntity(dto, entity);
 			entity = repository.save(entity);
-			return new ApportionmentTypeDTO(entity);
+			return new OperationalCostTypeDTO(entity);
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}
@@ -77,7 +77,7 @@ public class ApportionmentTypeService {
 		}
 		
 	}
-	public void convertToEntity(ApportionmentTypeDTO dto, ApportionmentType entity) {
+	public void convertToEntity(OperationalCostTypeDTO dto, OperationalCostType entity) {
 		entity.setName(dto.getName());
 		entity.setType(dto.getType());
 	}

@@ -10,8 +10,8 @@ import javax.persistence.Table;
 
 import com.twokeys.moinho.entities.enums.ProductionApportionmentType;
 @Entity
-@Table(name="tb_apportionment_type")
-public class ApportionmentType  implements Serializable {
+@Table(name="tb_operational_cost_type")
+public class OperationalCostType  implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -20,10 +20,10 @@ public class ApportionmentType  implements Serializable {
 	private String name;
 	private ProductionApportionmentType type;
 	
-	public ApportionmentType() {
+	public OperationalCostType() {
 	}
 	
-	public ApportionmentType(Long id, String name, ProductionApportionmentType type) {
+	public OperationalCostType(Long id, String name, ProductionApportionmentType type) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
@@ -61,7 +61,7 @@ public class ApportionmentType  implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ApportionmentType other = (ApportionmentType) obj;
+		OperationalCostType other = (OperationalCostType) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

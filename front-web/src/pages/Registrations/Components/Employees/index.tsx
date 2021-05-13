@@ -3,7 +3,7 @@ import EmployeeForm from './Form';
 import EmployeeList from './List';
 import './styles.scss';
 
-function Product() {
+function Employee() {
     return (
         <div>
             <Switch>
@@ -17,4 +17,4 @@ function Product() {
         </div>
     );
 }
-export default Product;
+export default Employee;

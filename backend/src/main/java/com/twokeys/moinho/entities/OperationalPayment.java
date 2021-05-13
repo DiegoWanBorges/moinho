@@ -11,21 +11,21 @@ public class OperationalPayment   extends Payment {
 	
 	@ManyToOne
 	@JoinColumn(name="apportionment_type_id")
-	private ApportionmentType apportionmentType;
+	private OperationalCostType apportionmentType;
 	
 	
 	public OperationalPayment() {
 	}
 
-	public OperationalPayment(ApportionmentType apportionmentType) {
+	public OperationalPayment(OperationalCostType apportionmentType) {
 		this.apportionmentType = apportionmentType;
 	}
 
-		public ApportionmentType getApportionmentType() {
+		public OperationalCostType getApportionmentType() {
 		return apportionmentType;
 	}
 
-	public void setApportionmentType(ApportionmentType apportionmentType) {
+	public void setApportionmentType(OperationalCostType apportionmentType) {
 		this.apportionmentType = apportionmentType;
 	}
 	

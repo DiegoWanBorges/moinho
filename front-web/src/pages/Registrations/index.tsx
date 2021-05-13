@@ -2,7 +2,7 @@ import PrivateRoute from 'core/routes/PrivateRoutes'
 import './styles.scss'
 
 import { Switch } from 'react-router-dom'
-import ApportionmentTypes from './Components/ApportionmentTypes'
+import OperationalCostTypes from './Components/OperationalCostTypes'
 import NavBarRegistration from './Components/NavBar'
 import Parameters from './Components/Parameters'
 import Users from './Components/Users'
@@ -42,8 +42,8 @@ const Registration = () => (
                 <PrivateRoute path="/registrations/laborcosttypes">
                     <LaborCostTypes />
                 </PrivateRoute>
-                <PrivateRoute path="/registrations/apportionmenttypes">
-                    <ApportionmentTypes />
+                <PrivateRoute path="/registrations/operationalcosttypes">
+                    <OperationalCostTypes />
                 </PrivateRoute>
             </Switch>
         </div>

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.twokeys.moinho.dto.OperationalPaymentDTO;
 import com.twokeys.moinho.entities.OperationalPayment;
-import com.twokeys.moinho.repositories.ApportionmentTypeRepository;
+import com.twokeys.moinho.repositories.OperationalCostTypeRepository;
 import com.twokeys.moinho.repositories.OperationalPaymentRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
@@ -24,7 +24,7 @@ public class OperationalPaymentService {
 	@Autowired
 	private OperationalPaymentRepository repository;
 	@Autowired
-	private ApportionmentTypeRepository apportionmentRepository;
+	private OperationalCostTypeRepository apportionmentRepository;
 	
 	@Transactional(readOnly=true)
 	public OperationalPaymentDTO findById(Long id){

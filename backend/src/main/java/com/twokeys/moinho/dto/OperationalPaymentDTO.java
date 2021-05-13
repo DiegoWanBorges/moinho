@@ -15,13 +15,13 @@ public class OperationalPaymentDTO implements Serializable {
 	private String description;
 	private String documentNumber;
 	private Double value;
-	private ApportionmentTypeDTO apportionmentType;
+	private OperationalCostTypeDTO apportionmentType;
 	
 	public OperationalPaymentDTO() {
 	}
 	
 	public OperationalPaymentDTO(Long id, Instant date, String description, String documentNumber, Double value,
-						   ApportionmentTypeDTO apportionmentType) {
+						   OperationalCostTypeDTO apportionmentType) {
 		this.id = id;
 		this.date = date;
 		this.description = description;
@@ -36,7 +36,7 @@ public class OperationalPaymentDTO implements Serializable {
 		this.description=entity.getDescription();
 		this.documentNumber=entity.getDocumentNumber();
 		this.value = entity.getValue();
-		this.apportionmentType = new ApportionmentTypeDTO(entity.getApportionmentType());
+		this.apportionmentType = new OperationalCostTypeDTO(entity.getApportionmentType());
 	}
 
 	public Long getId() {
@@ -79,11 +79,11 @@ public class OperationalPaymentDTO implements Serializable {
 		this.value = value;
 	}
 
-	public ApportionmentTypeDTO getApportionmentType() {
+	public OperationalCostTypeDTO getApportionmentType() {
 		return apportionmentType;
 	}
 
-	public void setApportionmentType(ApportionmentTypeDTO apportionmentType) {
+	public void setApportionmentType(OperationalCostTypeDTO apportionmentType) {
 		this.apportionmentType = apportionmentType;
 	}
 	

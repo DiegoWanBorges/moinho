@@ -36,7 +36,7 @@ public class Formulation   implements Serializable {
 			joinColumns = @JoinColumn(name="formulation_id"),
 			inverseJoinColumns = @JoinColumn(name="apportionment_type_id")
 			)
-	private Set<ApportionmentType> apportionmentTypes = new HashSet<>();
+	private Set<OperationalCostType> apportionmentTypes = new HashSet<>();
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="tb_formulation_sector", 
@@ -83,7 +83,7 @@ public class Formulation   implements Serializable {
 		this.product = product;
 	}
 	
-	public Set<ApportionmentType> getApportionmentTypes() {
+	public Set<OperationalCostType> getApportionmentTypes() {
 		return apportionmentTypes;
 	}
 	public Set<Sector> getSectors() {

@@ -15,7 +15,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.twokeys.moinho.entities.ApportionmentType;
+import com.twokeys.moinho.entities.OperationalCostType;
 import com.twokeys.moinho.entities.ProductionOrder;
 import com.twokeys.moinho.entities.ProductionOrderOperationalCost;
 import com.twokeys.moinho.entities.enums.ProductionApportionmentType;
@@ -83,7 +83,7 @@ public class ProductionOrderOperationalCostService {
 							productionOrderOperationalCost = new ProductionOrderOperationalCost();
 							productionOrderOperationalCost.setValue(proratedAmount);
 							productionOrderOperationalCost.setProductionOrder(item);
-							productionOrderOperationalCost.setApportionmentType(new ApportionmentType(id,"",type));
+							productionOrderOperationalCost.setApportionmentType(new OperationalCostType(id,"",type));
 							repository.save(productionOrderOperationalCost);
 						}
 						break;
@@ -110,7 +110,7 @@ public class ProductionOrderOperationalCostService {
 							productionOrderOperationalCost = new ProductionOrderOperationalCost();
 							productionOrderOperationalCost.setValue(proratedAmount);
 							productionOrderOperationalCost.setProductionOrder(item);
-							productionOrderOperationalCost.setApportionmentType(new ApportionmentType(id,"",type));
+							productionOrderOperationalCost.setApportionmentType(new OperationalCostType(id,"",type));
 							repository.save(productionOrderOperationalCost);
 						}
 						break;

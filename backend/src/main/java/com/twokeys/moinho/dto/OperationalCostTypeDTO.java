@@ -2,25 +2,25 @@ package com.twokeys.moinho.dto;
 
 import java.io.Serializable;
 
-import com.twokeys.moinho.entities.ApportionmentType;
+import com.twokeys.moinho.entities.OperationalCostType;
 import com.twokeys.moinho.entities.enums.ProductionApportionmentType;
 
-public class ApportionmentTypeDTO implements Serializable {
+public class OperationalCostTypeDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private String name;
 	private ProductionApportionmentType type;
 	
-	public ApportionmentTypeDTO() {
+	public OperationalCostTypeDTO() {
 	}
 	
-	public ApportionmentTypeDTO(Long id, String name, ProductionApportionmentType type) {
+	public OperationalCostTypeDTO(Long id, String name, ProductionApportionmentType type) {
 		this.id = id;
 		this.name = name;
 		this.type = type;
 	}
-	public ApportionmentTypeDTO(ApportionmentType entity) {
+	public OperationalCostTypeDTO(OperationalCostType entity) {
 		this.id = entity.getId();
 		this.name = entity.getName();
 		this.type = entity.getType();

@@ -19,17 +19,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.twokeys.moinho.dto.ApportionmentTypeDTO;
-import com.twokeys.moinho.services.ApportionmentTypeService;
+import com.twokeys.moinho.dto.OperationalCostTypeDTO;
+import com.twokeys.moinho.services.OperationalCostTypeService;
 
 @RestController
-@RequestMapping(value="/apportionmenttypes")
-public class ApportionmentTypeResource {
+@RequestMapping(value="/operationalcosttypes")
+public class OperationalCostTypeResource {
 	@Autowired
-	ApportionmentTypeService service;
+	OperationalCostTypeService service;
 	
 	@GetMapping
-	public ResponseEntity<Page<ApportionmentTypeDTO>> findAll(
+	public ResponseEntity<Page<OperationalCostTypeDTO>> findAll(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "name", defaultValue = "") String  name,
 			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
@@ -37,36 +37,36 @@ public class ApportionmentTypeResource {
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction
 			){
 		PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
-		Page<ApportionmentTypeDTO> list = service.findAllPaged(name,pageRequest);
+		Page<OperationalCostTypeDTO> list = service.findAllPaged(name,pageRequest);
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping
 	@RequestMapping(params = "listname")
-	public ResponseEntity<List<ApportionmentTypeDTO>> findAll(@RequestParam(value="listname")String name){
-		List<ApportionmentTypeDTO> list = service.findByNameLikeIgnoreCase(name);
+	public ResponseEntity<List<OperationalCostTypeDTO>> findAll(@RequestParam(value="listname")String name){
+		List<OperationalCostTypeDTO> list = service.findByNameLikeIgnoreCase(name);
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value="/{id}")
-	public ResponseEntity<ApportionmentTypeDTO> findById(@PathVariable Long id){
+	public ResponseEntity<OperationalCostTypeDTO> findById(@PathVariable Long id){
 		return  ResponseEntity.ok().body(service.findById(id));
 	}
 	@PostMapping
-	public ResponseEntity<ApportionmentTypeDTO> insert(@RequestBody ApportionmentTypeDTO dto){
+	public ResponseEntity<OperationalCostTypeDTO> insert(@RequestBody OperationalCostTypeDTO dto){
 		dto = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				  .buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
 	@PutMapping(value="/{id}")
-	public ResponseEntity<ApportionmentTypeDTO> update(@PathVariable Long id,@RequestBody ApportionmentTypeDTO dto){
+	public ResponseEntity<OperationalCostTypeDTO> update(@PathVariable Long id,@RequestBody OperationalCostTypeDTO dto){
 		dto = service.update(id,dto);
 		
 		return ResponseEntity.ok().body(dto); 
 	}
 	@DeleteMapping(value="/{id}")
-	public ResponseEntity<ApportionmentTypeDTO> delete(@PathVariable Long id){
+	public ResponseEntity<OperationalCostTypeDTO> delete(@PathVariable Long id){
 		service.delete(id);
 		return ResponseEntity.noContent().build(); 
 	}

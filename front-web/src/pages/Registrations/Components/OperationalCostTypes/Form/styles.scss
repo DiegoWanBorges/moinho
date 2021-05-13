@@ -1,0 +1,77 @@
+.operationalCostTypeCard-form{
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 20px;
+}
+.operationalCostTypeCard-form-row{
+    display: flex;
+    justify-content: space-between;
+    
+}
+.operationalCostTypeCard-form-name{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+.operationalCostTypeCard-form-description{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin-left: 5px;
+}
+.operationalCostTypeCard-form-row-item{
+    display: flex ;
+    flex-direction: column;
+    width: 25%;   
+    margin-right: 5px;
+}
+.parameter-content-type-cost{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+.operationalCostTypeCard-select{
+    height: 40px;
+    border-radius: 10px;
+}
+
+.operationalCostTypeCard-form-select{
+    width: 50%;
+}
+
+.operationalCostTypeCard-form-actions{
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+.operationalCostTypeCard-form-btn-save{
+    margin-left: 20px;
+}
+
+@media (max-width: 576px){
+    .operationalCostTypeCard-form-main{
+        display: flex;
+        flex-direction: column;
+    }
+    .operationalCostTypeCard-form-row{
+        flex-direction: column;
+    }
+    .operationalCostTypeCard-form-name{
+        width: 100%;
+    }
+    .operationalCostTypeCard-form-description{
+        width: 100%;
+        
+    }
+    .operationalCostTypeCard-form-row-item{
+        width: 100%;
+        margin-right: 0px;
+    }
+    .operationalCostTypeCard-form-select{
+        width: 100%;
+    }
+    .operationalCostTypeCard-form-actions{
+        margin-top: 20px;
+        justify-content: space-around;
+    }
+}

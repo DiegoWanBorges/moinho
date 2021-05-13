@@ -12,13 +12,13 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.twokeys.moinho.dto.ApportionmentTypeDTO;
+import com.twokeys.moinho.dto.OperationalCostTypeDTO;
 import com.twokeys.moinho.dto.FormulationDTO;
 import com.twokeys.moinho.dto.SectorDTO;
-import com.twokeys.moinho.entities.ApportionmentType;
+import com.twokeys.moinho.entities.OperationalCostType;
 import com.twokeys.moinho.entities.Formulation;
 import com.twokeys.moinho.entities.Sector;
-import com.twokeys.moinho.repositories.ApportionmentTypeRepository;
+import com.twokeys.moinho.repositories.OperationalCostTypeRepository;
 import com.twokeys.moinho.repositories.FormulationRepository;
 import com.twokeys.moinho.repositories.ProductRepository;
 import com.twokeys.moinho.repositories.SectorRepository;
@@ -39,7 +39,7 @@ public class FormulationService {
 	private SectorRepository sectorRepository;
 	
 	@Autowired
-	private ApportionmentTypeRepository apportionmentTypeRepository;
+	private OperationalCostTypeRepository apportionmentTypeRepository;
 	
 	@Transactional(readOnly=true)
 	public List<FormulationDTO> findByNameLikeIgnoreCase(String description){
@@ -93,8 +93,8 @@ public class FormulationService {
 		entity.setProduct(productRepository.getOne(dto.getProduct().getId()));
 		
 		entity.getApportionmentTypes().clear();
-		for (ApportionmentTypeDTO apportionmentDTO : dto.getApportionments()) {
-			ApportionmentType apportionment = apportionmentTypeRepository.getOne(apportionmentDTO.getId());
+		for (OperationalCostTypeDTO apportionmentDTO : dto.getApportionments()) {
+			OperationalCostType apportionment = apportionmentTypeRepository.getOne(apportionmentDTO.getId());
 			entity.getApportionmentTypes().add(apportionment);
 		}
 		

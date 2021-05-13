@@ -13,7 +13,7 @@ public class FormulationDTO implements Serializable {
 	private Double coefficient;
 	private String description;
 	private ProductDTO product;
-	private List<ApportionmentTypeDTO> apportionments = new ArrayList<>();
+	private List<OperationalCostTypeDTO> apportionments = new ArrayList<>();
 	private List<SectorDTO> sectors = new ArrayList<>();
 	private List<FormulationItemDTO> formulationItems = new ArrayList<>();
 	
@@ -32,7 +32,7 @@ public class FormulationDTO implements Serializable {
 		this.description = entity.getDescription();
 		this.product = new ProductDTO(entity.getProduct());
 		entity.getSectors().forEach(sector -> sectors.add(new SectorDTO(sector)));
-		entity.getApportionmentTypes().forEach(e -> apportionments.add(new ApportionmentTypeDTO(e)));
+		entity.getApportionmentTypes().forEach(e -> apportionments.add(new OperationalCostTypeDTO(e)));
 		entity.getFormulationItems().forEach(formulation -> formulationItems.add(new FormulationItemDTO(formulation)));
 	}
 	public Long getId() {
@@ -71,7 +71,7 @@ public class FormulationDTO implements Serializable {
 		return sectors;
 	}
 
-	public List<ApportionmentTypeDTO> getApportionments() {
+	public List<OperationalCostTypeDTO> getApportionments() {
 		return apportionments;
 	}
 
