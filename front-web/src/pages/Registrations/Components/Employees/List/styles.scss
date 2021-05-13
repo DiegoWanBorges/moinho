@@ -1,20 +1,20 @@
-.product-list-add-filter{
+.employee-list-add-filter{
     display: flex;
     align-items: center;
 }
-.product-list-input-filter{
+.employee-list-input-filter{
     width: 100%;
     margin-left: 10px;
 
 }
 
 @media (max-width: 576px){
-    .product-list-add-filter{
+    .employee-list-add-filter{
         display: flex;
         width: 100% !important;
         flex-direction: column;
     }
-    .product-list-btn-add{
+    .employee-list-btn-add{
         width: 100%;
     }
 }

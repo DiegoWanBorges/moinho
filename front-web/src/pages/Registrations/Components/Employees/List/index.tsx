@@ -1,20 +1,20 @@
 import Filter from 'core/components/Filter';
 import Pagination from 'core/components/Pagination';
-import { ProductsResponse } from 'core/types/Product';
+import { EmployeesResponse } from 'core/types/Employee';
 import { makePrivateRequest } from 'core/utils/request';
 import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
-import ProductCard from '../Card';
+import EmployeeCard from '../Card';
 
 import './styles.scss';
 
-function ProductList() {
-    const [productsResponse, setProductsResponse] = useState<ProductsResponse>();
+function EmployeeList() {
+    const [employeesResponse, setEmployeesResponse] = useState<EmployeesResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
   
-    const getProducts = useCallback(() => {
+    const getEmployees = useCallback(() => {
         const params = {
             page: activePage,
             linesPerPage: 3,
@@ -22,38 +22,38 @@ function ProductList() {
             orderBy:"id",
             direction:"DESC"
         }
-        makePrivateRequest({ url: '/products', params })
-            .then(response => setProductsResponse(response.data))
+        makePrivateRequest({ url: '/employees', params })
+            .then(response => setEmployeesResponse(response.data))
             .finally(() => {
     
             })
     }, [activePage,name])
 
     useEffect(() => {
-        getProducts();
-    }, [getProducts])
+        getEmployees();
+    }, [getEmployees])
 
     const history = useHistory();
 
 
     const handCreate = () => {
-        history.push("/registrations/products/new");
+        history.push("/registrations/employees/new");
     }
-    const onRemove = (productId: number) => {
-        const confirm = window.confirm("Deseja excluir o produto selecionado?");
+    const onRemove = (employeeId: number) => {
+        const confirm = window.confirm("Deseja excluir o funcionario selecionado?");
         if (confirm) {
             makePrivateRequest({
-                url: `/products/${productId}`,
+                url: `/employees/${employeeId}`,
                 method: 'DELETE'
             })
                 .then(() => {
-                    toast.success("Produto excluido com sucesso!")
-                    history.push('/registrations/products')
-                    getProducts();
+                    toast.success("Funcionario excluido com sucesso!")
+                    history.push('/registrations/employees')
+                    getEmployees();
                 })
                 .catch(() => {
-                    toast.error("Falha ao excluir produto!")
-                    history.push('/registrations/products')
+                    toast.error("Falha ao excluir funcionario!")
+                    history.push('/registrations/employees')
                 })
         }
     }
@@ -66,10 +66,10 @@ function ProductList() {
         setName('');
     }
     return (
-        <div className="product-list">
-           <div className="product-list-add-filter">
+        <div className="employee-list">
+           <div className="employee-list-add-filter">
                <button
-                className="btn btn-primary btn-lg product-list-btn-add"
+                className="btn btn-primary btn-lg employee-list-btn-add"
                 onClick={handCreate}
                >
                    ADCIONAR
@@ -78,20 +78,20 @@ function ProductList() {
                         name={name}
                         handleChangeName={handleChangeName}
                         clearFilters={clearFilters}
-                        placeholder="Digite o nome do produto"
+                        placeholder="Digite o nome do funcionario"
                 />
            </div>
            <div className="admin-list-container">
-                {productsResponse?.content.map(product => (
-                    <ProductCard
-                        product={product} key={product.id}
+                {employeesResponse?.content.map(employee => (
+                    <EmployeeCard
+                        employee={employee} key={employee.id}
                         onRemove={onRemove}
                     />
                 ))}
 
-                {productsResponse &&
+                {employeesResponse &&
                     <Pagination
-                        totalPages={productsResponse?.totalPages}
+                        totalPages={employeesResponse?.totalPages}
                         onChange={page => setActivePage(page)}
                     />
                 }
@@ -99,4 +99,4 @@ function ProductList() {
         </div>
     );
 }
-export default ProductList;
+export default EmployeeList;
