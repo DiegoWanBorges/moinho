@@ -9,10 +9,10 @@ import { useEffect, useState } from 'react';
 import { makePrivateRequest } from 'core/utils/request';
 
 type Props = {
-    formulationId: string;
+    onInsertItem: (formulationItem:FormulationItem) =>void;
 }
 
-function FormulationItems({ formulationId }: Props) {
+function FormulationItems({ onInsertItem }: Props) {
     const { register, errors, control, handleSubmit,setValue } = useForm<FormulationItem>();
     const [isLoadingProducts, setIsLoadingProducts] = useState(false);
     const [products, setProducts] = useState<Product[]>();
@@ -33,11 +33,7 @@ function FormulationItems({ formulationId }: Props) {
     }, [setValue])
 
     const onSubmit = (data: FormulationItem) => {
-        const payload = {
-            ...data,
-            formulationId: formulationId
-        }
-        console.log(payload)
+        onInsertItem(data)
     }
 
 

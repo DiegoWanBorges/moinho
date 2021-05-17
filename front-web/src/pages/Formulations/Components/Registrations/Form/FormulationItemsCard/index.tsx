@@ -3,9 +3,20 @@ import './styles.scss';
 
 type Props = {
     formulationItems: FormulationItem;
+    onDeleteItem: (formulationItem:FormulationItem) =>void;
+    onEditItem: (formulationItem:FormulationItem) =>void;
 }
 
-function FormulationItemsCard({ formulationItems }: Props) {
+function FormulationItemsCard({ formulationItems,onDeleteItem,onEditItem }: Props) {
+
+    const onEdit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
+        e.preventDefault();
+        onEditItem(formulationItems)
+    } 
+    const onDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
+        e.preventDefault();
+        onDeleteItem(formulationItems)
+    } 
     return (
         <div className="formulation-item-card-main">
             <div className="formulation-item-card-inf">
@@ -17,12 +28,14 @@ function FormulationItemsCard({ formulationItems }: Props) {
                 <div className="formulation-item-card-actions">
                     <button
                         className="btn btn-primary btn-sm formulation-item-card-actions-btn-edit"
+                        onClick={e=> onEdit(e)}
                     >
                         Editar
                 </button>
 
                     <button
                         className="btn btn-danger btn-sm"
+                        onClick={e=> onDelete(e)}
                     >
                         Excluir
                 </button>

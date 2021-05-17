@@ -1,16 +1,16 @@
 import { makePrivateRequest } from 'core/utils/request';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import './styles.scss';
 import Select from 'react-select';
 import { Product } from 'core/types/Product';
-import FormulationItems from '../FormulationItems';
+import FormulationItems from './FormulationItems';
 import { Sector } from 'core/types/Employee';
 import { OperationalCostType } from 'core/types/OperationalCostType';
 import { Formulation, FormulationItem } from 'core/types/Formulation';
-import FormulationItemsCard from '../FormulationItemsCard';
+import FormulationItemsCard from './FormulationItemsCard';
 
 type ParamsType = {
     formulationId: string;
@@ -58,7 +58,7 @@ function FormulationForm() {
             .finally(() => setIsLoadingOperationalCostTypes(false))
     }, [])
 
-    useEffect(() => {
+    const getFormulationItems = useCallback(() => {
         if (isEditing) {
             makePrivateRequest({ url: `/formulations/${formulationId}` })
                 .then(response => {
@@ -70,7 +70,14 @@ function FormulationForm() {
                     setFormulationItem(response.data.formulationItems)
                 })
         }
-    }, [formulationId, isEditing, setValue])
+    }, [formulationId,isEditing,setValue])
+
+    useEffect(() =>{
+        getFormulationItems();
+    },[getFormulationItems])
+
+    
+    
 
 
 
@@ -89,6 +96,44 @@ function FormulationForm() {
             })
     }
 
+    const onInsertItem = (data: FormulationItem) => {
+        const payload ={
+            ...data,
+            formulationId:formulationId
+        }
+        makePrivateRequest({
+            url: '/formulationsitems/',
+            method: 'POST',
+            data: payload
+        })
+            .then(() => {
+                getFormulationItems();
+                toast.success("Item de formulação salvo com sucesso!");
+            })
+            .catch(() => {
+                toast.error("Erro ao salvar item de formulação!")
+            })
+    }
+    const onDeleteItem = (data: FormulationItem) => {
+        const confirm = window.confirm("Deseja excluir o ingrediente selecionado da formulação?");
+       if (confirm){
+        makePrivateRequest({
+            url: `/formulationsitems/${formulationId},${data.product.id}`,
+            method: 'DELETE',
+            
+        })
+            .then(() => {
+                getFormulationItems();
+                toast.success("Item de formulação excluido com sucesso!");
+            })
+            .catch(() => {
+                toast.error("Erro ao excluir item de formulação!")
+            })
+       }
+    }
+    const onEditItem = (data: FormulationItem) => {
+        console.log(data)
+    }
     const handleCancel = () => {
         history.push("./")
     }
@@ -210,13 +255,17 @@ function FormulationForm() {
             </div>
 
             {
-                isEditing && (<FormulationItems formulationId={formulationId} />)
+                isEditing && (<FormulationItems 
+                                    onInsertItem={onInsertItem}
+                              />)
             }
             {
                 isEditing && (
                     formulationItem?.map(item => (
                         <FormulationItemsCard
                             formulationItems={item} key={item.product.id}
+                            onDeleteItem={onDeleteItem}
+                            onEditItem={onEditItem}
                         />
                     )))}
         </form>
