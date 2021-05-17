@@ -6,7 +6,7 @@ import NavBarFormulation from './Components/NavBar';
 import FormulationRegistration from './Components/Registrations';
 
 
-const Formulation = () => (
+const Formulation = () => ( 
     <div className="admin-container">
         <NavBarFormulation />
         <div className="admin-content">

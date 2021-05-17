@@ -133,6 +133,19 @@ function FormulationForm() {
     }
     const onEditItem = (data: FormulationItem) => {
         console.log(data)
+        makePrivateRequest({
+            url: `/formulationsitems/${formulationId},${data.product.id}`,
+            method: 'PUT',
+            data:data,
+            
+        })
+            .then(() => {
+                getFormulationItems();
+                toast.success("Item de formulação atualizado com sucesso!");
+            })
+            .catch(() => {
+                toast.error("Erro ao atualizar item de formulação!")
+            })
     }
     const handleCancel = () => {
         history.push("./")

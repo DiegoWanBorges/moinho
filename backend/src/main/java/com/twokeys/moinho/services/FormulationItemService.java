@@ -52,27 +52,28 @@ public class FormulationItemService {
 	@Transactional
 	public FormulationItemDTO insert(FormulationItemDTO dto) {
 		try {
+			Formulation formulation = formulationRepository.getOne(dto.getFormulationId());
+			Product product = productRepository.getOne(dto.getProduct().getId());
 			FormulationItem entity =new FormulationItem();
 			convertToEntity(dto, entity);
-			return new FormulationItemDTO(repository.save(entity));
+			entity.setFormulation(formulation);
+			entity.setProduct(product);
+			entity = repository.save(entity);
+			return new FormulationItemDTO(entity);
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
 		}
 	}
 	@Transactional
-	public FormulationItemDTO update(FormulationItemDTO dto) {
+	public FormulationItemDTO update(Long  idFormulation,Long  idProduct, FormulationItemDTO formulationItemDTO) {
 		try {
-			FormulationItemPK id = new FormulationItemPK();
-			Formulation formulation = new Formulation();
-			Product product = new Product();
-			formulation.setId(dto.getFormulationId());
-			product.setId(dto.getProduct().getId());
-			id.setFormulation(formulation);
-			id.setProduct(product);
+			Formulation formulation = formulationRepository.getOne(idFormulation);
+			Product product = productRepository.getOne(idProduct);
 			
-			FormulationItem entity = repository.getOne(id);
-			
-			convertToEntity(dto, entity);
+			FormulationItem entity = new FormulationItem();
+			convertToEntity(formulationItemDTO, entity);
+			entity.setFormulation(formulation);
+			entity.setProduct(product);
 			entity = repository.save(entity);
 			return new FormulationItemDTO(entity);
 		}catch(EntityNotFoundException e) {
@@ -97,15 +98,9 @@ public class FormulationItemService {
 		
 	}
 	public void convertToEntity(FormulationItemDTO dto, FormulationItem entity) {
-		Formulation formulation = formulationRepository.getOne(dto.getFormulationId());
-		Product product = productRepository.getOne(dto.getProduct().getId());
-		
-		entity.setProduct(product);
-		entity.setFormulation(formulation);
 		entity.setQuantity(dto.getQuantity());
 		entity.setType(dto.getType());
 		entity.setRound(dto.getRound());
 		entity.setRawMaterial(dto.getRawMaterial());
-		
 	}
 }

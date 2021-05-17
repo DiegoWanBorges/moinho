@@ -1,0 +1,35 @@
+.formulationItemEdit-row{
+    display: flex;
+}
+.formulationItemEdit-quantity{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+.formulationItemEdit-round{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    margin-left: 10px;
+}
+.formulationItemEdit-raw-material{
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    margin-left: 10px;
+}
+.formulationItemEdit-type{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    margin-left: 10px;
+}
+.formulationItemEdit-btn{
+    margin-top: 15px;
+}
+.formulationItemEdit-btn-save{
+    
+}
+.formulationItemEdit-btn-del{
+    margin-left: 10px;
+}

@@ -35,10 +35,11 @@ public class FormulationItemsResource {
 				  .buildAndExpand(dto.getFormulationId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
-	@PutMapping
-	public ResponseEntity<FormulationItemDTO> update(@RequestBody FormulationItemDTO dto){
-		dto = service.update(dto);
-		return ResponseEntity.ok().body(dto); 
+	@PutMapping(value="/{idFormulation},{idProduct}")
+	public ResponseEntity<FormulationItemDTO> update(@PathVariable Long  idFormulation,
+			  										 @PathVariable Long  idProduct,
+			  										 @RequestBody FormulationItemDTO formulationItemDTO){
+		return ResponseEntity.ok().body(service.update(idFormulation,idProduct,formulationItemDTO)); 
 	}
 	@DeleteMapping(value="/{idFormulation},{idProduct}")
 	public ResponseEntity<FormulationItemDTO> delete(@PathVariable Long  idFormulation,
