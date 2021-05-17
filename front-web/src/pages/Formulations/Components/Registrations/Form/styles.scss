@@ -28,18 +28,20 @@
     margin-left: 20px;
 }
 
-@media (max-width: 576px){
-    .formulation-form-main{
+@media (max-width: 1200px){
+    .formulation-form-row{
         flex-direction: column;
     }
-    .formulation-form-password{
-        flex-direction: column;
+    .formulation-form-row-description{
+        width: 100%;
     }
-    .formulation-form-name{
+    .formulation-form-row-item{
         width: 100%;
     }
     .formulation-form-actions{
-        margin-top: 20px;
-        justify-content: space-around;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        
     }
 }

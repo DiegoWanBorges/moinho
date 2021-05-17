@@ -2,7 +2,7 @@ import { FormulationItem } from 'core/types/Formulation'
 import FormulationItemEditModal from '../FormulationItemsEditModal';
 import './styles.scss';
 
-type Props = {
+type Props = { 
     formulationItems: FormulationItem;
     onDeleteItem: (formulationItem:FormulationItem) =>void;
     onEditItem: (formulationItem:FormulationItem) =>void;

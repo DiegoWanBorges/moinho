@@ -29,7 +29,6 @@
     flex-direction: column;
     text-align: center;
     justify-content: center;
-    
     margin-left: 5px;
     width: 15%;
 }
@@ -44,4 +43,32 @@
     flex-direction: column-reverse;
     margin-left: 5px;
     width: 12%;
+}
+@media (max-width: 1200px){
+    .formulationItem-row{
+        flex-direction: column;
+    }
+    .formulationItem-select{
+        width: 100%;
+   
+    }
+    .formulationItem-quantity{
+        margin-top: 35px;
+        width: 100%;
+    }
+    .formulationItem-round{
+        text-align: left;
+        width: 100%;
+    }
+    .formulationItem-raw-material{
+        text-align: left;
+        width: 100%;
+    }
+    .formulationItem-type{
+        width: 100%;
+    }
+    .formulationItem-insert{
+        margin-top: 5px;
+        width: 100%;
+    }
 }

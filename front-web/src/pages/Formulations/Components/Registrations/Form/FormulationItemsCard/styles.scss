@@ -42,3 +42,43 @@
 .formulation-item-card-actions-btn-edit{
     margin-right: 10px;
 }
+
+@media (max-width: 1200px){
+    .formulation-item-card-inf{
+        text-align: center;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+    .formulation-item-card-inf-name{
+        
+        width: 100%;
+        border-right: none;
+        
+    }
+    .formulation-item-card-inf-quantity{
+        width: 100%;
+        border-right: none;
+    }
+    
+    .formulation-item-card-inf-round{
+        width: 100%;
+        border-right: none;
+    }
+    .formulation-item-card-inf-raw-material{
+        width: 100%;
+        border-right: none;
+    }
+    .formulation-item-card-inf-type{
+        width: 100%;
+        border-right: none;
+    }
+    .formulation-item-card-actions{
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+        
+    }
+    .formulation-item-card-actions-btn-edit{
+        margin-right: 10px;
+    }
+}

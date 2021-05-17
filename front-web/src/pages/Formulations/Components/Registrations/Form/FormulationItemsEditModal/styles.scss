@@ -27,9 +27,34 @@
 .formulationItemEdit-btn{
     margin-top: 15px;
 }
-.formulationItemEdit-btn-save{
-    
-}
+
 .formulationItemEdit-btn-del{
     margin-left: 10px;
+}
+@media (max-width: 576px){
+    .formulationItemEdit-row{
+        flex-direction: column;
+    }
+    .formulationItemEdit-quantity{
+        width: 100%;
+    }
+    .formulationItemEdit-round{
+        width: 100%;
+    }
+    .formulationItemEdit-raw-material{
+        width: 100%;
+    }
+    .formulationItemEdit-type{
+        width: 100%;
+    }
+    .formulationItemEdit-btn{
+        display: flex;
+        margin-top: 15px;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .formulationItemEdit-btn-del{
+        margin-left: 10px;
+    }
 }
