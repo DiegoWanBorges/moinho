@@ -12,6 +12,8 @@ import javax.persistence.EntityNotFoundException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ import com.twokeys.moinho.dto.FormulationItemDTO;
 import com.twokeys.moinho.dto.OccurrenceDTO;
 import com.twokeys.moinho.dto.ProductionOrderDTO;
 import com.twokeys.moinho.dto.ProductionOrderItemDTO;
+import com.twokeys.moinho.entities.Formulation;
 import com.twokeys.moinho.entities.ProductionOrder;
 import com.twokeys.moinho.entities.enums.ProductionOrderItemType;
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
@@ -80,6 +83,16 @@ public class ProductionOrderService {
 			return productionOrder;
 		}
 		 
+	}
+		
+	@Transactional(readOnly=true)
+	public Page<ProductionOrderDTO> findByStartDateAndFormulation(Long formulationId,Instant startDate,Instant endDate,PageRequest pageRequest){
+		
+		logger.info(startDate);
+		logger.info(endDate);
+		Formulation formulation = (formulationId==0) ? null : formulationRepository.getOne(formulationId);
+		Page<ProductionOrder> page = repository.findByStartDateAndFormulation(formulation,startDate,endDate,pageRequest);
+		return page.map(x -> new ProductionOrderDTO(x));
 	}
 	
 	@Transactional(readOnly=true)

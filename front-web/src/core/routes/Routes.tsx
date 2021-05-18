@@ -7,6 +7,7 @@ import { isTokenValid } from 'core/utils/auth';
 import PrivateRoute from './PrivateRoutes';
 import Registration from 'pages/Registrations';
 import Formulation from 'pages/Formulations';
+import Production from 'pages/Production';
 
 
 const Routes = () => {
@@ -38,6 +39,10 @@ const Routes = () => {
                 <Redirect from="/formulations" to="/formulations/registrations" exact/>
                 <PrivateRoute path="/formulations">
                     <Formulation />
+                </PrivateRoute>
+                <Redirect from="/productions" to="/productions/registrations" exact/>
+                <PrivateRoute path="/productions">
+                    <Production />
                 </PrivateRoute>
             </Switch>
         </Router>

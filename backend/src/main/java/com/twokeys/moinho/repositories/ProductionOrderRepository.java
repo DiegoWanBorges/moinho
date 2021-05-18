@@ -3,16 +3,24 @@ package com.twokeys.moinho.repositories;
 import java.time.Instant;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.twokeys.moinho.entities.Formulation;
 import com.twokeys.moinho.entities.ProductionOrder;
 
 @Repository
 public interface ProductionOrderRepository extends JpaRepository<ProductionOrder, Long> {
 	List<ProductionOrder> findByStartDateBetweenAndStatus(Instant startDate, Instant endDate,Integer status);
 	List<ProductionOrder> findByEmissionBetweenAndStatus(Instant startDate, Instant endDate,Integer status);
+	
+	@Query("SELECT obj FROM ProductionOrder obj "
+		 + "WHERE (COALESCE(:formulation) IS NULL OR formulation IN :formulation) "
+		 + "AND (obj.emission between :startDate and :endDate) ")
+	Page<ProductionOrder> findByStartDateAndFormulation(Formulation formulation,Instant startDate,Instant endDate, Pageable pageable);
 	
 	@Query(value = " select  "
 				+ " *  "

@@ -23,8 +23,6 @@ public class LaborPaymentResource {
 	@Autowired
 	LaborPaymentService service;
 	
-	
-	
 	@GetMapping(value="/{id}")
 	public ResponseEntity<LaborPaymentDTO> findById(@PathVariable Long id){
 		return  ResponseEntity.ok().body(service.findById(id));
