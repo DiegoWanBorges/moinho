@@ -1,32 +1,36 @@
-
 import { FormulationItem } from 'core/types/Formulation'
 import { useForm, Controller } from 'react-hook-form';
 import Select from 'react-select';
-import { Product } from 'core/types/Product';
 
 import './styles.scss';
 import { useEffect, useState } from 'react';
 import { makePrivateRequest } from 'core/utils/request';
+import { Product } from 'core/types/Product';
 
 type Props = {
     onInsertItem: (formulationItem:FormulationItem) =>void;
+    formulationItem: FormulationItem[];
 }
 
-function FormulationItems({ onInsertItem }: Props) {
+
+function FormulationItems({ onInsertItem, formulationItem }: Props) {
     const { register, errors, control, handleSubmit,setValue } = useForm<FormulationItem>();
     const [isLoadingProducts, setIsLoadingProducts] = useState(false);
-    const [products, setProducts] = useState<Product[]>();
-
+    const [products, setProducts] = useState<Product[]>([]);
+        
     useEffect(() => {
+        setValue('product','');
         setIsLoadingProducts(true);
-        makePrivateRequest({ url: `/products?listname=` })
+        makePrivateRequest({ url: `/products?formulation=${formulationItem.length && (formulationItem[0].formulationId)    }` })
             .then(response => {
                 setProducts(response.data)
+                
             })
             .finally(() => setIsLoadingProducts(false))
-    }, [])
+    }, [formulationItem,setValue])
 
     useEffect(() => {
+        setValue('product','');
         setValue('quantity',1);
         setValue('round','false');
         setValue('rawMaterial','false');
@@ -35,8 +39,6 @@ function FormulationItems({ onInsertItem }: Props) {
     const onSubmit = (data: FormulationItem) => {
         onInsertItem(data)
     }
-
-
 
     return (
         <div className="formulationItem-main">
@@ -54,6 +56,7 @@ function FormulationItems({ onInsertItem }: Props) {
                         getOptionValue={(option: Product) => String(option.id)}
                         classNamePrefix="products-select"
                         placeholder="Produtos"
+                        
                     />
                     {errors.product && (
                         <div className="invalid-feedback d-block">

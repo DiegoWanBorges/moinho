@@ -33,7 +33,7 @@ function NavBar() {
       <div className={drawerActive ? "menu-mobile-container" : "menu-container"}>
         {currentUser && (<ul className="main-menu">
           <li >
-            <NavLink className="nav-link" to="/registrations" exact onClick={() => setDrawerActive(false)}>
+            <NavLink className="nav-link" to="/registrations" onClick={() => setDrawerActive(false)}>
               CADASTROS
             </NavLink>
           </li>

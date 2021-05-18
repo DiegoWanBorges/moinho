@@ -47,6 +47,12 @@ public class ProductResource {
 		List<ProductDTO> list = service.findByNameLikeIgnoreCase(name);
 		return ResponseEntity.ok().body(list);
 	}
+	@GetMapping
+	@RequestMapping(params = "formulation")
+	public ResponseEntity<List<ProductDTO>> findProductNotInFormulation(@RequestParam(value="formulation")Long id){
+		List<ProductDTO> list = service.findProductNotInFormulation(id);
+		return ResponseEntity.ok().body(list);
+	}
 	
 	@GetMapping(value="/{id}")
 	public ResponseEntity<ProductDTO> findById(@PathVariable Long id){

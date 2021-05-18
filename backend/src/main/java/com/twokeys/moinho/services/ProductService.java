@@ -1,4 +1,4 @@
-package com.twokeys.moinho.services;
+ package com.twokeys.moinho.services;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +38,11 @@ public class ProductService {
 	public List<ProductDTO> findByNameLikeIgnoreCase(String name){
 		String nameConcat = "%"+name+"%";
 		List<Product> list =  repository.findByNameLikeIgnoreCase(nameConcat);
+		return list.stream().map(x -> new ProductDTO(x)).collect(Collectors.toList());
+	}
+	@Transactional(readOnly=true)
+	public List<ProductDTO> findProductNotInFormulation(Long id){
+		List<Product> list =  repository.findProductNotInFormulation(id);
 		return list.stream().map(x -> new ProductDTO(x)).collect(Collectors.toList());
 	}
 	@Transactional(readOnly=true)

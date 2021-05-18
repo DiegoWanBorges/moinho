@@ -22,14 +22,11 @@ function FormulationForm() {
     const isEditing = formulationId !== 'new';
     const [isLoadingProducts, setIsLoadingProducts] = useState(false);
     const [products, setProducts] = useState<Product[]>();
-
     const [isLoadingSectors, setIsLoadingSectors] = useState(false);
     const [sectors, setSectors] = useState<Sector[]>();
-
     const [isLoadingOperationalCostTypes, setIsLoadingOperationalCostTypes] = useState(false);
     const [operationalCostTypes, setOperationalCostTypes] = useState<OperationalCostType[]>();
-
-    const [formulationItem, setFormulationItem] = useState<FormulationItem[]>();
+    const [formulationItem, setFormulationItem] = useState<FormulationItem[]>([]);
 
     useEffect(() => {
         setIsLoadingProducts(true)
@@ -154,8 +151,8 @@ function FormulationForm() {
         <form onSubmit={handleSubmit(onSubmit)} className="formulation-form">
 
             <div className="formulation-form-row">
-                '  <div className="formulation-form-row-description">
-                    <label className="label-base" >Descrição:</label>
+                  <div className="formulation-form-row-description">
+                    <label className="label-base">Descrição:</label>
                     <input
                         name="description"
                         type="text"
@@ -172,9 +169,9 @@ function FormulationForm() {
                         </div>
                     )}
                 </div>
-                '
+                
                  <div className="formulation-form-row-item">
-                    <label className="label-base" >Coeficiente:</label>
+                    <label className="label-base">Coeficiente:</label>
                     <input
                         name="coefficient"
                         type="number"
@@ -270,6 +267,8 @@ function FormulationForm() {
             {
                 isEditing && (<FormulationItems 
                                     onInsertItem={onInsertItem}
+                                    formulationItem={formulationItem}
+
                               />)
             }
             {
