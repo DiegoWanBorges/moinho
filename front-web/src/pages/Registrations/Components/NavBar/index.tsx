@@ -30,7 +30,7 @@ const NavBarRegistration = () => (
                 <NavLink to="/registrations/employees" className="nav-registration-item">Funcionários</NavLink>
             </li>
             <li>
-                <NavLink to="/registrations/laborcosttypes" className="nav-registration-item">Custo funcionario</NavLink>
+                <NavLink to="/registrations/laborcosttypes" className="nav-registration-item">Custo funcionário</NavLink>
             </li>
             <li>
                 <NavLink to="/registrations/operationalcosttypes" className="nav-registration-item">Custo operacional</NavLink>

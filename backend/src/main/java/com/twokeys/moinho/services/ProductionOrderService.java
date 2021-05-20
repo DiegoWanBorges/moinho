@@ -24,6 +24,7 @@ import com.twokeys.moinho.dto.ProductionOrderDTO;
 import com.twokeys.moinho.dto.ProductionOrderItemDTO;
 import com.twokeys.moinho.entities.Formulation;
 import com.twokeys.moinho.entities.ProductionOrder;
+import com.twokeys.moinho.entities.enums.FormulationItemType;
 import com.twokeys.moinho.entities.enums.ProductionOrderItemType;
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
 import com.twokeys.moinho.repositories.FormulationRepository;
@@ -59,24 +60,29 @@ public class ProductionOrderService {
 		Double quantityItem =0.0;
 		
 		for (FormulationItemDTO formulationItems : formulation.getFormulationItems()) {
-			occurrence = new OccurrenceDTO(1L,"NORMAL");
-			quantityItem= (ammount*formulationItems.getQuantity())/formulation.getCoefficient();
-			productionOrderItems = new ProductionOrderItemDTO();
-			productionOrderItems.setOccurrence(occurrence);
-			productionOrderItems.setRawMaterial(formulationItems.getRawMaterial());
-			if (formulationItems.getRound()) {
-				productionOrderItems.setQuantity( Double.valueOf(new BigDecimal(quantityItem).setScale(0,RoundingMode.UP).toString()));
-			}else {
-				productionOrderItems.setQuantity(Double.valueOf(new BigDecimal(quantityItem).setScale(2,RoundingMode.HALF_UP).toString()));
+			if(formulationItems.getType() == FormulationItemType.NORMAL) {
+				occurrence = new OccurrenceDTO(1L,"NORMAL");
+				quantityItem= (ammount*formulationItems.getQuantity())/formulation.getCoefficient();
+				productionOrderItems = new ProductionOrderItemDTO();
+				productionOrderItems.setOccurrence(occurrence);
+				productionOrderItems.setRawMaterial(formulationItems.getRawMaterial());
+				if (formulationItems.getRound()) {
+					productionOrderItems.setQuantity( Double.valueOf(new BigDecimal(quantityItem).setScale(0,RoundingMode.UP).toString()));
+				}else {
+					productionOrderItems.setQuantity(Double.valueOf(new BigDecimal(quantityItem).setScale(2,RoundingMode.HALF_UP).toString()));
+				}
+				productionOrderItems.setType(ProductionOrderItemType.NORMAL);
+				productionOrderItems.setProduct(formulationItems.getProduct());
+				productionOrder.getProductionOrderItems().add(productionOrderItems);
 			}
-			productionOrderItems.setType(ProductionOrderItemType.NORMAL);
-			productionOrderItems.setProduct(formulationItems.getProduct());
-			productionOrder.getProductionOrderItems().add(productionOrderItems);
+			
 		}
+		
 		productionOrder.setEmission(Instant.now());
 		productionOrder.setExpectedAmount(ammount);
 		productionOrder.setStatus(ProductionOrderStatus.ABERTO);
 		productionOrder.setFormulation(formulation);
+		
 		if (persistence) {
 			return insert(productionOrder);
 		}else {
@@ -121,7 +127,7 @@ public class ProductionOrderService {
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
 		}catch(Exception e) {
-			throw new UntreatedException("untreated exception: " + e.getMessage());
+			throw new UntreatedException(e.getMessage());
 		}
 	}
 	

@@ -1,0 +1,29 @@
+.production-create-main{
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.production-create-row{
+    display: flex;
+    flex-direction: column;
+}
+.production-create-select{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+.production-create-amount{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+}
+.production-create-action{
+    margin-top: 20px;
+}
+.production-create-btn-gerar{
+    margin-left: 5px;
+}
+.production-create-btn-save{
+    margin-left: 5px;
+}

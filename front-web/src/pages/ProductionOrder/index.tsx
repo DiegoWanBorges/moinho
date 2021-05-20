@@ -2,14 +2,14 @@ import PrivateRoute from 'core/routes/PrivateRoutes'
 import './styles.scss'
 import { Switch } from 'react-router-dom'
 import NavBarProduction from './Components/NavBar';
-import ProductionList from './Components/Registrations/List';
+import ProductionOrderRegistration from './Components/Registrations/';
 const Production = () => ( 
     <div className="admin-container">
         <NavBarProduction/>
         <div className="admin-content">
             <Switch>
                 <PrivateRoute path="/productions/registrations" >
-                    <ProductionList/>
+                    <ProductionOrderRegistration/>
                 </PrivateRoute>
                 <PrivateRoute path="/productions/reports" >
                     <h1>Relatorios</h1>

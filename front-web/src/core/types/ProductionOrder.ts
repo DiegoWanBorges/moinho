@@ -1,6 +1,11 @@
 import { Product } from "./Product";
 import { Formulation } from "./Formulation";
 
+export type ProductionOrdersResponse ={
+    content: ProductionOrder[];
+    totalPages: number;
+}
+
 
 export type ProductionOrder= {
     id: number;

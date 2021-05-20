@@ -106,7 +106,7 @@ public class ProductionOrderItemService {
 		}catch(StockMovementException e) {
 			throw new StockMovementException(e.getMessage());
 		}catch(Exception e) {
-			throw new UntreatedException("untreated exception: " + e.getMessage());
+			throw new UntreatedException(e.getMessage());
 		}
 	}
 	public ProductionOrderItem convertToEntity(ProductionOrderItemDTO dto) {

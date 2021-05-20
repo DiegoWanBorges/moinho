@@ -133,7 +133,7 @@ public class ProductionOrderOperationalCostService {
 		}catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Integrity violation");
 		}catch(Exception e) {
-			throw new UntreatedException("untreated exception: " + e.getMessage());
+			throw new UntreatedException(e.getMessage());
 		}
 	}
 }

@@ -67,14 +67,14 @@ function FormulationForm() {
                     setFormulationItem(response.data.formulationItems)
                 })
         }
-    }, [formulationId,isEditing,setValue])
+    }, [formulationId, isEditing, setValue])
 
-    useEffect(() =>{
+    useEffect(() => {
         getFormulationItems();
-    },[getFormulationItems])
+    }, [getFormulationItems])
 
-    
-    
+
+
 
 
 
@@ -94,9 +94,9 @@ function FormulationForm() {
     }
 
     const onInsertItem = (data: FormulationItem) => {
-        const payload ={
+        const payload = {
             ...data,
-            formulationId:formulationId
+            formulationId: formulationId
         }
         makePrivateRequest({
             url: '/formulationsitems/',
@@ -113,28 +113,28 @@ function FormulationForm() {
     }
     const onDeleteItem = (data: FormulationItem) => {
         const confirm = window.confirm("Deseja excluir o ingrediente selecionado da formulação?");
-       if (confirm){
-        makePrivateRequest({
-            url: `/formulationsitems/${formulationId},${data.product.id}`,
-            method: 'DELETE',
-            
-        })
-            .then(() => {
-                getFormulationItems();
-                toast.success("Item de formulação excluido com sucesso!");
+        if (confirm) {
+            makePrivateRequest({
+                url: `/formulationsitems/${formulationId},${data.product.id}`,
+                method: 'DELETE',
+
             })
-            .catch(() => {
-                toast.error("Erro ao excluir item de formulação!")
-            })
-       }
+                .then(() => {
+                    getFormulationItems();
+                    toast.success("Item de formulação excluido com sucesso!");
+                })
+                .catch(() => {
+                    toast.error("Erro ao excluir item de formulação!")
+                })
+        }
     }
     const onEditItem = (data: FormulationItem) => {
         console.log(data)
         makePrivateRequest({
             url: `/formulationsitems/${formulationId},${data.product.id}`,
             method: 'PUT',
-            data:data,
-            
+            data: data,
+
         })
             .then(() => {
                 getFormulationItems();
@@ -151,7 +151,7 @@ function FormulationForm() {
         <form onSubmit={handleSubmit(onSubmit)} className="formulation-form">
 
             <div className="formulation-form-row">
-                  <div className="formulation-form-row-description">
+                <div className="formulation-form-row-description">
                     <label className="label-base">Descrição:</label>
                     <input
                         name="description"
@@ -169,8 +169,8 @@ function FormulationForm() {
                         </div>
                     )}
                 </div>
-                
-                 <div className="formulation-form-row-item">
+
+                <div className="formulation-form-row-item">
                     <label className="label-base">Coeficiente:</label>
                     <input
                         name="coefficient"
@@ -265,11 +265,11 @@ function FormulationForm() {
             </div>
 
             {
-                isEditing && (<FormulationItems 
-                                    onInsertItem={onInsertItem}
-                                    formulationItem={formulationItem}
+                isEditing && (<FormulationItems
+                    onInsertItem={onInsertItem}
+                    formulationItem={formulationItem}
 
-                              />)
+                />)
             }
             {
                 isEditing && (

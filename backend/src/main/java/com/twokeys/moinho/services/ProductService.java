@@ -68,7 +68,7 @@ public class ProductService {
 		}catch (DataIntegrityViolationException e ) {
 			throw new DatabaseException("Database integrity reference");
 		}catch(Exception e) {
-			throw new UntreatedException("untreated exception: " + e.getMessage());
+			throw new UntreatedException(e.getMessage());
 		}
 	}
 	@Transactional

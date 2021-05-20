@@ -7,7 +7,7 @@ import { isTokenValid } from 'core/utils/auth';
 import PrivateRoute from './PrivateRoutes';
 import Registration from 'pages/Registrations';
 import Formulation from 'pages/Formulations';
-import Production from 'pages/Production';
+import Production from 'pages/ProductionOrder';
 
 
 const Routes = () => {
