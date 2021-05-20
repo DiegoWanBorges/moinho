@@ -52,7 +52,7 @@ public class ProductionOrderService {
 	
 	
 	@Transactional
-	public ProductionOrderDTO createProductionOrder(Long formulationId, Double ammount,Boolean persistence){
+	public ProductionOrderDTO createProductionOrder(Long formulationId, Double ammount,Boolean persistence, Instant startDate){
 		FormulationDTO formulation = formulationService.findById(formulationId);
 		ProductionOrderDTO productionOrder = new ProductionOrderDTO();
 		ProductionOrderItemDTO productionOrderItems; 
@@ -79,6 +79,7 @@ public class ProductionOrderService {
 		}
 		
 		productionOrder.setEmission(Instant.now());
+		productionOrder.setStartDate(startDate);
 		productionOrder.setExpectedAmount(ammount);
 		productionOrder.setStatus(ProductionOrderStatus.ABERTO);
 		productionOrder.setFormulation(formulation);

@@ -3,7 +3,7 @@ package com.twokeys.moinho.resources;
 import java.net.URI;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,8 +39,8 @@ public class ProductionOrderResource {
 			@RequestParam(value = "orderBy", defaultValue = "emission") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "DESC") String direction
 			){
-			Instant start = startDate.toInstant(ZoneOffset.UTC);
-			Instant end = endDate.toInstant(ZoneOffset.UTC);
+			Instant start = startDate.atZone(ZoneId.of("America/Sao_Paulo")).toInstant();
+			Instant end = endDate.atZone(ZoneId.of("America/Sao_Paulo")).toInstant();
 			PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
 			Page<ProductionOrderDTO> list = service.findByStartDateAndFormulation(formulationId,start,end, pageRequest);
 			return ResponseEntity.ok().body(list);
@@ -50,8 +50,10 @@ public class ProductionOrderResource {
 	@PostMapping
 	public ResponseEntity<ProductionOrderDTO> createProductionOrder(@RequestParam(value = "formulationId") Long  formulationId,
 													   				@RequestParam(value = "ammount") Double ammount,
-													   				@RequestParam(value = "persistence", defaultValue = "false") Boolean persistence){
-		ProductionOrderDTO dto = service.createProductionOrder(formulationId,ammount,persistence);
+													   				@RequestParam(value = "persistence", defaultValue = "false") Boolean persistence,
+													   				@RequestParam(value = "startDate")LocalDateTime  startDate){
+		Instant start = startDate.atZone(ZoneId.of("America/Sao_Paulo")).toInstant();
+		ProductionOrderDTO dto = service.createProductionOrder(formulationId,ammount,persistence,start);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				  .buildAndExpand(dto.getId()).toUri();
 		if(persistence) {

@@ -12,18 +12,15 @@ import ProductionOrderCard from '../Card';
 
 
 function ProductionOrderList() {
-    const [initialDate, setInitialDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [startDate, setStartDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth(), 1, 0,0));
+    const [endDate, setEndDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth() + 1, 0,23,59));
     const [productionOrderResponse, setProductionOrderResponse] = useState<ProductionOrdersResponse>();
     const [activePage, setActivePage] = useState(0);
-    
   
     const getProductionOrders = useCallback(() => {
-        console.log(initialDate)
-        console.log(endDate)
         const params = {
             page: activePage,
-            startDate: moment(initialDate).format("DD/MM/YYYY HH:mm"),
+            startDate: moment(startDate).format("DD/MM/YYYY HH:mm"),
             endDate:moment(endDate).format("DD/MM/YYYY HH:mm"),
             linesPerPage: 10,
             orderBy:"id",
@@ -35,11 +32,7 @@ function ProductionOrderList() {
             .finally(() => {
     
             })
-    }, [activePage,initialDate,endDate])
-
-    const onSearch = () => {
-        getProductionOrders();
-    }
+    }, [activePage,startDate,endDate])
 
     useEffect(() =>{
         getProductionOrders();
@@ -85,9 +78,10 @@ function ProductionOrderList() {
                     <DateTime
                         dateFormat="DD/MM/YYYY"
                         timeFormat="HH:mm"
-                        onChange={(e) => setInitialDate(e.toString())}
+                        onChange={(e) => setStartDate(moment(e.toString()).toDate())}
                         closeOnSelect={true}
                         locale="pt-br"
+                        initialValue={startDate}
                     />
 
                 </div>
@@ -97,20 +91,12 @@ function ProductionOrderList() {
                     <DateTime
                         dateFormat="DD/MM/YYYY"
                         timeFormat="HH:mm"
-                        onChange={(e) => setEndDate(e.toString())}
+                        onChange={(e) => setEndDate(moment(e.toString()).toDate())}
                         closeOnSelect={true}
                         locale="pt-br"
+                        initialValue={endDate}
                     />
                 </div>
-                <div className="production-list-filter-btn">
-                    <button 
-                        className="btn btn-success"
-                        onClick={onSearch}
-                    >
-                        Pesquisar
-                    </button>
-                </div>
-
             </div>
 
             

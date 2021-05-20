@@ -13,10 +13,15 @@
     flex-direction: column;
     width: 50%;
 }
+.production-create-inf{
+    display: flex;
+    justify-content: baseline;
+}
 .production-create-amount{
     display: flex;
     flex-direction: column;
     width: 250px;
+    margin-left: 10px;
 }
 .production-create-action{
     margin-top: 20px;

@@ -6,33 +6,22 @@
 
 }
 .group-card-inf{
-    width: 70%;
+    width: 60%;
 }
 .group-card-action{
     display: flex;
-    width: 30%;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
     
 }
-.group-card-action-btn{
-    border-radius: 10px;
-    width: 45%;
+.group-card-action-edit{
+    width: 100%;
+    height: 60%;
 }
-.group-card-action-btn-edit{
-    margin-right: 5px;
+.group-card-action-save{
+    width: 100%;
+    margin-left: 10px;
+    height: 60%;
 }
-@media (max-width: 576px){
-    .group-card{
-        display: flex;
-        flex-direction: column;
-        padding: auto;
-    }
-    .group-card-action-btn{
-        width: 100%;
-    }
-    .group-card-inf{
-        width: 100%;
-    }
-    .group-card-action{
-        width: 100%;
-    }
-}
+

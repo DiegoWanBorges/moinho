@@ -1,5 +1,5 @@
 import { ProductionOrder } from 'core/types/ProductionOrder';
-import { Link } from 'react-router-dom';
+import history from 'core/utils/history';
 import './styles.scss';
 
 type Props={
@@ -7,28 +7,33 @@ type Props={
     onRemove: (productionOrderId:number) =>void;
 }
 const ProductionOrderCard = ({ productionOrder,onRemove }:Props) => {
+    const onEdit =()=>{
+        history.push(`/productions/registrations/${productionOrder.id}`)
+    }
     return (
         <div className="group-card">
          
           <div className="group-card-inf">
-            {productionOrder.id}  - 
-            {productionOrder.emission} -
-            {productionOrder.status} - 
-            {productionOrder.formulation.description} 
+            <h5>{`O.P: ${productionOrder.id} - ${productionOrder.formulation.description}`}</h5>
+            <small>{
+                    `Dt. Emissão: ${productionOrder.emission} / 
+                     Dt. Inicio: ${productionOrder.startDate ===null ? `-` : productionOrder.startDate  } / 
+                     Dt. Fim: ${productionOrder.endDate ===null ? `-` : productionOrder.endDate  }`}
+            </small>
+            <h6>{productionOrder.status}</h6>
           </div>
           
 
           <div className="group-card-action">
-                <Link
-                    to={`/productions/registrations/${productionOrder.id}`}
-                    type="button"
-                    className="btn btn-outline-secondary group-card-action-btn group-card-action-btn-edit">
+                <button
+                    onClick={onEdit}
+                    className="btn btn-outline-secondary group-card-action-edit ">
                     EDITAR
-                </Link>
+                </button>
 
                 <button
                     type="button"
-                    className="btn btn-outline-danger group-card-action-btn"
+                    className="btn btn-outline-danger group-card-action-save"
                     onClick={() => onRemove(productionOrder.id)}
                 >
                     EXCLUIR
