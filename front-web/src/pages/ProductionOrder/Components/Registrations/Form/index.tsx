@@ -1,20 +1,55 @@
+import { ProductionOrder } from 'core/types/ProductionOrder';
+import { makePrivateRequest } from 'core/utils/request';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import ProductionOrderHeader from './ProductionOrderHeader';
 import './styles.scss';
 
+type ParamsType = {
+    productionOrderId: string;
+}
+
 function ProductionOrderForm() {
+    const { productionOrderId } = useParams<ParamsType>();
+    const [productionOrder, setProductionOrder] = useState<ProductionOrder>();
+
+
+    useEffect(() => {
+        makePrivateRequest({ url: `/productionorders/${productionOrderId}` })
+            .then(response => setProductionOrder(response.data))
+            .finally(() => {
+
+            })
+    }, [productionOrderId])
+
+
+
 
     return (
         <form >
 
             <Tabs className="tab-main">
                 <TabList>
+                    <Tab>Ordem de Produção</Tab>
                     <Tab>Ingredientes</Tab>
-                    <Tab>Title 2</Tab>
-                    <Tab>Title 3</Tab>
+                    <Tab>Produção</Tab>
                 </TabList>
 
                 <TabPanel>
-                    <h2>Any content 1</h2>
+                    {
+                        productionOrder && (
+                            <ProductionOrderHeader
+                                productionOrder={productionOrder}
+                            />
+                        )
+                    }
+                </TabPanel>
+                <TabPanel>
+                    <h2>Any content 2</h2>
+                </TabPanel>
+                <TabPanel>
+                    <h2>Any content 3</h2>
                 </TabPanel>
 
             </Tabs>

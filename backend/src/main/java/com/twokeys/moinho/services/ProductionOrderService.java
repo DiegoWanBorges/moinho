@@ -95,8 +95,6 @@ public class ProductionOrderService {
 	@Transactional(readOnly=true)
 	public Page<ProductionOrderDTO> findByStartDateAndFormulation(Long formulationId,Instant startDate,Instant endDate,PageRequest pageRequest){
 		
-		logger.info(startDate);
-		logger.info(endDate);
 		Formulation formulation = (formulationId==0) ? null : formulationRepository.getOne(formulationId);
 		Page<ProductionOrder> page = repository.findByStartDateAndFormulation(formulation,startDate,endDate,pageRequest);
 		return page.map(x -> new ProductionOrderDTO(x));
@@ -136,7 +134,13 @@ public class ProductionOrderService {
 	public ProductionOrderDTO update(Long id, ProductionOrderDTO dto) {
 		try {
 			ProductionOrder entity = repository.getOne(id);
-			convertToEntity(dto, entity);
+			entity.setStartDate(dto.getStartDate());
+			entity.setEndDate(dto.getEndDate());
+			entity.setObservation(dto.getObservation());
+			if(entity.getStatus()==ProductionOrderStatus.ABERTO && dto.getEndDate() != null  ) {
+				entity.setStatus(ProductionOrderStatus.ENCERRADO);
+			}
+			
 			entity = repository.save(entity);
 			return new ProductionOrderDTO(entity);
 		}catch(EntityNotFoundException e) {

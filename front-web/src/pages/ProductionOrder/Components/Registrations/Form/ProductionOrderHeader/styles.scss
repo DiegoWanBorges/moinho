@@ -1,0 +1,32 @@
+.production-order-header-main{
+    display: flex;
+    flex-direction: column;
+}
+.production-order-header-date{
+    display: flex;
+    margin-top: 20px;    
+
+}
+.production-order-header-date-start{
+    width: 25%;
+}
+.production-order-header-date-end{
+    margin-left: 10px;
+    width: 25%;
+}
+.production-order-header-text-area{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    width: 50%;
+}
+.production-order-header-actions{
+    margin-top: 10px;
+}
+.production-order-header-actions-save{
+    margin-left: 10px;
+}
+.production-order-header-text-inf{
+    margin-top: 5px;
+    color: red;
+}

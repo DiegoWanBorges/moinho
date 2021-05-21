@@ -12,32 +12,32 @@ import ProductionOrderCard from '../Card';
 
 
 function ProductionOrderList() {
-    const [startDate, setStartDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth(), 1, 0,0));
-    const [endDate, setEndDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth() + 1, 0,23,59));
+    const [startDate, setStartDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth(), 1, 0, 0));
+    const [endDate, setEndDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth() + 1, 0, 23, 59));
     const [productionOrderResponse, setProductionOrderResponse] = useState<ProductionOrdersResponse>();
     const [activePage, setActivePage] = useState(0);
-  
+
     const getProductionOrders = useCallback(() => {
         const params = {
             page: activePage,
             startDate: moment(startDate).format("DD/MM/YYYY HH:mm"),
-            endDate:moment(endDate).format("DD/MM/YYYY HH:mm"),
+            endDate: moment(endDate).format("DD/MM/YYYY HH:mm"),
             linesPerPage: 10,
-            orderBy:"id",
-            direction:"DESC"
+            orderBy: "id",
+            direction: "DESC"
         }
         console.log(params)
         makePrivateRequest({ url: '/productionorders', params })
             .then(response => setProductionOrderResponse(response.data))
             .finally(() => {
-    
-            })
-    }, [activePage,startDate,endDate])
 
-    useEffect(() =>{
+            })
+    }, [activePage, startDate, endDate])
+
+    useEffect(() => {
         getProductionOrders();
-    },[activePage,getProductionOrders])
- 
+    }, [activePage, getProductionOrders])
+
     const history = useHistory();
 
     const onRemove = (productionOrderId: number) => {
@@ -64,11 +64,11 @@ function ProductionOrderList() {
     return (
         <div className="production-list">
             <div className="production-list-actions">
-            <button
-                className="btn btn-primary btn-lg production-list-btn-add"
-                onClick={handCreate}
-            >
-                Nova O.P.
+                <button
+                    className="btn btn-primary btn-lg production-list-btn-add"
+                    onClick={handCreate}
+                >
+                    Nova O.P.
             </button>
             </div>
 
@@ -99,7 +99,7 @@ function ProductionOrderList() {
                 </div>
             </div>
 
-            
+
             <div className="admin-list-container">
                 {productionOrderResponse?.content.map(productionOrder => (
                     <ProductionOrderCard
