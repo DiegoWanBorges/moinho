@@ -15,6 +15,7 @@ export type Formulation={
     product: Product;
     apportionments: OperationalCostType[];
     sectors: Sector[];
+    formulationItems:FormulationItem[];
 }
 
 export type FormulationItem ={

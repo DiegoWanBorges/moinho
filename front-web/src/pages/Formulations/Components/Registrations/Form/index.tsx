@@ -84,13 +84,13 @@ function FormulationForm() {
             method: isEditing ? 'PUT' : 'POST',
             data: data
         })
-            .then(() => {
+        .then(() => {
                 toast.success("Formulação salva com sucesso!")
                 history.push('/formulations/registrations/')
-            })
-            .catch(() => {
+        })
+        .catch(() => {
                 toast.error("Erro ao salvar formulação!")
-            })
+        })
     }
 
     const onInsertItem = (data: FormulationItem) => {

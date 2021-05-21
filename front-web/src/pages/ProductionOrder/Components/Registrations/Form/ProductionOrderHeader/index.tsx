@@ -1,36 +1,57 @@
 import { ProductionOrder } from 'core/types/ProductionOrder';
+import history from 'core/utils/history';
+import { makePrivateRequest } from 'core/utils/request';
 import { toISOFormat } from 'core/utils/utils';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import DateTime from 'react-datetime'
-import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+
 
 import './styles.scss';
 
 type Props = {
     productionOrder: ProductionOrder;
 }
-type FormData = {
-    id: number;
-    status: string;
-}
-
 const ProductionOrderHeader = ({ productionOrder }: Props) => {
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
-    const { register, handleSubmit, setValue } = useForm<FormData>();
+    const [observation,setObservation] = useState(' ');
 
     useEffect(() =>{
         setStartDate(moment(toISOFormat(productionOrder.startDate)).toDate());
         if(productionOrder.endDate !=null) {
             setEndDate(moment(toISOFormat(productionOrder.endDate)).toDate());
         }
-         
+         setObservation(productionOrder.observation)
 
     },[productionOrder])
 
     const onSave = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
         e.preventDefault();
+        const data ={
+            startDate: moment(startDate).format("DD/MM/YYYY HH:mm"),
+            endDate:endDate === undefined ? null :  moment(endDate).format("DD/MM/YYYY HH:mm"),
+            observation:observation
+        }
+        makePrivateRequest({
+            url: `/productionorders/${productionOrder.id}` ,
+            method: 'PUT',
+            data: data
+        })
+        .then(() => {
+                toast.success("Ordem de produção atualizada com sucesso!")
+                history.push('/productions/registrations/')
+        })
+        .catch(() => {
+                toast.error("Erro ao salvar ordem de produção !")
+        })
+
+    }
+
+    const onCancel = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
+        e.preventDefault();
+        history.push('./')
     }
 
     return (
@@ -75,13 +96,18 @@ const ProductionOrderHeader = ({ productionOrder }: Props) => {
             </div>
             <div className="production-order-header-text-area">
                 <label className="label-base">Observação:</label>
-                <textarea>
+                <textarea
+                    onChange={(e)=> setObservation(e.target.value)}
+                    value={observation}
+                    
+                />
 
-                </textarea>
+                
             </div>
             <div className="production-order-header-actions">
                 <button
                     className="btn btn-secondary"
+                    onClick={(e) =>onCancel(e)}
                 >
                     Cancelar
                 </button>
@@ -92,7 +118,7 @@ const ProductionOrderHeader = ({ productionOrder }: Props) => {
                     Salvar
                 </button>
             </div>
-            <small className="production-order-header-text-inf">*Para finalizar a ordem de proução informe a data final.</small>
+            <small className="production-order-header-text-inf">*Para finalizar a ordem de produção informe a data final.</small>
 
         </form>
     )

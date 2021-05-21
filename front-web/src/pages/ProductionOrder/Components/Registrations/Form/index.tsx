@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ProductionOrderHeader from './ProductionOrderHeader';
+import ProductionOrderItems from './ProductionOrderItems';
+
 import './styles.scss';
 
 type ParamsType = {
@@ -14,7 +16,6 @@ function ProductionOrderForm() {
     const { productionOrderId } = useParams<ParamsType>();
     const [productionOrder, setProductionOrder] = useState<ProductionOrder>();
 
-
     useEffect(() => {
         makePrivateRequest({ url: `/productionorders/${productionOrderId}` })
             .then(response => setProductionOrder(response.data))
@@ -22,9 +23,6 @@ function ProductionOrderForm() {
 
             })
     }, [productionOrderId])
-
-
-
 
     return (
         <form >
@@ -37,20 +35,23 @@ function ProductionOrderForm() {
                 </TabList>
 
                 <TabPanel>
-                    {
-                        productionOrder && (
-                            <ProductionOrderHeader
-                                productionOrder={productionOrder}
-                            />
-                        )
-                    }
+                    {productionOrder && (
+                        <ProductionOrderHeader
+                            productionOrder={productionOrder}
+                        />
+                    )}
                 </TabPanel>
                 <TabPanel>
-                    <h2>Any content 2</h2>
+                    {productionOrder && (
+                        <ProductionOrderItems
+                            productionOrder={productionOrder}
+                        />
+                    )}
                 </TabPanel>
-                <TabPanel>
-                    <h2>Any content 3</h2>
-                </TabPanel>
+
+
+
+
 
             </Tabs>
         </form>

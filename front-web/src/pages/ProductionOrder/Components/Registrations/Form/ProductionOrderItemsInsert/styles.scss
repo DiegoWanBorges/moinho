@@ -1,0 +1,74 @@
+.formulationItem-main{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.formulationItem-row{
+    display: flex;
+}
+.formulationItem-select{
+    width: 40%;
+    height: 40px !important;
+}
+.formulationItem-quantity{
+    display: flex;
+    flex-direction: column;
+    width: 12%;
+    margin-left: 5px;
+}
+.formulationItem-round{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    margin-left: 5px;
+    width: 30%;
+    
+}
+.formulationItem-raw-material{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    margin-left: 5px;
+    width: 15%;
+}
+.formulationItem-type{
+    display: flex;
+    flex-direction: column;
+    margin-left: 5px;
+    width: 12%;
+}
+.formulationItem-insert{
+    display: flex;
+    flex-direction: column-reverse;
+    margin-left: 5px;
+    width: 12%;
+}
+@media (max-width: 1200px){
+    .formulationItem-row{
+        flex-direction: column;
+    }
+    .formulationItem-select{
+        width: 100%;
+   
+    }
+    .formulationItem-quantity{
+        margin-top: 35px;
+        width: 100%;
+    }
+    .formulationItem-round{
+        text-align: left;
+        width: 100%;
+    }
+    .formulationItem-raw-material{
+        text-align: left;
+        width: 100%;
+    }
+    .formulationItem-type{
+        width: 100%;
+    }
+    .formulationItem-insert{
+        margin-top: 5px;
+        width: 100%;
+    }
+}
