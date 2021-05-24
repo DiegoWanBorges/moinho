@@ -44,7 +44,7 @@ function ProductionOrderForm() {
                 <TabPanel>
                     {productionOrder && (
                         <ProductionOrderItems
-                            productionOrder={productionOrder}
+                            productionOrderId={productionOrderId}
                         />
                     )}
                 </TabPanel>

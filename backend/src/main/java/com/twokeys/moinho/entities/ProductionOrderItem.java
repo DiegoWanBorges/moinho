@@ -22,6 +22,7 @@ public class ProductionOrderItem implements Serializable {
 	private Long stockId;
 	private Double quantity;
 	private Double cost; 
+	
 	private ProductionOrderItemType type;
 	private boolean rawMaterial;
 	@ManyToOne

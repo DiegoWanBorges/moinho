@@ -1,33 +1,71 @@
 import { ProductionOrder, ProductionOrderItem } from 'core/types/ProductionOrder';
-import ProductionOrderItemsInsert from '../ProductionOrderItemsInsert';
+import { makePrivateRequest } from 'core/utils/request';
+import { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+
+import ProductionOrderItemCard from './ProductionOrderItemCard';
+import ProductionOrderItemsInsert from './ProductionOrderItemsInsert';
 import './styles.scss';
 
 type Props = {
-    productionOrder: ProductionOrder;
+    productionOrderId: string;
 }
 
-const ProductionOrderItems = ({ productionOrder }: Props) => {
-  
+const ProductionOrderItems = ({ productionOrderId }: Props) => {
+    const [productionOrder, setProductionOrder] = useState<ProductionOrder>();
+
+
+    const getProductionOrder = useCallback(() => {
+        makePrivateRequest({ url: `/productionorders/${productionOrderId}` })
+            .then(response => setProductionOrder(response.data))
+    }, [productionOrderId])
+
+    useEffect(() => {
+        getProductionOrder()
+    }, [getProductionOrder])
+
+
     const onInsertItem = (data: ProductionOrderItem) => {
-        console.log(data)
+        makePrivateRequest({
+            url: '/productionorderitems/',
+            method: 'POST',
+            data: data
+        })
+        .then(() => {
+                toast.success("Item salvo com sucesso!");
+                getProductionOrder();
+        })
+        .catch(() => {
+                toast.error("Erro ao salvar item!")
+        })
     }
-    const onDeleteItem = (data: ProductionOrderItem) => {
-        const confirm = window.confirm("Deseja excluir o ingrediente selecionado da formulação?");
-        console.log(data)
-    }
-    const onEditItem = (data: ProductionOrderItem) => {
-        console.log(data)
-    }
+    
+
     return (
         <form>
-            {<ProductionOrderItemsInsert 
-                onInsertItem={onInsertItem}
-                productionOrder={productionOrder}
-            />
-            
-            
+            {
+                productionOrder && (
+                    <ProductionOrderItemsInsert
+                        onInsertItem={onInsertItem}
+                        productionOrder={productionOrder}
+                    />
+                )
+            }
+
+
+            {
+                productionOrder && (
+                    productionOrder.productionOrderItems.map(item => (
+                        <ProductionOrderItemCard
+                            productionOrderItem={item}
+                        />
+                    ))
+                )
 
             }
+
+
+
         </form>
     )
 }

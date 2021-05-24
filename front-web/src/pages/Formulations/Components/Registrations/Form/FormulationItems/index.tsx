@@ -34,6 +34,7 @@ function FormulationItems({ onInsertItem, formulationItem }: Props) {
         setValue('quantity',1);
         setValue('round','false');
         setValue('rawMaterial','false');
+        
     }, [setValue])
 
     const onSubmit = (data: FormulationItem) => {

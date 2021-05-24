@@ -1,6 +1,7 @@
 package com.twokeys.moinho.resources;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,15 @@ import com.twokeys.moinho.services.ProductionOrderItemService;
 public class ProductionOrderItemsResource {
 	@Autowired
 	ProductionOrderItemService service;
-	
+
 	@PostMapping
-	public ResponseEntity<List<ProductionOrderItemDTO>> insert(@RequestBody List<ProductionOrderItemDTO> dto){
-		dto = service.insert(dto);
+	public ResponseEntity<List<ProductionOrderItemDTO>> insertObject(@RequestBody ProductionOrderItemDTO dto){
+		List<ProductionOrderItemDTO> list = new ArrayList<>();
+		list.add(dto);
+		list = service.insert(list);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				  .buildAndExpand(dto.get(0).getProductionOrderId()).toUri();
-		return ResponseEntity.created(uri).body(dto);
+				  .buildAndExpand(list.get(0).getProductionOrderId()).toUri();
+		return ResponseEntity.created(uri).body(list);
 	}
 	
 }
