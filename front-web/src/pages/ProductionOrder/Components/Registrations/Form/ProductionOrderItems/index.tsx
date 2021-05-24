@@ -40,7 +40,6 @@ const ProductionOrderItems = ({ productionOrderId }: Props) => {
         })
     }
     const onEditItem = (data: ProductionOrderItem) => {
-        console.log(data)
         makePrivateRequest({
             url: '/productionorderitems/',
             method: 'PUT',
@@ -54,7 +53,23 @@ const ProductionOrderItems = ({ productionOrderId }: Props) => {
                 toast.error("Erro ao atualizar item!")
         })
     }
-
+    const onDeleteItem = (data: ProductionOrderItem) => {
+        const confirm = window.confirm("Deseja excluir a formulação selecionada?");
+        if (confirm){
+            makePrivateRequest({
+                url: `/productionorderitems?productionOrderId=${data?.productionOrderId}
+                      &productId=${data.product.id}&serie=${data.serie}`,
+                method: 'DELETE',
+            })
+            .then(() => {
+                    toast.success("Item excluido com sucesso!");
+                    getProductionOrder();
+            })
+            .catch(() => {
+                    toast.error("Erro ao excluir item!")
+            })
+        }
+    }
     return (
         <form>
             {
@@ -73,6 +88,8 @@ const ProductionOrderItems = ({ productionOrderId }: Props) => {
                         <ProductionOrderItemCard
                             productionOrderItem={item}
                             onEditItem={onEditItem}
+                            onDeleteItem={onDeleteItem}
+                            key={item.stockId}
                         />
                     ))
                 )

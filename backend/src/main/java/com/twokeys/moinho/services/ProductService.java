@@ -46,6 +46,11 @@ public class ProductService {
 		return list.stream().map(x -> new ProductDTO(x)).collect(Collectors.toList());
 	}
 	@Transactional(readOnly=true)
+	public List<ProductDTO> findProductProducedByFormulation(Long id){
+		List<Product> list =  repository.findProductProducedByFormulation(id);
+		return list.stream().map(x -> new ProductDTO(x)).collect(Collectors.toList());
+	}
+	@Transactional(readOnly=true)
 	public Page<ProductDTO> findAllPaged(String name,PageRequest pageRequest){
 	String nameConcat ="%"+name+"%";
 	Page<Product> list = repository.findByNameLikeIgnoreCase(nameConcat,pageRequest);

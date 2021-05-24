@@ -16,6 +16,7 @@ export type ProductionOrder= {
     status: string;
     formulation: Formulation;
     productionOrderItems:ProductionOrderItem[];
+    productionOrderProduceds:ProductionOrderProduced[];
 }
     
 export type ProductionOrderItem= {
@@ -39,6 +40,15 @@ export type ProducedProductStatus={
     id:number;
     name:string;
 }
-// "productionOrderProduceds": [],
+export type ProductionOrderProduced ={
+        productionOrderId: number;
+        pallet: number;
+        manufacturingDate: string;
+        lote: string;
+        quantity: number;
+        product:Product;
+        producedProductStatus:ProducedProductStatus;
+        stockId:number;
+}
 // "productionOrderCostLabor": [],
 // "productionOrderOperationalCost": []

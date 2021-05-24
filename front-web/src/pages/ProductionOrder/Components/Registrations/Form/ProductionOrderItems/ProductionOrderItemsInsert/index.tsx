@@ -129,7 +129,7 @@ function ProductionOrderItemsInsert({ onInsertItem, productionOrder }: Props) {
                         getOptionValue={(option: Occurrence) => String(option.id)}
                         classNamePrefix="occurrences-select"
                         placeholder="Ocorrências"
-
+                        defaultValue=""
                     />
                     {errors.product && (
                         <div className="invalid-feedback d-block">
@@ -156,7 +156,6 @@ function ProductionOrderItemsInsert({ onInsertItem, productionOrder }: Props) {
                             </div>
                         )}
                     </div>
-
                 </div>
 
                 <div className="ordemProductionItem-insert">

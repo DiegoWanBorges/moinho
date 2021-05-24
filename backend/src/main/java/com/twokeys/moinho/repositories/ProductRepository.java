@@ -26,5 +26,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 		, 	nativeQuery = true)
 	List<Product> findProductNotInFormulation(Long id);
 	
+	@Query(value = " select "
+		 	 + " * "
+		 	 + " from tb_product "
+		 	 + " where id in(select product_id from tb_formulation  where id = :id) "
+		 	 + " or id in(select product_id from TB_FORMULATION_SECONDARY_PRODUCTION where formulation_id=:id) "
+		 	 ,nativeQuery = true)
+	List<Product> findProductProducedByFormulation(Long id);
+	
 }
 
