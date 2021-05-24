@@ -16,9 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.twokeys.moinho.dto.FormulationDTO;
 import com.twokeys.moinho.dto.OperationalCostTypeDTO;
+import com.twokeys.moinho.dto.ProductDTO;
 import com.twokeys.moinho.dto.SectorDTO;
 import com.twokeys.moinho.entities.Formulation;
 import com.twokeys.moinho.entities.OperationalCostType;
+import com.twokeys.moinho.entities.Product;
 import com.twokeys.moinho.entities.Sector;
 import com.twokeys.moinho.repositories.FormulationRepository;
 import com.twokeys.moinho.repositories.OperationalCostTypeRepository;
@@ -95,8 +97,6 @@ public class FormulationService {
 		
 	}
 	public void convertToEntity(FormulationDTO dto, Formulation entity) {
-		
-		
 		entity.setCoefficient(dto.getCoefficient());
 		entity.setDescription(dto.getDescription());
 		entity.setProduct(productRepository.getOne(dto.getProduct().getId()));
@@ -106,12 +106,15 @@ public class FormulationService {
 			OperationalCostType apportionment = apportionmentTypeRepository.getOne(apportionmentDTO.getId());
 			entity.getApportionmentTypes().add(apportionment);
 		}
-		
 		entity.getSectors().clear();
 		for (SectorDTO sectorDTO : dto.getSectors()) {
 			Sector sector = sectorRepository.getOne(sectorDTO.getId());
 			entity.getSectors().add(sector);
 		}
-		
+		entity.getSecondaryProduction().clear();
+		for (ProductDTO productDTO : dto.getSecondaryProduction()) {
+			Product product = productRepository.getOne(productDTO.getId());
+			entity.getSecondaryProduction().add(product);
+		}
 	}
 }

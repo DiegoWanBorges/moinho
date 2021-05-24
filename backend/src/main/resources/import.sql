@@ -59,6 +59,8 @@ INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group
 INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days)VALUES('Linha de poliester utilizada para para costurar a embalagem externa',1,'LINHA DE POLIESTER',1,'',3,'KG',0);  
 INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days)VALUES('Leite em pó integral',1,'LEITE EM PO',1,'SC COM 25KG',5,'KG',365);
 INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days)VALUES('Leite em pó integral desnatado',1,'LEITE EM PO DESNATADO',1,'SC COM 25KG',5,'KG',365);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days)VALUES('Leite em pó - TIPO C',1,'LEITE EM PO - TIPO C',1,'SC COM 25KG',5,'KG',365);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days)VALUES('Leite em pó desnatado - TIPO C',1,'LEITE EM PO DESNATADO - TIPO C',1,'SC COM 25KG',5,'KG',365);
 
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES(TIMESTAMP WITH TIME ZONE '2021-04-01T20:50:07.12345Z','',0,5,1,1.20,50000,0);
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES(TIMESTAMP WITH TIME ZONE '2021-04-10T20:50:07.12345Z','',0,5,1,1.25,10000,0);
@@ -139,6 +141,15 @@ INSERT INTO TB_LABOR_PAYMENT(ID,EMPLOYEE_ID,LABOR_COST_TYPE)VALUES(8,2,3);
 
 INSERT INTO TB_PARAMETER(ID,COMPANY_NAME,PRODUCTION_ORDER_WITHOUT_STOCK,TYPE_COST_USED)VALUES(1,'Moinho Ltda',true,1);
 
+INSERT INTO TB_FORMULATION_SECONDARY_PRODUCTION(FORMULATION_ID,PRODUCT_ID)VALUES(1,9);
+INSERT INTO TB_FORMULATION_SECONDARY_PRODUCTION(FORMULATION_ID,PRODUCT_ID)VALUES(2,10);  
+
+
+
+
 update tb_product set AVERAGE_COST=ROUND((SELECT sum(entry*cost)  / sum(entry)  FROM TB_STOCK_MOVEMENT WHERE TB_STOCK_MOVEMENT .PRODUCT_ID=tb_product.ID group by product_id),2);
 update tb_product set COST_LAST_ENTRY=ROUND((SELECT sum(entry*cost)  / sum(entry)  FROM TB_STOCK_MOVEMENT WHERE TB_STOCK_MOVEMENT .PRODUCT_ID=tb_product.ID group by product_id),2);
 update tb_product set STOCK_BALANCE=(SELECT sum(entry)  FROM TB_STOCK_MOVEMENT WHERE TB_STOCK_MOVEMENT .PRODUCT_ID=tb_product.ID group by product_id);
+
+
+

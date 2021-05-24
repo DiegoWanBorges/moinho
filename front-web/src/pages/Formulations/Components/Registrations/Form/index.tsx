@@ -27,12 +27,14 @@ function FormulationForm() {
     const [isLoadingOperationalCostTypes, setIsLoadingOperationalCostTypes] = useState(false);
     const [operationalCostTypes, setOperationalCostTypes] = useState<OperationalCostType[]>();
     const [formulationItem, setFormulationItem] = useState<FormulationItem[]>([]);
-
+    const [isLoadingSecondaryProductions, setIsLoadingSecondaryProductions] = useState(false);
+    const [secondaryProductions, setSecondaryProductions] = useState<Product[]>();
     useEffect(() => {
         setIsLoadingProducts(true)
         makePrivateRequest({ url: `/products?listname=` })
             .then(response => {
                 setProducts(response.data)
+                setSecondaryProductions(response.data)
             })
             .finally(() => setIsLoadingProducts(false))
     }, [])
@@ -64,6 +66,7 @@ function FormulationForm() {
                     setValue('product', response.data.product);
                     setValue('sectors', response.data.sectors);
                     setValue('apportionments', response.data.apportionments);
+                    setValue('secondaryProduction', response.data.secondaryProduction);
                     setFormulationItem(response.data.formulationItems)
                 })
         }
@@ -84,13 +87,13 @@ function FormulationForm() {
             method: isEditing ? 'PUT' : 'POST',
             data: data
         })
-        .then(() => {
+            .then(() => {
                 toast.success("Formulação salva com sucesso!")
                 history.push('/formulations/registrations/')
-        })
-        .catch(() => {
+            })
+            .catch(() => {
                 toast.error("Erro ao salvar formulação!")
-        })
+            })
     }
 
     const onInsertItem = (data: FormulationItem) => {
@@ -207,6 +210,24 @@ function FormulationForm() {
                         </div>
                     )}
                 </div>
+            </div>
+
+            <div className="formulation-form-row">
+                <div className="product-form-select">
+                    <label className="label-base">Produto Secundario:</label>
+                    <Controller
+                        as={Select}
+                        name="secondaryProduction"
+                        control={control}
+                        isLoading={isLoadingSecondaryProductions}
+                        options={secondaryProductions}
+                        getOptionLabel={(option: Product) => option.name}
+                        getOptionValue={(option: Product) => String(option.id)}
+                        classNamePrefix="sectors-select"
+                        placeholder="Secundario"
+                        isMulti
+                    />
+                </div>
 
                 <div className="product-form-select">
                     <label className="label-base">Setores:</label>
@@ -251,7 +272,9 @@ function FormulationForm() {
                         </div>
                     )}
                 </div>
+
             </div>
+
             <div className="formulation-form-actions">
                 <button
                     className="btn btn-outline-danger"

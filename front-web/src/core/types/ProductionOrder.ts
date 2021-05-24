@@ -34,7 +34,11 @@ export type Occurrence={
     id:number;
     name:string;
 }
-        
+
+export type ProducedProductStatus={
+    id:number;
+    name:string;
+}
 // "productionOrderProduceds": [],
 // "productionOrderCostLabor": [],
 // "productionOrderOperationalCost": []

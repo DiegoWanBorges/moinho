@@ -27,6 +27,7 @@ public class Formulation   implements Serializable {
 	private Long id;
 	private Double coefficient;
 	private String description;
+	
 	@ManyToOne
 	@JoinColumn(name="product_id")
 	private Product product;
@@ -44,6 +45,13 @@ public class Formulation   implements Serializable {
 			   inverseJoinColumns = @JoinColumn(name="sector_id")
 			)
 	private Set<Sector> sectors = new HashSet<>();
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name="tb_formulation_secondary_production", 
+			   joinColumns = @JoinColumn(name="formulation_id"),
+			   inverseJoinColumns = @JoinColumn(name="product_id")
+			)
+	private Set<Product> secondaryProduction = new HashSet<>();
 	
 	@OneToMany(mappedBy = "id.formulation")
 	private List<FormulationItem> formulationItems = new ArrayList<>();
@@ -91,6 +99,10 @@ public class Formulation   implements Serializable {
 	}
 	public List<FormulationItem> getFormulationItems() {
 		return formulationItems;
+	}
+	
+	public Set<Product> getSecondaryProduction() {
+		return secondaryProduction;
 	}
 	@Override
 	public int hashCode() {
