@@ -45,7 +45,7 @@ function ProductionOrderItemsInsert({ onInsertItem, productionOrder }: Props) {
                 setOccurrences(response.data)
             })
             .finally(() => setIsLoadingoccurrences(false))
-    }, [])
+    }, [setValue])
 
 
     const onSubmit = (data: ProductionOrderItem) => {

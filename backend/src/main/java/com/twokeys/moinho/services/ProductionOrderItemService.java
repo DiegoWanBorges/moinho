@@ -118,7 +118,7 @@ public class ProductionOrderItemService {
 	public ProductionOrderItemDTO update(ProductionOrderItemDTO dto) {
 		try {
 			Parameter parameter = parameterRepository.getOne(1L);
-			Product product = productRepository.getOne(dto.getProductionOrderId());
+			Product product = productRepository.getOne(dto.getProduct().getId());
 			ProductionOrder prodctionOrder = productionOrderRepository.getOne(dto.getProductionOrderId());
 			
 			ProductionOrderItemPK pk = new ProductionOrderItemPK();

@@ -39,7 +39,21 @@ const ProductionOrderItems = ({ productionOrderId }: Props) => {
                 toast.error("Erro ao salvar item!")
         })
     }
-    
+    const onEditItem = (data: ProductionOrderItem) => {
+        console.log(data)
+        makePrivateRequest({
+            url: '/productionorderitems/',
+            method: 'PUT',
+            data: data
+        })
+        .then(() => {
+                toast.success("Item atualizado com sucesso!");
+                getProductionOrder();
+        })
+        .catch(() => {
+                toast.error("Erro ao atualizar item!")
+        })
+    }
 
     return (
         <form>
@@ -58,6 +72,7 @@ const ProductionOrderItems = ({ productionOrderId }: Props) => {
                     productionOrder.productionOrderItems.map(item => (
                         <ProductionOrderItemCard
                             productionOrderItem={item}
+                            onEditItem={onEditItem}
                         />
                     ))
                 )

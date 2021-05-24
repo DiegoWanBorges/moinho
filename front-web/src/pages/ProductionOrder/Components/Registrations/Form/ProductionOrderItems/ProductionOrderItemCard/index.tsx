@@ -1,16 +1,19 @@
 import { ProductionOrderItem } from 'core/types/ProductionOrder';
+import ProductionOrderItemEditModal from '../ProductionOrderItemsEditModal';
 
 import './styles.scss';
 
 type Props = {
     productionOrderItem: ProductionOrderItem;
+    onEditItem: (productionOrderItem: ProductionOrderItem) => void;
 }
 
-function ProductionOrderItemCard({ productionOrderItem }: Props) {
+function ProductionOrderItemCard({ productionOrderItem,onEditItem }: Props) {
     return (
         <div className="productionOrder-item-card-main">
             <div className="productionOrder-item-card-inf">
                 <h6 className="productionOrder-item-card-inf-type">{productionOrderItem.type}</h6>
+                
                 <div className="productionOrder-item-card-inf-name">
                     <h6 >{productionOrderItem.product.name}</h6>
                     <small>Serie: {productionOrderItem.serie} - </small>
@@ -22,7 +25,10 @@ function ProductionOrderItemCard({ productionOrderItem }: Props) {
                 <div className="productionOrder-item-card-actions">
 
                 </div>
-
+                <ProductionOrderItemEditModal 
+                    productionOrderItem={productionOrderItem}
+                    onEditItem={onEditItem}
+                />
             </div>
         </div>
     );

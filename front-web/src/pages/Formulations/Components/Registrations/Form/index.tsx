@@ -31,12 +31,16 @@ function FormulationForm() {
     const [secondaryProductions, setSecondaryProductions] = useState<Product[]>();
     useEffect(() => {
         setIsLoadingProducts(true)
+        setIsLoadingSecondaryProductions(true)
         makePrivateRequest({ url: `/products?listname=` })
             .then(response => {
                 setProducts(response.data)
                 setSecondaryProductions(response.data)
             })
-            .finally(() => setIsLoadingProducts(false))
+            .finally(() =>{
+                setIsLoadingProducts(false)
+                setIsLoadingSecondaryProductions(false)
+            })
     }, [])
 
     useEffect(() => {
