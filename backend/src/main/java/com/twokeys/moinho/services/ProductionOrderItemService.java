@@ -16,14 +16,17 @@ import com.twokeys.moinho.entities.Parameter;
 import com.twokeys.moinho.entities.Product;
 import com.twokeys.moinho.entities.ProductionOrder;
 import com.twokeys.moinho.entities.ProductionOrderItem;
+import com.twokeys.moinho.entities.StockMovement;
 import com.twokeys.moinho.entities.enums.CostType;
 import com.twokeys.moinho.entities.enums.ProductionOrderItemType;
 import com.twokeys.moinho.entities.enums.StockMovementType;
+import com.twokeys.moinho.entities.pk.ProductionOrderItemPK;
 import com.twokeys.moinho.repositories.OccurrenceRepository;
 import com.twokeys.moinho.repositories.ParameterRepository;
 import com.twokeys.moinho.repositories.ProductRepository;
 import com.twokeys.moinho.repositories.ProductionOrderItemRepository;
 import com.twokeys.moinho.repositories.ProductionOrderRepository;
+import com.twokeys.moinho.repositories.StockMovementRepository;
 import com.twokeys.moinho.services.exceptions.StockMovementException;
 import com.twokeys.moinho.services.exceptions.UntreatedException;
 @Service
@@ -39,6 +42,8 @@ public class ProductionOrderItemService {
 	private OccurrenceRepository occurrenceRepository;
 	@Autowired
 	private StockMovementService stockMovementService;
+	@Autowired
+	private StockMovementRepository stockMovementRepository;
 	@Autowired
 	private ParameterRepository parameterRepository;
 	
@@ -109,6 +114,64 @@ public class ProductionOrderItemService {
 			throw new UntreatedException(e.getMessage());
 		}
 	}
+	@Transactional
+	public ProductionOrderItemDTO update(ProductionOrderItemDTO dto) {
+		try {
+			Parameter parameter = parameterRepository.getOne(1L);
+			Product product = productRepository.getOne(dto.getProductionOrderId());
+			ProductionOrder prodctionOrder = productionOrderRepository.getOne(dto.getProductionOrderId());
+			
+			ProductionOrderItemPK pk = new ProductionOrderItemPK();
+			pk.setProduct(product);
+			pk.setProductionOrder(prodctionOrder);
+			pk.setSerie(dto.getSerie());
+			ProductionOrderItem item = repository.getOne(pk);
+			StockMovement stockMovement = stockMovementRepository.getOne(item.getStockId());
+			
+			
+			
+			/*Validar estoque*/
+			if (parameter.isProductionOrderWithoutStock()==false && dto.getType()!=ProductionOrderItemType.RETORNO  ) {
+				if ((product.getStockBalance()+item.getQuantity()) < dto.getQuantity()) {
+				throw new StockMovementException("Product id " + dto.getProduct().getId() + " out of stock");
+				}
+			}
+			
+			if (item.getType()==ProductionOrderItemType.RETORNO) {
+				stockMovement.setEntry(dto.getQuantity());
+			}else {
+				stockMovement.setOut(dto.getQuantity());
+			}
+			item.setQuantity(dto.getQuantity());
+			
+			stockMovementService.update(item.getStockId(), new StockMovementDTO(stockMovement));
+			return  new ProductionOrderItemDTO(repository.save(item));
+		}catch(StockMovementException e) {
+			throw new StockMovementException(e.getMessage());
+		}catch(Exception e) {
+			throw new UntreatedException(e.getMessage());
+		}
+	}
+	
+	@Transactional
+	public void delete(Long productionOrderId,Long productId,Integer serie) {
+		try {
+			Product product = productRepository.getOne(productId);
+			ProductionOrder prodctionOrder = productionOrderRepository.getOne(productionOrderId);
+			ProductionOrderItemPK pk = new ProductionOrderItemPK();
+			pk.setProduct(product);
+			pk.setProductionOrder(prodctionOrder);
+			pk.setSerie(serie);
+			ProductionOrderItem item = repository.getOne(pk);
+			stockMovementService.delete(item.getStockId());
+			repository.deleteById(pk);
+			
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+		}
+		
+	}
+	
 	public ProductionOrderItem convertToEntity(ProductionOrderItemDTO dto) {
 			ProductionOrderItem entity = new ProductionOrderItem(); 
 			entity.setSerie(dto.getSerie());

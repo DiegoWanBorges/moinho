@@ -104,7 +104,19 @@ public class StockMovementService {
 	}
 	public void delete(Long id) {
 		try {
+			StockMovement entity = repository.getOne(id);
+			Product product = new Product();
+			List<Object[]> stockBalance;
 			repository.deleteById(id);
+			
+			/*Atualiza o custo e saldo de estoque*/
+			product = productRepository.findById(entity.getProduct().getId()).get();
+			stockBalance=repository.stockBalance(product.getId());
+			product.setStockBalance(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[3]).setScale(2,RoundingMode.HALF_UP).toString()));
+			product.setAverageCost(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[4]).setScale(2,RoundingMode.HALF_UP).toString()));
+			product.setCostLastEntry(entity.getCost());
+			productRepository.save(product);
+			
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}catch (DataIntegrityViolationException e) {
