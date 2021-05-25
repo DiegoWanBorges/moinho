@@ -9,6 +9,8 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,13 @@ import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 public class OccurrenceService {
 	@Autowired
 	private OccurrenceRepository repository;
+	
+	@Transactional(readOnly=true)
+	public Page<OccurrenceDTO> findAllPaged(String name,PageRequest pageRequest){
+	String nameConcat ="%"+name+"%";
+	Page<Occurrence> list = repository.findByNameLikeIgnoreCase(nameConcat,pageRequest);
+		return list.map(x -> new OccurrenceDTO(x));
+	}
 	
 	@Transactional(readOnly=true)
 	public List<OccurrenceDTO> findByNameLikeIgnoreCase(String name){

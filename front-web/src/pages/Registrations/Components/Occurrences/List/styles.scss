@@ -1,0 +1,20 @@
+.group-list-add-filter{
+    display: flex;
+    align-items: center;
+}
+.group-list-input-filter{
+    width: 100%;
+    margin-left: 10px;
+
+}
+
+@media (max-width: 576px){
+    .group-list-add-filter{
+        display: flex;
+        width: 100% !important;
+        flex-direction: column;
+    }
+    .group-list-btn-add{
+        width: 100%;
+    }
+}

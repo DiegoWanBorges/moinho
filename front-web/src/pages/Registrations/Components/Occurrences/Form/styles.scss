@@ -1,0 +1,40 @@
+.occurrence-form{
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 20px;
+}
+.occurrence-form-main{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.occurrence-form-name{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.occurrence-form-actions{
+    margin-top: 10px;
+    display: flex;
+    
+}
+.occurrence-form-btn-save{
+    margin-left: 20px;
+}
+
+@media (max-width: 576px){
+    .occurrence-form-main{
+        flex-direction: column;
+    }
+    .occurrence-form-password{
+        flex-direction: column;
+    }
+    .occurrence-form-name{
+        width: 100%;
+    }
+    .occurrence-form-actions{
+        margin-top: 20px;
+        justify-content: space-around;
+    }
+}

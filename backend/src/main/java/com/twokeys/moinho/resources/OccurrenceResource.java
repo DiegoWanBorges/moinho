@@ -4,6 +4,9 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -25,7 +29,21 @@ public class OccurrenceResource {
 	OccurrenceService service;
 	
 	@GetMapping
-	public ResponseEntity<List<OccurrenceDTO>> findAll(String name){
+	public ResponseEntity<Page<OccurrenceDTO>> findAll(
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "name", defaultValue = "") String  name,
+			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction
+			){
+		PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
+		Page<OccurrenceDTO> list = service.findAllPaged(name,pageRequest);
+		return ResponseEntity.ok().body(list);
+	}
+	
+	@GetMapping
+	@RequestMapping(params = "listname")
+	public ResponseEntity<List<OccurrenceDTO>> findAll(@RequestParam(value="listname")String name){
 		List<OccurrenceDTO> list = service.findByNameLikeIgnoreCase(name);
 		return ResponseEntity.ok().body(list);
 	}

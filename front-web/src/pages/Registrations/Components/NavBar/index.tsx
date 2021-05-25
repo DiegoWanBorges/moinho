@@ -35,6 +35,9 @@ const NavBarRegistration = () => (
             <li>
                 <NavLink to="/registrations/operationalcosttypes" className="nav-registration-item">Custo operacional</NavLink>
             </li>
+            <li>
+                <NavLink to="/registrations/occurrences" className="nav-registration-item">Ocorrências</NavLink>
+            </li>
             
         </ul>
 
