@@ -1,0 +1,30 @@
+.producedInsert-main{
+    margin-bottom: 20px;
+}
+.producedInsert-inf{
+    display: flex;
+}
+.producedInsert-date{
+    width: 30%;
+}
+.producedInsert-quantity{
+    display: flex;
+    width: 30%;
+    flex-direction: column;
+    margin-left: 5px;
+}
+.producedInsert-select{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+.producedInsert-select-product{
+    width: 50%;
+}
+.producedInsert-select-status{
+    width: 50%;
+    margin-left: 5px;
+}
+.producedInsert-actions{
+    margin-top: 10px;
+}

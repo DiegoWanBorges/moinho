@@ -10,14 +10,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.twokeys.moinho.entities.pk.ProductionOrderProductProducedPK;
+import com.twokeys.moinho.entities.pk.ProductionOrderProducedPK;
 @Entity
 @Table(name="tb_production_order_produced")
 public class ProductionOrderProduced implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@EmbeddedId
-	private ProductionOrderProductProducedPK id = new ProductionOrderProductProducedPK();
+	private ProductionOrderProducedPK id = new ProductionOrderProducedPK();
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant manufacturingDate;
 	private String lote;

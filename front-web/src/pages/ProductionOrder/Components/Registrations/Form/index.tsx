@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ProductionOrderHeader from './ProductionOrderHeader';
 import ProductionOrderItems from './ProductionOrderItems';
-import ProductionOrderProduced from './ProductionOrderProductProduced';
+import ProductionOrderProduceds from './ProductionOrderProduced';
 
 import './styles.scss';
 
@@ -50,7 +50,7 @@ function ProductionOrderForm() {
                 </TabPanel>
 
                 <TabPanel>
-                        <ProductionOrderProduced
+                        <ProductionOrderProduceds
                             productionOrderId={productionOrderId}
                         />
                 </TabPanel>

@@ -9,17 +9,17 @@ import javax.persistence.ManyToOne;
 import com.twokeys.moinho.entities.ProductionOrder;
 
 @Embeddable
-public class ProductionOrderProductProducedPK implements Serializable {
+public class ProductionOrderProducedPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@ManyToOne
 	@JoinColumn(name="production_order_id")
 	private ProductionOrder productionOrder;
 	private Integer pallet;
 	
-	public ProductionOrderProductProducedPK() {
+	public ProductionOrderProducedPK() {
 	}
 
-	public ProductionOrderProductProducedPK(ProductionOrder productionOrder, Integer pallet) {
+	public ProductionOrderProducedPK(ProductionOrder productionOrder, Integer pallet) {
 		this.productionOrder = productionOrder;
 		this.pallet = pallet;
 	}
@@ -57,7 +57,7 @@ public class ProductionOrderProductProducedPK implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ProductionOrderProductProducedPK other = (ProductionOrderProductProducedPK) obj;
+		ProductionOrderProducedPK other = (ProductionOrderProducedPK) obj;
 		if (pallet == null) {
 			if (other.pallet != null)
 				return false;

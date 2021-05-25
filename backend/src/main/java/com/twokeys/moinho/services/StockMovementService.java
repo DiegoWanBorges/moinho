@@ -112,8 +112,10 @@ public class StockMovementService {
 			/*Atualiza o custo e saldo de estoque*/
 			product = productRepository.findById(entity.getProduct().getId()).get();
 			stockBalance=repository.stockBalance(product.getId());
-			product.setStockBalance(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[3]).setScale(2,RoundingMode.HALF_UP).toString()));
-			product.setAverageCost(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[4]).setScale(2,RoundingMode.HALF_UP).toString()));
+			if (stockBalance.size() > 0) {
+				product.setStockBalance(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[3]).setScale(2,RoundingMode.HALF_UP).toString()));
+				product.setAverageCost(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[4]).setScale(2,RoundingMode.HALF_UP).toString()));
+			}
 			product.setCostLastEntry(entity.getCost());
 			productRepository.save(product);
 			
