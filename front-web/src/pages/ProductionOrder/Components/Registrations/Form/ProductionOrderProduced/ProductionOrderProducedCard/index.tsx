@@ -1,4 +1,4 @@
-import { ProductionOrderItem, ProductionOrderProduced } from 'core/types/ProductionOrder';
+import {  ProductionOrderProduced } from 'core/types/ProductionOrder';
 import ProductionOrderProducedEditModal from '../ProductionOrderProducedEditModal';
 
 

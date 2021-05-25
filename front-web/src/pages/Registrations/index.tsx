@@ -13,6 +13,7 @@ import Sectors from './Components/Sectors'
 import Employees from './Components/Employees'
 import LaborCostTypes from './Components/LaborCosTypes'
 import Occurrences from './Components/Occurrences'
+import Producedproductstatus from './Components/ProducedProductStatus'
 
 const Registration = () => (
     <div className="admin-container">
@@ -48,6 +49,9 @@ const Registration = () => (
                 </PrivateRoute>
                 <PrivateRoute path="/registrations/occurrences">
                     <Occurrences />
+                </PrivateRoute>
+                <PrivateRoute path="/registrations/producedproductstatus">
+                    <Producedproductstatus />
                 </PrivateRoute>
             </Switch>
         </div>

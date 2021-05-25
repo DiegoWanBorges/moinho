@@ -9,6 +9,10 @@ export type OccurrencesResponse ={
     content: Occurrence[];
     totalPages: number;
 }
+export type ProducedProductStatusResponse ={
+    content: ProducedProductStatus[];
+    totalPages: number;
+}
 export type ProductionOrder= {
     id: number;
     emission: string;

@@ -1,0 +1,20 @@
+.producedProductStatus-list-add-filter{
+    display: flex;
+    align-items: center;
+}
+.producedProductStatus-list-input-filter{
+    width: 100%;
+    margin-left: 10px;
+
+}
+
+@media (max-width: 576px){
+    .producedProductStatus-list-add-filter{
+        display: flex;
+        width: 100% !important;
+        flex-direction: column;
+    }
+    .producedProductStatus-list-btn-add{
+        width: 100%;
+    }
+}

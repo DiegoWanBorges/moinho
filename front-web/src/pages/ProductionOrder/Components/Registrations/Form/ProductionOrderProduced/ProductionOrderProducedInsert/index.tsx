@@ -22,7 +22,7 @@ const ProductionOrderProducedInsert = ({ onInsertItem, productionOrder }: Props)
     const [isLoadingProducedProductStatus, setIsLoadingProducedProductStatus] = useState(false);
     const [producedProductStatus, setProducedProductStatus] = useState<ProducedProductStatus[]>([]);
 
-    const { register, errors, control, handleSubmit, setValue } = useForm<ProductionOrderProduced>();
+    const { register, errors, control, handleSubmit } = useForm<ProductionOrderProduced>();
 
     useEffect(() => {
         setIsLoadingProducts(true)
@@ -31,7 +31,7 @@ const ProductionOrderProducedInsert = ({ onInsertItem, productionOrder }: Props)
                 setProducts(response.data)
             })
             .finally(() => setIsLoadingProducts(false))
-    }, [])
+    }, [productionOrder])
 
     useEffect(() => {
         setIsLoadingProducedProductStatus(true)

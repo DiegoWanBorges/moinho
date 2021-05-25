@@ -1,0 +1,38 @@
+.producedProductStatus-card{
+    display: flex;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 15px;
+
+}
+.producedProductStatus-card-inf{
+    width: 50%;
+}
+.producedProductStatus-card-action{
+    display: flex;
+    width: 50%;
+    
+}
+.producedProductStatus-card-action-btn{
+    border-radius: 10px;
+    width: 45%;
+}
+.producedProductStatus-card-action-btn-edit{
+    margin-right: 5px;
+}
+@media (max-width: 576px){
+    .producedProductStatus-card{
+        display: flex;
+        flex-direction: column;
+        padding: auto;
+    }
+    .producedProductStatus-card-action-btn{
+        width: 100%;
+    }
+    .producedProductStatus-card-inf{
+        width: 100%;
+    }
+    .producedProductStatus-card-action{
+        width: 100%;
+    }
+}

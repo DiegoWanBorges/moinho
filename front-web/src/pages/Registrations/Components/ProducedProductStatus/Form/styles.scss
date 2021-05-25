@@ -1,0 +1,40 @@
+.producedProductStatus-form{
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 20px;
+}
+.producedProductStatus-form-main{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.producedProductStatus-form-name{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.producedProductStatus-form-actions{
+    margin-top: 10px;
+    display: flex;
+    
+}
+.producedProductStatus-form-btn-save{
+    margin-left: 20px;
+}
+
+@media (max-width: 576px){
+    .producedProductStatus-form-main{
+        flex-direction: column;
+    }
+    .producedProductStatus-form-password{
+        flex-direction: column;
+    }
+    .producedProductStatus-form-name{
+        width: 100%;
+    }
+    .producedProductStatus-form-actions{
+        margin-top: 20px;
+        justify-content: space-around;
+    }
+}
