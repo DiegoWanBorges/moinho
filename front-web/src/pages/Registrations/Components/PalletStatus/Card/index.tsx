@@ -1,9 +1,9 @@
-import { ProducedProductStatus } from 'core/types/ProductionOrder';
+import { Palletstatus } from 'core/types/ProductionOrder';
 import { Link } from 'react-router-dom';
 import './styles.scss';
 
 type Props={
-    producedProductStatus:ProducedProductStatus;
+    producedProductStatus:Palletstatus;
     onRemove: (producedProductStatusId:number) =>void;
 }
 const ProducedproductstatusCard = ({ producedProductStatus,onRemove }:Props) => {
@@ -16,7 +16,7 @@ const ProducedproductstatusCard = ({ producedProductStatus,onRemove }:Props) => 
 
           <div className="producedProductStatus-card-action">
                 <Link
-                    to={`/registrations/producedproductstatus/${producedProductStatus.id}`}
+                    to={`/registrations/palletstatus/${producedProductStatus.id}`}
                     type="button"
                     className="btn btn-outline-secondary producedProductStatus-card-action-btn producedProductStatus-card-action-btn-edit">
                     EDITAR

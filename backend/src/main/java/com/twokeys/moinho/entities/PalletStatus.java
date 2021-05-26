@@ -9,8 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tb_produced_product_status")
-public class ProducedProductStatus    implements Serializable {
+@Table(name="tb_pallet_status")
+public class PalletStatus    implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -18,10 +18,10 @@ public class ProducedProductStatus    implements Serializable {
 	private Long id;
 	private String name;
 
-	public ProducedProductStatus() {
+	public PalletStatus() {
 	}
 
-	public ProducedProductStatus(Long id, String name) {
+	public PalletStatus(Long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -60,7 +60,7 @@ public class ProducedProductStatus    implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ProducedProductStatus other = (ProducedProductStatus) obj;
+		PalletStatus other = (PalletStatus) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

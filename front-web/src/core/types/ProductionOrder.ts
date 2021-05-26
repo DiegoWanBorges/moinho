@@ -9,8 +9,8 @@ export type OccurrencesResponse ={
     content: Occurrence[];
     totalPages: number;
 }
-export type ProducedProductStatusResponse ={
-    content: ProducedProductStatus[];
+export type PalletstatusResponse ={
+    content: Palletstatus[];
     totalPages: number;
 }
 export type ProductionOrder= {
@@ -43,7 +43,7 @@ export type Occurrence={
     name:string;
 }
 
-export type ProducedProductStatus={
+export type Palletstatus={
     id:number;
     name:string;
 }
@@ -54,7 +54,7 @@ export type ProductionOrderProduced ={
         lote: string;
         quantity: number;
         product:Product;
-        producedProductStatus:ProducedProductStatus;
+        palletStatus:Palletstatus;
         stockId:number;
 }
 // "productionOrderCostLabor": [],

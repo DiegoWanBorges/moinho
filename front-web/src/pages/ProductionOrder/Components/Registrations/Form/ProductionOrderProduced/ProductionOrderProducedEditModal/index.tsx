@@ -1,7 +1,7 @@
 import Modal from 'react-modal';
 import { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { ProducedProductStatus, ProductionOrderProduced } from 'core/types/ProductionOrder';
+import { Palletstatus, ProductionOrderProduced } from 'core/types/ProductionOrder';
 import Select from 'react-select';
 import { Product } from 'core/types/Product';
 import { makePrivateRequest } from 'core/utils/request';
@@ -23,7 +23,7 @@ function ProductionOrderProducedEditModal({ productionOrderProduced, onEditItem,
     const [products, setProducts] = useState<Product[]>([]);
 
     const [isLoadingProducedProductStatus, setIsLoadingProducedProductStatus] = useState(false);
-    const [producedProductStatus, setProducedProductStatus] = useState<ProducedProductStatus[]>([]);
+    const [producedProductStatus, setProducedProductStatus] = useState<Palletstatus[]>([]);
 
     const [manufacturingDate, setManufacturingDate] = useState<Date>();
 
@@ -40,7 +40,7 @@ function ProductionOrderProducedEditModal({ productionOrderProduced, onEditItem,
             .finally(() => setIsLoadingProducts(false))
 
         setIsLoadingProducedProductStatus(true)
-        await makePrivateRequest({ url: `/producedproductstatus?name=` })
+        await makePrivateRequest({ url: `/palletstatus?listname=` })
             .then((response) => {
                 setProducedProductStatus(response.data)
             })
@@ -50,7 +50,7 @@ function ProductionOrderProducedEditModal({ productionOrderProduced, onEditItem,
         setValue('quantity', productionOrderProduced.quantity)
         setValue('lote', productionOrderProduced.lote)
         setValue('product', productionOrderProduced.product)
-        setValue('producedProductStatus', productionOrderProduced.producedProductStatus)
+        setValue('palletStatus', productionOrderProduced.palletStatus)
     }
     const onSave = (data: ProductionOrderProduced) => {
         const payLoad = {
@@ -166,14 +166,14 @@ function ProductionOrderProducedEditModal({ productionOrderProduced, onEditItem,
                     <label className="label-base">Status:</label>
                     <Controller
                         as={Select}
-                        name="producedProductStatus"
+                        name="palletStatus"
                         rules={{ required: true }}
                         control={control}
                         isLoading={isLoadingProducedProductStatus}
                         options={producedProductStatus}
-                        getOptionLabel={(option: ProducedProductStatus) => option.name}
-                        getOptionValue={(option: ProducedProductStatus) => String(option.id)}
-                        classNamePrefix="products-select"
+                        getOptionLabel={(option: Palletstatus) => option.name}
+                        getOptionValue={(option: Palletstatus) => String(option.id)}
+                        classNamePrefix="palletStatus-select"
                         placeholder="Status"
                         className="select-teste"
                     />

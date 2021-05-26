@@ -40,7 +40,7 @@ function ProductionOrderItemsInsert({ onInsertItem, productionOrder }: Props) {
     useEffect(() => {
         setValue('quantity',1);
         setIsLoadingoccurrences(true)
-        makePrivateRequest({ url: `/occurrences?name=` })
+        makePrivateRequest({ url: `/occurrences?listname=` })
             .then((response) => {
                 setOccurrences(response.data)
             })

@@ -26,14 +26,14 @@ public class ProductionOrderProduced implements Serializable {
 	@JoinColumn(name="product_id")
 	private Product product;
 	@ManyToOne
-	@JoinColumn(name="produced_product_status_id")
-	private ProducedProductStatus producedProductStatus;
+	@JoinColumn(name="pallet_status_id")
+	private PalletStatus palletStatus;
 	private Long stockId;
 	public ProductionOrderProduced(){	
 	}
 
 	public ProductionOrderProduced(ProductionOrder productionOrder,Integer pallet, Instant manufacturingDate, String lote,
-								   Double quantity,   Product product,ProducedProductStatus producedProductStatus,
+								   Double quantity,   Product product,PalletStatus palletStatus,
 								   Long stockId) {
 		this.id.setProductionOrder(productionOrder);
 		this.id.setPallet(pallet);
@@ -41,7 +41,7 @@ public class ProductionOrderProduced implements Serializable {
 		this.lote = lote;
 		this.quantity = quantity;
 		this.product = product;
-		this.producedProductStatus=producedProductStatus;
+		this.palletStatus=palletStatus;
 		this.stockId=stockId;
 	}
 
@@ -92,12 +92,12 @@ public class ProductionOrderProduced implements Serializable {
 		this.product = product;
 	}
 
-	public ProducedProductStatus getProducedProductStatus() {
-		return producedProductStatus;
+	public PalletStatus getPalletStatus() {
+		return palletStatus;
 	}
 
-	public void setProducedProductStatus(ProducedProductStatus producedProductStatus) {
-		this.producedProductStatus = producedProductStatus;
+	public void setPalletStatus(PalletStatus palletStatus) {
+		this.palletStatus = palletStatus;
 	}
 
 	public Long getStockId() {
@@ -107,7 +107,4 @@ public class ProductionOrderProduced implements Serializable {
 	public void setStockId(Long stockId) {
 		this.stockId = stockId;
 	}
-	
-	
-	
 }

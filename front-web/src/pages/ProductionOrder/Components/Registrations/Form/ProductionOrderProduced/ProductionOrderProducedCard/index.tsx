@@ -22,7 +22,7 @@ function ProductionOrderProducedCard({ productionOrderProduced, onEditItem, onDe
         <div className="productionOrder-item-card-main">
             <div className="productionOrder-item-card-inf">
                <div className="productionOrder-item-card-inf-type">
-                    <h6 >{productionOrderProduced.producedProductStatus.name}</h6>
+                    <h6 >{productionOrderProduced.palletStatus.name}</h6>
                     <small>{productionOrderProduced.manufacturingDate}</small>
                </div>
                 

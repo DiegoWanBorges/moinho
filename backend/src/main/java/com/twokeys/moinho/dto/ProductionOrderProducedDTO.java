@@ -16,13 +16,13 @@ public class ProductionOrderProducedDTO implements Serializable {
 	private String lote;
 	private Double quantity;
 	private ProductDTO product;
-	private ProducedProductStatusDTO producedProductStatus;
+	private PalletStatusDTO palletStatus;
 	private Long stockId;
 	public ProductionOrderProducedDTO(){	
 	}
 
 	public ProductionOrderProducedDTO(Long productionOrderId, Integer pallet, Instant manufacturingDate, String lote,
-									  Double quantity, ProductDTO product,ProducedProductStatusDTO producedProductStatus,
+									  Double quantity, ProductDTO product,PalletStatusDTO palletStatus,
 									  Long stockId) {
 		this.productionOrderId = productionOrderId;
 		this.pallet = pallet;
@@ -30,7 +30,7 @@ public class ProductionOrderProducedDTO implements Serializable {
 		this.lote = lote;
 		this.quantity = quantity;
 		this.product = product;
-		this.producedProductStatus=producedProductStatus;
+		this.palletStatus=palletStatus;
 		this.stockId=stockId;
 	}
 	public ProductionOrderProducedDTO(ProductionOrderProduced entity) {
@@ -40,7 +40,7 @@ public class ProductionOrderProducedDTO implements Serializable {
 		this.lote = entity.getLote();
 		this.quantity = entity.getQuantity();
 		this.product = new ProductDTO(entity.getProduct());
-		this.producedProductStatus = new ProducedProductStatusDTO(entity.getProducedProductStatus());
+		this.palletStatus = new PalletStatusDTO(entity.getPalletStatus());
 		this.stockId=entity.getStockId();
 	}
 
@@ -92,12 +92,12 @@ public class ProductionOrderProducedDTO implements Serializable {
 		this.product = product;
 	}
 
-	public ProducedProductStatusDTO getProducedProductStatus() {
-		return producedProductStatus;
+	public PalletStatusDTO getPalletStatus() {
+		return palletStatus;
 	}
 
-	public void setProducedProductStatus(ProducedProductStatusDTO producedProductStatus) {
-		this.producedProductStatus = producedProductStatus;
+	public void setPalletstatus(PalletStatusDTO palletStatus) {
+		this.palletStatus = palletStatus;
 	}
 
 	public Long getStockId() {

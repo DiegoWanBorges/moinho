@@ -14,53 +14,53 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.twokeys.moinho.dto.ProducedProductStatusDTO;
-import com.twokeys.moinho.entities.ProducedProductStatus;
-import com.twokeys.moinho.repositories.ProducedProductStatusRepository;
+import com.twokeys.moinho.dto.PalletStatusDTO;
+import com.twokeys.moinho.entities.PalletStatus;
+import com.twokeys.moinho.repositories.PalletStatusRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 
 
 
 @Service
-public class ProducedProductStatusService {
+public class PalletStatusService {
 	@Autowired
-	private ProducedProductStatusRepository repository;
+	private PalletStatusRepository repository;
 	
 	@Transactional(readOnly=true)
-	public Page<ProducedProductStatusDTO> findAllPaged(String name,PageRequest pageRequest){
+	public Page<PalletStatusDTO> findAllPaged(String name,PageRequest pageRequest){
 	String nameConcat ="%"+name+"%";
-	Page<ProducedProductStatus> list = repository.findByNameLikeIgnoreCase(nameConcat,pageRequest);
-		return list.map(x -> new ProducedProductStatusDTO(x));
+	Page<PalletStatus> list = repository.findByNameLikeIgnoreCase(nameConcat,pageRequest);
+		return list.map(x -> new PalletStatusDTO(x));
 	}
 	
 	@Transactional(readOnly=true)
-	public List<ProducedProductStatusDTO> findByNameLikeIgnoreCase(String name){
+	public List<PalletStatusDTO> findByNameLikeIgnoreCase(String name){
 		String nameConcat = "%"+name+"%";
 		
-		List<ProducedProductStatus> list =  repository.findByNameLikeIgnoreCase(nameConcat);
-		return list.stream().map(x -> new ProducedProductStatusDTO(x)).collect(Collectors.toList());
+		List<PalletStatus> list =  repository.findByNameLikeIgnoreCase(nameConcat);
+		return list.stream().map(x -> new PalletStatusDTO(x)).collect(Collectors.toList());
 		
 	}
 	@Transactional(readOnly=true)
-	public ProducedProductStatusDTO findById(Long id){
-		Optional<ProducedProductStatus> obj = repository.findById(id);
-		ProducedProductStatus entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-		return new ProducedProductStatusDTO(entity);
+	public PalletStatusDTO findById(Long id){
+		Optional<PalletStatus> obj = repository.findById(id);
+		PalletStatus entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+		return new PalletStatusDTO(entity);
 	}
 	@Transactional
-	public ProducedProductStatusDTO insert(ProducedProductStatusDTO dto) {
-			ProducedProductStatus entity =new ProducedProductStatus();
+	public PalletStatusDTO insert(PalletStatusDTO dto) {
+			PalletStatus entity =new PalletStatus();
 			entity.setName(dto.getName());
-			return new ProducedProductStatusDTO(repository.save(entity));
+			return new PalletStatusDTO(repository.save(entity));
 	}
 	@Transactional
-	public ProducedProductStatusDTO update(Long id, ProducedProductStatusDTO dto) {
+	public PalletStatusDTO update(Long id, PalletStatusDTO dto) {
 		try {
-			ProducedProductStatus entity = repository.getOne(id);
+			PalletStatus entity = repository.getOne(id);
 			entity.setName(dto.getName());
 			entity = repository.save(entity);
-			return new ProducedProductStatusDTO(entity);
+			return new PalletStatusDTO(entity);
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}

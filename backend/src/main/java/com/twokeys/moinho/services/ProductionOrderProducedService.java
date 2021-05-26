@@ -19,7 +19,7 @@ import com.twokeys.moinho.entities.ProductionOrderProduced;
 import com.twokeys.moinho.entities.StockMovement;
 import com.twokeys.moinho.entities.enums.StockMovementType;
 import com.twokeys.moinho.entities.pk.ProductionOrderProducedPK;
-import com.twokeys.moinho.repositories.ProducedProductStatusRepository;
+import com.twokeys.moinho.repositories.PalletStatusRepository;
 import com.twokeys.moinho.repositories.ProductRepository;
 import com.twokeys.moinho.repositories.ProductionOrderProducedRepository;
 import com.twokeys.moinho.repositories.ProductionOrderRepository;
@@ -38,7 +38,7 @@ public class ProductionOrderProducedService {
 	@Autowired
 	private ProductionOrderRepository productionOrderRepository;
 	@Autowired
-	private ProducedProductStatusRepository producedProductStatusRepository;
+	private PalletStatusRepository palletStatusRepository;
 	@Autowired
 	private StockMovementService stockMovementService;	
 	@Autowired
@@ -141,14 +141,14 @@ public class ProductionOrderProducedService {
 			entity.setProductionOrder(productionOrderRepository.getOne(dto.getProductionOrderId()));
 			entity.setProduct(productRepository.getOne(dto.getProduct().getId()));
 			entity.setPallet(dto.getPallet());
-			entity.setProducedProductStatus(producedProductStatusRepository.getOne(dto.getProducedProductStatus().getId()));
+			entity.setPalletStatus(palletStatusRepository.getOne(dto.getPalletStatus().getId()));
 			entity.setQuantity(dto.getQuantity());
 			entity.setManufacturingDate(dto.getManufacturingDate());
 			entity.setLote(dto.getLote());
 	}
 	public void convertToEntityUpdate(ProductionOrderProducedDTO dto,ProductionOrderProduced entity) {
 		entity.setProduct(productRepository.getOne(dto.getProduct().getId()));
-		entity.setProducedProductStatus(producedProductStatusRepository.getOne(dto.getProducedProductStatus().getId()));
+		entity.setPalletStatus(palletStatusRepository.getOne(dto.getPalletStatus().getId()));
 		entity.setQuantity(dto.getQuantity());
 		entity.setManufacturingDate(dto.getManufacturingDate());
 		entity.setLote(dto.getLote());

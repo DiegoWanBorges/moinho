@@ -13,14 +13,14 @@ import Sectors from './Components/Sectors'
 import Employees from './Components/Employees'
 import LaborCostTypes from './Components/LaborCosTypes'
 import Occurrences from './Components/Occurrences'
-import Producedproductstatus from './Components/ProducedProductStatus'
+import Producedproductstatus from './Components/PalletStatus'
 
 const Registration = () => (
     <div className="admin-container">
         <NavBarRegistration />
         <div className="admin-content">
             <Switch>
-            <PrivateRoute path="/registrations/parameters" >
+            <PrivateRoute path="/registrations/parameters">
                     <Parameters />
                 </PrivateRoute>
                 <PrivateRoute path="/registrations/users" >
@@ -50,7 +50,7 @@ const Registration = () => (
                 <PrivateRoute path="/registrations/occurrences">
                     <Occurrences />
                 </PrivateRoute>
-                <PrivateRoute path="/registrations/producedproductstatus">
+                <PrivateRoute path="/registrations/palletstatus">
                     <Producedproductstatus />
                 </PrivateRoute>
             </Switch>

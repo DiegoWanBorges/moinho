@@ -1,5 +1,5 @@
 import { Product } from 'core/types/Product';
-import { ProductionOrder, ProductionOrderProduced, ProducedProductStatus } from 'core/types/ProductionOrder';
+import { ProductionOrder, ProductionOrderProduced, Palletstatus } from 'core/types/ProductionOrder';
 import { makePrivateRequest } from 'core/utils/request';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
@@ -20,7 +20,7 @@ const ProductionOrderProducedInsert = ({ onInsertItem, productionOrder }: Props)
     const [products, setProducts] = useState<Product[]>([]);
 
     const [isLoadingProducedProductStatus, setIsLoadingProducedProductStatus] = useState(false);
-    const [producedProductStatus, setProducedProductStatus] = useState<ProducedProductStatus[]>([]);
+    const [producedProductStatus, setProducedProductStatus] = useState<Palletstatus[]>([]);
 
     const { register, errors, control, handleSubmit } = useForm<ProductionOrderProduced>();
 
@@ -35,7 +35,7 @@ const ProductionOrderProducedInsert = ({ onInsertItem, productionOrder }: Props)
 
     useEffect(() => {
         setIsLoadingProducedProductStatus(true)
-        makePrivateRequest({ url: `/producedproductstatus?name=` })
+        makePrivateRequest({ url: `/palletstatus?listname=` })
             .then((response) => {
                 setProducedProductStatus(response.data)
             })
@@ -114,13 +114,13 @@ const ProductionOrderProducedInsert = ({ onInsertItem, productionOrder }: Props)
                         <label className="label-base">Status:</label>
                         <Controller
                             as={Select}
-                            name="producedProductStatus"
+                            name="palletstatus"
                             rules={{ required: true }}
                             control={control}
                             isLoading={isLoadingProducedProductStatus}
                             options={producedProductStatus}
-                            getOptionLabel={(option: ProducedProductStatus) => option.name}
-                            getOptionValue={(option: ProducedProductStatus) => String(option.id)}
+                            getOptionLabel={(option: Palletstatus) => option.name}
+                            getOptionValue={(option: Palletstatus) => String(option.id)}
                             classNamePrefix="produced-status-select"
                             placeholder="Status"
 

@@ -19,18 +19,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.twokeys.moinho.dto.ProducedProductStatusDTO;
-import com.twokeys.moinho.services.ProducedProductStatusService;
+import com.twokeys.moinho.dto.PalletStatusDTO;
+import com.twokeys.moinho.services.PalletStatusService;
 
 @RestController
-@RequestMapping(value="/producedproductstatus")
-public class ProducedProductStatusResource {
+@RequestMapping(value="/palletstatus")
+public class PalletStatusResource {
 	@Autowired
-	ProducedProductStatusService service;
+	PalletStatusService service;
 
 	
 	@GetMapping
-	public ResponseEntity<Page<ProducedProductStatusDTO>> findAll(
+	public ResponseEntity<Page<PalletStatusDTO>> findAll(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "name", defaultValue = "") String  name,
 			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
@@ -38,36 +38,36 @@ public class ProducedProductStatusResource {
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction
 			){
 		PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
-		Page<ProducedProductStatusDTO> list = service.findAllPaged(name,pageRequest);
+		Page<PalletStatusDTO> list = service.findAllPaged(name,pageRequest);
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping
 	@RequestMapping(params = "listname")
-	public ResponseEntity<List<ProducedProductStatusDTO>> findAll(@RequestParam(value = "listname")String name){
-		List<ProducedProductStatusDTO> list = service.findByNameLikeIgnoreCase(name);
+	public ResponseEntity<List<PalletStatusDTO>> findAll(@RequestParam(value = "listname")String name){
+		List<PalletStatusDTO> list = service.findByNameLikeIgnoreCase(name);
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value="/{id}")
-	public ResponseEntity<ProducedProductStatusDTO> findById(@PathVariable Long id){
+	public ResponseEntity<PalletStatusDTO> findById(@PathVariable Long id){
 		return  ResponseEntity.ok().body(service.findById(id));
 	}
 	@PostMapping
-	public ResponseEntity<ProducedProductStatusDTO> insert(@RequestBody ProducedProductStatusDTO dto){
+	public ResponseEntity<PalletStatusDTO> insert(@RequestBody PalletStatusDTO dto){
 		dto = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				  .buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
 	@PutMapping(value="/{id}")
-	public ResponseEntity<ProducedProductStatusDTO> update(@PathVariable Long id,@RequestBody ProducedProductStatusDTO dto){
+	public ResponseEntity<PalletStatusDTO> update(@PathVariable Long id,@RequestBody PalletStatusDTO dto){
 		dto = service.update(id,dto);
 		
 		return ResponseEntity.ok().body(dto); 
 	}
 	@DeleteMapping(value="/{id}")
-	public ResponseEntity<ProducedProductStatusDTO> delete(@PathVariable Long id){
+	public ResponseEntity<PalletStatusDTO> delete(@PathVariable Long id){
 		service.delete(id);
 		return ResponseEntity.noContent().build(); 
 	}

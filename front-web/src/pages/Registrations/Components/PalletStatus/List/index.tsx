@@ -1,6 +1,6 @@
 import Filter from 'core/components/Filter';
 import Pagination from 'core/components/Pagination';
-import { ProducedProductStatusResponse } from 'core/types/ProductionOrder';
+import { PalletstatusResponse } from 'core/types/ProductionOrder';
 import { makePrivateRequest } from 'core/utils/request';
 import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
@@ -9,7 +9,7 @@ import ProducedproductstatusCard from '../Card';
 import './styles.scss';
 
 function ProducedProductStatusList() {
-    const [producedProductStatusResponse, setProducedProductStatusResponse] = useState<ProducedProductStatusResponse>();
+    const [producedProductStatusResponse, setProducedProductStatusResponse] = useState<PalletstatusResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
   
@@ -21,7 +21,7 @@ function ProducedProductStatusList() {
             orderBy:"id",
             direction:"DESC"
         }
-        makePrivateRequest({ url: '/producedproductstatus', params })
+        makePrivateRequest({ url: '/palletstatus', params })
             .then(response => setProducedProductStatusResponse(response.data))
     }, [activePage,name])
 
@@ -33,23 +33,23 @@ function ProducedProductStatusList() {
 
 
     const handCreate = () => {
-        history.push("/registrations/producedproductstatus/new");
+        history.push("/registrations/palletstatus/new");
     }
     const onRemove = (producedProductStatusId: number) => {
         const confirm = window.confirm("Deseja excluir o status selecionado?");
         if (confirm) {
             makePrivateRequest({
-                url: `/producedproductstatus/${producedProductStatusId}`,
+                url: `/palletstatus/${producedProductStatusId}`,
                 method: 'DELETE'
             })
                 .then(() => {
                     toast.success("Status excluido com sucesso!")
-                    history.push('/registrations/producedproductstatus')
+                    history.push('/registrations/palletstatus')
                     getProducedProductStatus();
                 })
                 .catch(() => {
                     toast.error("Falha ao excluir status!")
-                    history.push('/registrations/producedproductstatus')
+                    history.push('/registrations/palletstatus')
                 })
         }
     }

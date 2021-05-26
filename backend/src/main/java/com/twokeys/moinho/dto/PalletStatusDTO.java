@@ -2,22 +2,22 @@ package com.twokeys.moinho.dto;
 
 import java.io.Serializable;
 
-import com.twokeys.moinho.entities.ProducedProductStatus;
+import com.twokeys.moinho.entities.PalletStatus;
 
-public class ProducedProductStatusDTO implements Serializable {
+public class PalletStatusDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private String name;
 
-	public ProducedProductStatusDTO() {
+	public PalletStatusDTO() {
 	}
 
-	public ProducedProductStatusDTO(Long id, String name) {
+	public PalletStatusDTO(Long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
-	public ProducedProductStatusDTO(ProducedProductStatus entity) {
+	public PalletStatusDTO(PalletStatus entity) {
 		this.id = entity.getId();
 		this.name = entity.getName();
 	}

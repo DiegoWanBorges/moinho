@@ -9,10 +9,10 @@ function ProducedProductStatus() {
     return (
         <div>
             <Switch>
-                <Route path="/registrations/producedproductstatus" exact>
+                <Route path="/registrations/palletstatus" exact>
                     <ProducedProductStatusList/>
                 </Route>
-                <Route path="/registrations/producedproductstatus/:producedProductStatusId">
+                <Route path="/registrations/palletstatus/:producedProductStatusId">
                     <ProducedProductStatusForm/>
                 </Route>
             </Switch>

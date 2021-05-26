@@ -20,7 +20,7 @@ function ProducedProductStatusForm() {
 
     useEffect(() => {
         if (isEditing) {
-            makePrivateRequest({ url: `/producedproductstatus/${producedProductStatusId}` })
+            makePrivateRequest({ url: `/palletstatus/${producedProductStatusId}` })
                 .then(response => {
                     setValue('name', response.data.name);
                 })
@@ -31,13 +31,13 @@ function ProducedProductStatusForm() {
 
     const onSubmit = (data: FormState) => {
         makePrivateRequest({
-            url: isEditing ? `/producedproductstatus/${producedProductStatusId}` : '/producedproductstatus/',
+            url: isEditing ? `/palletstatus/${producedProductStatusId}` : '/palletstatus/',
             method: isEditing ? 'PUT' : 'POST',
             data: data
         })
             .then(() => {
                 toast.success("Status do Pallet salvo com sucesso!")
-                history.push('/registrations/producedproductstatus/')
+                history.push('/registrations/palletstatus/')
             })
             .catch(() => {
                 toast.error("Erro ao salvar Status do Pallet!")
