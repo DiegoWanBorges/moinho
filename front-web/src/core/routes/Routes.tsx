@@ -8,6 +8,7 @@ import PrivateRoute from './PrivateRoutes';
 import Registration from 'pages/Registrations';
 import Formulation from 'pages/Formulations';
 import Production from 'pages/ProductionOrder';
+import Stock from 'pages/Stock';
 
 
 const Routes = () => {
@@ -39,9 +40,14 @@ const Routes = () => {
                 <PrivateRoute path="/formulations">
                     <Formulation />
                 </PrivateRoute>
+               
                 <Redirect from="/productions" to="/productions/registrations" exact/>
                 <PrivateRoute path="/productions">
                     <Production />
+                </PrivateRoute>
+
+                <PrivateRoute path="/stock">
+                    <Stock />
                 </PrivateRoute>
             </Switch>
         </Router>

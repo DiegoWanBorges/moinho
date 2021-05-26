@@ -1,9 +1,15 @@
 package com.twokeys.moinho.resources;
 
 import java.net.URI;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +32,24 @@ public class StockMovementResource {
 	StockMovementService service;
 	
 	@GetMapping
-	public ResponseEntity<List<StockMovementDTO>> findByProduct(@RequestParam(value = "productId") Long  productId){
+	public ResponseEntity<Page<StockMovementDTO>> findByStartDateAndFormulation(@RequestParam(value = "productId", defaultValue = "0") Long  productId,
+																				@RequestParam(value = "startDate") LocalDateTime  startDate,
+																				@RequestParam(value = "endDate") LocalDateTime  endDate,
+																				@RequestParam(value = "page", defaultValue = "0") Integer page,
+																				@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
+																				@RequestParam(value = "orderBy", defaultValue = "date") String orderBy,
+																				@RequestParam(value = "direction", defaultValue = "DESC") String direction){
+			Instant start = startDate.atZone(ZoneId.of("America/Sao_Paulo")).toInstant();
+			Instant end = endDate.atZone(ZoneId.of("America/Sao_Paulo")).toInstant();
+			
+			PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
+			Page<StockMovementDTO> list = service.findByStartDateAndProduct(productId,start,end, pageRequest);
+			return ResponseEntity.ok().body(list);
+	}
+	
+	@GetMapping
+	@RequestMapping(params = "listByproductId")
+	public ResponseEntity<List<StockMovementDTO>> findByProduct(@RequestParam(value = "listByproductId") Long  productId){
 		List<StockMovementDTO> list = service.findByProduct(productId);
 		return ResponseEntity.ok().body(list);
 	}

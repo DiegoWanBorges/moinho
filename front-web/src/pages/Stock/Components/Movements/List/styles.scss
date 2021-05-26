@@ -1,0 +1,25 @@
+.stockMovementList-main{
+
+}
+.stockMovementList-actions{
+
+}
+.stockMovementList-filter{
+    display: flex;
+    margin-bottom: 20px;
+}
+.stockMovementList-filter-startDate{
+
+}
+.stockMovementList-filter-endDate{
+    margin-left: 10px;
+}
+.stockMovementList-filter-product{
+    margin-left: 10px;
+    width: 30%;
+}
+.stockMovementList-filter-action{
+    display: flex;
+    margin-left: 10px;
+    flex-direction: column-reverse;
+}

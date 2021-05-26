@@ -17,7 +17,7 @@ const ProductionOrderItems = ({ productionOrderId }: Props) => {
 
     const getProductionOrder = useCallback(() => {
         makePrivateRequest({ url: `/productionorders/${productionOrderId}` })
-            .then(response => setProductionOrder(response.data))
+        .then(response => setProductionOrder(response.data))
     }, [productionOrderId])
 
     useEffect(() => {
