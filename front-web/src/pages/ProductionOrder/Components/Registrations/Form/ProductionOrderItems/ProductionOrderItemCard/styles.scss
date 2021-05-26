@@ -1,14 +1,14 @@
-.productionOrder-item-card-main{
+.productionOrderItemCard-main{
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
     padding: 10px;
     
 }
-.productionOrder-item-card-inf{
+.productionOrderItemCard-inf{
     display: flex;
     flex-direction: row;
 }
-.productionOrder-item-card-inf-name{
+.productionOrderItemCard-inf-name{
     display: flex;
     flex-direction: column;
     width: 40%;
@@ -16,18 +16,17 @@
     margin-left: 10px;
     text-align: left;
 }
-.productionOrder-item-card-inf-quantity{
+.productionOrderItemCard-inf-quantity{
     width: 10%;
     text-align: center;
     border-right: 1px solid #000;
 }
-.productionOrder-item-card-inf-type{
-
+.productionOrderItemCard-inf-type{
     width: 20%;
     text-align: center;
     border-right: 1px solid #000;
 }
-.productionOrder-item-actions{
+.productionOrderItemCard-actions{
     display: flex;
     width: 30%;
     justify-content: center;
@@ -35,41 +34,30 @@
 }
 
 @media (max-width: 1200px){
-    .productionOrder-item-card-inf{
-        text-align: center;
+    .productionOrderItemCard-inf{
+        display: flex;
         flex-direction: column;
-        margin-top: 10px;
     }
-    .productionOrder-item-card-inf-name{
-        
+    .productionOrderItemCard-inf-name{
         width: 100%;
+        text-align: left;
         border-right: none;
-        
+        margin-left: 0px;
     }
-    .productionOrder-item-card-inf-quantity{
+    .productionOrderItemCard-inf-quantity{
         width: 100%;
-        border-right: none;
-    }
-    
-    .productionOrder-item-card-inf-round{
-        width: 100%;
+        text-align: left;
         border-right: none;
     }
-    .productionOrder-item-card-inf-raw-material{
+    .productionOrderItemCard-inf-type{
         width: 100%;
+        text-align: left;
         border-right: none;
     }
-    .productionOrder-item-card-inf-type{
-        width: 100%;
-        border-right: none;
-    }
-    .productionOrder-item-card-actions{
+    .productionOrderItemCard-actions{
+        display: flex;
         width: 100%;
         justify-content: center;
-        margin-top: 10px;
-        
-    }
-    .productionOrder-item-card-actions-btn-edit{
-        margin-right: 10px;
+        align-items: center;
     }
 }

@@ -22,3 +22,25 @@
     width: 10%;
     border-right: 1px solid #000;
 }
+@media (max-width: 576px){
+    .production-item-card-info{
+        display: flex;
+        flex-direction: column;
+    }
+    .production-item-name{
+        width: 100%;
+        border-right: none;
+    }
+    .production-item-quantity{
+        display: flex;
+        justify-content: left;
+        width: 100%;
+        border-right: none;
+    }
+    .production-item-type{
+        display: flex;
+        justify-content: left;
+        width: 100%;
+        border-right: none;
+    }
+}

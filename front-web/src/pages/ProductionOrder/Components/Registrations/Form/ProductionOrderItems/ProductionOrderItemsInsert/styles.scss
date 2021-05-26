@@ -6,5 +6,16 @@
     margin-top: 10px;
 }
 @media (max-width: 1200px){
-
+    .ordemProductionItem-select{
+        width: 100%;
+    }
+    .ordemProductionItem-quantity{
+        width: 100%;
+    }
+    .ordemProductionItem-insert{
+        margin-bottom: 20px;
+    }
+    .ordemProductionItem-btn{
+        width: 100%;
+    }
 }

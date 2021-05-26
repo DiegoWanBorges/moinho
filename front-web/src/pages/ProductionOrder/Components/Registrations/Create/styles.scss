@@ -32,3 +32,25 @@
 .production-create-btn-save{
     margin-left: 5px;
 }
+@media (max-width: 576px){
+    .production-create-select{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .production-create-inf{
+        display: flex;
+        flex-direction: column;
+        justify-content: left;
+    }
+    .production-create-amount{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-left: 0px;
+    }
+    .production-create-action{
+        display: flex;
+        justify-content: space-around;
+    }
+}

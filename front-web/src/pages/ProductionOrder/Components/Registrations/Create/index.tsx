@@ -64,7 +64,6 @@ function ProductionOrderCreate() {
             <div className="production-create-row">
                 <div className="production-create-select">
                     <label className="label-base">Selecione a formulação:</label>
-
                     <Controller
                         as={Select}
                         name="formulation"

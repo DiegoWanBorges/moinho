@@ -48,29 +48,55 @@
     margin-left: 10px;
 }
 @media (max-width: 576px){
-    .formulationItemEdit-row{
-        flex-direction: column;
-    }
-    .formulationItemEdit-quantity{
-        width: 100%;
-    }
-    .formulationItemEdit-round{
-        width: 100%;
-    }
-    .formulationItemEdit-raw-material{
-        width: 100%;
-    }
-    .formulationItemEdit-type{
-        width: 100%;
-    }
-    .formulationItemEdit-btn{
+    .modal-main{
         display: flex;
-        margin-top: 15px;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .formulationItemEdit-btn-del{
-        margin-left: 10px;
-    }
+        flex-direction: column;
+        max-width: 100%;
+        top: 0;
+        left: 0;
+        transform: none;
+        
+        background: #fff;
+        overflow: visible;
+        border-radius: 4px;
+        outline: none;
+        padding: 10px;
+      }
+      
+      .myoverlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0, 0, 0, 0.75);
+        }
+      
+      .producedModal-select-product{
+          width: 100% !important;
+      }
+      .producedModal-row{
+          display: flex;
+          width: 100% !important;
+      }
+      .producedModal-quantity{
+          display: flex;
+          flex-direction: column;
+          width: 50%;
+      }
+      .producedModal-lote{
+          display: flex;
+          flex-direction: column;
+          width: 50%;
+          margin-left: 5px;
+      }
+      
+      
+      .producedModal-btn{
+          margin-top: 15px;
+      }
+      
+      .producedModal-btn-del{
+          margin-left: 10px;
+      }   
 }

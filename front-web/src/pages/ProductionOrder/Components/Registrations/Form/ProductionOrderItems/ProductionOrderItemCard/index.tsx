@@ -17,23 +17,23 @@ function ProductionOrderItemCard({ productionOrderItem, onEditItem, onDeleteItem
     }
 
     return (
-        <div className="productionOrder-item-card-main">
-            <div className="productionOrder-item-card-inf">
-                <h6 className="productionOrder-item-card-inf-type">{productionOrderItem.type}</h6>
+        <div className="productionOrderItemCard-main">
+            <div className="productionOrderItemCard-inf">
+                <h6 className="productionOrderItemCard-inf-type">{productionOrderItem.type}</h6>
 
-                <div className="productionOrder-item-card-inf-name">
+                <div className="productionOrderItemCard-inf-name">
                     <h6 >{productionOrderItem.product.name}</h6>
                     <small>Serie: {productionOrderItem.serie} - Ocorrencia: {productionOrderItem.occurrence.name}</small>
-                    
+
                 </div>
 
-                <h6 className="productionOrder-item-card-inf-quantity">{productionOrderItem.quantity} {productionOrderItem.product.unity.id} </h6>
+                <h6 className="productionOrderItemCard-inf-quantity">{productionOrderItem.quantity} {productionOrderItem.product.unity.id} </h6>
 
-                <div className="productionOrder-item-actions">
+                <div className="productionOrderItemCard-actions">
                     <ProductionOrderItemEditModal
                         productionOrderItem={productionOrderItem}
                         onEditItem={onEditItem}
-                        
+
                     />
                     <button
                         className="btn btn-danger btn-sm "

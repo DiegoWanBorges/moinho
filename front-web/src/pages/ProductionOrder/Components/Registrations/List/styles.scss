@@ -6,8 +6,14 @@
 .production-list-filter-end-date{
     margin-left: 10px;
 }
-.production-list-filter-btn{
-    display: flex;
-    flex-direction: column-reverse;
-    margin-left: 10px;
+
+
+@media (max-width: 576px){
+    .production-list-filter{
+        display: flex;
+        flex-direction: column;
+    }
+    .production-list-filter-end-date{
+        margin-left: 0px;
+    }
 }

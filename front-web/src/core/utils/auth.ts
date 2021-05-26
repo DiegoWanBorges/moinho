@@ -1,6 +1,7 @@
 import jwtDecode from "jwt-decode";
 
 import history from './history'
+import { Roles } from "./roles";
 
 export const CLIENTE_ID= process.env.REACT_APP_CLIENT_ID ??  'moinho-prod';
 export const CLIENTE_SECRET= process.env.CLIENTE_SECRET ?? 'moinho-prod-secret';
@@ -13,7 +14,7 @@ type LoginResponse = {
     userFirstName: string;
     userId: number;
 }
-export type Role = 'ROLE_OPERATOR' | 'ROLE_ADMIN';
+export type Role = Roles
 
 type AccessToken = {
    exp: number;

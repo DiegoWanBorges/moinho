@@ -28,3 +28,34 @@
 .producedInsert-actions{
     margin-top: 10px;
 }
+@media (max-width: 576px){
+    .producedInsert-inf{
+        display: flex;
+        flex-direction: column;
+    }
+    .producedInsert-date{
+        width: 100%;
+    }
+    .producedInsert-quantity{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        margin-left: 5px;
+    }
+    .producedInsert-select{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 100%;
+    }
+    .producedInsert-select-product{
+        width: 100%;
+    }
+    .producedInsert-select-status{
+        width: 100%;
+        margin-left: 0px;
+    }
+    .producedInsert-actions{
+        margin-top: 10px;
+    }
+}

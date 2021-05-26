@@ -19,23 +19,23 @@ function ProductionOrderProducedCard({ productionOrderProduced, onEditItem, onDe
     }
 
     return (
-        <div className="productionOrder-item-card-main">
-            <div className="productionOrder-item-card-inf">
-               <div className="productionOrder-item-card-inf-type">
+        <div className="producedCard-main">
+            <div className="producedCard-inf">
+               <div className="producedCard-inf-type">
                     <h6 >{productionOrderProduced.palletStatus.name}</h6>
                     <small>{productionOrderProduced.manufacturingDate}</small>
                </div>
                 
 
-                <div className="productionOrder-item-card-inf-name">
+                <div className="producedCard-inf-name">
                     <h6 >{productionOrderProduced.product.name}</h6>
                     <small>{`Pallet: ${productionOrderProduced.pallet} Lote: ${productionOrderProduced.lote}`}</small>
                     
                 </div>
 
-                <h6 className="productionOrder-item-card-inf-quantity">{productionOrderProduced.quantity} {productionOrderProduced.product.unity.id} </h6>
+                <h6 className="producedCard-inf-quantity">{productionOrderProduced.quantity} {productionOrderProduced.product.unity.id} </h6>
 
-                <div className="productionOrder-item-actions">
+                <div className="producedCard-actions">
                     
                     <ProductionOrderProducedEditModal
                         productionOrderProduced={productionOrderProduced}
@@ -44,7 +44,7 @@ function ProductionOrderProducedCard({ productionOrderProduced, onEditItem, onDe
                     />
 
                     <button
-                        className="btn btn-danger btn-sm productionOrder-item-btn-del"
+                        className="btn btn-danger btn-sm producedCard-btn-del"
                         onClick={(e) => deleteItem(e)}
                     >
                         Deletar

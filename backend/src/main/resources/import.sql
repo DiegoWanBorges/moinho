@@ -5,10 +5,17 @@ INSERT INTO tb_user (name,email,password) VALUES ('Monteiro Lobato','monteiro@gm
 
 
 INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
-INSERT INTO tb_role (authority) VALUES ('ROLE_PARAMETER');
-INSERT INTO tb_role (authority) VALUES ('ROLE_USER');
-INSERT INTO tb_role (authority) VALUES ('ROLE_GROUP');
-INSERT INTO tb_role (authority) VALUES ('ROLE_UNITY');
+INSERT INTO tb_role (authority) VALUES ('ROLE_REGISTRATION_PARAMETER');
+INSERT INTO tb_role (authority) VALUES ('ROLE_REGISTRATION_USER');
+INSERT INTO tb_role (authority) VALUES ('ROLE_REGISTRATION_GROUP');
+INSERT INTO tb_role (authority) VALUES ('ROLE_REGISTRATION_UNITY');
+INSERT INTO tb_role (authority) VALUES ('ROLE_REGISTRATION_PRODUCT');
+INSERT INTO tb_role (authority) VALUES ('ROLE_REGISTRATION_SECTOR');
+INSERT INTO tb_role (authority) VALUES ('ROLE_REGISTRATION_EMPLOYEE');
+INSERT INTO tb_role (authority) VALUES ('ROLE_REGISTRATION_LABORCOSTTYPE');
+INSERT INTO tb_role (authority) VALUES ('ROLE_REGISTRATION_OPERATIONALCOSTTYPE');
+INSERT INTO tb_role (authority) VALUES ('ROLE_REGISTRATION_OCCURRENCE');
+INSERT INTO tb_role (authority) VALUES ('ROLE_REGISTRATION_STATUSPALLET');
 
 INSERT INTO tb_user_role (user_id, role_id) VALUES (1, 1);
 INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 1);

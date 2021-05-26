@@ -16,40 +16,40 @@ type Props = {
 const ProductionOrderHeader = ({ productionOrder }: Props) => {
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date>();
-    const [observation,setObservation] = useState(' ');
+    const [observation, setObservation] = useState(' ');
 
-    useEffect(() =>{
+    useEffect(() => {
         setStartDate(moment(toISOFormat(productionOrder.startDate)).toDate());
-        if(productionOrder.endDate !=null) {
+        if (productionOrder.endDate != null) {
             setEndDate(moment(toISOFormat(productionOrder.endDate)).toDate());
         }
-         setObservation(productionOrder.observation)
+        setObservation(productionOrder.observation)
 
-    },[productionOrder])
+    }, [productionOrder])
 
-    const onSave = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
+    const onSave = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        const data ={
+        const data = {
             startDate: moment(startDate).format("DD/MM/YYYY HH:mm"),
-            endDate:endDate === undefined ? null :  moment(endDate).format("DD/MM/YYYY HH:mm"),
-            observation:observation
+            endDate: endDate === undefined ? null : moment(endDate).format("DD/MM/YYYY HH:mm"),
+            observation: observation
         }
         makePrivateRequest({
-            url: `/productionorders/${productionOrder.id}` ,
+            url: `/productionorders/${productionOrder.id}`,
             method: 'PUT',
             data: data
         })
-        .then(() => {
+            .then(() => {
                 toast.success("Ordem de produção atualizada com sucesso!")
                 history.push('/productions/registrations/')
-        })
-        .catch(() => {
+            })
+            .catch(() => {
                 toast.error("Erro ao salvar ordem de produção !")
-        })
+            })
 
     }
 
-    const onCancel = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
+    const onCancel = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         history.push('./')
     }
@@ -57,12 +57,9 @@ const ProductionOrderHeader = ({ productionOrder }: Props) => {
     return (
         <form className="production-order-header-main">
             <div>
-                <h5>{`O.P.: ${productionOrder.id}`}</h5>
-                <h5>
-                    {`${productionOrder.formulation.description}
-                       - Quantidade Esperada: ${productionOrder.expectedAmount}
-                    `}
-                </h5>
+                <h6>{`O.P.: ${productionOrder.id}`}</h6>
+                <h6>{`${productionOrder.formulation.description}`}</h6>
+                <h6>{`Quantidade Esperada: ${productionOrder.expectedAmount}`}</h6>
                 <small>{`Dt. Emissão: ${productionOrder.emission}`}</small>
             </div>
 
@@ -97,23 +94,23 @@ const ProductionOrderHeader = ({ productionOrder }: Props) => {
             <div className="production-order-header-text-area">
                 <label className="label-base">Observação:</label>
                 <textarea
-                    onChange={(e)=> setObservation(e.target.value)}
+                    onChange={(e) => setObservation(e.target.value)}
                     value={observation}
-                    
+
                 />
 
-                
+
             </div>
             <div className="production-order-header-actions">
                 <button
                     className="btn btn-secondary"
-                    onClick={(e) =>onCancel(e)}
+                    onClick={(e) => onCancel(e)}
                 >
                     Cancelar
                 </button>
                 <button
                     className="btn btn-success production-order-header-actions-save"
-                    onClick={(e) =>onSave(e)}
+                    onClick={(e) => onSave(e)}
                 >
                     Salvar
                 </button>

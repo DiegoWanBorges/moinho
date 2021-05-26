@@ -31,7 +31,6 @@ const Routes = () => {
                     <Home />
                 </ProtectedRoute>
               
-                <Redirect from="/registrations" to="/registrations/parameters" exact/>
                 <PrivateRoute path="/registrations">
                     <Registration />
                 </PrivateRoute>

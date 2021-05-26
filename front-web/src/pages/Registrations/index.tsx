@@ -14,43 +14,47 @@ import Employees from './Components/Employees'
 import LaborCostTypes from './Components/LaborCosTypes'
 import Occurrences from './Components/Occurrences'
 import Producedproductstatus from './Components/PalletStatus'
+import MainPage from 'core/components/MainPage'
 
 const Registration = () => (
     <div className="admin-container">
         <NavBarRegistration />
         <div className="admin-content">
             <Switch>
-            <PrivateRoute path="/registrations/parameters">
+                <PrivateRoute  path="/registrations/" exact={true}>
+                    <MainPage />
+                </PrivateRoute>
+                <PrivateRoute path="/registrations/parameters" allowedRoutes={['ROLE_ADMIN', 'ROLE_REGISTRATION_PARAMETER']}>
                     <Parameters />
                 </PrivateRoute>
-                <PrivateRoute path="/registrations/users" >
+                <PrivateRoute path="/registrations/users" allowedRoutes={['ROLE_ADMIN', 'ROLE_REGISTRATION_USER']}>
                     <Users />
                 </PrivateRoute>
-                <PrivateRoute path="/registrations/groups">
+                <PrivateRoute path="/registrations/groups" allowedRoutes={['ROLE_ADMIN', 'ROLE_REGISTRATION_GROUP']}>
                     <Groups />
                 </PrivateRoute>
-                <PrivateRoute path="/registrations/units">
+                <PrivateRoute path="/registrations/units" allowedRoutes={['ROLE_ADMIN', 'ROLE_REGISTRATION_UNITY']}>
                     <Units />
                 </PrivateRoute>
-                <PrivateRoute path="/registrations/products">
+                <PrivateRoute path="/registrations/products" allowedRoutes={['ROLE_ADMIN', 'ROLE_REGISTRATION_PRODUCT']}>
                     <Product />
                 </PrivateRoute>
-                <PrivateRoute path="/registrations/sectors">
+                <PrivateRoute path="/registrations/sectors" allowedRoutes={['ROLE_ADMIN', 'ROLE_REGISTRATION_SECTOR']}>
                     <Sectors />
                 </PrivateRoute>
-                <PrivateRoute path="/registrations/employees">
+                <PrivateRoute path="/registrations/employees" allowedRoutes={['ROLE_ADMIN', 'ROLE_REGISTRATION_EMPLOYEE']}>
                     <Employees />
                 </PrivateRoute>
-                <PrivateRoute path="/registrations/laborcosttypes">
+                <PrivateRoute path="/registrations/laborcosttypes" allowedRoutes={['ROLE_ADMIN', 'ROLE_REGISTRATION_LABORCOSTTYPE']}>
                     <LaborCostTypes />
                 </PrivateRoute>
-                <PrivateRoute path="/registrations/operationalcosttypes">
+                <PrivateRoute path="/registrations/operationalcosttypes" allowedRoutes={['ROLE_ADMIN', 'ROLE_REGISTRATION_OPERATIONALCOSTTYPE']}>
                     <OperationalCostTypes />
                 </PrivateRoute>
-                <PrivateRoute path="/registrations/occurrences">
+                <PrivateRoute path="/registrations/occurrences" allowedRoutes={['ROLE_ADMIN', 'ROLE_REGISTRATION_OCCURRENCE']}>
                     <Occurrences />
                 </PrivateRoute>
-                <PrivateRoute path="/registrations/palletstatus">
+                <PrivateRoute path="/registrations/palletstatus" allowedRoutes={['ROLE_ADMIN', 'ROLE_REGISTRATION_STATUSPALLET']}>
                     <Producedproductstatus />
                 </PrivateRoute>
             </Switch>

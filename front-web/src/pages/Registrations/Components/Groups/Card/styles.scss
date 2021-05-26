@@ -24,10 +24,10 @@
     .group-card{
         display: flex;
         flex-direction: column;
-        padding: auto;
+        
     }
     .group-card-action-btn{
-        width: 100%;
+        width: 100% !important;
     }
     .group-card-inf{
         width: 100%;

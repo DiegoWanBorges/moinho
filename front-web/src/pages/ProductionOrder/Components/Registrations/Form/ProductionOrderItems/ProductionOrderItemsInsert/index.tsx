@@ -142,7 +142,7 @@ function ProductionOrderItemsInsert({ onInsertItem, productionOrder }: Props) {
                     <label className="label-base">Quantidade:</label>
                     <div>
                         <input
-                            className="input-base"
+                            className="input-base ordemProductionItem-quantity"
                             name="quantity"
                             type="number"
                             ref={register({

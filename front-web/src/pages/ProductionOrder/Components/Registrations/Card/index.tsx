@@ -11,29 +11,26 @@ const ProductionOrderCard = ({ productionOrder,onRemove }:Props) => {
         history.push(`/productions/registrations/${productionOrder.id}`)
     }
     return (
-        <div className="group-card">
+        <div className="ProductionOrderCard-card">
          
-          <div className="group-card-inf">
+          <div className="ProductionOrderCard-card-inf">
             <h5>{`O.P: ${productionOrder.id} - ${productionOrder.formulation.description}`}</h5>
-            <small>{
-                    `Dt. Emissão: ${productionOrder.emission} / 
-                     Dt. Inicio: ${productionOrder.startDate ===null ? `-` : productionOrder.startDate  } / 
-                     Dt. Fim: ${productionOrder.endDate ===null ? `-` : productionOrder.endDate  }`}
-            </small>
-            <h6>{productionOrder.status}</h6>
+            <small>{`Dt. Inicio: ${productionOrder.startDate ===null ? `-` : productionOrder.startDate  }`}</small>
+            <small>{` Dt. Fim: ${productionOrder.endDate ===null ? `-` : productionOrder.endDate  }`}</small>
+            <h6 >{productionOrder.status}</h6>
           </div>
           
 
-          <div className="group-card-action">
+          <div className="ProductionOrderCard-card-action">
                 <button
                     onClick={onEdit}
-                    className="btn btn-outline-secondary group-card-action-edit ">
+                    className="btn btn-outline-secondary ProductionOrderCard-card-action-edit ">
                     EDITAR
                 </button>
 
                 <button
                     type="button"
-                    className="btn btn-outline-danger group-card-action-save"
+                    className="btn btn-outline-danger ProductionOrderCard-card-action-save"
                     onClick={() => onRemove(productionOrder.id)}
                 >
                     EXCLUIR
