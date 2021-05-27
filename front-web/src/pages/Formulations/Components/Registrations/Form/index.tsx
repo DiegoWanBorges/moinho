@@ -37,7 +37,7 @@ function FormulationForm() {
                 setProducts(response.data)
                 setSecondaryProductions(response.data)
             })
-            .finally(() =>{
+            .finally(() => {
                 setIsLoadingProducts(false)
                 setIsLoadingSecondaryProductions(false)
             })
@@ -177,7 +177,7 @@ function FormulationForm() {
                     )}
                 </div>
 
-                <div className="formulation-form-row-item">
+                <div className="formulation-form-row-coefficient">
                     <label className="label-base">Coeficiente:</label>
                     <input
                         name="coefficient"
@@ -194,8 +194,8 @@ function FormulationForm() {
             </div>
 
             <div className="formulation-form-row">
-                <div className="product-form-select">
-                    <label className="label-base">Produto produzido:</label>
+                <div className="formulation-select-product">
+                    <label className="label-base">Produto principal:</label>
                     <Controller
                         as={Select}
                         name="product"
@@ -214,10 +214,7 @@ function FormulationForm() {
                         </div>
                     )}
                 </div>
-            </div>
-
-            <div className="formulation-form-row">
-                <div className="product-form-select">
+                <div className="formulation-select-product-secondary">
                     <label className="label-base">Produto Secundario:</label>
                     <Controller
                         as={Select}
@@ -232,8 +229,10 @@ function FormulationForm() {
                         isMulti
                     />
                 </div>
+            </div>
 
-                <div className="product-form-select">
+            <div className="formulation-form-row">
+                <div className="formulation-select-sector">
                     <label className="label-base">Setores:</label>
                     <Controller
                         as={Select}
@@ -255,7 +254,7 @@ function FormulationForm() {
                     )}
                 </div>
 
-                <div className="product-form-select">
+                <div className="formulation-select-operational">
                     <label className="label-base">Custos Operacionais:</label>
                     <Controller
                         as={Select}

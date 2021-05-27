@@ -38,7 +38,7 @@ function ProductionOrderItemsInsert({ onInsertItem, productionOrder }: Props) {
 
 
     useEffect(() => {
-        setValue('quantity',1);
+        setValue('quantity', 1);
         setIsLoadingoccurrences(true)
         makePrivateRequest({ url: `/occurrences?listname=` })
             .then((response) => {
@@ -91,52 +91,55 @@ function ProductionOrderItemsInsert({ onInsertItem, productionOrder }: Props) {
                             onChange={(e) => setType(e.target.value)}
                         /> {' Extra '}
 
-                        </div>
+                    </div>
                 </div>
-
                 <div className="ordemProductionItem-select">
-                    <label className="label-base">Ingredientes:</label>
-                    <Controller
-                        as={Select}
-                        name="product"
-                        rules={{ required: true }}
-                        control={control}
-                        isLoading={isLoadingProducts}
-                        options={products}
-                        getOptionLabel={(option: Product) => option.name}
-                        getOptionValue={(option: Product) => String(option.id)}
-                        classNamePrefix="products-select"
-                        placeholder="Produtos"
+                    <div className="ordemProductionItem-select-product">
+                        <label className="label-base">Ingredientes:</label>
+                        <Controller
+                            as={Select}
+                            name="product"
+                            rules={{ required: true }}
+                            control={control}
+                            isLoading={isLoadingProducts}
+                            options={products}
+                            getOptionLabel={(option: Product) => option.name}
+                            getOptionValue={(option: Product) => String(option.id)}
+                            classNamePrefix="products-select"
+                            placeholder="Produtos"
 
-                    />
-                    {errors.product && (
-                        <div className="invalid-feedback d-block">
-                            Campo obrigatório
-                        </div>
-                    )}
+                        />
+                        {errors.product && (
+                            <div className="invalid-feedback d-block">
+                                Campo obrigatório
+                            </div>
+                        )}
+                    </div>
+                    <div className="ordemProductionItem-select-occurrence">
+                        <label className="label-base">Ocorrências:</label>
+                        <Controller
+                            as={Select}
+                            name="occurrence"
+                            rules={{ required: true }}
+                            control={control}
+                            isLoading={isLoadingOccurrences}
+                            options={occurrences}
+                            getOptionLabel={(option: Occurrence) => option.name}
+                            getOptionValue={(option: Occurrence) => String(option.id)}
+                            classNamePrefix="occurrences-select"
+                            placeholder="Ocorrências"
+                            defaultValue=""
+                        />
+                        {errors.product && (
+                            <div className="invalid-feedback d-block">
+                                Campo obrigatório
+                            </div>
+                        )}
+                    </div>
                 </div>
 
-                <div className="ordemProductionItem-select">
-                    <label className="label-base">Ocorrências:</label>
-                    <Controller
-                        as={Select}
-                        name="occurrence"
-                        rules={{ required: true }}
-                        control={control}
-                        isLoading={isLoadingOccurrences}
-                        options={occurrences}
-                        getOptionLabel={(option: Occurrence) => option.name}
-                        getOptionValue={(option: Occurrence) => String(option.id)}
-                        classNamePrefix="occurrences-select"
-                        placeholder="Ocorrências"
-                        defaultValue=""
-                    />
-                    {errors.product && (
-                        <div className="invalid-feedback d-block">
-                            Campo obrigatório
-                        </div>
-                    )}
-                </div>
+
+
 
                 <div className="ordemProductionItem-quantity">
                     <label className="label-base">Quantidade:</label>

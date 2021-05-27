@@ -1,13 +1,28 @@
 
 .ordemProductionItem-select{
+    display: flex;
+}
+.ordemProductionItem-select-product{
     width: 50%;
+}
+.ordemProductionItem-select-occurrence{
+    width: 50%;
+    margin-left: 5px;
 }
 .ordemProductionItem-insert{
     margin-top: 10px;
 }
 @media (max-width: 1200px){
     .ordemProductionItem-select{
+        flex-direction: column;
         width: 100%;
+    }
+    .ordemProductionItem-select-product{
+        width: 100%;
+    }
+    .ordemProductionItem-select-occurrence{
+        width: 100%;
+        margin-left: 0px;
     }
     .ordemProductionItem-quantity{
         width: 100%;

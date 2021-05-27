@@ -12,12 +12,26 @@
     flex-direction: column;
     width: 60%;
 }
-.formulation-form-row-item{
+.formulation-form-row-coefficient{
     display: flex ;
     flex-direction: column;
     width: 20%;
+    margin-left: 5px;
 }
-
+.formulation-select-product{
+    width: 50%;
+}
+.formulation-select-product-secondary{
+    width: 50%;
+    margin-left: 5px;
+}
+.formulation-select-sector{
+    width: 50%;
+}
+.formulation-select-operational{
+    width: 50%;
+    margin-left: 5px;
+}
 .formulation-form-actions{
     margin-top: 10px;
     display: flex;
@@ -38,10 +52,29 @@
     .formulation-form-row-item{
         width: 100%;
     }
+    .formulation-form-row-coefficient{
+        display: flex ;
+        flex-direction: column;
+        width: 100%;
+        margin-left: 0px;
+    }
+    .formulation-select-product{
+        width: 100%;
+    }
+    .formulation-select-product-secondary{
+        width: 100%;
+        margin-left: 0px;
+    }
+    .formulation-select-sector{
+        width: 100%;
+    }
+    .formulation-select-operational{
+        width: 100%;
+        margin-left: 0px;
+    }
     .formulation-form-actions{
         margin-top: 10px;
         display: flex;
-        justify-content: center;
-        
+        justify-content: center;       
     }
 }
