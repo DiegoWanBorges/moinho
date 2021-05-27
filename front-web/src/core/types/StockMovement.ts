@@ -1,3 +1,4 @@
+import { type } from "node:os";
 import { Product } from "./Product";
 
 export type StockMovementsResponse ={
@@ -15,3 +16,4 @@ export type StockMovement={
     idOrignMovement:number;
     product:Product;
 }
+

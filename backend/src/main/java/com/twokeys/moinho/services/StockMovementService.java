@@ -112,6 +112,7 @@ public class StockMovementService {
 			throw new UntreatedException(e.getMessage());
 		}
 	}
+	@Transactional
 	public void delete(Long id) {
 		try {
 			StockMovement entity = repository.getOne(id);

@@ -1,12 +1,15 @@
 import './styles.scss'
 import { StockMovement } from 'core/types/StockMovement'
+import { Link } from 'react-router-dom';
 
 type Props = {
     stockMovement: StockMovement;
-
+    onRemove: (stockMovementId:number) =>void;
 }
 
-const StockMovementCard = ({ stockMovement }: Props) => {
+const StockMovementCard = ({ stockMovement,onRemove }: Props) => {
+    const typeProduction = ['PRODUCAO_ENTRADA', 'PRODUCAO_CONSUMO', 'PRODUCAO_RETORNO'];
+
     return (
         <div className="stockMovementCard-main">
             <div className="stockMovementCard-date">
@@ -31,15 +34,17 @@ const StockMovementCard = ({ stockMovement }: Props) => {
                 <h6>{`Custo: ${stockMovement.cost} `}</h6>
             </div>
 
-            <div className="stockMovementCard-action">
-                <button
-                    className="btn btn-outline-secondary stockMovementCard-action-edit"
-                >
-                    Editar
-                </button>
+            <div className={`stockMovementCard-action ${typeProduction.some(item => item === stockMovement.type) ? 'd-none' : ''}`} >
+                <Link
+                    to={`/stock/movements/${stockMovement.id}`}
+                    type="button"
+                    className="btn btn-outline-secondary stockMovementCard-action-edit">
+                    EDITAR
+                </Link>
 
-                <button
+                <button 
                     className="btn btn-outline-danger stockMovementCard-action-del"
+                    onClick={() =>onRemove(stockMovement.id)}
                 >
                     Deletar
                 </button>

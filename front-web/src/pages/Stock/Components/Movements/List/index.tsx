@@ -9,6 +9,8 @@ import { Product } from 'core/types/Product';
 import { makePrivateRequest } from 'core/utils/request';
 import { StockMovementsResponse } from 'core/types/StockMovement';
 import StockMovementCard from '../Card';
+import history from 'core/utils/history';
+import { toast } from 'react-toastify';
 
 const StockMovementList = () => {
     const [startDate, setStartDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth(), 1, 0, 0));
@@ -33,10 +35,10 @@ const StockMovementList = () => {
             page: activePage,
             startDate: moment(startDate).format("DD/MM/YYYY HH:mm"),
             endDate: moment(endDate).format("DD/MM/YYYY HH:mm"),
-            linesPerPage: 5,
-            orderBy: "id",
+            linesPerPage: 10,
+            orderBy: "date",
             direction: "DESC",
-            productId: product?.id 
+            productId: product?.id
         }
         makePrivateRequest({ url: '/stocks', params })
             .then(response => setStockMovementResponse(response.data))
@@ -45,15 +47,42 @@ const StockMovementList = () => {
             })
     }, [activePage, startDate, endDate, product])
 
-    useEffect(() =>{
+    useEffect(() => {
         getStockMovements()
-    // eslint-disable-next-line
-    },[activePage,getStockMovements])
+        // eslint-disable-next-line
+    }, [activePage, getStockMovements])
 
+    const handCreate = () => {
+        history.push("/stock/movements/new");
+    }
+
+    const onRemove = (stockMovementId: number) => {
+        const confirm = window.confirm("Deseja excluir o movimento selecionado?");
+        if (confirm) {
+            makePrivateRequest({
+                url: `/stocks/${stockMovementId}`,
+                method: 'DELETE'
+            })
+                .then(() => {
+                    toast.success("Movimentação de estoque excluida com sucesso!")
+                    history.push('/stock/movements/')
+                    getStockMovements();
+                })
+                .catch(() => {
+                    toast.error("Falha ao excluir movimentação de estoque!")
+                    history.push('/stock/movements/')
+                })
+        }
+    }
     return (
         <div className="stockMovementList-main">
             <div className="stockMovementList-actions">
-                Ações
+                <button
+                    className="btn btn-primary btn-lg stockMovementList-btnAdd"
+                    onClick={handCreate}
+                >
+                    ADCIONAR
+               </button>
             </div>
 
             <div className="stockMovementList-filter">
@@ -95,22 +124,23 @@ const StockMovementList = () => {
                         isClearable
                     />
                 </div>
-               
+
             </div>
             {stockMovementResponse?.content.map(item => (
                 <StockMovementCard
                     stockMovement={item}
+                    onRemove={onRemove}
                     key={item.id}
                 />
             ))
 
             }
             {stockMovementResponse &&
-                    <Pagination
-                        totalPages={stockMovementResponse?.totalPages}
-                        onChange={page => setActivePage(page)}
-                    />
-                }
+                <Pagination
+                    totalPages={stockMovementResponse?.totalPages}
+                    onChange={page => setActivePage(page)}
+                />
+            }
 
 
         </div>

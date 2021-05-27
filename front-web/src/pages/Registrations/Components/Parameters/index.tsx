@@ -10,19 +10,19 @@ function Parameters() {
 
 
     useEffect(() => {
-           makePrivateRequest({ url: `/parameters/1` })
-                .then(response => {
-                    setValue('companyName',response.data.companyName)
-                    setValue('productionOrderWithoutStock',response.data.productionOrderWithoutStock.toString())
-                    setValue('typeCostUsed',response.data.typeCostUsed)
-                })
-            
+        makePrivateRequest({ url: `/parameters/1` })
+            .then(response => {
+                setValue('companyName', response.data.companyName)
+                setValue('productionOrderWithoutStock', response.data.productionOrderWithoutStock.toString())
+                setValue('typeCostUsed', response.data.typeCostUsed)
+            })
+
     }, [setValue])
 
     const onSubmit = (data: Parameter) => {
         makePrivateRequest({
-            url:  '/parameters/1',
-            method:  'PUT',
+            url: '/parameters/1',
+            method: 'PUT',
             data
         })
             .then(() => {
@@ -53,7 +53,7 @@ function Parameters() {
                         type="radio"
                         value="true"
                         name="productionOrderWithoutStock"
-                    /> Sim 
+                    /> Sim
                     <input
                         ref={register}
                         type="radio"
@@ -61,7 +61,6 @@ function Parameters() {
                         name="productionOrderWithoutStock"
                     /> Não
                </div>
-
             </div>
 
             <div className="parameter-content-type-cost">
