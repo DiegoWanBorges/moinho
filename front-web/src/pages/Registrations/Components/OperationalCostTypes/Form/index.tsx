@@ -1,4 +1,4 @@
-import { OperationalCostType } from 'core/types/OperationalCostType';
+import { OperationalCostType } from 'core/types/Payment';
 import { makePrivateRequest } from 'core/utils/request';
 import { useEffect } from 'react';
 import {  useForm } from 'react-hook-form';

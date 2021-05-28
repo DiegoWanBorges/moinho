@@ -1,6 +1,6 @@
 import Filter from 'core/components/Filter';
 import Pagination from 'core/components/Pagination';
-import { LaborCosTypesResponse } from 'core/types/LaborCosType';
+import { LaborCosTypesResponse } from 'core/types/Payment';
 import { makePrivateRequest } from 'core/utils/request';
 import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';

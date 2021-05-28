@@ -9,6 +9,7 @@ import Registration from 'pages/Registrations';
 import Formulation from 'pages/Formulations';
 import Production from 'pages/ProductionOrder';
 import Stock from 'pages/Stock';
+import Payment from 'pages/Payments';
 
 
 const Routes = () => {
@@ -31,7 +32,8 @@ const Routes = () => {
                 <ProtectedRoute path='/home' exact>
                     <Home />
                 </ProtectedRoute>
-              
+
+                
                 <PrivateRoute path="/registrations">
                     <Registration />
                 </PrivateRoute>
@@ -46,8 +48,14 @@ const Routes = () => {
                     <Production />
                 </PrivateRoute>
 
+                <Redirect from="/stock" to="/stock/movements" exact/>
                 <PrivateRoute path="/stock">
                     <Stock />
+                </PrivateRoute>
+                
+                <Redirect from="/payments" to="/payments/employees" exact/>
+                <PrivateRoute path="/payments">
+                    <Payment />
                 </PrivateRoute>
             </Switch>
         </Router>

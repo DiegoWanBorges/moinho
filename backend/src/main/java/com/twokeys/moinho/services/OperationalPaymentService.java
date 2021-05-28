@@ -1,5 +1,6 @@
 package com.twokeys.moinho.services;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -7,10 +8,13 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.twokeys.moinho.dto.OperationalPaymentDTO;
+import com.twokeys.moinho.entities.OperationalCostType;
 import com.twokeys.moinho.entities.OperationalPayment;
 import com.twokeys.moinho.repositories.OperationalCostTypeRepository;
 import com.twokeys.moinho.repositories.OperationalPaymentRepository;
@@ -24,7 +28,14 @@ public class OperationalPaymentService {
 	@Autowired
 	private OperationalPaymentRepository repository;
 	@Autowired
-	private OperationalCostTypeRepository apportionmentRepository;
+	private OperationalCostTypeRepository operationalCostTypeRepository;
+	
+	@Transactional(readOnly=true)
+	public Page<OperationalPaymentDTO> findByDateAndType(Long operationalCostId,LocalDate startDate,LocalDate endDate,PageRequest pageRequest){
+		OperationalCostType operationalCostType = (operationalCostId==0) ? null : operationalCostTypeRepository.getOne(operationalCostId);
+		Page<OperationalPayment> page = repository.findByDateAndType(operationalCostType,startDate,endDate,pageRequest);
+		return page.map(x -> new OperationalPaymentDTO(x));
+	}
 	
 	@Transactional(readOnly=true)
 	public OperationalPaymentDTO findById(Long id){
@@ -67,6 +78,6 @@ public class OperationalPaymentService {
 		entity.setDescription(dto.getDescription());
 		entity.setDocumentNumber(dto.getDocumentNumber());
 		entity.setValue(dto.getValue());
-		entity.setApportionmentType(apportionmentRepository.getOne(dto.getApportionmentType().getId()));
+		entity.setOperationalCostType(operationalCostTypeRepository.getOne(dto.getOperationalCostType().getId()));
 	}
 }

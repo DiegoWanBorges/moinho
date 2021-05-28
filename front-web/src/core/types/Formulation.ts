@@ -1,5 +1,5 @@
 import { Sector } from "./Employee";
-import { OperationalCostType } from "./OperationalCostType";
+import { OperationalCostType } from "./Payment";
 import { Product } from "./Product";
 
 export type FormulationResponse ={
@@ -13,7 +13,7 @@ export type Formulation={
     coefficient: number
     description:string
     product: Product;
-    apportionments: OperationalCostType[];
+    operationalCostType: OperationalCostType[];
     sectors: Sector[];
     formulationItems:FormulationItem[];
     secondaryProduction:Product[];

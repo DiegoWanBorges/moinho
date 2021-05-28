@@ -1,4 +1,4 @@
-import { OperationalCostType } from 'core/types/OperationalCostType';
+import { OperationalCostType } from 'core/types/Payment';
 import { Link } from 'react-router-dom';
 import './styles.scss';
 

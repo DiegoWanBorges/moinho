@@ -1,12 +1,16 @@
 package com.twokeys.moinho.repositories;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.twokeys.moinho.entities.OperationalCostType;
 import com.twokeys.moinho.entities.OperationalPayment;
 
 @Repository
@@ -24,6 +28,10 @@ public interface OperationalPaymentRepository extends JpaRepository<OperationalP
 				 + "order by total desc " 
 		    , nativeQuery = true)
 	List<Object[]> listOperationalCostGroupByTypeApportionment(Instant startDate,Instant endDate);
-		
+	
+	@Query("SELECT obj FROM OperationalPayment obj "
+		 + "WHERE (COALESCE(:operationalCostType) IS NULL OR operationalCostType = :operationalCostType) "
+		 + "AND (obj.date between :startDate and :endDate) ")
+	Page<OperationalPayment> findByDateAndType(OperationalCostType operationalCostType,LocalDate startDate,LocalDate endDate, Pageable pageable);
 }
 

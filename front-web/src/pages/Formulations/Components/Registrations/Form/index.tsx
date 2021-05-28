@@ -8,7 +8,7 @@ import Select from 'react-select';
 import { Product } from 'core/types/Product';
 import FormulationItems from './FormulationItems';
 import { Sector } from 'core/types/Employee';
-import { OperationalCostType } from 'core/types/OperationalCostType';
+import { OperationalCostType } from 'core/types/Payment';
 import { Formulation, FormulationItem } from 'core/types/Formulation';
 import FormulationItemsCard from './FormulationItemsCard';
 
@@ -69,7 +69,7 @@ function FormulationForm() {
                     setValue('coefficient', response.data.coefficient);
                     setValue('product', response.data.product);
                     setValue('sectors', response.data.sectors);
-                    setValue('apportionments', response.data.apportionments);
+                    setValue('operationalCostType', response.data.operationalCostType);
                     setValue('secondaryProduction', response.data.secondaryProduction);
                     setFormulationItem(response.data.formulationItems)
                 })
@@ -258,7 +258,7 @@ function FormulationForm() {
                     <label className="label-base">Custos Operacionais:</label>
                     <Controller
                         as={Select}
-                        name="apportionments"
+                        name="operationalCostType"
                         rules={{ required: true }}
                         control={control}
                         isLoading={isLoadingOperationalCostTypes}
@@ -269,7 +269,7 @@ function FormulationForm() {
                         placeholder="Custos operacionais"
                         isMulti
                     />
-                    {errors.apportionments && (
+                    {errors.operationalCostType && (
                         <div className="invalid-feedback d-block">
                             Campo obrigatório
                         </div>

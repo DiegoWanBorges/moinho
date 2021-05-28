@@ -33,11 +33,11 @@ public class Formulation   implements Serializable {
 	private Product product;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="tb_formulation_apportionment", 
+	@JoinTable(name="tb_formulation_operational_cost", 
 			joinColumns = @JoinColumn(name="formulation_id"),
-			inverseJoinColumns = @JoinColumn(name="apportionment_type_id")
+			inverseJoinColumns = @JoinColumn(name="operational_cost_type_id")
 			)
-	private Set<OperationalCostType> apportionmentTypes = new HashSet<>();
+	private Set<OperationalCostType> operationalCostType = new HashSet<>();
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="tb_formulation_sector", 
@@ -91,8 +91,8 @@ public class Formulation   implements Serializable {
 		this.product = product;
 	}
 	
-	public Set<OperationalCostType> getApportionmentTypes() {
-		return apportionmentTypes;
+	public Set<OperationalCostType> getOperationalCostType() {
+		return operationalCostType;
 	}
 	public Set<Sector> getSectors() {
 		return sectors;

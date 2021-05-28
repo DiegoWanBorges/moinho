@@ -101,10 +101,10 @@ public class FormulationService {
 		entity.setDescription(dto.getDescription());
 		entity.setProduct(productRepository.getOne(dto.getProduct().getId()));
 		
-		entity.getApportionmentTypes().clear();
-		for (OperationalCostTypeDTO apportionmentDTO : dto.getApportionments()) {
+		entity.getOperationalCostType().clear();
+		for (OperationalCostTypeDTO apportionmentDTO : dto.getOperationalCostType()) {
 			OperationalCostType apportionment = apportionmentTypeRepository.getOne(apportionmentDTO.getId());
-			entity.getApportionmentTypes().add(apportionment);
+			entity.getOperationalCostType().add(apportionment);
 		}
 		entity.getSectors().clear();
 		for (SectorDTO sectorDTO : dto.getSectors()) {

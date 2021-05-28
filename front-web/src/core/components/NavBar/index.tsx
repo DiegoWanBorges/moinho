@@ -53,7 +53,7 @@ function NavBar() {
             </NavLink>
           </li>
           <li>
-            <NavLink className="nav-link" to="/payment" onClick={() => setDrawerActive(false)} >
+            <NavLink className="nav-link" to="/payments" onClick={() => setDrawerActive(false)} >
               PAGAMENTOS
             </NavLink>
           </li>

@@ -27,11 +27,14 @@ const StockMovementForm = () => {
     const [isLoadingProducts, setIsLoadingProducts] = useState(false);
     const [products, setProducts] = useState<Product[]>([]);
     const [quantity, setQuantity] = useState(1);
-
+    const isBlockedTypes =['PRODUCAO_ENTRADA','PRODUCAO_CONSUMO','PRODUCAO_RETORNO']
     useEffect(() => {
         if (isEditing) {
             makePrivateRequest({ url: `/stocks/${stockMovementId}` })
                 .then(response => {
+                    if(isBlockedTypes.some(item => item === response.data.type)){
+                        history.push('/stock/movements/');
+                    }
                     setDate(moment(toISOFormat(response.data.date)).toDate())
                     setStockType(response.data.type)
                     setValue('idOrignMovement',response.data.idOrignMovement)
@@ -150,6 +153,7 @@ const StockMovementForm = () => {
                         ref={register}
                     />
                 </div>
+                
             </div>
             <div className="stockMovementForm-row">
                 <div className="stockMovementForm-select-product">
@@ -176,11 +180,13 @@ const StockMovementForm = () => {
                 <div className="stockMovementForm-quantity">
                     <label className="label-base">Quantidade:</label>
                     <input
+                        name="quantity"
                         className="input-base"
                         type="number"
                         onChange={(e) => setQuantity(parseInt(e.target.value))}
                         value={quantity}
                     />
+
                 </div>
                 <div className="stockMovementForm-cost">
                     <label className="label-base">Custo:</label>
@@ -188,8 +194,16 @@ const StockMovementForm = () => {
                         type="number"
                         className="input-base"
                         name="cost"
-                        ref={register}
+                        ref={register({
+                            required: "Campo obrigatório",
+                            min: { value: 0.001, message: "O valor dever ser maior que zero" },
+                        })}
                     />
+                     {errors.cost && (
+                        <div className="invalid-feedback d-block">
+                            {errors.cost.message}
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="stockMovementForm-row">

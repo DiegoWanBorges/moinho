@@ -1,4 +1,4 @@
-import { LaborCosType } from 'core/types/LaborCosType';
+import { LaborCosType } from 'core/types/Payment';
 import { Link } from 'react-router-dom';
 import './styles.scss';
 

@@ -1,15 +1,17 @@
 package com.twokeys.moinho.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.twokeys.moinho.entities.LaborPayment;
 
 public class LaborPaymentDTO implements Serializable {
 		private static final long serialVersionUID = 1L;
 				
 		private Long id;
-		private Instant date;
+		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone="GMT-3")
+		private LocalDate date;
 		private String description;
 		private String documentNumber;
 		private Double value;
@@ -19,7 +21,7 @@ public class LaborPaymentDTO implements Serializable {
 		public LaborPaymentDTO() {
 		}
 		
-		public LaborPaymentDTO(Long id, Instant date, String description, String documentNumber, Double value,
+		public LaborPaymentDTO(Long id, LocalDate date, String description, String documentNumber, Double value,
 				EmployeeDTO employee, LaborCostTypeDTO laborCostType) {
 			this.id = id;
 			this.date = date;
@@ -48,11 +50,11 @@ public class LaborPaymentDTO implements Serializable {
 			this.id = id;
 		}
 
-		public Instant getDate() {
+		public LocalDate getDate() {
 			return date;
 		}
 
-		public void setDate(Instant date) {
+		public void setDate(LocalDate date) {
 			this.date = date;
 		}
 

@@ -1,7 +1,7 @@
 package com.twokeys.moinho.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.twokeys.moinho.entities.OperationalPayment;
@@ -10,24 +10,24 @@ public class OperationalPaymentDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", timezone="GMT-3")
-	private Instant date;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone="GMT-3")
+	private LocalDate date;
 	private String description;
 	private String documentNumber;
 	private Double value;
-	private OperationalCostTypeDTO apportionmentType;
+	private OperationalCostTypeDTO operationalCostType;
 	
 	public OperationalPaymentDTO() {
 	}
 	
-	public OperationalPaymentDTO(Long id, Instant date, String description, String documentNumber, Double value,
-						   OperationalCostTypeDTO apportionmentType) {
+	public OperationalPaymentDTO(Long id, LocalDate date, String description, String documentNumber, Double value,
+						   		 OperationalCostTypeDTO operationalCostType) {
 		this.id = id;
 		this.date = date;
 		this.description = description;
 		this.documentNumber = documentNumber;
 		this.value = value;
-		this.apportionmentType = apportionmentType;
+		this.operationalCostType = operationalCostType;
 	}
 
 	public OperationalPaymentDTO(OperationalPayment entity) {
@@ -36,7 +36,7 @@ public class OperationalPaymentDTO implements Serializable {
 		this.description=entity.getDescription();
 		this.documentNumber=entity.getDocumentNumber();
 		this.value = entity.getValue();
-		this.apportionmentType = new OperationalCostTypeDTO(entity.getApportionmentType());
+		this.operationalCostType = new OperationalCostTypeDTO(entity.getOperationalCostType());
 	}
 
 	public Long getId() {
@@ -47,11 +47,11 @@ public class OperationalPaymentDTO implements Serializable {
 		this.id = id;
 	}
 
-	public Instant getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Instant date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
@@ -79,14 +79,11 @@ public class OperationalPaymentDTO implements Serializable {
 		this.value = value;
 	}
 
-	public OperationalCostTypeDTO getApportionmentType() {
-		return apportionmentType;
+	public OperationalCostTypeDTO getOperationalCostType() {
+		return operationalCostType;
 	}
 
-	public void setApportionmentType(OperationalCostTypeDTO apportionmentType) {
-		this.apportionmentType = apportionmentType;
+	public void setOperationalCostType(OperationalCostTypeDTO operationalCostType) {
+		this.operationalCostType = operationalCostType;
 	}
-	
-	
-
 }

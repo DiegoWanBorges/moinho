@@ -1,9 +1,8 @@
 package com.twokeys.moinho.entities;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,8 +22,7 @@ public abstract class Payment implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant date;
+	private LocalDate date;
 	private String description;
 	private Double value;
 	private String documentNumber;
@@ -32,7 +30,7 @@ public abstract class Payment implements Serializable {
 	public Payment() {
 	}
 
-	public Payment(Long id, Instant date, String description, Double value, String documentNumber) {
+	public Payment(Long id, LocalDate date, String description, Double value, String documentNumber) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -49,11 +47,11 @@ public abstract class Payment implements Serializable {
 		this.id = id;
 	}
 
-	public Instant getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Instant date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 

@@ -6,9 +6,10 @@ type Props ={
     path: string;
     allowedRoutes?:Role[];
     exact?:boolean
+    home?:string
 }
 
-const PrivateRoute = ({ children, path,allowedRoutes,exact  }: Props ) => {
+const PrivateRoute = ({ children, path,allowedRoutes,exact,home  }: Props ) => {
      return (
       <Route
         exact={exact}
@@ -25,7 +26,7 @@ const PrivateRoute = ({ children, path,allowedRoutes,exact  }: Props ) => {
             )
           } else if(!isAllowedByRole(allowedRoutes) ){
             return (
-              <Redirect to={{pathname: "/home/"}}/>
+              <Redirect to={{pathname: home }}/>
             )
           } 
           return children;

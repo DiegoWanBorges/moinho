@@ -1,12 +1,17 @@
 package com.twokeys.moinho.repositories;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.twokeys.moinho.entities.Employee;
+import com.twokeys.moinho.entities.LaborCostType;
 import com.twokeys.moinho.entities.LaborPayment;
 
 @Repository
@@ -25,6 +30,13 @@ public interface LaborPaymentRepository extends JpaRepository<LaborPayment, Long
 			+ "group by tb_sector.name,tb_sector.id " 
 		    , nativeQuery = true)
 	List<Object[]> listCostLaborGroupBySector(Instant startDate,Instant endDate);
+	
+	
+	@Query("SELECT obj FROM LaborPayment obj "
+			 + "WHERE (COALESCE(:laborCostType) IS NULL OR laborCostType = :laborCostType) "
+			 + "AND (COALESCE(:employee) IS NULL OR employee = :employee) "
+			 + "AND (obj.date between :startDate and :endDate) ")
+	Page<LaborPayment> findByDateAndEmployeeAndLaborCostType(Employee employee,LaborCostType laborCostType ,LocalDate startDate,LocalDate endDate, Pageable pageable);
 		
 }
 
