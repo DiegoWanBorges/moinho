@@ -1,7 +1,9 @@
-import MainPage from 'core/components/MainPage'
 import PrivateRoute from 'core/routes/PrivateRoutes'
+
 import { Switch } from 'react-router'
+import LaborPayments from './Components/LaborPayment'
 import NavBarPayments from './Components/NavBar'
+import OperationalPayments from './Components/Operational'
 
 import './styles.scss'
 const Payment = () => {
@@ -10,12 +12,11 @@ const Payment = () => {
             <NavBarPayments />
             <div className="admin-content">
                 <Switch>
-                    <PrivateRoute path="/payments/" exact={true}>
-                        <MainPage/>
+                    <PrivateRoute path="/payments/labor" >
+                        <LaborPayments/>
                     </PrivateRoute>
-                    
-                    <PrivateRoute path="/payments/employees" >
-                        
+                    <PrivateRoute path="/payments/operational" >
+                        <OperationalPayments/>
                     </PrivateRoute>
                 </Switch>
             </div>

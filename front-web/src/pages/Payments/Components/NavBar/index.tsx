@@ -6,7 +6,7 @@ const NavBarPayments = () => (
     <nav className="nav-payment-container">
         <ul className="nav-payment-list">
             <li>
-                <NavLink to="/payments/employees" className="nav-payment-item">Funcionários</NavLink>
+                <NavLink to="/payments/labor" className="nav-payment-item">Mão de Obra</NavLink>
             </li>
 
             <li>
