@@ -45,29 +45,20 @@
 
 @media (max-width:1200px) {
     .laborPaymentCard-main{
-        display: flex;
         flex-direction: column;
-        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
-        border-radius: 10px;
-        padding: 15px;
-        
     }
     .laborPaymentCard-date{
         width: 100%;
         border-right: none;
     }
     .laborPaymentCard-name{
+        display: flex;
+        flex-direction: column;
         text-align: left;
         width: 100%;
         border-right: none;
     }
-    .laborPaymentCard-quantity{
-        justify-content: left;
-        width: 100%;
-        border-right: none;
-    }
-    .laborPaymentCard-cost{
-        display: flex;
+    .laborPaymentCard-value{
         justify-content: left;
         width: 100%;
         border-right: none;
@@ -81,12 +72,12 @@
     }
     .laborPaymentCard-action-edit{
         border-radius: 10px;
-        width: 40%;
+        width: 50%;
         
     }
     .laborPaymentCard-action-del{
-        width: 40%;
+        width: 50%;
         border-radius: 10px;
         margin-left: 5px;
-    }
+    }    
 }

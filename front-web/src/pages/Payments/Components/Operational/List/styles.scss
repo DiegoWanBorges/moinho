@@ -1,35 +1,35 @@
-.stockMovementList-actions{
+.OperationalPaymentList-actions{
     margin-bottom: 20px;
 }
-.stockMovementList-filter{
+.OperationalPaymentList-filter{
     display: flex;
     margin-bottom: 20px;
 }
-.stockMovementList-filter-endDate{
+.OperationalPaymentList-filter-endDate{
     margin-left: 10px;
 }
-.stockMovementList-filter-product{
+.OperationalPaymentList-filter-product{
     margin-left: 10px;
     width: 30%;
 }
-.stockMovementList-filter-action{
+.OperationalPaymentList-filter-action{
     display: flex;
     margin-left: 10px;
     flex-direction: column-reverse;
 }
 @media(max-width:1200px) {
-    .stockMovementList-btnAdd{
+    .OperationalPaymentList-btnAdd{
         width: 100%;
     }
-    .stockMovementList-filter{
+    .OperationalPaymentList-filter{
         display: flex;
         flex-direction: column;
         margin-bottom: 20px;
     }
-    .stockMovementList-filter-endDate{
+    .OperationalPaymentList-filter-endDate{
         margin-left: 0px;
     }
-    .stockMovementList-filter-product{
+    .OperationalPaymentList-filter-product{
         margin-left: 0px;
         width: 100%;
     }

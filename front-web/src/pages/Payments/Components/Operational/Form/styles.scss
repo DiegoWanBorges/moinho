@@ -21,6 +21,9 @@
     width: 50%;
     flex-direction: column; 
 }
+.operationalPaymentForm-textArea{
+    border-radius: 10px;
+}
 .operationalPaymentForm-select-employee{
     width: 40%;
 }
@@ -39,34 +42,24 @@
     .operationalPaymentForm-row{
         flex-direction: column;
     }
-    .operationalPaymentForm-type{
-        margin-left: 0px;    
-    }
-    
-    .operationalPaymentForm-in-out{
-        margin-left: 0px;
-    }
-    
-    .operationalPaymentForm-id{
-        margin-left: 0px;
-    }
-    .operationalPaymentForm-select-product{
-        width: 100%;
-    }
-    .operationalPaymentForm-quantity{
+    .operationalPaymentForm-select-type{
         width: 100%;
         margin-left: 0px;
     }
-    .operationalPaymentForm-cost{
+    .operationalPaymentForm-doc{
+        width: 100%;
+    }
+    .operationalPaymentForm-value{
         width: 100%;
         margin-left: 0px;
+    }
+    .operationalPaymentForm-description{
+        display: flex;
+        flex-direction: column; 
+        width: 100%;
     }
     .operationalPaymentForm-actions{
         display: flex;
-        margin-top: 20px;
         justify-content: center;
-    }
-    .operationalPaymentForm-btnSave{
-        margin-left: 5px;
     }
 }

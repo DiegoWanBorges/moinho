@@ -21,6 +21,9 @@
     width: 50%;
     flex-direction: column; 
 }
+.laborPaymentForm-textArea{
+    border-radius: 10px;
+}
 .laborPaymentForm-select-employee{
     width: 40%;
 }
@@ -30,43 +33,48 @@
 }
 
 .laborPaymentForm-actions{
+    display: flex;
+    width: 50%;
     margin-top: 20px;
 }
-.laborPaymentForm-btnSave{
+.laborPaymentForm-actions-save{
     margin-left: 5px;
 }
 @media(max-width:1200px){
+    .laborPaymentForm-date{
+        width: 100%;
+    }
     .laborPaymentForm-row{
+        display: flex;
         flex-direction: column;
     }
-    .laborPaymentForm-type{
-        margin-left: 0px;    
+    
+    .laborPaymentForm-doc{
+        width: 100%;
+    }
+    .laborPaymentForm-value{
+        width: 100%;
+        margin-left: 0px;
+    }
+    .laborPaymentForm-description{
+        width: 100%;
+    }
+    .laborPaymentForm-textArea{
+        border-radius: 10px;
+    }
+    .laborPaymentForm-select-employee{
+        width: 100%;
+    }
+    .laborPaymentForm-select-type{
+        margin-left: 0px;
+        width: 100%;
     }
     
-    .laborPaymentForm-in-out{
-        margin-left: 0px;
-    }
-    
-    .laborPaymentForm-id{
-        margin-left: 0px;
-    }
-    .laborPaymentForm-select-product{
-        width: 100%;
-    }
-    .laborPaymentForm-quantity{
-        width: 100%;
-        margin-left: 0px;
-    }
-    .laborPaymentForm-cost{
-        width: 100%;
-        margin-left: 0px;
-    }
     .laborPaymentForm-actions{
         display: flex;
-        margin-top: 20px;
-        justify-content: center;
+        width: 100%;
+        justify-content: center !important; 
+        
     }
-    .laborPaymentForm-btnSave{
-        margin-left: 5px;
-    }
+        
 }

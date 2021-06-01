@@ -3,7 +3,6 @@ import OperationalPaymentForm from './Form';
 import OperationalPaymentList from './List';
 import './styles.scss'
 
-
 const OperationalPayments = () => {
     return (
         <div>

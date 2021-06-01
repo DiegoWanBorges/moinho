@@ -31,11 +31,11 @@ const LaborPaymentForm = () => {
             makePrivateRequest({ url: `/laborpayments/${laborPaymentId}` })
                 .then(response => {
                     setDate(moment(toISOFormatDate(response.data.date)).toDate())
-                    setValue('employee',response.data.employee)
-                    setValue('laborCostType',response.data.laborCostType)
-                    setValue('documentNumber',response.data.documentNumber)
-                    setValue('value',response.data.value)
-                    setValue('description',response.data.description)
+                    setValue('employee', response.data.employee)
+                    setValue('laborCostType', response.data.laborCostType)
+                    setValue('documentNumber', response.data.documentNumber)
+                    setValue('value', response.data.value)
+                    setValue('description', response.data.description)
                 })
         } else {
             setDate(new Date())
@@ -168,33 +168,36 @@ const LaborPaymentForm = () => {
             <div className="laborPaymentForm-row">
                 <div className="laborPaymentForm-description">
                     <label className="label-base">Descrição:</label>
-                    <textarea 
-                        className="input-base"
+                    <textarea
+                        className="laborPaymentForm-textArea"
                         name="description"
                         ref={register}
+                        rows={4}
                     />
 
-                    
+
                 </div>
             </div>
-            <div className="laborPaymentForm-row">
-                <div className="laborPaymentForm-actions">
+
+            <div className="laborPaymentForm-actions">
+                <div className="laborPaymentForm-actions-cancel">
                     <button
                         className="btn btn-outline-danger"
                         onClick={onCancel}
                     >
                         Cancelar
                     </button>
+                </div>
+                <div className="laborPaymentForm-actions-save">
                     <button
-                        className="btn btn-primary laborPaymentForm-btnSave"
+                        className="btn btn-primary"
                         onClick={handleSubmit(onSave)}
                     >
                         Salvar
                     </button>
-
-
                 </div>
             </div>
+
         </div>
     )
 }

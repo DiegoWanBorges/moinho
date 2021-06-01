@@ -136,12 +136,11 @@ const OperationalPaymentForm = () => {
                 <div className="operationalPaymentForm-description">
                     <label className="label-base">Descrição:</label>
                     <textarea 
-                        className="input-base"
+                        className="operationalPaymentForm-textArea"
                         name="description"
                         ref={register}
+                        rows={4}
                     />
-
-                    
                 </div>
             </div>
             <div className="operationalPaymentForm-row">

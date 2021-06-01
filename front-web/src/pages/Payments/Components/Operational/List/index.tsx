@@ -62,11 +62,11 @@ const OperationalPaymentList = () => {
         history.push("/payments/operational/new");
     }
 
-    const onRemove = (stockMovementId: number) => {
+    const onRemove = (OperationalPaymentId: number) => {
         const confirm = window.confirm("Deseja excluir o movimento selecionado?");
         if (confirm) {
             makePrivateRequest({
-                url: `/operationalpayments/${stockMovementId}`,
+                url: `/operationalpayments/${OperationalPaymentId}`,
                 method: 'DELETE'
             })
                 .then(() => {
@@ -81,19 +81,19 @@ const OperationalPaymentList = () => {
         }
     }
     return (
-        <div className="stockMovementList-main">
-            <div className="stockMovementList-actions">
+        <div className="OperationalPaymentList-main">
+            <div className="OperationalPaymentList-actions">
                 <button
-                    className="btn btn-primary btn-lg stockMovementList-btnAdd"
+                    className="btn btn-primary btn-lg OperationalPaymentList-btnAdd"
                     onClick={handCreate}
                 >
                     ADCIONAR
                </button>
             </div>
 
-            <div className="stockMovementList-filter">
+            <div className="OperationalPaymentList-filter">
 
-                <div className="stockMovementList-filter-startDate">
+                <div className="OperationalPaymentList-filter-startDate">
                     <label className="label-base">Dt. Inicial:</label>
                     <DateTime
                         dateFormat="DD/MM/YYYY"
@@ -106,7 +106,7 @@ const OperationalPaymentList = () => {
                     />
                 </div>
 
-                <div className="stockMovementList-filter-endDate">
+                <div className="OperationalPaymentList-filter-endDate">
                     <label className="label-base">Dt. Final:</label>
                     <DateTime
                         dateFormat="DD/MM/YYYY"
@@ -119,7 +119,7 @@ const OperationalPaymentList = () => {
                 </div>
 
                 
-                <div className="stockMovementList-filter-product">
+                <div className="OperationalPaymentList-filter-product">
                     <label className="label-base">Tipo:</label>
                     <Select
                         options={operationalCostTypes}
