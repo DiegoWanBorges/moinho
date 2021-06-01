@@ -9,7 +9,7 @@ import DateTime from 'react-datetime'
 
 import './styles.scss';
 import moment from 'moment';
-import { toISOFormat } from 'core/utils/utils';
+import { toISOFormatDateTime } from 'core/utils/utils';
 type Props = {
     productionOrderProduced: ProductionOrderProduced;
     onEditItem: (productionOrderProduced: ProductionOrderProduced) => void;
@@ -46,7 +46,7 @@ function ProductionOrderProducedEditModal({ productionOrderProduced, onEditItem,
             })
             .finally(() => setIsLoadingProducedProductStatus(false))
         
-        setManufacturingDate(moment(toISOFormat(productionOrderProduced.manufacturingDate)).toDate());
+        setManufacturingDate(moment(toISOFormatDateTime(productionOrderProduced.manufacturingDate)).toDate());
         setValue('quantity', productionOrderProduced.quantity)
         setValue('lote', productionOrderProduced.lote)
         setValue('product', productionOrderProduced.product)

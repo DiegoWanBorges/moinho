@@ -6,7 +6,7 @@ import Select from 'react-select';
 import { useParams } from 'react-router';
 import DateTime from 'react-datetime'
 
-import { toISOFormat } from 'core/utils/utils';
+import { toISOFormatDateTime } from 'core/utils/utils';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import './styles.scss'
@@ -35,7 +35,7 @@ const StockMovementForm = () => {
                     if(isBlockedTypes.some(item => item === response.data.type)){
                         history.push('/stock/movements/');
                     }
-                    setDate(moment(toISOFormat(response.data.date)).toDate())
+                    setDate(moment(toISOFormatDateTime(response.data.date)).toDate())
                     setStockType(response.data.type)
                     setValue('idOrignMovement',response.data.idOrignMovement)
                     setValue('product',response.data.product)

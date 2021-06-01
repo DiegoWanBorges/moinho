@@ -45,6 +45,7 @@ export type LaborPayment ={
     date: string;
     description: string;
     documentNumber: string;
-    value: 2542.0,
-    employe:Employee;
+    value: number;
+    employee:Employee;
+    laborCostType:LaborCosType;
 }

@@ -1,4 +1,4 @@
-export  const toISOFormat = (dateTime :string) => {
+export  const toISOFormatDateTime = (dateTime :string) => {
     // Primeiro, dividimos a data completa em duas partes:
     const [date, time] = dateTime.split(' ');
   
@@ -10,4 +10,11 @@ export  const toISOFormat = (dateTime :string) => {
   
     // Retornamos a data formatada em um padrão compatível com ISO:
     return `${YYYY}-${MM}-${DD}T${HH}:${mm}`;
+  }
+
+  export  const toISOFormatDate = (date :string) => {
+    // Dividimos a data em dia, mês e ano:
+    const [DD, MM, YYYY] = date.split('/');
+    // Retornamos a data formatada em um padrão compatível com ISO:
+    return `${YYYY}-${MM}-${DD}`;
   }

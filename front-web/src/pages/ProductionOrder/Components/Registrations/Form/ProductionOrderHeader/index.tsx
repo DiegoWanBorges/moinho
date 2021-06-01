@@ -3,7 +3,7 @@ import history from 'core/utils/history';
 import { makePrivateRequest } from 'core/utils/request';
 import { useEffect, useState } from 'react';
 import DateTime from 'react-datetime'
-import { toISOFormat } from 'core/utils/utils';
+import { toISOFormatDateTime } from 'core/utils/utils';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 
@@ -19,9 +19,9 @@ const ProductionOrderHeader = ({ productionOrder }: Props) => {
     const [observation, setObservation] = useState(' ');
 
     useEffect(() => {
-        setStartDate(moment(toISOFormat(productionOrder.startDate)).toDate());
+        setStartDate(moment(toISOFormatDateTime(productionOrder.startDate)).toDate());
         if (productionOrder.endDate != null) {
-            setEndDate(moment(toISOFormat(productionOrder.endDate)).toDate());
+            setEndDate(moment(toISOFormatDateTime(productionOrder.endDate)).toDate());
         }
         setObservation(productionOrder.observation)
 

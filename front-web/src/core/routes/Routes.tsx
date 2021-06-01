@@ -53,7 +53,7 @@ const Routes = () => {
                     <Stock />
                 </PrivateRoute>
                 
-                <Redirect from="/payments" to="/payments/employees" exact/>
+                <Redirect from="/payments" to="/payments/labor" exact/>
                 <PrivateRoute path="/payments">
                     <Payment />
                 </PrivateRoute>

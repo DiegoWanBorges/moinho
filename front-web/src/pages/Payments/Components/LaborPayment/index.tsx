@@ -1,4 +1,6 @@
 import { Route, Switch } from 'react-router';
+import LaborPaymentForm from './Form';
+import LaborPaymentList from './List';
 import './styles.scss'
 
 
@@ -7,10 +9,10 @@ const LaborPayments = () => {
         <div>
             <Switch>
                 <Route path="/payments/labor" exact>
-                    <h1>labor list</h1>
+                    <LaborPaymentList/>
                 </Route>
                 <Route path="/payments/labor/:laborPaymentId">
-                    <h1>labor form</h1>
+                    <LaborPaymentForm/>
                 </Route>
             </Switch>
         </div>
