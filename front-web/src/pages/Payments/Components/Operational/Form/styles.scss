@@ -1,0 +1,72 @@
+.operationalPaymentForm-main{
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 20px;
+}
+.operationalPaymentForm-row{
+    display: flex;
+}
+
+.operationalPaymentForm-doc{
+    display: flex;
+    flex-direction: column; 
+}
+.operationalPaymentForm-value{
+    display: flex;
+    flex-direction: column; 
+    margin-left: 10px;
+}
+.operationalPaymentForm-description{
+    display: flex;
+    width: 50%;
+    flex-direction: column; 
+}
+.operationalPaymentForm-select-employee{
+    width: 40%;
+}
+.operationalPaymentForm-select-type{
+    margin-left: 10px;
+    width: 40%;
+}
+
+.operationalPaymentForm-actions{
+    margin-top: 20px;
+}
+.operationalPaymentForm-btnSave{
+    margin-left: 5px;
+}
+@media(max-width:1200px){
+    .operationalPaymentForm-row{
+        flex-direction: column;
+    }
+    .operationalPaymentForm-type{
+        margin-left: 0px;    
+    }
+    
+    .operationalPaymentForm-in-out{
+        margin-left: 0px;
+    }
+    
+    .operationalPaymentForm-id{
+        margin-left: 0px;
+    }
+    .operationalPaymentForm-select-product{
+        width: 100%;
+    }
+    .operationalPaymentForm-quantity{
+        width: 100%;
+        margin-left: 0px;
+    }
+    .operationalPaymentForm-cost{
+        width: 100%;
+        margin-left: 0px;
+    }
+    .operationalPaymentForm-actions{
+        display: flex;
+        margin-top: 20px;
+        justify-content: center;
+    }
+    .operationalPaymentForm-btnSave{
+        margin-left: 5px;
+    }
+}

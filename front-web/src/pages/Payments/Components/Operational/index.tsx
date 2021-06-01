@@ -1,4 +1,6 @@
 import { Route, Switch } from 'react-router';
+import OperationalPaymentForm from './Form';
+import OperationalPaymentList from './List';
 import './styles.scss'
 
 
@@ -7,10 +9,10 @@ const OperationalPayments = () => {
         <div>
             <Switch>
                 <Route path="/payments/operational" exact>
-                    <h1>operational list</h1>
+                    <OperationalPaymentList/>
                 </Route>
                 <Route path="/payments/operational/:operationalPaymentId">
-                    <h1>operational form</h1>
+                    <OperationalPaymentForm/>
                 </Route>
             </Switch>
         </div>

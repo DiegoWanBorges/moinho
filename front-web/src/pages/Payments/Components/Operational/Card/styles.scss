@@ -1,0 +1,92 @@
+.operationalPaymentCard-main{
+    display: flex;
+    flex-direction: row;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 15px;
+    
+}
+.operationalPaymentCard-date{
+    display: flex;
+    align-items: center;
+    width: 15%;
+    border-right: 1px solid #000;
+}
+.operationalPaymentCard-name{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 25%;
+    border-right: 1px solid #000;
+}
+.operationalPaymentCard-value{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 15%;
+    border-right: 1px solid #000;
+}
+.operationalPaymentCard-action{
+    width: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.operationalPaymentCard-action-edit{
+    border-radius: 10px;
+    width: 40%;
+    
+}
+.operationalPaymentCard-action-del{
+    width: 40%;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+
+@media (max-width:1200px) {
+    .operationalPaymentCard-main{
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+        padding: 15px;
+        
+    }
+    .operationalPaymentCard-date{
+        width: 100%;
+        border-right: none;
+    }
+    .operationalPaymentCard-name{
+        text-align: left;
+        width: 100%;
+        border-right: none;
+    }
+    .operationalPaymentCard-quantity{
+        justify-content: left;
+        width: 100%;
+        border-right: none;
+    }
+    .operationalPaymentCard-cost{
+        display: flex;
+        justify-content: left;
+        width: 100%;
+        border-right: none;
+    }
+    .operationalPaymentCard-action{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    .operationalPaymentCard-action-edit{
+        border-radius: 10px;
+        width: 40%;
+        
+    }
+    .operationalPaymentCard-action-del{
+        width: 40%;
+        border-radius: 10px;
+        margin-left: 5px;
+    }
+}
