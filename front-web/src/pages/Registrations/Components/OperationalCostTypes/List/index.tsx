@@ -13,11 +13,11 @@ function OperationalCostTypesList() {
     const [operationalCostTypesResponse, setOperationalCostTypesResponse] = useState<OperationalCostTypesResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
-  
+    const [linesPerPage,setLinesPerPage]=useState(10);
     const getOperationalCostTypes = useCallback(() => {
         const params = {
             page: activePage,
-            linesPerPage: 3,
+            linesPerPage: linesPerPage,
             name:name,
             orderBy:"id",
             direction:"DESC"
@@ -27,7 +27,7 @@ function OperationalCostTypesList() {
             .finally(() => {
     
             })
-    }, [activePage,name])
+    }, [activePage,name,linesPerPage])
 
     useEffect(() => {
         getOperationalCostTypes();
@@ -61,9 +61,14 @@ function OperationalCostTypesList() {
         setActivePage(0);
         setName(name);
     }
+    const handleChangeLinesPerPage = (linesPerPage: number) => {
+        setActivePage(0);
+        setLinesPerPage(linesPerPage)
+    }
     const clearFilters = () => {
         setActivePage(0);
         setName('');
+        setLinesPerPage(10);
     }
     return (
         <div className="operationalCostTypeCard-list">
@@ -77,6 +82,8 @@ function OperationalCostTypesList() {
                <Filter
                         name={name}
                         handleChangeName={handleChangeName}
+                        linesPerPage={linesPerPage}
+                        handleChangeLinesPerPage={handleChangeLinesPerPage}
                         clearFilters={clearFilters}
                         placeholder="Digite o nome do tipo de custo operacional"
                 />

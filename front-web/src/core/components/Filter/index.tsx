@@ -2,15 +2,18 @@ import './styles.scss';
 import { ReactComponent as SearchIcon } from 'core/assets/images/search.svg'
 
 
-type Props ={
+
+type Props = {
     name?: string;
-    handleChangeName: (name:string) => void;
+    handleChangeName: (name: string) => void;
+    linesPerPage?: number;
+    handleChangeLinesPerPage: (name: number) => void;
     clearFilters: () => void;
     placeholder: string;
 }
- 
-const Filter = ({ name,handleChangeName,clearFilters,placeholder }:Props) => {
-    
+
+
+const Filter = ({ name, handleChangeName, clearFilters, placeholder,linesPerPage,handleChangeLinesPerPage }: Props) => {
     return (
         <div className="card-base filters-container">
             <div className="input-search">
@@ -23,10 +26,24 @@ const Filter = ({ name,handleChangeName,clearFilters,placeholder }:Props) => {
                 />
                 <SearchIcon />
             </div>
-            
-            <button 
-                    className="btn btn-outline-secondary btn-filter-clean"
-                    onClick={clearFilters}
+
+            <div className="filters-lines">
+                <select 
+                    name="typeCostUsed" 
+                    className="filters-lines-select"
+                    onChange={(e) => handleChangeLinesPerPage(parseInt(e.target.value))}
+                    value={linesPerPage}
+                >
+                    <option value="10">10</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+
+
+            <button
+                className="btn btn-outline-secondary btn-filter-clean"
+                onClick={clearFilters}
             >
                 LIMPAR FILTRO
             </button>

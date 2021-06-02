@@ -198,7 +198,7 @@ function FormulationForm() {
                 </div>
 
                 <div className="formulation-form-type">
-                    <label className="label-base">Tipo? </label>
+                    <label className="label-base">Tipo: </label>
                     <select name="type" ref={register} className="parameter-content-type-cost-select">
                         <option value="INTERMEDIARIO">Intermediario</option>
                         <option value="ACABADO">Acabado</option>

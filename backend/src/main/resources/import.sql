@@ -26,6 +26,7 @@ INSERT INTO tb_unity(id,description)VALUES('UN','UNIDADE');
 INSERT INTO tb_unity(id,description)VALUES('KG','KILO');
 INSERT INTO tb_unity(id,description)VALUES('L','LITRO');
 INSERT INTO tb_unity(id,description)VALUES('CX','CAIXA');
+INSERT INTO tb_unity(id,description)VALUES('RL','ROLO');
 
 INSERT INTO tb_group(name)VALUES('INSUMO');
 INSERT INTO tb_group(name)VALUES('MATERIA PRIMA');
@@ -68,6 +69,14 @@ INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group
 INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days)VALUES('Leite em pó integral desnatado',1,'LEITE EM PO DESNATADO',1,'SC COM 25KG',5,'KG',365);
 INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days)VALUES('Leite em pó - TIPO C',1,'LEITE EM PO - TIPO C',1,'SC COM 25KG',5,'KG',365);
 INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days)VALUES('Leite em pó desnatado - TIPO C',1,'LEITE EM PO DESNATADO - TIPO C',1,'SC COM 25KG',5,'KG',365);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days)VALUES('Saco utilizado para envase do produto fracionado',0.700,'SACO MOINHO 10 KG',0.700,'',3,'UN',0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days)VALUES('Saco utilizado para envase de leite em pó',0.700,'SACO 10 KG PARDO',0.700,'',3,'UN',0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days)VALUES('Fita para realizar o carimbo',1,'FITA DATADORA PARA FRACIONAMENTO',1,'',3,'RL',0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days)VALUES('Filme utilizado para envase do pallet',0.700,'FILME STRETCH',0.700,'',3,'KG',0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days)VALUES('Embalagem utilizada para o fracionamento',0.700,'BIPET MET PE 350X0.080 LEITE EM PO MOINHO 25X400',0.700,'',3,'KG',0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days)VALUES('Leite em pó 25x400',1,'LEITE EM PO 25x400 MOINHO',1,'SC COM 25KG',5,'KG',365);
+
+
 
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES(TIMESTAMP WITH TIME ZONE '2021-06-01T20:50:07.12345Z','',0,5,1,1.20,50000,0);
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES(TIMESTAMP WITH TIME ZONE '2021-06-10T20:50:07.12345Z','',0,5,1,1.25,10000,0);
@@ -101,6 +110,15 @@ INSERT INTO TB_FORMULATION_ITEM(FORMULATION_ID,PRODUCT_ID,QUANTITY,ROUND,TYPE,RA
 INSERT INTO TB_FORMULATION_ITEM(FORMULATION_ID,PRODUCT_ID,QUANTITY,ROUND,TYPE,RAW_MATERIAL)VALUES(2,4,40,true,1,false);
 INSERT INTO TB_FORMULATION_ITEM(FORMULATION_ID,PRODUCT_ID,QUANTITY,ROUND,TYPE,RAW_MATERIAL)VALUES(2,5,40,true,0,false);
 INSERT INTO TB_FORMULATION_ITEM(FORMULATION_ID,PRODUCT_ID,QUANTITY,ROUND,TYPE,RAW_MATERIAL)VALUES(2,6,0.36,false,0,false);
+
+INSERT INTO TB_FORMULATION (COEFFICIENT,DESCRIPTION,PRODUCT_ID,TYPE,LEVEL) VALUES(1000,'LEITE EM PO MOINHO 25X400',16,1,1);
+INSERT INTO TB_FORMULATION_ITEM(FORMULATION_ID,PRODUCT_ID,QUANTITY,ROUND,TYPE,RAW_MATERIAL)VALUES(3,15,178,false,0,false);
+INSERT INTO TB_FORMULATION_ITEM(FORMULATION_ID,PRODUCT_ID,QUANTITY,ROUND,TYPE,RAW_MATERIAL)VALUES(3,6,0.44,false,0,false);
+INSERT INTO TB_FORMULATION_ITEM(FORMULATION_ID,PRODUCT_ID,QUANTITY,ROUND,TYPE,RAW_MATERIAL)VALUES(3,14,12.5,false,0,false);
+INSERT INTO TB_FORMULATION_ITEM(FORMULATION_ID,PRODUCT_ID,QUANTITY,ROUND,TYPE,RAW_MATERIAL)VALUES(3,13,2.5,false,0,false);
+INSERT INTO TB_FORMULATION_ITEM(FORMULATION_ID,PRODUCT_ID,QUANTITY,ROUND,TYPE,RAW_MATERIAL)VALUES(3,11,1000,true,0,false);
+INSERT INTO TB_FORMULATION_ITEM(FORMULATION_ID,PRODUCT_ID,QUANTITY,ROUND,TYPE,RAW_MATERIAL)VALUES(3,7,10000,false,0,true);
+INSERT INTO TB_FORMULATION_ITEM(FORMULATION_ID,PRODUCT_ID,QUANTITY,ROUND,TYPE,RAW_MATERIAL)VALUES(3,7,10000,false,0,true);
 
 INSERT INTO TB_EMPLOYEE(NAME,SECTOR_ID) VALUES('JOAO',1);
 INSERT INTO TB_EMPLOYEE(NAME,SECTOR_ID) VALUES('SEBASTIAO',1);

@@ -12,18 +12,18 @@ function ProducedProductStatusList() {
     const [producedProductStatusResponse, setProducedProductStatusResponse] = useState<PalletstatusResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
-  
+    const [linesPerPage,setLinesPerPage]=useState(10);
     const getProducedProductStatus = useCallback(() => {
         const params = {
             page: activePage,
-            linesPerPage: 3,
+            linesPerPage: linesPerPage,
             name:name,
             orderBy:"id",
             direction:"DESC"
         }
         makePrivateRequest({ url: '/palletstatus', params })
             .then(response => setProducedProductStatusResponse(response.data))
-    }, [activePage,name])
+    }, [activePage,name,linesPerPage])
 
     useEffect(() => {
         getProducedProductStatus();
@@ -57,9 +57,14 @@ function ProducedProductStatusList() {
         setActivePage(0);
         setName(name);
     }
+    const handleChangeLinesPerPage = (linesPerPage: number) => {
+        setActivePage(0);
+        setLinesPerPage(linesPerPage)
+    }
     const clearFilters = () => {
         setActivePage(0);
         setName('');
+        setLinesPerPage(10);
     }
     return (
         <div className="producedProductStatus-list">
@@ -73,8 +78,10 @@ function ProducedProductStatusList() {
                <Filter
                         name={name}
                         handleChangeName={handleChangeName}
+                        linesPerPage={linesPerPage}
+                        handleChangeLinesPerPage={handleChangeLinesPerPage}
                         clearFilters={clearFilters}
-                        placeholder="Digite o nome do grupo"
+                        placeholder="Digite o nome do status"
                 />
            </div>
            <div className="admin-list-container">

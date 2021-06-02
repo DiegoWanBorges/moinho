@@ -12,11 +12,12 @@ function GroupList() {
     const [groupsResponse, setGroupsResponse] = useState<GroupsResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
+    const [linesPerPage,setLinesPerPage]=useState(10);
   
     const getGroups = useCallback(() => {
         const params = {
             page: activePage,
-            linesPerPage: 3,
+            linesPerPage: linesPerPage,
             name:name,
             orderBy:"id",
             direction:"DESC"
@@ -26,7 +27,7 @@ function GroupList() {
             .finally(() => {
     
             })
-    }, [activePage,name])
+    }, [activePage,name,linesPerPage])
 
     useEffect(() => {
         getGroups();
@@ -60,9 +61,14 @@ function GroupList() {
         setActivePage(0);
         setName(name);
     }
+    const handleChangeLinesPerPage = (linesPerPage: number) => {
+        setActivePage(0);
+        setLinesPerPage(linesPerPage)
+    }
     const clearFilters = () => {
         setActivePage(0);
         setName('');
+        setLinesPerPage(10);
     }
     return (
         <div className="group-list">
@@ -76,6 +82,8 @@ function GroupList() {
                <Filter
                         name={name}
                         handleChangeName={handleChangeName}
+                        linesPerPage={linesPerPage}
+                        handleChangeLinesPerPage={handleChangeLinesPerPage}
                         clearFilters={clearFilters}
                         placeholder="Digite o nome do grupo"
                 />

@@ -13,10 +13,11 @@ function UserList() {
     const [usersResponse, setUsersResponse] = useState<UsersResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
+    const [linesPerPage,setLinesPerPage]=useState(10);
     const getUsers = useCallback(() => {
         const params = {
             page: activePage,
-            linesPerPage: 3,
+            linesPerPage: linesPerPage,
             name:name,
             orderBy:"id",
             direction:"DESC"
@@ -26,7 +27,7 @@ function UserList() {
             .finally(() => {
     
             })
-    }, [activePage,name])
+    }, [activePage,name,linesPerPage])
 
     useEffect(() => {
         getUsers();
@@ -60,9 +61,14 @@ function UserList() {
         setActivePage(0);
         setName(name);
     }
+    const handleChangeLinesPerPage = (linesPerPage: number) => {
+        setActivePage(0);
+        setLinesPerPage(linesPerPage)
+    }
     const clearFilters = () => {
         setActivePage(0);
         setName('');
+        setLinesPerPage(10);
     }
     return (
         <div className="user-list">
@@ -76,6 +82,8 @@ function UserList() {
                <Filter
                         name={name}
                         handleChangeName={handleChangeName}
+                        linesPerPage={linesPerPage}
+                        handleChangeLinesPerPage={handleChangeLinesPerPage}
                         clearFilters={clearFilters}
                         placeholder="Digite o nome do usuário"
                 />

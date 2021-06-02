@@ -12,18 +12,19 @@ function OccurrenceList() {
     const [occurrencesResponse, setOccurrencesResponse] = useState<OccurrencesResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
-  
+    const [linesPerPage,setLinesPerPage]=useState(10);
+
     const getOccurrences = useCallback(() => {
         const params = {
             page: activePage,
-            linesPerPage: 3,
+            linesPerPage: linesPerPage,
             name:name,
             orderBy:"id",
             direction:"DESC"
         }
         makePrivateRequest({ url: '/occurrences', params })
             .then(response => setOccurrencesResponse(response.data))
-    }, [activePage,name])
+    }, [activePage,name,linesPerPage])
 
     useEffect(() => {
         getOccurrences();
@@ -57,9 +58,14 @@ function OccurrenceList() {
         setActivePage(0);
         setName(name);
     }
+    const handleChangeLinesPerPage = (linesPerPage: number) => {
+        setActivePage(0);
+        setLinesPerPage(linesPerPage)
+    }
     const clearFilters = () => {
         setActivePage(0);
         setName('');
+        setLinesPerPage(10);
     }
     return (
         <div className="group-list">
@@ -73,6 +79,8 @@ function OccurrenceList() {
                <Filter
                         name={name}
                         handleChangeName={handleChangeName}
+                        linesPerPage={linesPerPage}
+                        handleChangeLinesPerPage={handleChangeLinesPerPage}
                         clearFilters={clearFilters}
                         placeholder="Digite o nome da ocorrência"
                 />

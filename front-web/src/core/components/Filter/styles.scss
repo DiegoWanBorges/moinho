@@ -19,7 +19,17 @@
                 box-shadow: none;
             }
         }
-    }
+}
+.filters-lines{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.filters-lines-select{
+    height: 40px;
+    border-radius: 10px;
+    
+}
+
     @media(max-width:576px){
         .filters-container{
             width: 100%;

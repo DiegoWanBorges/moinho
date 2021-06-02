@@ -56,7 +56,8 @@ function ProductionOrderItemEditModal({ productionOrderItem, onEditItem }: Props
                 onAfterOpen={afterOpenModal}
                 ariaHideApp={false}
             >
-                <h5>{productionOrderItem.product.name} - Serie:{productionOrderItem.serie} - Tipo:{productionOrderItem.type}</h5>
+                <h5>{productionOrderItem.product.name}</h5>
+                <small>Serie:{productionOrderItem.serie} - Tipo:{productionOrderItem.type}</small>
 
                 <div className="formulationItemEdit-row">
                     <div className="formulationItemEdit-quantity">

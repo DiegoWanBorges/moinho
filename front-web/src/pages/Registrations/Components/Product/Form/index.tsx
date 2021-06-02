@@ -99,7 +99,7 @@ function ProductForm() {
                         ref={register({
                             required: "Campo obrigatório",
                             minLength: { value: 2, message: "O campo deve ter minímo 2 caracteres" },
-                            maxLength: { value: 40, message: "O campo deve ter no maximo 10 caracteres" },
+                            maxLength: { value: 100, message: "O campo deve ter no maximo 100 caracteres" },
                         })}
                     />
                     {errors.name && (

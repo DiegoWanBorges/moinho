@@ -12,11 +12,12 @@ function FormulationList() {
     const [formulationsResponse, setFormulationsResponse] = useState<FormulationResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
+    const [linesPerPage,setLinesPerPage]=useState(10);
   
     const getFormulations = useCallback(() => {
         const params = {
             page: activePage,
-            linesPerPage: 3,
+            linesPerPage: linesPerPage,
             description:name,
             orderBy:"id",
             direction:"DESC"
@@ -26,7 +27,7 @@ function FormulationList() {
             .finally(() => {
     
             })
-    }, [activePage,name])
+    }, [activePage,name,linesPerPage])
 
     useEffect(() => {
         getFormulations();
@@ -60,9 +61,14 @@ function FormulationList() {
         setActivePage(0);
         setName(name);
     }
+    const handleChangeLinesPerPage = (linesPerPage: number) => {
+        setActivePage(0);
+        setLinesPerPage(linesPerPage);
+    }
     const clearFilters = () => {
         setActivePage(0);
         setName('');
+        setLinesPerPage(10);
     }
     return (
         <div className="group-list">
@@ -76,6 +82,8 @@ function FormulationList() {
                <Filter
                         name={name}
                         handleChangeName={handleChangeName}
+                        linesPerPage={linesPerPage}
+                        handleChangeLinesPerPage={handleChangeLinesPerPage}
                         clearFilters={clearFilters}
                         placeholder="Digite o nome do grupo"
                 />

@@ -13,11 +13,12 @@ function EmployeeList() {
     const [employeesResponse, setEmployeesResponse] = useState<EmployeesResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
-  
+    const [linesPerPage,setLinesPerPage]=useState(10);
+
     const getEmployees = useCallback(() => {
         const params = {
             page: activePage,
-            linesPerPage: 3,
+            linesPerPage: linesPerPage,
             name:name,
             orderBy:"id",
             direction:"DESC"
@@ -27,7 +28,7 @@ function EmployeeList() {
             .finally(() => {
     
             })
-    }, [activePage,name])
+    }, [activePage,name,linesPerPage])
 
     useEffect(() => {
         getEmployees();
@@ -61,9 +62,14 @@ function EmployeeList() {
         setActivePage(0);
         setName(name);
     }
+    const handleChangeLinesPerPage = (linesPerPage: number) => {
+        setActivePage(0);
+        setLinesPerPage(linesPerPage)
+    }
     const clearFilters = () => {
         setActivePage(0);
         setName('');
+        setLinesPerPage(10);
     }
     return (
         <div className="employee-list">
@@ -77,6 +83,8 @@ function EmployeeList() {
                <Filter
                         name={name}
                         handleChangeName={handleChangeName}
+                        linesPerPage={linesPerPage}
+                        handleChangeLinesPerPage={handleChangeLinesPerPage}
                         clearFilters={clearFilters}
                         placeholder="Digite o nome do funcionario"
                 />
