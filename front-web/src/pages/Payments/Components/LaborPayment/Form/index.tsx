@@ -159,10 +159,18 @@ const LaborPaymentForm = () => {
                     <label className="label-base">Valor:</label>
                     <input
                         className="input-base"
-                        name="value"
-                        ref={register}
                         type="number"
+                        name="value"
+                        ref={register({
+                            required: "Campo obrigatório",
+                            min: { value: 0.001, message: "O valor dever ser maior que zero" },
+                        })}
                     />
+                    {errors.value && (
+                        <div className="invalid-feedback d-block">
+                            {errors.value.message}
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="laborPaymentForm-row">

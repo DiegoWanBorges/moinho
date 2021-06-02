@@ -27,27 +27,30 @@ const StockMovementForm = () => {
     const [isLoadingProducts, setIsLoadingProducts] = useState(false);
     const [products, setProducts] = useState<Product[]>([]);
     const [quantity, setQuantity] = useState(1);
-    const isBlockedTypes =['PRODUCAO_ENTRADA','PRODUCAO_CONSUMO','PRODUCAO_RETORNO']
+    const [errorQuantity, setErrorQuantity] = useState(false);
+    const [quantityMsg, setQuantityMsg] = useState('');
+    const isBlockedTypes = ['PRODUCAO_ENTRADA', 'PRODUCAO_CONSUMO', 'PRODUCAO_RETORNO']
+
     useEffect(() => {
         if (isEditing) {
             makePrivateRequest({ url: `/stocks/${stockMovementId}` })
                 .then(response => {
-                    if(isBlockedTypes.some(item => item === response.data.type)){
+                    if (isBlockedTypes.some(item => item === response.data.type)) {
                         history.push('/stock/movements/');
                     }
                     setDate(moment(toISOFormatDateTime(response.data.date)).toDate())
                     setStockType(response.data.type)
-                    setValue('idOrignMovement',response.data.idOrignMovement)
-                    setValue('product',response.data.product)
-                    
-                    if(response.data.entry===0){
+                    setValue('idOrignMovement', response.data.idOrignMovement)
+                    setValue('product', response.data.product)
+
+                    if (response.data.entry === 0) {
                         setQuantity(response.data.out)
                         stockType === "AJUSTE_ESTOQUE" && setEntryOut("OUT")
-                    }else{
+                    } else {
                         setQuantity(response.data.entry)
                         stockType === "AJUSTE_ESTOQUE" && setEntryOut("ENTRY")
                     }
-                    setValue('cost',response.data.cost)
+                    setValue('cost', response.data.cost)
 
                 })
         } else {
@@ -64,42 +67,68 @@ const StockMovementForm = () => {
             })
             .finally(() => setIsLoadingProducts(false))
     }, [])
+    useEffect(() => {
+        validQuantity()
+        // eslint-disable-next-line
+    }, [quantity])
+
+    function validQuantity() {
+        if (isNaN(quantity)) {
+            setErrorQuantity(true)
+            setQuantityMsg("Quantidade invalida")
+            return false
+        } else {
+            if (quantity <= 0) {
+                setErrorQuantity(true)
+                setQuantityMsg("Quantidade deve ser maior que zero!")
+                return false
+            }
+        }
+        setErrorQuantity(false)
+        setQuantityMsg("")
+        return true
+    }
 
     const onSave = (data: StockMovement) => {
         const typeMove = (stockType === "AJUSTE_ESTOQUE" && entryOut === "ENTRY") || (stockType === "COMPRA") ? 'entry' : 'out'
         let payLoad;
+
+        if (validQuantity() === false) {
+            return false
+        }
+
+
         typeMove === 'entry' ? (
             payLoad = {
                 ...data,
-                date:moment(date).format("DD/MM/YYYY HH:mm"),
+                date: moment(date).format("DD/MM/YYYY HH:mm"),
                 type: stockType,
                 entry: quantity,
-                out:0,
+                out: 0,
             }) :
             (payLoad = {
                 ...data,
-                date:moment(date).format("DD/MM/YYYY HH:mm"),
+                date: moment(date).format("DD/MM/YYYY HH:mm"),
                 type: stockType,
                 out: quantity,
-                entry:0
+                entry: 0
             })
 
-            console.log(payLoad)
-            makePrivateRequest({
-                url: isEditing ? `/stocks/${stockMovementId}` : '/stocks/',
-                method: isEditing ? 'PUT' : 'POST',
-                data: payLoad
+        makePrivateRequest({
+            url: isEditing ? `/stocks/${stockMovementId}` : '/stocks/',
+            method: isEditing ? 'PUT' : 'POST',
+            data: payLoad
+        })
+            .then(() => {
+                toast.success("Lançamento de estoque salvo com sucesso!")
+                history.push('/stock/movements/')
             })
-                .then(() => {
-                    toast.success("Lançamento de estoque salvo com sucesso!")
-                    history.push('/stock/movements/')
-                })
-                .catch(() => {
-                    toast.error("Erro ao salvar lançamento de estoque!")
-                })
+            .catch(() => {
+                toast.error("Erro ao salvar lançamento de estoque!")
+            })
     }
 
-    const onCancel = () =>{
+    const onCancel = () => {
         history.push('/stock/movements/');
     }
 
@@ -153,7 +182,7 @@ const StockMovementForm = () => {
                         ref={register}
                     />
                 </div>
-                
+
             </div>
             <div className="stockMovementForm-row">
                 <div className="stockMovementForm-select-product">
@@ -186,6 +215,11 @@ const StockMovementForm = () => {
                         onChange={(e) => setQuantity(parseInt(e.target.value))}
                         value={quantity}
                     />
+                    {errorQuantity && (
+                        <div className="invalid-feedback d-block">
+                            {quantityMsg}
+                        </div>
+                    )}
 
                 </div>
                 <div className="stockMovementForm-cost">
@@ -199,7 +233,7 @@ const StockMovementForm = () => {
                             min: { value: 0.001, message: "O valor dever ser maior que zero" },
                         })}
                     />
-                     {errors.cost && (
+                    {errors.cost && (
                         <div className="invalid-feedback d-block">
                             {errors.cost.message}
                         </div>

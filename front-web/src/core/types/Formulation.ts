@@ -13,6 +13,8 @@ export type Formulation={
     coefficient: number
     description:string
     product: Product;
+    type:string;
+    level:number;
     operationalCostType: OperationalCostType[];
     sectors: Sector[];
     formulationItems:FormulationItem[];

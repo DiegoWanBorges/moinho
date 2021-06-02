@@ -68,6 +68,8 @@ function FormulationForm() {
                     setValue('description', response.data.description);
                     setValue('coefficient', response.data.coefficient);
                     setValue('product', response.data.product);
+                    setValue('type', response.data.type);
+                    setValue('level', response.data.level);
                     setValue('sectors', response.data.sectors);
                     setValue('operationalCostType', response.data.operationalCostType);
                     setValue('secondaryProduction', response.data.secondaryProduction);
@@ -183,11 +185,39 @@ function FormulationForm() {
                         name="coefficient"
                         type="number"
                         className="input-base"
-                        ref={register}
+                        ref={register({
+                            required: "Campo obrigatório",
+                            min: { value: 1, message: "O valor dever ser maior que zero" },
+                        })}
                     />
                     {errors.coefficient && (
                         <div className="invalid-feedback d-block">
                             {errors.coefficient.message}
+                        </div>
+                    )}
+                </div>
+
+                <div className="formulation-form-type">
+                    <label className="label-base">Tipo? </label>
+                    <select name="type" ref={register} className="parameter-content-type-cost-select">
+                        <option value="INTERMEDIARIO">Intermediario</option>
+                        <option value="ACABADO">Acabado</option>
+                    </select>
+                </div>
+
+                <div className="formulation-form-row-level">
+                    <label className="label-base">Nível:</label>
+                    <input
+                        name="level"
+                        type="number"
+                        className="input-base"
+                        ref={register({
+                            required: "Campo obrigatório",
+                        })}
+                    />
+                    {errors.level && (
+                        <div className="invalid-feedback d-block">
+                            {errors.level.message}
                         </div>
                     )}
                 </div>
@@ -291,11 +321,15 @@ function FormulationForm() {
             </div>
 
             {
-                isEditing && (<FormulationItems
+                isEditing && (
+                <>
+                <hr className="formulation-form-hr" />
+                <FormulationItems
                     onInsertItem={onInsertItem}
                     formulationItem={formulationItem}
 
-                />)
+                />
+                </>)
             }
             {
                 isEditing && (

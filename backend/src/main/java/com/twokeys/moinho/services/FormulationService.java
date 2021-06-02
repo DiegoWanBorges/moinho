@@ -100,7 +100,8 @@ public class FormulationService {
 		entity.setCoefficient(dto.getCoefficient());
 		entity.setDescription(dto.getDescription());
 		entity.setProduct(productRepository.getOne(dto.getProduct().getId()));
-		
+		entity.setType(dto.getType());
+		entity.setLevel(dto.getLevel());		
 		entity.getOperationalCostType().clear();
 		for (OperationalCostTypeDTO apportionmentDTO : dto.getOperationalCostType()) {
 			OperationalCostType apportionment = apportionmentTypeRepository.getOne(apportionmentDTO.getId());

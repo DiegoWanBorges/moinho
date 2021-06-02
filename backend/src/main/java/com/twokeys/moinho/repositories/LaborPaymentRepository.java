@@ -37,6 +37,8 @@ public interface LaborPaymentRepository extends JpaRepository<LaborPayment, Long
 			 + "AND (COALESCE(:employee) IS NULL OR employee = :employee) "
 			 + "AND (obj.date between :startDate and :endDate) ")
 	Page<LaborPayment> findByDateAndEmployeeAndLaborCostType(Employee employee,LaborCostType laborCostType ,LocalDate startDate,LocalDate endDate, Pageable pageable);
+	
+	
 		
 }
 

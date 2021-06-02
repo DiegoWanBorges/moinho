@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.twokeys.moinho.entities.Formulation;
+import com.twokeys.moinho.entities.enums.FormulationType;
 
 public class FormulationDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -13,6 +14,8 @@ public class FormulationDTO implements Serializable {
 	private Double coefficient;
 	private String description;
 	private ProductDTO product;
+	private FormulationType type;
+	private Integer level;
 	private List<OperationalCostTypeDTO> operationalCostType = new ArrayList<>();
 	private List<SectorDTO> sectors = new ArrayList<>();
 	private List<FormulationItemDTO> formulationItems = new ArrayList<>();
@@ -21,18 +24,22 @@ public class FormulationDTO implements Serializable {
 	public  FormulationDTO() {
 	}
 
-	public FormulationDTO(Long id, Double coefficient, String description, ProductDTO product) {
+	public FormulationDTO(Long id, Double coefficient, String description, ProductDTO product,
+						  FormulationType type,Integer level) {
 		this.id = id;
 		this.coefficient = coefficient;
 		this.description = description;
 		this.product = product;
+		this.type=type;
+		this.level=level;
 	}
 	public FormulationDTO(Formulation entity) {
 		this.id = entity.getId();
 		this.coefficient = entity.getCoefficient();
 		this.description = entity.getDescription();
 		this.product = new ProductDTO(entity.getProduct());
-		
+		this.type=entity.getType();
+		this.level=entity.getLevel();
 		entity.getSectors().forEach(sector -> sectors.add(new SectorDTO(sector)));
 		entity.getSecondaryProduction().forEach(secondary -> secondaryProduction.add(new ProductDTO(secondary)));
 		entity.getOperationalCostType().forEach(e -> operationalCostType.add(new OperationalCostTypeDTO(e)));
@@ -70,11 +77,25 @@ public class FormulationDTO implements Serializable {
 		this.product = product;
 	}
 	
+	public FormulationType getType() {
+		return type;
+	}
+
+	public void setType(FormulationType type) {
+		this.type = type;
+	}
+		
+	public Integer getLevel() {
+		return level;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+
 	public List<SectorDTO> getSectors() {
 		return sectors;
 	}
-
-	
 
 	public List<OperationalCostTypeDTO> getOperationalCostType() {
 		return operationalCostType;

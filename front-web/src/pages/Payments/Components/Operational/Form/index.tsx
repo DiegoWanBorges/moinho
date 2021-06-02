@@ -8,7 +8,7 @@ import { toISOFormatDate } from 'core/utils/utils';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import history from 'core/utils/history';
-import {OperationalCostType, OperationalPayment } from 'core/types/Payment';
+import { OperationalCostType, OperationalPayment } from 'core/types/Payment';
 
 import './styles.scss'
 
@@ -21,7 +21,7 @@ const OperationalPaymentForm = () => {
     const [date, setDate] = useState<Date>();
     const { operationalPaymentId } = useParams<ParamsType>();
     const isEditing = operationalPaymentId !== 'new';
-    
+
     const [isLoadingOperationalCostTypes, setIsLoadingOperationalCostTypes] = useState(false);
     const [operationalCostTypes, setOperationalCostTypes] = useState<OperationalCostType[]>([]);
 
@@ -30,10 +30,10 @@ const OperationalPaymentForm = () => {
             makePrivateRequest({ url: `/operationalpayments/${operationalPaymentId}` })
                 .then(response => {
                     setDate(moment(toISOFormatDate(response.data.date)).toDate())
-                    setValue('operationalCostType',response.data.operationalCostType)
-                    setValue('documentNumber',response.data.documentNumber)
-                    setValue('value',response.data.value)
-                    setValue('description',response.data.description)
+                    setValue('operationalCostType', response.data.operationalCostType)
+                    setValue('documentNumber', response.data.documentNumber)
+                    setValue('value', response.data.value)
+                    setValue('description', response.data.description)
                 })
         } else {
             setDate(new Date())
@@ -127,15 +127,23 @@ const OperationalPaymentForm = () => {
                     <input
                         className="input-base"
                         name="value"
-                        ref={register}
                         type="number"
+                        ref={register({
+                            required: "Campo obrigatório",
+                            min: { value: 0.001, message: "O valor dever ser maior que zero" },
+                        })}
                     />
+                    {errors.value && (
+                        <div className="invalid-feedback d-block">
+                            {errors.value.message}
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="operationalPaymentForm-row">
                 <div className="operationalPaymentForm-description">
                     <label className="label-base">Descrição:</label>
-                    <textarea 
+                    <textarea
                         className="operationalPaymentForm-textArea"
                         name="description"
                         ref={register}

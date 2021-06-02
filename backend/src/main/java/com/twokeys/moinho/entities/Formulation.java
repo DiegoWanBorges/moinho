@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.twokeys.moinho.entities.enums.FormulationType;
+
 @Entity
 @Table(name="tb_formulation")
 public class Formulation   implements Serializable {
@@ -31,6 +33,9 @@ public class Formulation   implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="product_id")
 	private Product product;
+	
+	private FormulationType type;
+	private Integer level;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="tb_formulation_operational_cost", 
@@ -58,11 +63,15 @@ public class Formulation   implements Serializable {
 		
 	public  Formulation() {
 	}
-	public Formulation(Long id, Double coefficient, String description,Product product) {
+	
+	public Formulation(Long id, Double coefficient, String description,Product product, 
+					   FormulationType type, Integer level) {
 		this.id = id;
 		this.coefficient = coefficient;
 		this.description = description;
 		this.product = product;
+		this.type=type;
+		this.level=level;
 	}
 	public Long getId() {
 		return id;
@@ -91,6 +100,22 @@ public class Formulation   implements Serializable {
 		this.product = product;
 	}
 	
+	public FormulationType getType() {
+		return type;
+	}
+
+	public void setType(FormulationType type) {
+		this.type = type;
+	}
+	
+	public Integer getLevel() {
+		return level;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+
 	public Set<OperationalCostType> getOperationalCostType() {
 		return operationalCostType;
 	}

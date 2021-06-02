@@ -83,8 +83,8 @@ function ProductionOrderProducedEditModal({ productionOrderProduced, onEditItem,
                 isOpen={show}
                 onAfterOpen={afterOpenModal}
                 ariaHideApp={false}
-                className="modal-main"
-                overlayClassName="myoverlay"
+                className="producedModal-main"
+                overlayClassName="producedModal-overlay"
             >
                 <h5>{productionOrderProduced.product.name} - Pallet:{productionOrderProduced.pallet}</h5>
 
