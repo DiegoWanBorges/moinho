@@ -110,5 +110,6 @@ public class ProductService {
 		entity.setValidityDays(dto.getValidityDays());
 		entity.setUnity(unityRepository.getOne(dto.getUnity().getId()));
 		entity.setGroup(groupRepository.getOne(dto.getGroup().getId()));
+		entity.setRawMaterialConversion(dto.getRawMaterialConversion());
 	}
 }

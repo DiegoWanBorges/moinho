@@ -5,13 +5,14 @@ import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -24,11 +25,13 @@ import com.twokeys.moinho.dto.ProductionOrderDTO;
 import com.twokeys.moinho.dto.ProductionOrderItemDTO;
 import com.twokeys.moinho.entities.Formulation;
 import com.twokeys.moinho.entities.ProductionOrder;
+import com.twokeys.moinho.entities.ProductionOrderItem;
 import com.twokeys.moinho.entities.enums.FormulationItemType;
 import com.twokeys.moinho.entities.enums.ProductionOrderItemType;
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
 import com.twokeys.moinho.repositories.FormulationRepository;
 import com.twokeys.moinho.repositories.ProductionOrderRepository;
+import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 import com.twokeys.moinho.services.exceptions.UntreatedException;
 
@@ -49,6 +52,8 @@ public class ProductionOrderService {
 	
 	@Autowired
 	private ProductionOrderItemService productionOrderItemsService;
+	@Autowired
+	private StockMovementService stockMovementService;
 	
 	
 	@Transactional
@@ -94,7 +99,6 @@ public class ProductionOrderService {
 		
 	@Transactional(readOnly=true)
 	public Page<ProductionOrderDTO> findByStartDateAndFormulation(Long formulationId,Instant startDate,Instant endDate,PageRequest pageRequest){
-		
 		Formulation formulation = (formulationId==0) ? null : formulationRepository.getOne(formulationId);
 		Page<ProductionOrder> page = repository.findByStartDateAndFormulation(formulation,startDate,endDate,pageRequest);
 		return page.map(x -> new ProductionOrderDTO(x));
@@ -102,9 +106,11 @@ public class ProductionOrderService {
 	
 	@Transactional(readOnly=true)
 	public ProductionOrderDTO findById(Long id){
-		Optional<ProductionOrder> obj = repository.findById(id);
-		ProductionOrder entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-		return new ProductionOrderDTO(entity);
+		ProductionOrder obj = repository.findByIdAndDateCancelIsNull(id);
+		if (obj== null) {
+		  throw	new ResourceNotFoundException("Entity not found");
+		}
+		return new ProductionOrderDTO(obj);
 	}
 	
 	@Transactional
@@ -147,6 +153,24 @@ public class ProductionOrderService {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}catch(Exception e) {
 			throw new UntreatedException("untreated exception: " + e.getMessage());
+		}
+	}
+	@Transactional
+	public void delete(Long id) {
+		try {
+			ProductionOrder entity = repository.getOne(id);
+			for (ProductionOrderItem item : entity.getProductionOrderItems()) {
+				stockMovementService.delete(item.getStockId());
+			}
+			entity.setStatus(ProductionOrderStatus.CANCELADO);
+			entity.setDateCancel(Instant.now());
+			repository.save(entity);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Id not found: " + id);
+		}catch (DataIntegrityViolationException e) {
+			throw new DatabaseException("Integrity violation");
+		}catch(ResourceNotFoundException e) {
+			throw	new ResourceNotFoundException("Entity not found");
 		}
 	}
 	

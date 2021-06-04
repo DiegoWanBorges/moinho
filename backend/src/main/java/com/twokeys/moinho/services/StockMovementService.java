@@ -3,6 +3,7 @@ package com.twokeys.moinho.services;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -65,18 +66,22 @@ public class StockMovementService {
 		try {
 			StockMovement entity =new StockMovement();
 			Product product = new Product();
-			List<Object[]> stockBalance;
+			List<Object[]> stockBalance = new ArrayList<>();
 			convertToEntity(dto, entity);
 			
 			entity =repository.save(entity);
 			
 			/*Atualiza o custo e saldo de estoque*/
 			product = productRepository.findById(entity.getProduct().getId()).get();
+			stockBalance.clear();
 			stockBalance=repository.stockBalance(product.getId());
-			
+			logger.info(stockBalance.size());
+			logger.info(product.getId());
 			product.setStockBalance(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[3]).setScale(2,RoundingMode.HALF_UP).toString()));
 			product.setAverageCost(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[4]).setScale(2,RoundingMode.HALF_UP).toString()));
 			product.setCostLastEntry(entity.getCost());
+			
+			
 			productRepository.save(product);
 
 			return new StockMovementDTO(entity);
@@ -85,7 +90,7 @@ public class StockMovementService {
 		}catch (DataIntegrityViolationException e ) {
 			throw new DatabaseException("Database integrity reference");
 		}catch(Exception e) {
-			throw new UntreatedException(e.getMessage());
+			throw new UntreatedException("Aqui "+e.getMessage());
 		}
 	}
 	@Transactional
@@ -104,7 +109,6 @@ public class StockMovementService {
 			product.setAverageCost(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[4]).setScale(2,RoundingMode.HALF_UP).toString()));
 			product.setCostLastEntry(entity.getCost());
 			productRepository.save(product);
-			
 			return new StockMovementDTO(entity);
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);

@@ -17,7 +17,7 @@ const LaborPaymentCard = ({ laborPayment, onRemove }: Props) => {
             </div>
             <div className="laborPaymentCard-name">
                 <h6>{laborPayment.employee.name}</h6>
-                <small>{laborPayment.laborCostType.name}</small>
+                <small>{laborPayment.employee.sector.name} - {laborPayment.laborCostType.name}</small>
             </div>
             <div className="laborPaymentCard-value">
                  <h6>R${laborPayment.value}</h6>

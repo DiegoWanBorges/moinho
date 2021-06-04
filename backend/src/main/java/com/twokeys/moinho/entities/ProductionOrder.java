@@ -34,7 +34,8 @@ public class ProductionOrder  implements Serializable {
 	private Double expectedAmount;
 	private String observation;
 	private ProductionOrderStatus status;
-	
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+	private Instant dateCancel;
 	@ManyToOne
 	@JoinColumn(name="formulation_id")
 	private Formulation formulation;
@@ -56,7 +57,8 @@ public class ProductionOrder  implements Serializable {
 	}
 
 	public ProductionOrder(Long id, Instant emission, Instant startDate, Instant endDate, Double expectedAmount,
-						   String observation, ProductionOrderStatus status, Formulation formulation) {
+						   String observation, ProductionOrderStatus status, Formulation formulation,
+						   Instant dateCancel) {
 		this.id = id;
 		this.emission = emission;
 		this.startDate = startDate;
@@ -65,6 +67,7 @@ public class ProductionOrder  implements Serializable {
 		this.observation = observation;
 		this.status = status;
 		this.formulation = formulation;
+		this.dateCancel=dateCancel;
 	}
 
 	public Long getId() {
@@ -122,6 +125,14 @@ public class ProductionOrder  implements Serializable {
 	public void setStatus(ProductionOrderStatus status) {
 		this.status = status;
 	}
+		
+	public Instant getDateCancel() {
+		return dateCancel;
+	}
+	public void setDateCancel(Instant dateCancel) {
+		this.dateCancel = dateCancel;
+	}
+
 	public long  getProductionMinutes() {
 		if (status==ProductionOrderStatus.ENCERRADO) {
 		return	startDate.until(endDate, ChronoUnit.MINUTES);

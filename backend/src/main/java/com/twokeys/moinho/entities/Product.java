@@ -2,7 +2,6 @@ package com.twokeys.moinho.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,14 +24,10 @@ public class Product implements Serializable {
 	private Double netWeight;
 	private Double grossWeight;
 	private Integer validityDays;
-	@Column(columnDefinition = "double default 0.0")
-	private Double costLastEntry;
-	@Column(columnDefinition = "double default 0.0")
-	private Double averageCost;
-	@Column(columnDefinition = "double default 1.0")
+	private Double costLastEntry = 0.0;
+	private Double averageCost = 0.0;
 	private Double rawMaterialConversion;
-	@Column(columnDefinition = "double default 0.0")
-	private Double stockBalance;
+	private Double stockBalance = 0.0;
 	
 	@ManyToOne
 	@JoinColumn(name="unity_id")

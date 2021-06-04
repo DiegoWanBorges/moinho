@@ -14,11 +14,14 @@ import com.twokeys.moinho.entities.ProductionOrder;
 
 @Repository
 public interface ProductionOrderRepository extends JpaRepository<ProductionOrder, Long> {
+	ProductionOrder findByIdAndDateCancelIsNull(Long id);
+	
 	List<ProductionOrder> findByStartDateBetweenAndStatus(Instant startDate, Instant endDate,Integer status);
 	List<ProductionOrder> findByEmissionBetweenAndStatus(Instant startDate, Instant endDate,Integer status);
 	
 	@Query("SELECT obj FROM ProductionOrder obj "
 		 + "WHERE (COALESCE(:formulation) IS NULL OR formulation IN :formulation) "
+		 + "AND obj.dateCancel is null " 	
 		 + "AND (obj.emission between :startDate and :endDate) ")
 	Page<ProductionOrder> findByStartDateAndFormulation(Formulation formulation,Instant startDate,Instant endDate, Pageable pageable);
 	
