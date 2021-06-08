@@ -41,7 +41,7 @@ function ProductionOrderList() {
     const history = useHistory();
 
     const onRemove = (productionOrderId: number) => {
-        const confirm = window.confirm("Deseja excluir o grupo selecionado?");
+        const confirm = window.confirm("Deseja excluir a ordem de produção selecionada?");
         if (confirm) {
             makePrivateRequest({
                 url: `/productionorders/${productionOrderId}`,

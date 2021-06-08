@@ -6,7 +6,7 @@ import Select from 'react-select';
 import { useParams } from 'react-router';
 import DateTime from 'react-datetime'
 
-import { toISOFormatDateTime } from 'core/utils/utils';
+import { toISOFormatDate, toISOFormatDateTime } from 'core/utils/utils';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import './styles.scss'
@@ -38,7 +38,7 @@ const StockMovementForm = () => {
                     if (isBlockedTypes.some(item => item === response.data.type)) {
                         history.push('/stock/movements/');
                     }
-                    setDate(moment(toISOFormatDateTime(response.data.date)).toDate())
+                    setDate(moment(toISOFormatDate(response.data.date)).toDate())
                     setStockType(response.data.type)
                     setValue('idOrignMovement', response.data.idOrignMovement)
                     setValue('product', response.data.product)
@@ -101,14 +101,14 @@ const StockMovementForm = () => {
         typeMove === 'entry' ? (
             payLoad = {
                 ...data,
-                date: moment(date).format("DD/MM/YYYY HH:mm"),
+                date: moment(date).format("DD/MM/YYYY"),
                 type: stockType,
                 entry: quantity,
                 out: 0,
             }) :
             (payLoad = {
                 ...data,
-                date: moment(date).format("DD/MM/YYYY HH:mm"),
+                date: moment(date).format("DD/MM/YYYY"),
                 type: stockType,
                 out: quantity,
                 entry: 0
@@ -139,7 +139,7 @@ const StockMovementForm = () => {
                     <label className="label-base">Dt. Inicial:</label>
                     <DateTime
                         dateFormat="DD/MM/YYYY"
-                        timeFormat="HH:mm"
+                        timeFormat={false}
                         onChange={(e) => setDate(moment(e.toString()).toDate())}
                         closeOnSelect={true}
                         locale="pt-br"

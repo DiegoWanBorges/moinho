@@ -15,7 +15,7 @@ type Props = {
 }
 const ProductionOrderHeader = ({ productionOrder }: Props) => {
     const [startDate, setStartDate] = useState<Date>();
-    const [endDate, setEndDate] = useState<Date>();
+    const [endDate, setEndDate] = useState<Date|undefined>();
     const [observation, setObservation] = useState(' ');
 
     useEffect(() => {
@@ -29,6 +29,7 @@ const ProductionOrderHeader = ({ productionOrder }: Props) => {
 
     const onSave = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+        console.log(endDate)
         const data = {
             startDate: moment(startDate).format("DD/MM/YYYY HH:mm"),
             endDate: endDate === undefined ? null : moment(endDate).format("DD/MM/YYYY HH:mm"),
@@ -75,7 +76,6 @@ const ProductionOrderHeader = ({ productionOrder }: Props) => {
                         locale="pt-br"
                         initialValue={startDate}
                         value={startDate}
-
                     />
                 </div>
                 <div className="production-order-header-date-end">
@@ -83,11 +83,11 @@ const ProductionOrderHeader = ({ productionOrder }: Props) => {
                     <DateTime
                         dateFormat="DD/MM/YYYY"
                         timeFormat="HH:mm"
-                        onChange={(e) => setEndDate(moment(e.toString()).toDate())}
+                        onChange={(e) => e.toString() === '' ? setEndDate(undefined) : setEndDate(moment(e.toString()).toDate())}
                         closeOnSelect={true}
                         locale="pt-br"
                         initialValue={endDate}
-                        value={endDate}
+                        value={endDate}                        
                     />
                 </div>
             </div>

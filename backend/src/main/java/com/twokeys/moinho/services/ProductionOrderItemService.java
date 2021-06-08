@@ -3,6 +3,8 @@ package com.twokeys.moinho.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.ValidationException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import com.twokeys.moinho.entities.ProductionOrderItem;
 import com.twokeys.moinho.entities.StockMovement;
 import com.twokeys.moinho.entities.enums.CostType;
 import com.twokeys.moinho.entities.enums.ProductionOrderItemType;
+import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
 import com.twokeys.moinho.entities.enums.StockMovementType;
 import com.twokeys.moinho.entities.pk.ProductionOrderItemPK;
 import com.twokeys.moinho.repositories.OccurrenceRepository;
@@ -54,10 +57,15 @@ public class ProductionOrderItemService {
 			Product product;
 			ProductionOrderItem entity = new ProductionOrderItem();
 			List<ProductionOrderItem> entityList = new ArrayList<>();
-			ProductionOrder order = new ProductionOrder();
+			ProductionOrder order = productionOrderRepository.getOne(dto.get(0).getProductionOrderId());
 			StockMovementDTO stockMovement;
-			order.setId(dto.get(0).getProductionOrderId());
 			Integer serie = repository.findMaxSerie(order) + 1;
+			
+			
+			if (order.getStatus()== ProductionOrderStatus.ENCERRADO || order.getStatus() == ProductionOrderStatus.APURACAO_FINALIZADA) {
+				throw new ValidationException("Produção com status " + order.getStatus() + " não pode ser alterada");
+			}
+			
 			
 			for(ProductionOrderItemDTO itemDto : dto){
 				product = productRepository.findById(itemDto.getProduct().getId()).get();
@@ -121,14 +129,17 @@ public class ProductionOrderItemService {
 			Product product = productRepository.getOne(dto.getProduct().getId());
 			ProductionOrder prodctionOrder = productionOrderRepository.getOne(dto.getProductionOrderId());
 			
+			if (prodctionOrder.getStatus()== ProductionOrderStatus.ENCERRADO || prodctionOrder.getStatus() == ProductionOrderStatus.APURACAO_FINALIZADA) {
+				throw new ValidationException("Produção com status " + prodctionOrder.getStatus() + " não pode ser alterada");
+			}
+			
 			ProductionOrderItemPK pk = new ProductionOrderItemPK();
 			pk.setProduct(product);
 			pk.setProductionOrder(prodctionOrder);
 			pk.setSerie(dto.getSerie());
 			ProductionOrderItem item = repository.getOne(pk);
 			StockMovement stockMovement = stockMovementRepository.getOne(item.getStockId());
-			
-			
+						
 			
 			/*Validar estoque*/
 			if (parameter.isProductionOrderWithoutStock()==false && dto.getType()!=ProductionOrderItemType.RETORNO  ) {
@@ -159,6 +170,9 @@ public class ProductionOrderItemService {
 			Product product = productRepository.getOne(productId);
 			ProductionOrder prodctionOrder = productionOrderRepository.getOne(productionOrderId);
 			ProductionOrderItemPK pk = new ProductionOrderItemPK();
+			if (prodctionOrder.getStatus()== ProductionOrderStatus.ENCERRADO || prodctionOrder.getStatus() == ProductionOrderStatus.APURACAO_FINALIZADA) {
+				throw new ValidationException("Produção com status " + prodctionOrder.getStatus() + " não pode ser alterada");
+			}
 			pk.setProduct(product);
 			pk.setProductionOrder(prodctionOrder);
 			pk.setSerie(serie);
@@ -167,7 +181,7 @@ public class ProductionOrderItemService {
 			repository.deleteById(pk);
 			
 		} catch (Exception e) {
-			logger.info(e.getMessage());
+			throw new UntreatedException(e.getMessage());
 		}
 		
 	}

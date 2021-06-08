@@ -13,8 +13,8 @@ import history from 'core/utils/history';
 import { toast } from 'react-toastify';
 
 const StockMovementList = () => {
-    const [startDate, setStartDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth(), 1, 0, 0));
-    const [endDate, setEndDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth() + 1, 0, 23, 59));
+    const [startDate, setStartDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth(), 1));
+    const [endDate, setEndDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth() + 1, 0));
     const [isLoadingProducts, setIsLoadingProducts] = useState(false);
     const [products, setProducts] = useState<Product[]>([]);
     const [product, setProduct] = useState<Product | null>();
@@ -31,10 +31,11 @@ const StockMovementList = () => {
     }, [])
 
     const getStockMovements = useCallback(() => {
+      
         const params = {
             page: activePage,
-            startDate: moment(startDate).format("DD/MM/YYYY HH:mm"),
-            endDate: moment(endDate).format("DD/MM/YYYY HH:mm"),
+            startDate: moment(startDate).format("DD/MM/YYYY"),
+            endDate: moment(endDate).format("DD/MM/YYYY"),
             linesPerPage: 10,
             orderBy: "date",
             direction: "DESC",
@@ -91,7 +92,7 @@ const StockMovementList = () => {
                     <label className="label-base">Dt. Inicial:</label>
                     <DateTime
                         dateFormat="DD/MM/YYYY"
-                        timeFormat="HH:mm"
+                        timeFormat={false}
                         onChange={(e) => setStartDate(moment(e.toString()).toDate())}
                         closeOnSelect={true}
                         locale="pt-br"
@@ -104,7 +105,7 @@ const StockMovementList = () => {
                     <label className="label-base">Dt. Final:</label>
                     <DateTime
                         dateFormat="DD/MM/YYYY"
-                        timeFormat="HH:mm"
+                        timeFormat={false}
                         onChange={(e) => setEndDate(moment(e.toString()).toDate())}
                         closeOnSelect={true}
                         locale="pt-br"

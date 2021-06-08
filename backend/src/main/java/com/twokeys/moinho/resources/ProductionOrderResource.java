@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.twokeys.moinho.dto.GroupDTO;
 import com.twokeys.moinho.dto.ProductionOrderDTO;
 import com.twokeys.moinho.services.ProductionOrderService;
 

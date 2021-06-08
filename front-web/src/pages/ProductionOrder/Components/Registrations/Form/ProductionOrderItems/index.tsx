@@ -35,8 +35,8 @@ const ProductionOrderItems = ({ productionOrderId }: Props) => {
                 toast.success("Item salvo com sucesso!");
                 getProductionOrder();
         })
-        .catch(() => {
-                toast.error("Erro ao salvar item!")
+        .catch((error) => {
+            toast.error(error.response.data.message)
         })
     }
     const onEditItem = (data: ProductionOrderItem) => {
@@ -49,8 +49,8 @@ const ProductionOrderItems = ({ productionOrderId }: Props) => {
                 toast.success("Item atualizado com sucesso!");
                 getProductionOrder();
         })
-        .catch(() => {
-                toast.error("Erro ao atualizar item!")
+        .catch((error) => {
+            toast.error(error.response.data.message)
         })
     }
     const onDeleteItem = (data: ProductionOrderItem) => {
@@ -65,8 +65,8 @@ const ProductionOrderItems = ({ productionOrderId }: Props) => {
                     toast.success("Item excluido com sucesso!");
                     getProductionOrder();
             })
-            .catch(() => {
-                    toast.error("Erro ao excluir item!")
+            .catch((error) => {
+                toast.error(error.response.data.message)
             })
         }
     }

@@ -1,6 +1,7 @@
 package com.twokeys.moinho.services;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.ValidationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,6 +18,7 @@ import com.twokeys.moinho.dto.StockMovementDTO;
 import com.twokeys.moinho.entities.ProductionOrder;
 import com.twokeys.moinho.entities.ProductionOrderProduced;
 import com.twokeys.moinho.entities.StockMovement;
+import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
 import com.twokeys.moinho.entities.enums.StockMovementType;
 import com.twokeys.moinho.entities.pk.ProductionOrderProducedPK;
 import com.twokeys.moinho.repositories.PalletStatusRepository;
@@ -48,8 +50,12 @@ public class ProductionOrderProducedService {
 	public ProductionOrderProducedDTO insert(ProductionOrderProducedDTO dto) {
 		try {
 			ProductionOrderProduced entity = new ProductionOrderProduced();
-			ProductionOrder order = new ProductionOrder();
-			order.setId(dto.getProductionOrderId());
+			ProductionOrder order = productionOrderRepository.getOne(dto.getProductionOrderId());
+			
+			if (order.getStatus()== ProductionOrderStatus.ENCERRADO || order.getStatus() == ProductionOrderStatus.APURACAO_FINALIZADA) {
+				throw new ValidationException("Produção com status " + order.getStatus() + " não pode ser alterada");
+			}
+			
 			
 			/*Recupera o proximo pallet*/
 			Integer pallet = repository.findMaxPallet(order) + 1;
@@ -87,6 +93,10 @@ public class ProductionOrderProducedService {
 			ProductionOrderProduced entity = new ProductionOrderProduced();
 			StockMovement stockMovement = new StockMovement();
 			ProductionOrder productionOrder = productionOrderRepository.getOne(dto.getProductionOrderId());
+			if (productionOrder.getStatus()== ProductionOrderStatus.ENCERRADO || productionOrder.getStatus() == ProductionOrderStatus.APURACAO_FINALIZADA) {
+				throw new ValidationException("Produção com status " + productionOrder.getStatus() + " não pode ser alterada");
+			}
+			
 			ProductionOrderProducedPK pk = new ProductionOrderProducedPK();  
 			pk.setProductionOrder(productionOrder);
 			pk.setPallet(dto.getPallet());
@@ -118,6 +128,9 @@ public class ProductionOrderProducedService {
 			ProductionOrderProduced entity = new ProductionOrderProduced();
 			
 			ProductionOrder productionOrder = productionOrderRepository.getOne(productionOrderId);
+			if (productionOrder.getStatus()== ProductionOrderStatus.ENCERRADO || productionOrder.getStatus() == ProductionOrderStatus.APURACAO_FINALIZADA) {
+				throw new ValidationException("Produção com status " + productionOrder.getStatus() + " não pode ser alterada");
+			}
 			ProductionOrderProducedPK pk = new ProductionOrderProducedPK();  
 			pk.setProductionOrder(productionOrder);
 			pk.setPallet(pallet);

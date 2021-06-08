@@ -2,7 +2,7 @@ package com.twokeys.moinho.services;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +40,7 @@ public class StockMovementService {
 	private ProductRepository productRepository;
 	
 	@Transactional(readOnly=true)
-	public Page<StockMovementDTO> findByStartDateAndProduct(Long productId,Instant startDate,Instant endDate,PageRequest pageRequest){
+	public Page<StockMovementDTO> findByStartDateAndProduct(Long productId,LocalDate startDate,LocalDate endDate,PageRequest pageRequest){
 		
 		Product product = (productId==0) ? null : productRepository.getOne(productId);
 		Page<StockMovement> page = repository.findByStartDateAndProduct(product,startDate,endDate,pageRequest);
@@ -146,7 +146,7 @@ public class StockMovementService {
 	public void convertToEntity(StockMovementDTO dto, StockMovement entity) {
 		entity.setCost(dto.getCost());
 		entity.setDescription(dto.getDescription());
-		entity.setDate(Instant.now());
+		entity.setDate(LocalDate.now());
 		entity.setIdOrignMovement(dto.getIdOrignMovement());
 		entity.setEntry(dto.getEntry());
 		entity.setOut(dto.getOut());

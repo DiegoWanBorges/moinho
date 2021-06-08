@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.ValidationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,6 +27,7 @@ import com.twokeys.moinho.dto.ProductionOrderItemDTO;
 import com.twokeys.moinho.entities.Formulation;
 import com.twokeys.moinho.entities.ProductionOrder;
 import com.twokeys.moinho.entities.ProductionOrderItem;
+import com.twokeys.moinho.entities.ProductionOrderProduced;
 import com.twokeys.moinho.entities.enums.FormulationItemType;
 import com.twokeys.moinho.entities.enums.ProductionOrderItemType;
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
@@ -140,11 +142,21 @@ public class ProductionOrderService {
 	public ProductionOrderDTO update(Long id, ProductionOrderDTO dto) {
 		try {
 			ProductionOrder entity = repository.getOne(id);
+			
 			entity.setStartDate(dto.getStartDate());
 			entity.setEndDate(dto.getEndDate());
 			entity.setObservation(dto.getObservation());
-			if(entity.getStatus()==ProductionOrderStatus.ABERTO && dto.getEndDate() != null  ) {
-				entity.setStatus(ProductionOrderStatus.ENCERRADO);
+			
+			if (entity.getStatus() != ProductionOrderStatus.APURACAO_FINALIZADA) {
+				if(entity.getStatus()==ProductionOrderStatus.ABERTO && dto.getEndDate() != null  ) {
+					entity.setStatus(ProductionOrderStatus.ENCERRADO);
+				}else {
+					if(dto.getEndDate()==null) {
+						entity.setStatus(ProductionOrderStatus.ABERTO);
+					}
+				}
+			}else {
+				throw new ValidationException("Ordem de Produção com encerramento finalizado");
 			}
 			
 			entity = repository.save(entity);
@@ -159,7 +171,12 @@ public class ProductionOrderService {
 	public void delete(Long id) {
 		try {
 			ProductionOrder entity = repository.getOne(id);
+			/*REMOVER MOVIMENTAÇÃO DE ESTOQUE DE CONSUMO*/
 			for (ProductionOrderItem item : entity.getProductionOrderItems()) {
+				stockMovementService.delete(item.getStockId());
+			}
+			/*REMOVER MOVIMENTAÇÃO DE ESTOQUE DE PRODUÇÃO*/
+			for (ProductionOrderProduced item : entity.getProductionOrderProduceds()) {
 				stockMovementService.delete(item.getStockId());
 			}
 			entity.setStatus(ProductionOrderStatus.CANCELADO);

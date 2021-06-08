@@ -64,6 +64,7 @@ const ProductionOrderProducedInsert = ({ onInsertItem, productionOrder }: Props)
                             closeOnSelect={true}
                             locale="pt-br"
                             initialValue={manufacturingDate}
+                            
                         />
                     </div>
 

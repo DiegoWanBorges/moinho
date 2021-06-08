@@ -1,6 +1,6 @@
 package com.twokeys.moinho.repositories;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -26,12 +26,12 @@ public interface StockMovementRepository extends JpaRepository<StockMovement, Lo
 					 + "where product_id = :product_id "
 					 + "group by "
 					 + "product_id " 
-				, 	nativeQuery = true)
+				     ,nativeQuery = true)
 		List<Object[]> stockBalance(Long product_id);
 		
 		@Query("SELECT obj FROM StockMovement obj "
-				 + "WHERE (COALESCE(:product) IS NULL OR product = :product) "
-				 + "AND (obj.date between :startDate and :endDate) ")
-		Page<StockMovement> findByStartDateAndProduct(Product product,Instant startDate,Instant endDate, Pageable pageable);
+			 + "WHERE (COALESCE(:product) IS NULL OR product = :product) "
+			 + "AND (obj.date between :startDate and :endDate) ")
+		Page<StockMovement> findByStartDateAndProduct(Product product,LocalDate startDate,LocalDate endDate, Pageable pageable);
 }
 

@@ -1,9 +1,7 @@
 package com.twokeys.moinho.resources;
 
 import java.net.URI;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,17 +31,14 @@ public class StockMovementResource {
 	
 	@GetMapping
 	public ResponseEntity<Page<StockMovementDTO>> findByStartDateAndFormulation(@RequestParam(value = "productId", defaultValue = "0") Long  productId,
-																				@RequestParam(value = "startDate") LocalDateTime  startDate,
-																				@RequestParam(value = "endDate") LocalDateTime  endDate,
+																				@RequestParam(value = "startDate") LocalDate  startDate,
+																				@RequestParam(value = "endDate") LocalDate  endDate,
 																				@RequestParam(value = "page", defaultValue = "0") Integer page,
 																				@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
 																				@RequestParam(value = "orderBy", defaultValue = "date") String orderBy,
 																				@RequestParam(value = "direction", defaultValue = "DESC") String direction){
-			Instant start = startDate.atZone(ZoneId.of("America/Sao_Paulo")).toInstant();
-			Instant end = endDate.atZone(ZoneId.of("America/Sao_Paulo")).toInstant();
-			
 			PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
-			Page<StockMovementDTO> list = service.findByStartDateAndProduct(productId,start,end, pageRequest);
+			Page<StockMovementDTO> list = service.findByStartDateAndProduct(productId,startDate,endDate, pageRequest);
 			return ResponseEntity.ok().body(list);
 	}
 	

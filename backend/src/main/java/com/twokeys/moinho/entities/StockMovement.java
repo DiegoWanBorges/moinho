@@ -1,9 +1,8 @@
 package com.twokeys.moinho.entities;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,8 +21,7 @@ public class StockMovement  implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant date;
+	private LocalDate date;
 	private Double entry;
 	private Double out;
 	private Double cost;
@@ -37,7 +35,7 @@ public class StockMovement  implements Serializable {
 	public StockMovement() {	
 	}
 
-	public StockMovement(Long id, Instant date, Double entry, Double out, Double cost, String description,
+	public StockMovement(Long id, LocalDate date, Double entry, Double out, Double cost, String description,
 						 StockMovementType type, Long idOrignMovement, Product product) {
 		this.id = id;
 		this.date = date;
@@ -58,11 +56,11 @@ public class StockMovement  implements Serializable {
 		this.id = id;
 	}
 
-	public Instant getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Instant date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 

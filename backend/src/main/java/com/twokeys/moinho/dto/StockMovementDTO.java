@@ -1,7 +1,7 @@
 package com.twokeys.moinho.dto;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.twokeys.moinho.entities.StockMovement;
@@ -11,8 +11,8 @@ public class StockMovementDTO   implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", timezone="GMT-3")
-	private Instant date;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone="GMT-3")
+	private LocalDate date;
 	private Double entry;
 	private Double out;
 	private Double cost;
@@ -24,7 +24,7 @@ public class StockMovementDTO   implements Serializable {
 	public StockMovementDTO() {	
 	}
 
-	public StockMovementDTO(Long id, Instant date, Double entry, Double out, Double cost, String description,
+	public StockMovementDTO(Long id, LocalDate date, Double entry, Double out, Double cost, String description,
 							StockMovementType type, Long idOrignMovement, ProductDTO product) {
 		this.id = id;
 		this.date = date;
@@ -56,11 +56,11 @@ public class StockMovementDTO   implements Serializable {
 		this.id = id;
 	}
 
-	public Instant getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Instant date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
