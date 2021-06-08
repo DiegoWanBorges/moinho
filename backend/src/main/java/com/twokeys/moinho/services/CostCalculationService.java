@@ -39,32 +39,33 @@ public class CostCalculationService {
 		CostCalculation entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		return new CostCalculationDTO(entity);
 	}
+	
 	@Transactional
-	public void calculation (CostCalculation costCalculation) {
-		Double totalCost = 0.0;
+	public void calculation (Long costCalculationId) {
+		CostCalculation costCalculation = repository.getOne(costCalculationId);
 		/*REALIZAR REATEIO - DESPESAS OPERACIONAIS*/
 		productionOrderOperationalCostService.prorateOperatingCost(costCalculation.getStartDate(), costCalculation.getEndDate());
 		/*REALIZAR REATEIO - CUSTO MÃO DE OBRA*/
 		productionOrderCostLaborService.laborPaymentApportionment(costCalculation.getStartDate(), costCalculation.getEndDate());
 		
-		/*Calcula o valor por cada ordem de produção*/
-		List<ProductionOrderDTO> list = productionOrderService.listByStartDateAndStatus(costCalculation.getStartDate(), costCalculation.getEndDate(), 
-																						ProductionOrderStatus.ENCERRADO,FormulationType.INTERMEDIARIO);
+		/*CALCULA O CUSTO UNITARIO PARA CADA ORDEM DE PRODUÇÃO*/
+		List<ProductionOrderDTO> list = productionOrderService.listByStartDateAndStatus(costCalculation.getStartDate(), costCalculation.getEndDate(),ProductionOrderStatus.ENCERRADO,FormulationType.INTERMEDIARIO);
 		for (ProductionOrderDTO item : list) {
-			
+			logger.info(item.getId());
 		}
 	}
 	
 	@Transactional
 	public CostCalculationDTO insert(CostCalculationDTO dto) {
 			CostCalculation entity =new CostCalculation();
-			
+			convertToEntity(dto,entity);
 			return new CostCalculationDTO(repository.save(entity));
 	}
 	@Transactional
 	public CostCalculationDTO update(Long id, CostCalculationDTO dto) {
 		try {
 			CostCalculation entity = repository.getOne(id);
+			convertToEntity(dto,entity);
 			entity = repository.save(entity);
 			return new CostCalculationDTO(entity);
 		}catch(EntityNotFoundException e) {
@@ -81,5 +82,10 @@ public class CostCalculationService {
 		}
 		
 	}
-	
+	public void convertToEntity(CostCalculationDTO dto,CostCalculation entity) {
+		entity.setStartDate(dto.getStartDate());
+		entity.setEndDate(dto.getEndDate());
+		entity.setStockStartDate(dto.getStockStartDate());
+		entity.setStatus(dto.getStatus());
+	}
 }

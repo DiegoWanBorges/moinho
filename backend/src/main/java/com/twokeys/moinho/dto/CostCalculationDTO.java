@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.twokeys.moinho.entities.CostCalculation;
 import com.twokeys.moinho.entities.enums.CostCalculationStatus;
 
@@ -11,8 +12,11 @@ public class CostCalculationDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", timezone="GMT-3")
 	private Instant startDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm", timezone="GMT-3")
 	private Instant endDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone="GMT-3")
 	private LocalDate stockStartDate;
 	private CostCalculationStatus status;
 	
@@ -74,9 +78,4 @@ public class CostCalculationDTO implements Serializable {
 	public void setStatus(CostCalculationStatus status) {
 		this.status = status;
 	}
-	
-	
-	
-	
-	
 }
