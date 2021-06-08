@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ValidationException;
@@ -29,6 +30,7 @@ import com.twokeys.moinho.entities.ProductionOrder;
 import com.twokeys.moinho.entities.ProductionOrderItem;
 import com.twokeys.moinho.entities.ProductionOrderProduced;
 import com.twokeys.moinho.entities.enums.FormulationItemType;
+import com.twokeys.moinho.entities.enums.FormulationType;
 import com.twokeys.moinho.entities.enums.ProductionOrderItemType;
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
 import com.twokeys.moinho.repositories.FormulationRepository;
@@ -80,6 +82,7 @@ public class ProductionOrderService {
 				}
 				productionOrderItems.setType(ProductionOrderItemType.NORMAL);
 				productionOrderItems.setProduct(formulationItems.getProduct());
+				productionOrderItems.setCost(formulation.getProduct().getAverageCost());
 				productionOrder.getProductionOrderItems().add(productionOrderItems);
 			}
 			
@@ -105,7 +108,7 @@ public class ProductionOrderService {
 		Page<ProductionOrder> page = repository.findByStartDateAndFormulation(formulation,startDate,endDate,pageRequest);
 		return page.map(x -> new ProductionOrderDTO(x));
 	}
-	
+	 
 	@Transactional(readOnly=true)
 	public ProductionOrderDTO findById(Long id){
 		ProductionOrder obj = repository.findByIdAndDateCancelIsNull(id);
@@ -113,6 +116,11 @@ public class ProductionOrderService {
 		  throw	new ResourceNotFoundException("Entity not found");
 		}
 		return new ProductionOrderDTO(obj);
+	}
+	@Transactional(readOnly=true)
+	public List<ProductionOrderDTO> listByStartDateAndStatus(Instant startDate,Instant endDate, ProductionOrderStatus status, FormulationType type){
+		List<ProductionOrder> list = repository.findByStartDateBetweenAndStatusAndFormulationTypeOrderByFormulationLevelAsc(startDate, endDate, status,type);
+	    return list.stream().map(x -> new ProductionOrderDTO(x)).collect(Collectors.toList());
 	}
 	
 	@Transactional

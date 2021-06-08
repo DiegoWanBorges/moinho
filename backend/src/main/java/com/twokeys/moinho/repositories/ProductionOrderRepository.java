@@ -11,13 +11,15 @@ import org.springframework.stereotype.Repository;
 
 import com.twokeys.moinho.entities.Formulation;
 import com.twokeys.moinho.entities.ProductionOrder;
+import com.twokeys.moinho.entities.enums.FormulationType;
+import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
 
 @Repository
 public interface ProductionOrderRepository extends JpaRepository<ProductionOrder, Long> {
 	ProductionOrder findByIdAndDateCancelIsNull(Long id);
 	
-	List<ProductionOrder> findByStartDateBetweenAndStatus(Instant startDate, Instant endDate,Integer status);
-	List<ProductionOrder> findByEmissionBetweenAndStatus(Instant startDate, Instant endDate,Integer status);
+	List<ProductionOrder> findByStartDateBetweenAndStatusAndFormulationTypeOrderByFormulationLevelAsc(Instant startDate, Instant endDate,ProductionOrderStatus status, FormulationType type);
+	
 	
 	@Query("SELECT obj FROM ProductionOrder obj "
 		 + "WHERE (COALESCE(:formulation) IS NULL OR formulation IN :formulation) "

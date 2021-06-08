@@ -150,6 +150,30 @@ public class ProductionOrderDTO   implements Serializable {
 	public List<ProductionOrderOperationalCostDTO> getProductionOrderOperationalCost() {
 		return productionOrderOperationalCost;
 	}
-	
+	public Double getTotalProduced() {
+		Double sum =0.0;
+		for (ProductionOrderProducedDTO items : productionOrderProduceds) {
+			sum+=items.getQuantity();
+		}
+		return sum;
+	}
+	public Double getTotalDirectCost() {
+		Double sum =0.0;
+		for (ProductionOrderItemDTO items : productionOrderItems) {
+			    
+				sum+=items.getCost() * items.getQuantity();
+		}
+		return sum;
+	}
+	public Double getTotalIndirectCost() {
+		Double sum =0.0;
+		for (ProductionOrderOperationalCostDTO operational : productionOrderOperationalCost) {
+				sum+= operational.getValue();
+		}
+		for (ProductionOrderCostLaborDTO labor : productionOrderCostLabor) {
+				sum+=labor.getValue();
+		}
+		return sum;
+	}
 	
 }

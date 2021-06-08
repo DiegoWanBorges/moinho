@@ -3,7 +3,6 @@ package com.twokeys.moinho.services;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,8 +30,6 @@ import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 import com.twokeys.moinho.services.exceptions.UntreatedException;
 
-
-
 @Service
 public class StockMovementService {
 	protected final Log logger = LogFactory.getLog(getClass());
@@ -54,10 +51,13 @@ public class StockMovementService {
 			Product product = productRepository.findById(productId).get();
 			List<Object[]> object= repository.currentStockByProduct(product);
 			StockBalanceDTO dto = new StockBalanceDTO();
+			dto.setProduct(new ProductDTO(product));
 			if (object.size() > 0) {
-				dto.setProduct(new ProductDTO((Product)object.get(0)[0]));
 				dto.setBalance(Double.valueOf(new BigDecimal((Double)object.get(0)[1]).setScale(2,RoundingMode.HALF_UP).toString()));
 				dto.setAverageCost(Double.valueOf(new BigDecimal((Double)object.get(0)[2]).setScale(2,RoundingMode.HALF_UP).toString()));
+			}else {
+				dto.setBalance(0.0);
+				dto.setAverageCost(0.0);
 			}
 			return dto;
 		}catch(ResourceNotFoundException e) {
@@ -74,10 +74,13 @@ public class StockMovementService {
 			Product product = productRepository.findById(productId).get();
 			List<Object[]> object= repository.stockByProductAndDatePrevious(product,date);
 			StockBalanceDTO dto = new StockBalanceDTO();
+			dto.setProduct(new ProductDTO(product));
 			if (object.size() > 0) {
-				dto.setProduct(new ProductDTO((Product)object.get(0)[0]));
 				dto.setBalance(Double.valueOf(new BigDecimal((Double)object.get(0)[1]).setScale(2,RoundingMode.HALF_UP).toString()));
 				dto.setAverageCost(Double.valueOf(new BigDecimal((Double)object.get(0)[2]).setScale(2,RoundingMode.HALF_UP).toString()));
+			}else {
+				dto.setBalance(0.0);
+				dto.setAverageCost(0.0);
 			}
 			return dto;
 		}catch(EntityNotFoundException e) {
@@ -112,13 +115,8 @@ public class StockMovementService {
 			
 			/*Atualiza o custo e saldo de estoque*/
 			product = productRepository.findById(entity.getProduct().getId()).get();
-			if (stockBalance != null) {
-				product.setStockBalance(stockBalance.getBalance());
-				product.setAverageCost(stockBalance.getAverageCost());
-			}else {
-				product.setStockBalance(0.0);
-				product.setAverageCost(0.0);
-			}
+			product.setStockBalance(stockBalance.getBalance());
+			product.setAverageCost(stockBalance.getAverageCost());
 			product.setCostLastEntry(entity.getCost());
 						
 			productRepository.save(product);
@@ -143,13 +141,8 @@ public class StockMovementService {
 			
 			/*Atualiza o custo e saldo de estoque*/
 			product = productRepository.findById(entity.getProduct().getId()).get();
-			if (stockBalance != null) {
-				product.setStockBalance(stockBalance.getBalance());
-				product.setAverageCost(stockBalance.getAverageCost());
-			}else {
-				product.setStockBalance(0.0);
-				product.setAverageCost(0.0);
-			}
+			product.setStockBalance(stockBalance.getBalance());
+			product.setAverageCost(stockBalance.getAverageCost());
 			product.setCostLastEntry(entity.getCost());
 			productRepository.save(product);
 			return new StockMovementDTO(entity);
@@ -169,13 +162,8 @@ public class StockMovementService {
 			/*Atualiza o custo e saldo de estoque*/
 			product = productRepository.findById(entity.getProduct().getId()).get();
 			StockBalanceDTO stockBalance = currentStockByProduct(product.getId());
-			if (stockBalance != null) {
-				product.setStockBalance(stockBalance.getBalance());
-				product.setAverageCost(stockBalance.getAverageCost());
-			}else {
-				product.setStockBalance(0.0);
-				product.setAverageCost(0.0);
-			}
+			product.setStockBalance(stockBalance.getBalance());
+			product.setAverageCost(stockBalance.getAverageCost());
 			product.setCostLastEntry(entity.getCost());
 			productRepository.save(product);
 			

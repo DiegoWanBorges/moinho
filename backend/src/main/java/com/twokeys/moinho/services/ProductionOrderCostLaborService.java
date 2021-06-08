@@ -54,7 +54,7 @@ public class ProductionOrderCostLaborService {
 	}
 	
 	@Transactional
-	public void LaborPaymentApportionment(Instant startDate, Instant endDate) {
+	public void laborPaymentApportionment(Instant startDate, Instant endDate) {
 		try {
 			List<ProductionOrder> listProductionOrder = new ArrayList<>();
 			Long productionDurationTotal;

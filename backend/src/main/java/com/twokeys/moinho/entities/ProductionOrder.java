@@ -162,6 +162,30 @@ public class ProductionOrder  implements Serializable {
 	public List<ProductionOrderOperationalCost> getProductionOrderOperationalCost() {
 		return productionOrderOperationalCost;
 	}
+	public Double getTotalProduced() {
+		Double sum =0.0;
+		for (ProductionOrderProduced items : productionOrderProduceds) {
+			sum+=items.getQuantity();
+		}
+		return sum;
+	}
+	public Double getTotalDirectCost() {
+		Double sum =0.0;
+		for (ProductionOrderItem items : productionOrderItems) {
+			sum+=items.getCost() * items.getQuantity();
+		}
+		return sum;
+	}
+	public Double getTotalIndirectCost() {
+		Double sum =0.0;
+		for (ProductionOrderOperationalCost operational : productionOrderOperationalCost) {
+			sum+= operational.getValue();
+		}
+		for (ProductionOrderCostLabor labor : productionOrderCostLabor) {
+			sum+=labor.getValue();
+		}
+		return sum;
+	}
 
 	@Override
 	public int hashCode() {
