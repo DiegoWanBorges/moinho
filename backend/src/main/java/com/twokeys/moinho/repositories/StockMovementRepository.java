@@ -17,17 +17,27 @@ public interface StockMovementRepository extends JpaRepository<StockMovement, Lo
 		List<StockMovement> findByProduct(Product product);
 		
 		@Query(value = " select "
-					 + "product_id, "
-					 + "sum(entry) as entry, "
-					 + "sum(out) as out, "
-					 + "sum(entry)-sum(out) as balance, "
-					 + "(sum(entry*cost)-sum(out*cost))/(sum(entry)-sum(out)) as average "
-					 + "from tb_stock_movement "
-					 + "where product_id = :product_id "
-					 + "group by "
-					 + "product_id " 
-				     ,nativeQuery = true)
-		List<Object[]> stockBalance(Long product_id);
+				 + "obj.product, "
+				 + "sum(obj.entry)-sum(obj.out) as balance, "
+				 + "(sum(obj.entry*obj.cost)-sum(obj.out*obj.cost))/(sum(obj.entry)-sum(obj.out)) as averageCost "
+				 + "from StockMovement obj   "
+				 + "where obj.product = :product "
+				 + "group by "
+				 + "obj.product ")
+		List<Object[]> currentStockByProduct(Product product);
+		
+		@Query(value = " select "
+				 + "obj.product, "
+				 + "sum(obj.entry)-sum(obj.out) as balance, "
+				 + "(sum(obj.entry*obj.cost)-sum(obj.out*obj.cost))/(sum(obj.entry)-sum(obj.out)) as averageCost "
+				 + "from StockMovement obj   "
+				 + "where obj.product = :product "
+				 + "and obj.date < :date "
+				 + "group by "
+				 + "obj.product ")
+		List<Object[]> stockByProductAndDatePrevious(Product product, LocalDate date);
+		
+		
 		
 		@Query("SELECT obj FROM StockMovement obj "
 			 + "WHERE (COALESCE(:product) IS NULL OR product = :product) "

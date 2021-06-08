@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.twokeys.moinho.dto.StockBalanceDTO;
 import com.twokeys.moinho.dto.StockMovementDTO;
 import com.twokeys.moinho.services.StockMovementService;
 
@@ -47,6 +48,19 @@ public class StockMovementResource {
 	public ResponseEntity<List<StockMovementDTO>> findByProduct(@RequestParam(value = "listByproductId") Long  productId){
 		List<StockMovementDTO> list = service.findByProduct(productId);
 		return ResponseEntity.ok().body(list);
+	}
+	@GetMapping
+	@RequestMapping(params = "currentStockByProduct")
+	public ResponseEntity<StockBalanceDTO> currentStockByProduct(@RequestParam(value = "currentStockByProduct") Long  productId){
+		StockBalanceDTO dto = service.currentStockByProduct(productId);
+		return ResponseEntity.ok().body(dto);
+	}
+	@GetMapping
+	@RequestMapping(params = "stockByProductPreviousProductId")
+	public ResponseEntity<StockBalanceDTO> stockByProductAndDatePrevious(@RequestParam(value = "stockByProductPreviousProductId") Long  productId,
+																	     @RequestParam(value = "date") LocalDate  date){
+		StockBalanceDTO dto = service.stockByProductAndDatePrevious(productId,date);
+		return ResponseEntity.ok().body(dto);
 	}
 	
 	@GetMapping(value="/{id}")

@@ -20,6 +20,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.twokeys.moinho.dto.ProductDTO;
+import com.twokeys.moinho.dto.StockBalanceDTO;
 import com.twokeys.moinho.dto.StockMovementDTO;
 import com.twokeys.moinho.entities.Product;
 import com.twokeys.moinho.entities.StockMovement;
@@ -46,6 +48,44 @@ public class StockMovementService {
 		Page<StockMovement> page = repository.findByStartDateAndProduct(product,startDate,endDate,pageRequest);
 		return page.map(x -> new StockMovementDTO(x));
 	}
+	@Transactional(readOnly=true)
+	public StockBalanceDTO currentStockByProduct(Long productId){
+		try {
+			Product product = productRepository.findById(productId).get();
+			List<Object[]> object= repository.currentStockByProduct(product);
+			StockBalanceDTO dto = new StockBalanceDTO();
+			if (object.size() > 0) {
+				dto.setProduct(new ProductDTO((Product)object.get(0)[0]));
+				dto.setBalance(Double.valueOf(new BigDecimal((Double)object.get(0)[1]).setScale(2,RoundingMode.HALF_UP).toString()));
+				dto.setAverageCost(Double.valueOf(new BigDecimal((Double)object.get(0)[2]).setScale(2,RoundingMode.HALF_UP).toString()));
+			}
+			return dto;
+		}catch(ResourceNotFoundException e) {
+			 throw new ResourceNotFoundException("Entity not found");
+		}catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found: " + productId);
+		} catch (Exception e) {
+			throw new UntreatedException(e.getMessage());
+		}
+	}
+	@Transactional(readOnly=true)
+	public StockBalanceDTO stockByProductAndDatePrevious(Long productId, LocalDate date){
+		try {
+			Product product = productRepository.findById(productId).get();
+			List<Object[]> object= repository.stockByProductAndDatePrevious(product,date);
+			StockBalanceDTO dto = new StockBalanceDTO();
+			if (object.size() > 0) {
+				dto.setProduct(new ProductDTO((Product)object.get(0)[0]));
+				dto.setBalance(Double.valueOf(new BigDecimal((Double)object.get(0)[1]).setScale(2,RoundingMode.HALF_UP).toString()));
+				dto.setAverageCost(Double.valueOf(new BigDecimal((Double)object.get(0)[2]).setScale(2,RoundingMode.HALF_UP).toString()));
+			}
+			return dto;
+		}catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found: " + productId);
+		} catch (Exception e) {
+			throw new UntreatedException(e.getMessage());
+		}
+	}
 	
 	@Transactional(readOnly=true)
 	public List<StockMovementDTO> findByProduct(Long idProduct){
@@ -66,22 +106,21 @@ public class StockMovementService {
 		try {
 			StockMovement entity =new StockMovement();
 			Product product = new Product();
-			List<Object[]> stockBalance = new ArrayList<>();
+			StockBalanceDTO stockBalance = currentStockByProduct(dto.getProduct().getId());
 			convertToEntity(dto, entity);
-			
 			entity =repository.save(entity);
 			
 			/*Atualiza o custo e saldo de estoque*/
 			product = productRepository.findById(entity.getProduct().getId()).get();
-			stockBalance.clear();
-			stockBalance=repository.stockBalance(product.getId());
-			logger.info(stockBalance.size());
-			logger.info(product.getId());
-			product.setStockBalance(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[3]).setScale(2,RoundingMode.HALF_UP).toString()));
-			product.setAverageCost(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[4]).setScale(2,RoundingMode.HALF_UP).toString()));
+			if (stockBalance != null) {
+				product.setStockBalance(stockBalance.getBalance());
+				product.setAverageCost(stockBalance.getAverageCost());
+			}else {
+				product.setStockBalance(0.0);
+				product.setAverageCost(0.0);
+			}
 			product.setCostLastEntry(entity.getCost());
-			
-			
+						
 			productRepository.save(product);
 
 			return new StockMovementDTO(entity);
@@ -98,15 +137,19 @@ public class StockMovementService {
 		try {
 			StockMovement entity = repository.getOne(id);
 			Product product = new Product();
-			List<Object[]> stockBalance;
+			StockBalanceDTO stockBalance = currentStockByProduct(dto.getProduct().getId());
 			convertToEntity(dto, entity);
 			entity = repository.save(entity);
 			
 			/*Atualiza o custo e saldo de estoque*/
 			product = productRepository.findById(entity.getProduct().getId()).get();
-			stockBalance=repository.stockBalance(product.getId());
-			product.setStockBalance(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[3]).setScale(2,RoundingMode.HALF_UP).toString()));
-			product.setAverageCost(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[4]).setScale(2,RoundingMode.HALF_UP).toString()));
+			if (stockBalance != null) {
+				product.setStockBalance(stockBalance.getBalance());
+				product.setAverageCost(stockBalance.getAverageCost());
+			}else {
+				product.setStockBalance(0.0);
+				product.setAverageCost(0.0);
+			}
 			product.setCostLastEntry(entity.getCost());
 			productRepository.save(product);
 			return new StockMovementDTO(entity);
@@ -121,15 +164,17 @@ public class StockMovementService {
 		try {
 			StockMovement entity = repository.getOne(id);
 			Product product = new Product();
-			List<Object[]> stockBalance;
 			repository.deleteById(id);
 			
 			/*Atualiza o custo e saldo de estoque*/
 			product = productRepository.findById(entity.getProduct().getId()).get();
-			stockBalance=repository.stockBalance(product.getId());
-			if (stockBalance.size() > 0) {
-				product.setStockBalance(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[3]).setScale(2,RoundingMode.HALF_UP).toString()));
-				product.setAverageCost(Double.valueOf(new BigDecimal((Double)stockBalance.get(0)[4]).setScale(2,RoundingMode.HALF_UP).toString()));
+			StockBalanceDTO stockBalance = currentStockByProduct(product.getId());
+			if (stockBalance != null) {
+				product.setStockBalance(stockBalance.getBalance());
+				product.setAverageCost(stockBalance.getAverageCost());
+			}else {
+				product.setStockBalance(0.0);
+				product.setAverageCost(0.0);
 			}
 			product.setCostLastEntry(entity.getCost());
 			productRepository.save(product);
@@ -146,7 +191,7 @@ public class StockMovementService {
 	public void convertToEntity(StockMovementDTO dto, StockMovement entity) {
 		entity.setCost(dto.getCost());
 		entity.setDescription(dto.getDescription());
-		entity.setDate(LocalDate.now());
+		entity.setDate(dto.getDate());
 		entity.setIdOrignMovement(dto.getIdOrignMovement());
 		entity.setEntry(dto.getEntry());
 		entity.setOut(dto.getOut());
