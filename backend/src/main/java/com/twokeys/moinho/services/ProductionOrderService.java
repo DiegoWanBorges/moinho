@@ -117,6 +117,7 @@ public class ProductionOrderService {
 		}
 		return new ProductionOrderDTO(obj);
 	}
+	
 	@Transactional(readOnly=true)
 	public List<ProductionOrderDTO> listByStartDateAndStatus(Instant startDate,Instant endDate, ProductionOrderStatus status, FormulationType type){
 		List<ProductionOrder> list = repository.findByStartDateBetweenAndStatusAndFormulationTypeOrderByFormulationLevelAsc(startDate, endDate, status,type);
@@ -150,11 +151,10 @@ public class ProductionOrderService {
 	public ProductionOrderDTO update(Long id, ProductionOrderDTO dto) {
 		try {
 			ProductionOrder entity = repository.getOne(id);
-			
 			entity.setStartDate(dto.getStartDate());
 			entity.setEndDate(dto.getEndDate());
 			entity.setObservation(dto.getObservation());
-			
+				
 			if (entity.getStatus() != ProductionOrderStatus.APURACAO_FINALIZADA) {
 				if(entity.getStatus()==ProductionOrderStatus.ABERTO && dto.getEndDate() != null  ) {
 					entity.setStatus(ProductionOrderStatus.ENCERRADO);
@@ -166,15 +166,33 @@ public class ProductionOrderService {
 			}else {
 				throw new ValidationException("Ordem de Produção com encerramento finalizado");
 			}
-			
-			entity = repository.save(entity);
-			return new ProductionOrderDTO(entity);
+			return new ProductionOrderDTO(repository.save(entity));
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}catch(Exception e) {
 			throw new UntreatedException("untreated exception: " + e.getMessage());
 		}
 	}
+	
+	@Transactional
+	public ProductionOrderDTO updateService(Long id, ProductionOrderDTO dto) {
+		try {
+			ProductionOrder entity = repository.getOne(id);
+			entity.setStartDate(dto.getStartDate());
+			entity.setEndDate(dto.getEndDate());
+			entity.setObservation(dto.getObservation());
+			if (dto.getStatus() == null) {
+				throw new ValidationException("Status da produção não pode ser nulo");
+			}
+			entity.setStatus(dto.getStatus());
+			return new ProductionOrderDTO(repository.save(entity));
+		}catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found: " + id);
+		}catch(Exception e) {
+			throw new UntreatedException("untreated exception: " + e.getMessage());
+		}
+	}
+	
 	@Transactional
 	public void delete(Long id) {
 		try {

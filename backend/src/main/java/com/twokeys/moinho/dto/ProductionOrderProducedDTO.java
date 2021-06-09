@@ -18,12 +18,14 @@ public class ProductionOrderProducedDTO implements Serializable {
 	private ProductDTO product;
 	private PalletStatusDTO palletStatus;
 	private Long stockId;
+	private Double unitCost = 0.0;
+	
 	public ProductionOrderProducedDTO(){	
 	}
 
 	public ProductionOrderProducedDTO(Long productionOrderId, Integer pallet, Instant manufacturingDate, String lote,
 									  Double quantity, ProductDTO product,PalletStatusDTO palletStatus,
-									  Long stockId) {
+									  Long stockId, Double unitCost) {
 		this.productionOrderId = productionOrderId;
 		this.pallet = pallet;
 		this.manufacturingDate = manufacturingDate;
@@ -32,6 +34,7 @@ public class ProductionOrderProducedDTO implements Serializable {
 		this.product = product;
 		this.palletStatus=palletStatus;
 		this.stockId=stockId;
+		this.unitCost=unitCost;
 	}
 	public ProductionOrderProducedDTO(ProductionOrderProduced entity) {
 		this.productionOrderId = entity.getProductionOrder().getId();
@@ -42,6 +45,7 @@ public class ProductionOrderProducedDTO implements Serializable {
 		this.product = new ProductDTO(entity.getProduct());
 		this.palletStatus = new PalletStatusDTO(entity.getPalletStatus());
 		this.stockId=entity.getStockId();
+		this.unitCost=entity.getUnitCost();
 	}
 
 	public Long getProductionOrderId() {
@@ -106,6 +110,14 @@ public class ProductionOrderProducedDTO implements Serializable {
 
 	public void setStockId(Long stockId) {
 		this.stockId = stockId;
+	}
+
+	public Double getUnitCost() {
+		return unitCost;
+	}
+
+	public void setUnitCost(Double unitCost) {
+		this.unitCost = unitCost;
 	}
 	
 	

@@ -1,5 +1,7 @@
 package com.twokeys.moinho.services;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,16 +59,13 @@ public class ProductionOrderItemService {
 			Product product;
 			ProductionOrderItem entity = new ProductionOrderItem();
 			List<ProductionOrderItem> entityList = new ArrayList<>();
-			ProductionOrder order = productionOrderRepository.getOne(dto.get(0).getProductionOrderId());
+			ProductionOrder productionOrder = productionOrderRepository.getOne(dto.get(0).getProductionOrderId());
 			StockMovementDTO stockMovement;
-			Integer serie = repository.findMaxSerie(order) + 1;
+			Integer serie = repository.findMaxSerie(productionOrder) + 1;
 			
-			
-			if (order.getStatus()== ProductionOrderStatus.ENCERRADO || order.getStatus() == ProductionOrderStatus.APURACAO_FINALIZADA) {
-				throw new ValidationException("Produção com status " + order.getStatus() + " não pode ser alterada");
+			if (productionOrder.getStatus() != ProductionOrderStatus.ABERTO) {
+				throw new ValidationException("Produção com status " + productionOrder.getStatus() + " não pode ser alterada");
 			}
-			
-			
 			for(ProductionOrderItemDTO itemDto : dto){
 				product = productRepository.findById(itemDto.getProduct().getId()).get();
 				/*Validar estoque*/
@@ -88,6 +87,7 @@ public class ProductionOrderItemService {
 				entity.setProduct(product);
 				/*Faz a inserção no estoque recuperando o ID*/
 				stockMovement = new StockMovementDTO();
+				stockMovement.setDate(LocalDate.now());
 				if (itemDto.getType()==ProductionOrderItemType.RETORNO) {
 					stockMovement.setCost(entity.getCost());
 					stockMovement.setEntry(entity.getQuantity());
@@ -122,20 +122,21 @@ public class ProductionOrderItemService {
 			throw new UntreatedException(e.getMessage());
 		}
 	}
+	
 	@Transactional
 	public ProductionOrderItemDTO update(ProductionOrderItemDTO dto) {
 		try {
 			Parameter parameter = parameterRepository.getOne(1L);
 			Product product = productRepository.getOne(dto.getProduct().getId());
-			ProductionOrder prodctionOrder = productionOrderRepository.getOne(dto.getProductionOrderId());
+			ProductionOrder productionOrder = productionOrderRepository.getOne(dto.getProductionOrderId());
 			
-			if (prodctionOrder.getStatus()== ProductionOrderStatus.ENCERRADO || prodctionOrder.getStatus() == ProductionOrderStatus.APURACAO_FINALIZADA) {
-				throw new ValidationException("Produção com status " + prodctionOrder.getStatus() + " não pode ser alterada");
+			if (productionOrder.getStatus() != ProductionOrderStatus.ABERTO) {
+				throw new ValidationException("Produção com status " + productionOrder.getStatus() + " não pode ser alterada");
 			}
 			
 			ProductionOrderItemPK pk = new ProductionOrderItemPK();
 			pk.setProduct(product);
-			pk.setProductionOrder(prodctionOrder);
+			pk.setProductionOrder(productionOrder);
 			pk.setSerie(dto.getSerie());
 			ProductionOrderItem item = repository.getOne(pk);
 			StockMovement stockMovement = stockMovementRepository.getOne(item.getStockId());
@@ -168,13 +169,14 @@ public class ProductionOrderItemService {
 	public void delete(Long productionOrderId,Long productId,Integer serie) {
 		try {
 			Product product = productRepository.getOne(productId);
-			ProductionOrder prodctionOrder = productionOrderRepository.getOne(productionOrderId);
+			ProductionOrder productionOrder = productionOrderRepository.getOne(productionOrderId);
 			ProductionOrderItemPK pk = new ProductionOrderItemPK();
-			if (prodctionOrder.getStatus()== ProductionOrderStatus.ENCERRADO || prodctionOrder.getStatus() == ProductionOrderStatus.APURACAO_FINALIZADA) {
-				throw new ValidationException("Produção com status " + prodctionOrder.getStatus() + " não pode ser alterada");
+			if (productionOrder.getStatus() != ProductionOrderStatus.ABERTO) {
+				throw new ValidationException("Produção com status " + productionOrder.getStatus() + " não pode ser alterada");
 			}
+			
 			pk.setProduct(product);
-			pk.setProductionOrder(prodctionOrder);
+			pk.setProductionOrder(productionOrder);
 			pk.setSerie(serie);
 			ProductionOrderItem item = repository.getOne(pk);
 			stockMovementService.delete(item.getStockId());

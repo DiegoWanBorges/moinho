@@ -22,7 +22,7 @@ public interface OperationalPaymentRepository extends JpaRepository<OperationalP
 				 + "sum(p.value) as total "
 				 + "FROM tb_payment p "
 				 + "inner join tb_operational_payment op  on op.id = p.id "
-				 + "inner join tb_apportionment_type at ON at.id = op.apportionment_type_id "
+				 + "inner join TB_OPERATIONAL_COST_TYPE  at ON at.id = op.apportionment_type_id "
 				 + "where p.date between :startDate and :endDate "
 				 + "group by at.id,at.name,at.type "
 				 + "order by total desc " 

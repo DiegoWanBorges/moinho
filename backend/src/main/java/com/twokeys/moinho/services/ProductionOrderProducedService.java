@@ -1,5 +1,8 @@
 package com.twokeys.moinho.services;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ValidationException;
 
@@ -50,20 +53,20 @@ public class ProductionOrderProducedService {
 	public ProductionOrderProducedDTO insert(ProductionOrderProducedDTO dto) {
 		try {
 			ProductionOrderProduced entity = new ProductionOrderProduced();
-			ProductionOrder order = productionOrderRepository.getOne(dto.getProductionOrderId());
+			ProductionOrder productionOrder = productionOrderRepository.getOne(dto.getProductionOrderId());
 			
-			if (order.getStatus()== ProductionOrderStatus.ENCERRADO || order.getStatus() == ProductionOrderStatus.APURACAO_FINALIZADA) {
-				throw new ValidationException("Produção com status " + order.getStatus() + " não pode ser alterada");
+			if (productionOrder.getStatus() != ProductionOrderStatus.ABERTO) {
+				throw new ValidationException("Produção com status " + productionOrder.getStatus() + " não pode ser alterada");
 			}
 			
-			
 			/*Recupera o proximo pallet*/
-			Integer pallet = repository.findMaxPallet(order) + 1;
+			Integer pallet = repository.findMaxPallet(productionOrder) + 1;
 			dto.setPallet(pallet);
 			convertToEntity(dto, entity);
 
 			/*Inserir produção na movimentação de estoque*/
 			StockMovementDTO stockMovement = new StockMovementDTO();
+			stockMovement.setDate(LocalDate.ofInstant(dto.getManufacturingDate(), ZoneId.of("America/Sao_Paulo")));
 			stockMovement.setCost(0.0);
 			stockMovement.setOut(0.0);
 			stockMovement.setEntry(entity.getQuantity());
@@ -93,7 +96,8 @@ public class ProductionOrderProducedService {
 			ProductionOrderProduced entity = new ProductionOrderProduced();
 			StockMovement stockMovement = new StockMovement();
 			ProductionOrder productionOrder = productionOrderRepository.getOne(dto.getProductionOrderId());
-			if (productionOrder.getStatus()== ProductionOrderStatus.ENCERRADO || productionOrder.getStatus() == ProductionOrderStatus.APURACAO_FINALIZADA) {
+			
+			if (productionOrder.getStatus() != ProductionOrderStatus.ABERTO) {
 				throw new ValidationException("Produção com status " + productionOrder.getStatus() + " não pode ser alterada");
 			}
 			
@@ -109,7 +113,9 @@ public class ProductionOrderProducedService {
 			stockMovement = stockMovementRepository.getOne(entity.getStockId());
 			stockMovement.setEntry(entity.getQuantity());
 			stockMovement.setProduct(entity.getProduct());
+			stockMovement.setCost(entity.getUnitCost());
 			stockMovementService.update(stockMovement.getId(), new StockMovementDTO(stockMovement));
+			
 			return new ProductionOrderProducedDTO(entity);
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Entity not found");
@@ -119,16 +125,51 @@ public class ProductionOrderProducedService {
 			throw new DatabaseException("Database integrity reference");
 		}catch(Exception e) {
 			throw new UntreatedException(e.getMessage());
-		}
-		
+		}	
 	}
+	
+	@Transactional
+	public ProductionOrderProducedDTO updateService(ProductionOrderProducedDTO dto) {
+		try {
+			ProductionOrderProduced entity = new ProductionOrderProduced();
+			StockMovement stockMovement = new StockMovement();
+			ProductionOrder productionOrder = productionOrderRepository.getOne(dto.getProductionOrderId());
+						
+			
+			ProductionOrderProducedPK pk = new ProductionOrderProducedPK();  
+			pk.setProductionOrder(productionOrder);
+			pk.setPallet(dto.getPallet());
+			
+			entity = repository.getOne(pk);
+			convertToEntityUpdate(dto, entity);
+			entity=repository.save(entity);
+			
+			/*Inserir produção na movimentação de estoque*/
+			stockMovement = stockMovementRepository.getOne(entity.getStockId());
+			stockMovement.setEntry(entity.getQuantity());
+			stockMovement.setProduct(entity.getProduct());
+			stockMovement.setCost(entity.getUnitCost());
+			stockMovementService.update(stockMovement.getId(), new StockMovementDTO(stockMovement));
+			
+			return new ProductionOrderProducedDTO(entity);
+		}catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Entity not found");
+		}catch (DataIntegrityViolationException e ) {
+			throw new DatabaseException("Database integrity reference");
+		}catch(DataException e) {
+			throw new DatabaseException("Database integrity reference");
+		}catch(Exception e) {
+			throw new UntreatedException(e.getMessage());
+		}	
+	}
+	
 	@Transactional
 	public void delete(Long productionOrderId, Integer pallet) {
 		try {
 			ProductionOrderProduced entity = new ProductionOrderProduced();
 			
 			ProductionOrder productionOrder = productionOrderRepository.getOne(productionOrderId);
-			if (productionOrder.getStatus()== ProductionOrderStatus.ENCERRADO || productionOrder.getStatus() == ProductionOrderStatus.APURACAO_FINALIZADA) {
+			if (productionOrder.getStatus() != ProductionOrderStatus.ABERTO) {
 				throw new ValidationException("Produção com status " + productionOrder.getStatus() + " não pode ser alterada");
 			}
 			ProductionOrderProducedPK pk = new ProductionOrderProducedPK();  
@@ -158,6 +199,7 @@ public class ProductionOrderProducedService {
 			entity.setQuantity(dto.getQuantity());
 			entity.setManufacturingDate(dto.getManufacturingDate());
 			entity.setLote(dto.getLote());
+			entity.setUnitCost(dto.getUnitCost());
 	}
 	public void convertToEntityUpdate(ProductionOrderProducedDTO dto,ProductionOrderProduced entity) {
 		entity.setProduct(productRepository.getOne(dto.getProduct().getId()));
@@ -165,6 +207,7 @@ public class ProductionOrderProducedService {
 		entity.setQuantity(dto.getQuantity());
 		entity.setManufacturingDate(dto.getManufacturingDate());
 		entity.setLote(dto.getLote());
+		entity.setUnitCost(dto.getUnitCost());
 }
 	
 }

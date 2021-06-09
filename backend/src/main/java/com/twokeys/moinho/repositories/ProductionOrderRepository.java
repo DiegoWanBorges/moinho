@@ -48,8 +48,8 @@ public interface ProductionOrderRepository extends JpaRepository<ProductionOrder
 			+ "and po.formulation_id in( "
 			+ "select "
 			+ "formulation_id "
-			+ "from tb_formulation_apportionment "
-			+ "where apportionment_type_id = :apportionment_id) " 
+			+ "from TB_FORMULATION_OPERATIONAL_COST  "
+			+ "where OPERATIONAL_COST_TYPE_ID = :apportionment_id) " 
 			, nativeQuery = true)
 	List<ProductionOrder> listProductionOrderByStartDateAndFormulationApportionment(Instant startDate,Instant endDate, Long apportionment_id);
 	

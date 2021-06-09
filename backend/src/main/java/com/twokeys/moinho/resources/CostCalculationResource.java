@@ -27,6 +27,11 @@ public class CostCalculationResource {
 	public ResponseEntity<CostCalculationDTO> findById(@PathVariable Long id){
 		return  ResponseEntity.ok().body(service.findById(id));
 	}
+	@PostMapping(value="/{id}")
+	public ResponseEntity<String> calculation(@PathVariable Long id){
+		service.calculation(id);
+		return  ResponseEntity.ok().body("Ok");
+	}
 	@PostMapping
 	public ResponseEntity<CostCalculationDTO> insert(@RequestBody CostCalculationDTO dto){
 		dto = service.insert(dto);

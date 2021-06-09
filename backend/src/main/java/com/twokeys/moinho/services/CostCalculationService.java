@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.twokeys.moinho.dto.CostCalculationDTO;
 import com.twokeys.moinho.dto.ProductionOrderDTO;
+import com.twokeys.moinho.dto.ProductionOrderProducedDTO;
 import com.twokeys.moinho.entities.CostCalculation;
 import com.twokeys.moinho.entities.enums.FormulationType;
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
@@ -33,6 +34,9 @@ public class CostCalculationService {
 	private ProductionOrderOperationalCostService productionOrderOperationalCostService; 
 	@Autowired
 	private ProductionOrderService productionOrderService;
+	@Autowired
+	private ProductionOrderProducedService productionOrderProducedService;
+	
 	@Transactional(readOnly=true)
 	public CostCalculationDTO findById(Long id){
 		Optional<CostCalculation> obj = repository.findById(id);
@@ -43,15 +47,27 @@ public class CostCalculationService {
 	@Transactional
 	public void calculation (Long costCalculationId) {
 		CostCalculation costCalculation = repository.getOne(costCalculationId);
-		/*REALIZAR REATEIO - DESPESAS OPERACIONAIS*/
+		Double costUnity;
+		
+		/*REATEIO - DESPESAS OPERACIONAIS*/
 		productionOrderOperationalCostService.prorateOperatingCost(costCalculation.getStartDate(), costCalculation.getEndDate());
-		/*REALIZAR REATEIO - CUSTO MÃO DE OBRA*/
+		/*REATEIO - CUSTO MÃO DE OBRA*/
 		productionOrderCostLaborService.laborPaymentApportionment(costCalculation.getStartDate(), costCalculation.getEndDate());
 		
 		/*CALCULA O CUSTO UNITARIO PARA CADA ORDEM DE PRODUÇÃO*/
 		List<ProductionOrderDTO> list = productionOrderService.listByStartDateAndStatus(costCalculation.getStartDate(), costCalculation.getEndDate(),ProductionOrderStatus.ENCERRADO,FormulationType.INTERMEDIARIO);
-		for (ProductionOrderDTO item : list) {
-			logger.info(item.getId());
+		for (ProductionOrderDTO productionOrder : list) {
+			/*CALCULA O CUSTO UNITARIO*/
+			costUnity = 0.0;
+			costUnity = (productionOrder.getTotalDirectCost()+productionOrder.getTotalIndirectCost())/productionOrder.getTotalProduced();
+			
+			productionOrder.setStatus(ProductionOrderStatus.APURACAO_FINALIZADA);
+			productionOrderService.updateService(productionOrder.getId(), productionOrder);
+			
+			for (ProductionOrderProducedDTO productionOrderProduced : productionOrder.getProductionOrderProduceds()) {
+				productionOrderProduced.setUnitCost(costUnity);
+				productionOrderProducedService.updateService(productionOrderProduced);
+			}
 		}
 	}
 	
