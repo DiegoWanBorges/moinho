@@ -1,7 +1,5 @@
 package com.twokeys.moinho.services;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +27,7 @@ import com.twokeys.moinho.repositories.StockMovementRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 import com.twokeys.moinho.services.exceptions.UntreatedException;
+import com.twokeys.moinho.util.Util;
 
 @Service
 public class StockMovementService {
@@ -53,8 +52,8 @@ public class StockMovementService {
 			StockBalanceDTO dto = new StockBalanceDTO();
 			dto.setProduct(new ProductDTO(product));
 			if (object.size() > 0) {
-				dto.setBalance(Double.valueOf(new BigDecimal((Double)object.get(0)[1]).setScale(2,RoundingMode.HALF_UP).toString()));
-				dto.setAverageCost(Double.valueOf(new BigDecimal((Double)object.get(0)[2]).setScale(2,RoundingMode.HALF_UP).toString()));
+				dto.setBalance(Util.roundHalfUp2((Double)object.get(0)[1]));
+				dto.setAverageCost(Util.roundHalfUp2((Double)object.get(0)[2]));
 			}else {
 				dto.setBalance(0.0);
 				dto.setAverageCost(0.0);
@@ -76,8 +75,8 @@ public class StockMovementService {
 			StockBalanceDTO dto = new StockBalanceDTO();
 			dto.setProduct(new ProductDTO(product));
 			if (object.size() > 0) {
-				dto.setBalance(Double.valueOf(new BigDecimal((Double)object.get(0)[1]).setScale(2,RoundingMode.HALF_UP).toString()));
-				dto.setAverageCost(Double.valueOf(new BigDecimal((Double)object.get(0)[2]).setScale(2,RoundingMode.HALF_UP).toString()));
+				dto.setBalance(Util.roundHalfUp2((Double)object.get(0)[1]));
+				dto.setAverageCost(Util.roundHalfUp2((Double)object.get(0)[2]));
 			}else {
 				dto.setBalance(0.0);
 				dto.setAverageCost(0.0);

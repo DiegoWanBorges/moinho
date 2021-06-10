@@ -1,7 +1,5 @@
 package com.twokeys.moinho.services;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +36,7 @@ import com.twokeys.moinho.repositories.ProductionOrderRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 import com.twokeys.moinho.services.exceptions.UntreatedException;
+import com.twokeys.moinho.util.Util;
 
 
 
@@ -76,9 +75,9 @@ public class ProductionOrderService {
 				productionOrderItems.setOccurrence(occurrence);
 				productionOrderItems.setRawMaterial(formulationItems.getRawMaterial());
 				if (formulationItems.getRound()) {
-					productionOrderItems.setQuantity( Double.valueOf(new BigDecimal(quantityItem).setScale(0,RoundingMode.UP).toString()));
+					productionOrderItems.setQuantity(Util.roundUp0(quantityItem));
 				}else {
-					productionOrderItems.setQuantity(Double.valueOf(new BigDecimal(quantityItem).setScale(2,RoundingMode.HALF_UP).toString()));
+					productionOrderItems.setQuantity(Util.roundHalfUp2(quantityItem));
 				}
 				productionOrderItems.setType(ProductionOrderItemType.NORMAL);
 				productionOrderItems.setProduct(formulationItems.getProduct());

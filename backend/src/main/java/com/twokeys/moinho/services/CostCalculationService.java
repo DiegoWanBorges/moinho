@@ -22,6 +22,7 @@ import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
 import com.twokeys.moinho.repositories.CostCalculationRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
+import com.twokeys.moinho.util.Util;
 
 @Service
 public class CostCalculationService {
@@ -49,26 +50,36 @@ public class CostCalculationService {
 		CostCalculation costCalculation = repository.getOne(costCalculationId);
 		Double costUnity;
 		
-		/*REATEIO - DESPESAS OPERACIONAIS*/
+		/*RATEIO - DESPESAS OPERACIONAIS*/
 		productionOrderOperationalCostService.prorateOperatingCost(costCalculation.getStartDate(), costCalculation.getEndDate());
-		/*REATEIO - CUSTO MÃO DE OBRA*/
+		/*RATEIO - CUSTO MÃO DE OBRA*/
 		productionOrderCostLaborService.laborPaymentApportionment(costCalculation.getStartDate(), costCalculation.getEndDate());
 		
+		/*FORMULAÇÃO - ITERMEDIARIO*/
 		/*CALCULA O CUSTO UNITARIO PARA CADA ORDEM DE PRODUÇÃO*/
 		List<ProductionOrderDTO> list = productionOrderService.listByStartDateAndStatus(costCalculation.getStartDate(), costCalculation.getEndDate(),ProductionOrderStatus.ENCERRADO,FormulationType.INTERMEDIARIO);
 		for (ProductionOrderDTO productionOrder : list) {
 			/*CALCULA O CUSTO UNITARIO*/
-			costUnity = 0.0;
 			costUnity = (productionOrder.getTotalDirectCost()+productionOrder.getTotalIndirectCost())/productionOrder.getTotalProduced();
-			
+			costUnity=Util.roundHalfUp2(costUnity);
 			productionOrder.setStatus(ProductionOrderStatus.APURACAO_FINALIZADA);
 			productionOrderService.updateService(productionOrder.getId(), productionOrder);
-			
+			/*ATUALIZA O CUSTO DE ESTOQUE QUE FOI EFETUADO DURANTE A ENTRADA DA PRODUÇÃO*/
 			for (ProductionOrderProducedDTO productionOrderProduced : productionOrder.getProductionOrderProduceds()) {
 				productionOrderProduced.setUnitCost(costUnity);
 				productionOrderProducedService.updateService(productionOrderProduced);
 			}
 		}
+		/*ATUALIZA PRODUÇÕES QUE UTILIZARAM O PRODUTO INTERMEDIARIO*/
+		
+		
+		
+		
+		/*FORMULAÇÃO - ACABADO*/
+		/*CALCULA O CUSTO UNITARIO PARA CADA ORDEM DE PRODUÇÃO*/
+		list.clear();
+		list = productionOrderService.listByStartDateAndStatus(costCalculation.getStartDate(), costCalculation.getEndDate(),ProductionOrderStatus.ENCERRADO,FormulationType.INTERMEDIARIO);
+		
 	}
 	
 	@Transactional
