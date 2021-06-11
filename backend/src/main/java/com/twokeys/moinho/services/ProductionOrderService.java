@@ -118,9 +118,14 @@ public class ProductionOrderService {
 	}
 	
 	@Transactional(readOnly=true)
-	public List<ProductionOrderDTO> listByStartDateAndStatus(Instant startDate,Instant endDate, ProductionOrderStatus status, FormulationType type){
-		List<ProductionOrder> list = repository.findByStartDateBetweenAndStatusAndFormulationTypeOrderByFormulationLevelAsc(startDate, endDate, status,type);
+	public List<ProductionOrderDTO> listByStartDateAndStatus(Instant startDate,Instant endDate, ProductionOrderStatus status, 
+															FormulationType type, Integer level){
+		List<ProductionOrder> list = repository.findByStartDateBetweenAndStatusAndFormulationTypeAndFormulationLevel(startDate, endDate, status,type,level);
 	    return list.stream().map(x -> new ProductionOrderDTO(x)).collect(Collectors.toList());
+	}
+	@Transactional(readOnly=true)
+	public List<Integer> distinctLevelProduced(Instant startDate,Instant endDate){
+		return repository.distinctLevelProduced(startDate, endDate);
 	}
 	
 	@Transactional

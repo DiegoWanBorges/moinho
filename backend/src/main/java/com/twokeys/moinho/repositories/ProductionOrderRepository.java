@@ -18,8 +18,14 @@ import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
 public interface ProductionOrderRepository extends JpaRepository<ProductionOrder, Long> {
 	ProductionOrder findByIdAndDateCancelIsNull(Long id);
 	
-	List<ProductionOrder> findByStartDateBetweenAndStatusAndFormulationTypeOrderByFormulationLevelAsc(Instant startDate, Instant endDate,ProductionOrderStatus status, FormulationType type);
+	List<ProductionOrder> findByStartDateBetweenAndStatusAndFormulationTypeAndFormulationLevel(Instant startDate, Instant endDate,ProductionOrderStatus status, FormulationType type,Integer level);
 	
+	@Query("SELECT Distinct(obj.formulation.level) FROM ProductionOrder obj "
+			 + "WHERE obj.dateCancel is null " 	
+			 + "AND obj.formulation.type=0 "
+			 + "AND obj.startDate between :startDate and :endDate "
+			 + "ORDER BY obj.formulation.level ASC ")
+	List<Integer> distinctLevelProduced(Instant startDate,Instant endDate);
 	
 	@Query("SELECT obj FROM ProductionOrder obj "
 		 + "WHERE (COALESCE(:formulation) IS NULL OR formulation IN :formulation) "

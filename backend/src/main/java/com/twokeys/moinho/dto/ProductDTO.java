@@ -60,7 +60,7 @@ public class ProductDTO implements Serializable {
 		this.unity = new UnityDTO(entity.getUnity().getId(),entity.getUnity().getDescription()) ;
 		this.group = new GroupDTO(entity.getGroup().getId(),entity.getGroup().getName());
 	}
-
+		
 	public Long getId() {
 		return id;
 	}

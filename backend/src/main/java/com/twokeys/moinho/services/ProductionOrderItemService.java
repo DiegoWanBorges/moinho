@@ -1,8 +1,10 @@
 package com.twokeys.moinho.services;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.ValidationException;
 
@@ -50,6 +52,12 @@ public class ProductionOrderItemService {
 	private StockMovementRepository stockMovementRepository;
 	@Autowired
 	private ParameterRepository parameterRepository;
+	
+	@Transactional(readOnly = true)
+	public List<ProductionOrderItemDTO> findByDateAndProduct(Instant startDate,Instant endDate, Long productId) {
+		List<ProductionOrderItem> list = repository.findByDateAndProduct(startDate, endDate, productId);
+		return list.stream().map(x -> new ProductionOrderItemDTO(x)).collect(Collectors.toList());
+	}
 	
 	@Transactional
 	public List<ProductionOrderItemDTO> insert(List<ProductionOrderItemDTO> dto) {
@@ -148,12 +156,18 @@ public class ProductionOrderItemService {
 				}
 			}
 			
+			/*ATUALIZA QUANTIDADE*/
 			if (item.getType()==ProductionOrderItemType.RETORNO) {
 				stockMovement.setEntry(dto.getQuantity());
 			}else {
 				stockMovement.setOut(dto.getQuantity());
 			}
 			item.setQuantity(dto.getQuantity());
+			/*ATUALIZA O CUSTO*/
+			if (dto.getCost() !=null) {
+				item.setCost(dto.getCost());
+				stockMovement.setCost(dto.getCost());
+			}
 			
 			stockMovementService.update(item.getStockId(), new StockMovementDTO(stockMovement));
 			return  new ProductionOrderItemDTO(repository.save(item));
