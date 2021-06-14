@@ -22,6 +22,7 @@ import com.twokeys.moinho.entities.Formulation;
 import com.twokeys.moinho.entities.OperationalCostType;
 import com.twokeys.moinho.entities.Product;
 import com.twokeys.moinho.entities.Sector;
+import com.twokeys.moinho.entities.enums.FormulationType;
 import com.twokeys.moinho.repositories.FormulationRepository;
 import com.twokeys.moinho.repositories.OperationalCostTypeRepository;
 import com.twokeys.moinho.repositories.ProductRepository;
@@ -101,7 +102,14 @@ public class FormulationService {
 		entity.setDescription(dto.getDescription());
 		entity.setProduct(productRepository.getOne(dto.getProduct().getId()));
 		entity.setType(dto.getType());
-		entity.setLevel(dto.getLevel());		
+		if (dto.getType() == FormulationType.ACABADO) {
+			entity.setLevel(null);
+		}else {
+			entity.setLevel(dto.getLevel());
+		}
+				
+		
+		
 		entity.getOperationalCostType().clear();
 		for (OperationalCostTypeDTO apportionmentDTO : dto.getOperationalCostType()) {
 			OperationalCostType apportionment = apportionmentTypeRepository.getOne(apportionmentDTO.getId());

@@ -20,7 +20,9 @@ import com.twokeys.moinho.dto.CostCalculationDTO;
 import com.twokeys.moinho.dto.ProductDTO;
 import com.twokeys.moinho.dto.ProductionOrderDTO;
 import com.twokeys.moinho.dto.ProductionOrderItemDTO;
+import com.twokeys.moinho.dto.ProductionOrderProducedAverageCostDTO;
 import com.twokeys.moinho.dto.ProductionOrderProducedDTO;
+import com.twokeys.moinho.dto.StockBalanceDTO;
 import com.twokeys.moinho.entities.CostCalculation;
 import com.twokeys.moinho.entities.enums.FormulationType;
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
@@ -32,6 +34,7 @@ import com.twokeys.moinho.util.Util;
 @Service
 public class CostCalculationService {
 	protected final Log logger = LogFactory.getLog(getClass());
+
 	@Autowired
 	private CostCalculationRepository repository;
 	@Autowired
@@ -46,6 +49,8 @@ public class CostCalculationService {
 	private ProductionOrderItemService productionOrderItemService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private StockMovementService stockMovementService; 
 	
 	@Transactional(readOnly=true)
 	public CostCalculationDTO findById(Long id){
@@ -60,9 +65,13 @@ public class CostCalculationService {
 		List<ProductionOrderDTO> listProductionOrder = new ArrayList<>();
 		List<ProductionOrderItemDTO> listProductionOrderItem = new ArrayList<>();
 		Double costUnity;
+		Double averageCost;
+		Double totalValue;
+		Double totalQuantity;
 		Set<ProductDTO> products = new HashSet<>();
 		List<Integer> levels = new ArrayList<>();
-		
+		StockBalanceDTO stockBalance;
+		ProductionOrderProducedAverageCostDTO productionOrderProducedAverageCost;
 		
 		/*RATEIO - DESPESAS OPERACIONAIS*/
 		productionOrderOperationalCostService.prorateOperatingCost(costCalculation.getStartDate(), costCalculation.getEndDate());
@@ -70,7 +79,7 @@ public class CostCalculationService {
 		productionOrderCostLaborService.laborPaymentApportionment(costCalculation.getStartDate(), costCalculation.getEndDate());
 		
 		
-		/*FORMULAÇÃO - ITERMEDIARIO*/
+		/*FORMULAÇÃO - APURAÇÃO ITERMEDIARIO*/
 		/*CALCULA O CUSTO UNITARIO PARA CADA ORDEM DE PRODUÇÃO*/
 		levels = productionOrderService.distinctLevelProduced(costCalculation.getStartDate(), costCalculation.getEndDate());
 		for (Integer level : levels) {
@@ -91,18 +100,46 @@ public class CostCalculationService {
 				}
 			}	
 			/* ATUALIZA O CUSTO DAS PRODUÇÕES QUE UTILIZARAM O PRODUTO 
-			 * INTERMEDIARIO NESSE NIVEL COMO MATERIA PRIMA*/
+			 * INTERMEDIARIO COMO MATERIA PRIMA*/
 			for (ProductDTO product : products) {
 				/*RECUPERA O PRODUTO COM CUSTO MÉDIO ATUALIZADO*/
 				product = productService.findById(product.getId());
+				
 				listProductionOrderItem = productionOrderItemService.findByDateAndProduct(costCalculation.getStartDate(), costCalculation.getEndDate(), product.getId());
 				for (ProductionOrderItemDTO productionOrderItem : listProductionOrderItem) {
-					productionOrderItem.setCost(product.getAverageCost());
-					productionOrderItemService.update(productionOrderItem);
+					logger.info("Produto atualizando: " + product.getName());
+					/*Estoque Inicial*/
+					stockBalance = stockMovementService.stockByProductAndPreviousAndEqualDate(product.getId(), costCalculation.getStockStartDate());
+					/*Custo Médio da produção*/
+					productionOrderProducedAverageCost = productionOrderProducedService.producedAverageCost(product.getId(), costCalculation.getStartDate(), costCalculation.getEndDate());
+					totalValue = (stockBalance.getBalance()*stockBalance.getAverageCost())+(productionOrderProducedAverageCost.getAverageCost() * productionOrderProducedAverageCost.getTotalProduced()); 
+					totalQuantity = (stockBalance.getBalance()+productionOrderProducedAverageCost.getTotalProduced());
+					averageCost=Util.roundHalfUp2(totalValue/totalQuantity);
+					/*Atualiza o custo*/
+					productionOrderItem.setCost(averageCost);
+					productionOrderItemService.updateService(productionOrderItem);
 				}
 			}
 		}
-		/*FORMULAÇÃO - PRODUTO ACABADO*/
+		
+		/*FORMULAÇÃO - APURAÇÃO PRODUTO ACABADO*/
+		
+		listProductionOrder.clear();
+		listProductionOrder = productionOrderService.listByStartDateAndStatus(costCalculation.getStartDate(), costCalculation.getEndDate(),ProductionOrderStatus.ENCERRADO,FormulationType.ACABADO,null);
+		logger.info("CHEGOU");
+	
+		for (ProductionOrderDTO productionOrder : listProductionOrder) {
+			/*CALCULA O CUSTO UNITARIO DA ORDEM DE PRODUÇÃO*/
+			costUnity = (productionOrder.getTotalDirectCost()+productionOrder.getTotalIndirectCost())/productionOrder.getTotalProduced();
+			costUnity=Util.roundHalfUp2(costUnity);
+			productionOrder.setStatus(ProductionOrderStatus.APURACAO_FINALIZADA);
+			productionOrderService.updateService(productionOrder.getId(), productionOrder);
+			/*ATUALIZA O CUSTO DE ESTOQUE QUE FOI EFETUADO DURANTE A ENTRADA DA PRODUÇÃO*/
+			for (ProductionOrderProducedDTO productionOrderProduced : productionOrder.getProductionOrderProduceds()) {
+				productionOrderProduced.setUnitCost(costUnity);
+				productionOrderProducedService.updateService(productionOrderProduced);
+			}
+		}
 		
 	}
 	

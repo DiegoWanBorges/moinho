@@ -57,9 +57,9 @@ public class StockMovementResource {
 	}
 	@GetMapping
 	@RequestMapping(params = "stockByProductPreviousDateProductId")
-	public ResponseEntity<StockBalanceDTO> stockByProductAndDatePrevious(@RequestParam(value = "stockByProductPreviousDateProductId") Long  productId,
-																	     @RequestParam(value = "date") LocalDate  date){
-		StockBalanceDTO dto = service.stockByProductAndDatePrevious(productId,date);
+	public ResponseEntity<StockBalanceDTO> stockByProductAndPreviousAndEqualDate(@RequestParam(value = "stockByProductPreviousDateProductId") Long  productId,
+																	             @RequestParam(value = "date") LocalDate  date){
+		StockBalanceDTO dto = service.stockByProductAndPreviousAndEqualDate(productId,date);
 		return ResponseEntity.ok().body(dto);
 	}
 	

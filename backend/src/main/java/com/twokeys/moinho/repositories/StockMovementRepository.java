@@ -16,26 +16,20 @@ import com.twokeys.moinho.entities.StockMovement;
 public interface StockMovementRepository extends JpaRepository<StockMovement, Long> {
 		List<StockMovement> findByProduct(Product product);
 		
-		@Query(value = " select "
-				 + "obj.product, "
-				 + "sum(obj.entry)-sum(obj.out) as balance, "
-				 + "(sum(obj.entry*obj.cost)-sum(obj.out*obj.cost))/(sum(obj.entry)-sum(obj.out)) as averageCost "
-				 + "from StockMovement obj   "
-				 + "where obj.product = :product "
-				 + "group by "
-				 + "obj.product ")
-		List<Object[]> currentStockByProduct(Product product);
+		@Query(value = "select "
+					 + "coalesce(sum(obj.entry)-sum(obj.out),0) as balance, "
+					 + "coalesce(sum(obj.entry*obj.cost)-sum(obj.out*obj.cost),0) as financialStockBalance "
+				     + "from StockMovement  obj   "
+				     + "where obj.product.id = :productId ")
+		List<Object[]> currentStockByProduct(Long productId);
 		
-		@Query(value = " select "
-				 + "obj.product, "
-				 + "sum(obj.entry)-sum(obj.out) as balance, "
-				 + "(sum(obj.entry*obj.cost)-sum(obj.out*obj.cost))/(sum(obj.entry)-sum(obj.out)) as averageCost "
-				 + "from StockMovement obj   "
-				 + "where obj.product = :product "
-				 + "and obj.date < :date "
-				 + "group by "
-				 + "obj.product ")
-		List<Object[]> stockByProductAndDatePrevious(Product product, LocalDate date);
+		@Query(value = "select "
+					 + "coalesce(sum(obj.entry)-sum(obj.out),0) as balance, "
+				 	 + "coalesce(sum(obj.entry*obj.cost)-sum(obj.out*obj.cost),0) as financialStockBalance "
+				 	 + "from StockMovement obj   "
+				 	 + "where obj.product = :product "
+				 	 + "and obj.date <= :date ")
+		List<Object[]> stockByProductAndPreviousAndEqualDate(Product product, LocalDate date);
 		
 		
 		

@@ -179,6 +179,51 @@ public class ProductionOrderItemService {
 	}
 	
 	@Transactional
+	public ProductionOrderItemDTO updateService(ProductionOrderItemDTO dto) {
+		try {
+			Parameter parameter = parameterRepository.getOne(1L);
+			Product product = productRepository.getOne(dto.getProduct().getId());
+			ProductionOrder productionOrder = productionOrderRepository.getOne(dto.getProductionOrderId());
+			
+						
+			ProductionOrderItemPK pk = new ProductionOrderItemPK();
+			pk.setProduct(product);
+			pk.setProductionOrder(productionOrder);
+			pk.setSerie(dto.getSerie());
+			ProductionOrderItem item = repository.getOne(pk);
+			StockMovement stockMovement = stockMovementRepository.getOne(item.getStockId());
+						
+			
+			/*Validar estoque*/
+			if (parameter.isProductionOrderWithoutStock()==false && dto.getType()!=ProductionOrderItemType.RETORNO  ) {
+				if ((product.getStockBalance()+item.getQuantity()) < dto.getQuantity()) {
+				throw new StockMovementException("Product id " + dto.getProduct().getId() + " out of stock");
+				}
+			}
+			
+			/*ATUALIZA QUANTIDADE*/
+			if (item.getType()==ProductionOrderItemType.RETORNO) {
+				stockMovement.setEntry(dto.getQuantity());
+			}else {
+				stockMovement.setOut(dto.getQuantity());
+			}
+			item.setQuantity(dto.getQuantity());
+			/*ATUALIZA O CUSTO*/
+			if (dto.getCost() !=null) {
+				item.setCost(dto.getCost());
+				stockMovement.setCost(dto.getCost());
+			}
+			
+			stockMovementService.update(item.getStockId(), new StockMovementDTO(stockMovement));
+			return  new ProductionOrderItemDTO(repository.save(item));
+		}catch(StockMovementException e) {
+			throw new StockMovementException(e.getMessage());
+		}catch(Exception e) {
+			throw new UntreatedException(e.getMessage());
+		}
+	}
+	
+	@Transactional
 	public void delete(Long productionOrderId,Long productId,Integer serie) {
 		try {
 			Product product = productRepository.getOne(productId);

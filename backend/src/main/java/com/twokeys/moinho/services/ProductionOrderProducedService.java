@@ -1,7 +1,9 @@
 package com.twokeys.moinho.services;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ValidationException;
@@ -16,8 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.twokeys.moinho.dto.ProductDTO;
+import com.twokeys.moinho.dto.ProductionOrderProducedAverageCostDTO;
 import com.twokeys.moinho.dto.ProductionOrderProducedDTO;
 import com.twokeys.moinho.dto.StockMovementDTO;
+import com.twokeys.moinho.entities.Product;
 import com.twokeys.moinho.entities.ProductionOrder;
 import com.twokeys.moinho.entities.ProductionOrderProduced;
 import com.twokeys.moinho.entities.StockMovement;
@@ -32,6 +36,7 @@ import com.twokeys.moinho.repositories.StockMovementRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 import com.twokeys.moinho.services.exceptions.UntreatedException;
+import com.twokeys.moinho.util.Util;
 @Service
 public class ProductionOrderProducedService {
 	protected final Log logger = LogFactory.getLog(getClass());
@@ -48,6 +53,28 @@ public class ProductionOrderProducedService {
 	private StockMovementService stockMovementService;	
 	@Autowired
 	private StockMovementRepository stockMovementRepository;	
+	
+	@Transactional(readOnly=true)
+	public ProductionOrderProducedAverageCostDTO producedAverageCost(Long productId, Instant startDate,Instant endDate){
+		try {
+			Product product = productRepository.findById(productId).get();
+			List<Object[]> object= repository.producedAverageCost(product.getId(),startDate,endDate);
+			ProductionOrderProducedAverageCostDTO dto = new ProductionOrderProducedAverageCostDTO();
+			dto.setProduct(new ProductDTO(product));
+			if (object.size() > 0) {
+				dto.setTotalProduced(Util.roundHalfUp2((Double)object.get(0)[0]));
+				dto.setAverageCost(Util.roundHalfUp2((Double)object.get(0)[1]));
+			}else {
+				dto.setTotalProduced(0.0);
+				dto.setAverageCost(0.0);
+			}
+			return dto;
+		}catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found: " + productId);
+		} catch (Exception e) {
+			throw new UntreatedException(e.getMessage());
+		}
+	}
 	
 	@Transactional
 	public ProductionOrderProducedDTO insert(ProductionOrderProducedDTO dto) {
@@ -144,10 +171,13 @@ public class ProductionOrderProducedService {
 			convertToEntityUpdate(dto, entity);
 			entity=repository.save(entity);
 			
-			/*Inserir produção na movimentação de estoque*/
+			/*Atualizar produção na movimentação de estoque*/
 			stockMovement = stockMovementRepository.getOne(entity.getStockId());
 			stockMovement.setEntry(entity.getQuantity());
 			stockMovement.setProduct(entity.getProduct());
+			
+			logger.info("Produced Product: " + entity.getProduct().getName() + " Cost: "+ entity.getUnitCost());
+			
 			stockMovement.setCost(entity.getUnitCost());
 			stockMovementService.update(stockMovement.getId(), new StockMovementDTO(stockMovement));
 			

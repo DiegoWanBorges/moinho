@@ -22,12 +22,14 @@ public interface ProductionOrderItemRepository extends JpaRepository<ProductionO
 			 + "FROM ProductionOrderItem obj "
 			 + "INNER JOIN obj.id.product prod "
 			 + "where obj.id.productionOrder = :order "
-			 + "and obj.rawMaterial=true")
+			 + "and obj.rawMaterial=true "
+			 + "and obj.id.productionOrder.dateCancel is null")
 	Double findTotalRawMaterial(ProductionOrder order);
 	
 		@Query("SELECT obj FROM ProductionOrderItem obj "
 			 + "where obj.id.productionOrder.startDate between :startDate and :endDate "
-			 + "AND obj.id.product.id= :productId")
+			 + "AND obj.id.product.id= :productId " 
+			 + "and obj.id.productionOrder.dateCancel is null")
 	List<ProductionOrderItem> findByDateAndProduct(Instant startDate,Instant endDate, Long productId);
 	
 }
