@@ -6,7 +6,7 @@ import Select from 'react-select';
 import { useParams } from 'react-router';
 import DateTime from 'react-datetime'
 
-import { toISOFormatDate, toISOFormatDateTime } from 'core/utils/utils';
+import { toISOFormatDate } from 'core/utils/utils';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import './styles.scss'

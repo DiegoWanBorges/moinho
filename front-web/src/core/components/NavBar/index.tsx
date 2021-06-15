@@ -58,7 +58,7 @@ function NavBar() {
             </NavLink>
           </li>
           <li>
-            <NavLink className="nav-link" to="/calculation" onClick={() => setDrawerActive(false)} >
+            <NavLink className="nav-link" to="/calculations" onClick={() => setDrawerActive(false)} >
               APURAÇÃO
             </NavLink>
           </li>

@@ -1,0 +1,45 @@
+.costCalculation-card{
+    display: flex;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 10px;
+}
+.costCalculation-card-ref{
+    width: 10%;
+}
+.costCalculation-card-date{
+    width: 40%;
+    text-align: center;
+}
+.costCalculation-card-status{
+    width: 10%;
+}
+.costCalculation-card-action{
+    display: flex;
+    width: 40%;
+    justify-content: flex-end;
+}
+.costCalculation-card-action-btn{
+    border-radius: 10px;
+    width: 45%;
+    
+}
+.costCalculation-card-action-btn-edit{
+    margin-right: 5px;
+}
+@media (max-width: 576px){
+    .costCalculation-card{
+        display: flex;
+        flex-direction: column;
+        
+    }
+    .costCalculation-card-action-btn{
+        width: 100% !important;
+    }
+    .costCalculation-card-inf{
+        width: 100%;
+    }
+    .costCalculation-card-action{
+        width: 100%;
+    }
+}

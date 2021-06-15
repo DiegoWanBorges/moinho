@@ -1,5 +1,6 @@
 package com.twokeys.moinho.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -13,6 +14,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +27,7 @@ import com.twokeys.moinho.dto.ProductionOrderProducedAverageCostDTO;
 import com.twokeys.moinho.dto.ProductionOrderProducedDTO;
 import com.twokeys.moinho.dto.StockBalanceDTO;
 import com.twokeys.moinho.entities.CostCalculation;
+import com.twokeys.moinho.entities.enums.CostCalculationStatus;
 import com.twokeys.moinho.entities.enums.FormulationType;
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
 import com.twokeys.moinho.repositories.CostCalculationRepository;
@@ -53,6 +57,11 @@ public class CostCalculationService {
 	private StockMovementService stockMovementService; 
 	
 	@Transactional(readOnly=true)
+	public Page<CostCalculationDTO> findByReferenceMonthAndStatus(LocalDate startDate,LocalDate endDate,PageRequest pageRequest){
+		Page<CostCalculation> page = repository.findByReferenceMonthAndStatus(startDate,endDate,pageRequest);
+		return page.map(x -> new CostCalculationDTO(x));
+	}
+	@Transactional(readOnly=true)
 	public CostCalculationDTO findById(Long id){
 		Optional<CostCalculation> obj = repository.findById(id);
 		CostCalculation entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
@@ -78,6 +87,7 @@ public class CostCalculationService {
 		/*RATEIO - CUSTO MÃO DE OBRA*/
 		productionOrderCostLaborService.laborPaymentApportionment(costCalculation.getStartDate(), costCalculation.getEndDate());
 		
+		logger.info("Saiu do rateio");
 		
 		/*FORMULAÇÃO - APURAÇÃO ITERMEDIARIO*/
 		/*CALCULA O CUSTO UNITARIO PARA CADA ORDEM DE PRODUÇÃO*/
@@ -123,10 +133,8 @@ public class CostCalculationService {
 		}
 		
 		/*FORMULAÇÃO - APURAÇÃO PRODUTO ACABADO*/
-		
 		listProductionOrder.clear();
 		listProductionOrder = productionOrderService.listByStartDateAndStatus(costCalculation.getStartDate(), costCalculation.getEndDate(),ProductionOrderStatus.ENCERRADO,FormulationType.ACABADO,null);
-		logger.info("CHEGOU");
 	
 		for (ProductionOrderDTO productionOrder : listProductionOrder) {
 			/*CALCULA O CUSTO UNITARIO DA ORDEM DE PRODUÇÃO*/
@@ -140,12 +148,12 @@ public class CostCalculationService {
 				productionOrderProducedService.updateService(productionOrderProduced);
 			}
 		}
-		
 	}
 	
 	@Transactional
 	public CostCalculationDTO insert(CostCalculationDTO dto) {
 			CostCalculation entity =new CostCalculation();
+			dto.setStatus(CostCalculationStatus.ANDAMENTO);
 			convertToEntity(dto,entity);
 			return new CostCalculationDTO(repository.save(entity));
 	}
@@ -175,5 +183,6 @@ public class CostCalculationService {
 		entity.setEndDate(dto.getEndDate());
 		entity.setStockStartDate(dto.getStockStartDate());
 		entity.setStatus(dto.getStatus());
+		entity.setReferenceMonth(dto.getReferenceMonth());
 	}
 }

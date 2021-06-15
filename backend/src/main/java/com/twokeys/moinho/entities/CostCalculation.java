@@ -27,17 +27,19 @@ public class CostCalculation implements Serializable{
 	private Instant endDate;
 	private LocalDate stockStartDate;
 	private CostCalculationStatus status;
+	private LocalDate referenceMonth;
 	
 	public CostCalculation() {
 	}
 	
 	public CostCalculation(Long id, Instant startDate, Instant endDate, LocalDate stockStartDate,
-			 			   CostCalculationStatus status) {
+			 			   CostCalculationStatus status,LocalDate referenceMonth) {
 		this.id = id;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.stockStartDate = stockStartDate;
 		this.status=status;
+		this.referenceMonth=referenceMonth;
 	}
 
 	public Long getId() {
@@ -79,6 +81,14 @@ public class CostCalculation implements Serializable{
 
 	public void setStatus(CostCalculationStatus status) {
 		this.status = status;
+	}
+
+	public LocalDate getReferenceMonth() {
+		return referenceMonth;
+	}
+
+	public void setReferenceMonth(LocalDate referenceMonth) {
+		this.referenceMonth = referenceMonth;
 	}
 
 	@Override

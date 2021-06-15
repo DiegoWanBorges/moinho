@@ -19,17 +19,19 @@ public class CostCalculationDTO implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone="GMT-3")
 	private LocalDate stockStartDate;
 	private CostCalculationStatus status;
-	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone="GMT-3")
+	private LocalDate referenceMonth;
 	public CostCalculationDTO() {
 	}
 
 	public CostCalculationDTO(Long id, Instant startDate, Instant endDate, LocalDate stockStartDate,
-							  CostCalculationStatus status) {
+							  CostCalculationStatus status, LocalDate referenceMonth) {
 		this.id = id;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.stockStartDate = stockStartDate;
 		this.status = status;
+		this.referenceMonth=referenceMonth;
 	}
 	public CostCalculationDTO(CostCalculation entity) {
 		this.id = entity.getId();
@@ -37,6 +39,7 @@ public class CostCalculationDTO implements Serializable {
 		this.endDate = entity.getEndDate();
 		this.stockStartDate = entity.getStockStartDate();
 		this.status = entity.getStatus();
+		this.referenceMonth=entity.getReferenceMonth();
 	}
 
 	public Long getId() {
@@ -78,4 +81,14 @@ public class CostCalculationDTO implements Serializable {
 	public void setStatus(CostCalculationStatus status) {
 		this.status = status;
 	}
+
+	public LocalDate getReferenceMonth() {
+		return referenceMonth;
+	}
+
+	public void setReferenceMonth(LocalDate referenceMonth) {
+		this.referenceMonth = referenceMonth;
+	}
+	
+	
 }

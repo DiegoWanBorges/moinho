@@ -10,6 +10,7 @@ import Formulation from 'pages/Formulations';
 import Production from 'pages/ProductionOrder';
 import Stock from 'pages/Stock';
 import Payment from 'pages/Payments';
+import Calculation from 'pages/Calculation';
 
 
 const Routes = () => {
@@ -56,6 +57,10 @@ const Routes = () => {
                 <Redirect from="/payments" to="/payments/labor" exact/>
                 <PrivateRoute path="/payments">
                     <Payment />
+                </PrivateRoute>
+                <Redirect from="/calculations" to="/calculations/registrations" exact/>
+                <PrivateRoute path="/calculations">
+                    <Calculation />
                 </PrivateRoute>
             </Switch>
         </Router>

@@ -69,7 +69,7 @@ function ProductionOrderList() {
                     onClick={handCreate}
                 >
                     Nova O.P.
-            </button>
+                </button>
             </div>
 
             <div className="production-list-filter">

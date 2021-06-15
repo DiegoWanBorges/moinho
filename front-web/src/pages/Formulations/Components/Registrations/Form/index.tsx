@@ -82,11 +82,6 @@ function FormulationForm() {
         getFormulationItems();
     }, [getFormulationItems])
 
-
-
-
-
-
     const onSubmit = (data: Formulation) => {
         makePrivateRequest({
             url: isEditing ? `/formulations/${formulationId}` : '/formulations/',

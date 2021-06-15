@@ -83,20 +83,23 @@ INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-10','',0,5,1,1.25,10000,0);
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-15','',0,5,1,1.05,100500,0);
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-25','',0,5,1,1.35,5000,0);
-INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-05','',0,5,2,0.90,1000,0);
-INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-10','',0,5,2,0.91,500,0);
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-05','',0,5,2,0.90,10000,0);
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-10','',0,5,2,0.91,5000,0);
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-16','',0,5,2,0.93,1500,0);
-INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-26','',0,5,2,0.95,100,0);
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-26','',0,5,2,0.95,1000,0);
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-05','',0,5,3,0.90,1000,0);
-INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-10','',0,5,3,0.91,500,0);
-INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-16','',0,5,3,0.93,1500,0);
-INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-30','',0,5,3,0.95,100,0);
-INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-02','',0,5,4,0.15,1000,0);
-INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-05','',0,5,4,0.13,100,0);
-INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-05','',0,5,5,0.7,1000,0);
-INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-25','',0,5,6,31,100,0);
-INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-01','',0,5,6,32.52,100,0);
-
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-10','',0,5,3,0.91,5000,0);
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-16','',0,5,3,0.93,15000,0);
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-30','',0,5,3,0.95,1000,0);
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-02','',0,5,4,0.15,10000,0);
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-05','',0,5,4,0.13,5000,0);
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-05','',0,5,5,0.7,10000,0);
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-25','',0,5,6,31,5000,0);
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-01','',0,5,6,32.52,9999,0);
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-01','',0,5,11,0.97,9999,0);
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-01','',0,5,13,9.30,9999,0);
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-01','',0,5,14,17.38,9999,0);
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-01','',0,5,15,25.10,9999,0);
 
 INSERT INTO TB_FORMULATION (COEFFICIENT,DESCRIPTION,PRODUCT_ID,TYPE,LEVEL) VALUES(1000,'LEITE EM PO',7,0,1);
 INSERT INTO TB_FORMULATION_ITEM(FORMULATION_ID,PRODUCT_ID,QUANTITY,ROUND,TYPE,RAW_MATERIAL)VALUES(1,1,8400,false,0,true);
@@ -147,6 +150,8 @@ INSERT INTO TB_FORMULATION_SECTOR(FORMULATION_ID,SECTOR_ID) VALUES(1,3);
 
 INSERT INTO TB_FORMULATION_SECTOR(FORMULATION_ID,SECTOR_ID) VALUES(2,1);
 INSERT INTO TB_FORMULATION_SECTOR(FORMULATION_ID,SECTOR_ID) VALUES(2,3);
+
+INSERT INTO TB_FORMULATION_SECTOR(FORMULATION_ID,SECTOR_ID) VALUES(3,2);
 
 INSERT INTO TB_FORMULATION_SECTOR(FORMULATION_ID,SECTOR_ID) VALUES(4,1);
 INSERT INTO TB_FORMULATION_SECTOR(FORMULATION_ID,SECTOR_ID) VALUES(4,3);
