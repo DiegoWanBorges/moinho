@@ -31,6 +31,7 @@ import com.twokeys.moinho.entities.enums.CostCalculationStatus;
 import com.twokeys.moinho.entities.enums.FormulationType;
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
 import com.twokeys.moinho.repositories.CostCalculationRepository;
+import com.twokeys.moinho.services.exceptions.BusinessRuleException;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 import com.twokeys.moinho.util.Util;
@@ -69,8 +70,7 @@ public class CostCalculationService {
 	}
 	
 	@Transactional
-	public void calculation (Long costCalculationId) {
-		CostCalculation costCalculation = repository.getOne(costCalculationId);
+	public void calculation (CostCalculation costCalculation) {
 		List<ProductionOrderDTO> listProductionOrder = new ArrayList<>();
 		List<ProductionOrderItemDTO> listProductionOrderItem = new ArrayList<>();
 		Double costUnity;
@@ -148,14 +148,31 @@ public class CostCalculationService {
 				productionOrderProducedService.updateService(productionOrderProduced);
 			}
 		}
+		costCalculation.setStatus(CostCalculationStatus.ENCERRADO);
+		repository.save(costCalculation);
 	}
 	
 	@Transactional
 	public CostCalculationDTO insert(CostCalculationDTO dto) {
-			CostCalculation entity =new CostCalculation();
-			dto.setStatus(CostCalculationStatus.ANDAMENTO);
-			convertToEntity(dto,entity);
-			return new CostCalculationDTO(repository.save(entity));
+				CostCalculation entity =new CostCalculation();
+				
+				List<ProductionOrderDTO> list = productionOrderService.findByStartDateAndStatus(dto.getStartDate(), dto.getEndDate(), ProductionOrderStatus.ABERTO); 
+				/*NÃO PODE TER ORDEM DE PRODUÇÃO COM STATUS - ABERTO*/
+				if (list.size() > 0) {
+					throw new BusinessRuleException("O periodo selecionado possui ordem de produção em aberto");
+				}
+				list = productionOrderService.findByStartDateAndStatus(dto.getStartDate(), dto.getEndDate(), ProductionOrderStatus.ENCERRADO); 
+				if (list.size() == 0) {
+					throw new BusinessRuleException("O periodo selecionado não possui ordem de produção encerrada");
+				}
+				
+				dto.setStatus(CostCalculationStatus.ANDAMENTO);
+				convertToEntity(dto,entity);
+				entity = repository.save(entity);
+				
+				calculation(entity);
+				
+				return new CostCalculationDTO(entity);
 	}
 	@Transactional
 	public CostCalculationDTO update(Long id, CostCalculationDTO dto) {

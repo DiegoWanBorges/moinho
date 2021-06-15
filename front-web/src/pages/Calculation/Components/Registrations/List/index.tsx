@@ -42,39 +42,32 @@ function CalculationList() {
     const handCreate = () => {
         history.push("/calculations/registrations/create");
     }
-    const onRemove = (groupId: number) => {
+    const onRemove = (costCalculationId: number) => {
         const confirm = window.confirm("Deseja excluir o grupo selecionado?");
         if (confirm) {
             makePrivateRequest({
-                url: `/groups/${groupId}`,
+                url: `/costcalculations/${costCalculationId}`,
                 method: 'DELETE'
             })
                 .then(() => {
                     toast.success("Grupo excluido com sucesso!")
-                    history.push('/registrations/groups')
+                    history.push('/calculations/registrations')
                     getCostCalculations();
                 })
                 .catch(() => {
                     toast.error("Falha ao excluir grupo!")
-                    history.push('/registrations/groups')
+                    history.push('/calculations/registrations')
                 })
         }
     }
-    const handleChangeName = (name: string) => {
-        setActivePage(0);
-    }
-    const handleChangeLinesPerPage = (linesPerPage: number) => {
-        setActivePage(0);
-    }
-    const clearFilters = () => {
-        setActivePage(0);
-    }
+    
 
     return (
         <div className="calculation-list">
             <div className="calculation-list-actions">
                 <button
                     className="btn btn-primary btn-lg"
+                    onClick={handCreate}
                 >
                     Nova Apuração
                 </button>
@@ -105,11 +98,11 @@ function CalculationList() {
                 </div>
             </div>
             {costCalculationsResponse?.content.map(item => (
-                    <CostCalculationCard
-                        costCalculation={item} key={item.id}
-                        onRemove={onRemove}
-                    />
-                ))}
+                <CostCalculationCard
+                    costCalculation={item} key={item.id}
+                    onRemove={onRemove}
+                />
+            ))}
             {costCalculationsResponse &&
                 <Pagination
                     totalPages={costCalculationsResponse?.totalPages}

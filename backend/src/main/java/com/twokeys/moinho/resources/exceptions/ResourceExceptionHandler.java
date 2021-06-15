@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.twokeys.moinho.services.exceptions.BusinessRuleException;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 import com.twokeys.moinho.services.exceptions.StockMovementException;
@@ -66,6 +67,7 @@ public class ResourceExceptionHandler {
 		err.setPath(request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
+	
 	@ExceptionHandler(StockMovementException.class)
 	public ResponseEntity<StandardError> stockMovementException(StockMovementException e, HttpServletRequest request){
 		StandardError err = new StandardError();
@@ -76,15 +78,26 @@ public class ResourceExceptionHandler {
 		err.setPath(request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
+	
 	@ExceptionHandler(UntreatedException.class)
 	public ResponseEntity<StandardError> untreatedException(UntreatedException e, HttpServletRequest request){
 		StandardError err = new StandardError();
 		err.setTimeStamp(Instant.now());
 		err.setStatus(HttpStatus.BAD_REQUEST.value());
-		err.setError("Stock Exception");
+		err.setError("Untreated Exception");
 		err.setMessage(e.getMessage());
 		err.setPath(request.getRequestURI());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
 	
+	@ExceptionHandler(BusinessRuleException.class)
+	public ResponseEntity<StandardError> businessRuleException(BusinessRuleException e, HttpServletRequest request){
+		StandardError err = new StandardError();
+		err.setTimeStamp(Instant.now());
+		err.setStatus(HttpStatus.BAD_REQUEST.value());
+		err.setError("Business Rule Exception");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
 }

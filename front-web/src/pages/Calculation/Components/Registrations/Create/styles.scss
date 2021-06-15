@@ -1,0 +1,39 @@
+.costCalculation-main{
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 20px;
+}
+.costCalculation-ref{
+    width: 25%;
+}
+.costCalculation-period{
+    display: flex;
+}
+.costCalculation-period-end{
+    margin-left: 10px;
+}
+.costCalculation-stock{
+    width: 25%;
+}
+.costCalculation-actions{
+    margin-top: 10px;
+}
+
+@media (max-width: 576px){
+    .costCalculation-ref{
+        width: 100%;
+    }
+    .costCalculation-period{
+        display: flex;
+        flex-direction: column;
+    }
+    .costCalculation-period-end{
+        margin-left: 0px;
+    }
+    .costCalculation-stock{
+        width: 100%;
+    }
+    .costCalculation-actions{
+        width: 100%;
+    }
+}

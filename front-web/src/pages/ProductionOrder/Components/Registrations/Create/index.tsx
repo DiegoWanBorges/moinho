@@ -92,7 +92,6 @@ function ProductionOrderCreate() {
                             locale="pt-br"
                             initialValue={startDate}
                         />
-
                     </div>
 
                     <div className="production-create-amount">

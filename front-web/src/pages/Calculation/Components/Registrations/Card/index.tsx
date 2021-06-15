@@ -1,7 +1,7 @@
 import { CostCalculation } from 'core/types/CostCalculation';
 import { toISOFormatDate } from 'core/utils/utils';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
+
 import './styles.scss';
 
 type Props = {
@@ -28,7 +28,7 @@ const CostCalculationCard = ({ costCalculation, onRemove }: Props) => {
             <div className="costCalculation-card-action">
                 <button
                     className="btn btn-outline-secondary costCalculation-card-action-btn costCalculation-card-action-btn-edit">
-                    EDITAR
+                    VISUALIZAR
                 </button>
 
                 <button

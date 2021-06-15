@@ -107,7 +107,14 @@ public class ProductionOrderService {
 		Page<ProductionOrder> page = repository.findByStartDateAndFormulation(formulation,startDate,endDate,pageRequest);
 		return page.map(x -> new ProductionOrderDTO(x));
 	}
-	 
+	
+	@Transactional(readOnly=true)
+	public List<ProductionOrderDTO> findByStartDateAndStatus(Instant startDate,Instant endDate,ProductionOrderStatus status){
+		
+		List<ProductionOrder> list = repository.findByStartDateBetweenAndStatus(startDate,endDate,status);
+		return list.stream().map(x -> new ProductionOrderDTO(x)).collect(Collectors.toList());
+	}
+	
 	@Transactional(readOnly=true)
 	public ProductionOrderDTO findById(Long id){
 		ProductionOrder obj = repository.findByIdAndDateCancelIsNull(id);
