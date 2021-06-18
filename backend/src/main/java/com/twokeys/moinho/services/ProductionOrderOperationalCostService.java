@@ -1,8 +1,6 @@
 package com.twokeys.moinho.services;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +26,7 @@ import com.twokeys.moinho.repositories.ProductionOrderRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 import com.twokeys.moinho.services.exceptions.UntreatedException;
+import com.twokeys.moinho.util.Util;
 
 
 
@@ -86,9 +85,8 @@ public class ProductionOrderOperationalCostService {
 						
 						for(ProductionOrder item: listProductionOrder) {
 							proratedAmount =0.0;
-							percent= Double.valueOf(new BigDecimal(Double.valueOf(item.getProductionMinutes()) / productionDurationTotal).setScale(2,RoundingMode.HALF_UP).toString());
-							proratedAmount=Double.valueOf(new BigDecimal(percent * (Double) inf[3]).setScale(2,RoundingMode.HALF_UP).toString());
-							
+							percent = Util.roundHalfUp2(Double.valueOf(item.getProductionMinutes()) / productionDurationTotal);
+							proratedAmount=Util.roundHalfUp2(percent * (Double) inf[3]);
 							productionOrderOperationalCost = new ProductionOrderOperationalCost();
 							productionOrderOperationalCost.setValue(proratedAmount);
 							productionOrderOperationalCost.setProductionOrder(item);
@@ -113,8 +111,8 @@ public class ProductionOrderOperationalCostService {
 							logger.info("Apportionment Type id"+ id);
 							logger.info("Type: "+ type);
 							
-							percent= Double.valueOf(new BigDecimal(productionOrderItemsRepository.findTotalRawMaterial(item)/totalRawMaterial).setScale(2,RoundingMode.HALF_UP).toString());
-							proratedAmount=Double.valueOf(new BigDecimal(percent * (Double) inf[3]).setScale(2,RoundingMode.HALF_UP).toString());
+							percent= Util.roundHalfUp2(productionOrderItemsRepository.findTotalRawMaterial(item)/totalRawMaterial);
+							proratedAmount=Util.roundHalfUp2(percent * (Double) inf[3]);
 							
 							productionOrderOperationalCost = new ProductionOrderOperationalCost();
 							productionOrderOperationalCost.setValue(proratedAmount);
