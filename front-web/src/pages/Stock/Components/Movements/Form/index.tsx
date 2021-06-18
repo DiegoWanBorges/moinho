@@ -123,8 +123,8 @@ const StockMovementForm = () => {
                 toast.success("Lançamento de estoque salvo com sucesso!")
                 history.push('/stock/movements/')
             })
-            .catch(() => {
-                toast.error("Erro ao salvar lançamento de estoque!")
+            .catch((error) => {
+                toast.error(error.response.data.message);
             })
     }
 

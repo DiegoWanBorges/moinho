@@ -87,8 +87,8 @@ const LaborPaymentList = () => {
                     history.push('/payments/labor/')
                     getLaborPayments();
                 })
-                .catch(() => {
-                    toast.error("Falha ao excluir movimentação de estoque!")
+                .catch((error) => {
+                    toast.error(error.response.data.message)
                     history.push('/payments/labor/')
                 })
         }

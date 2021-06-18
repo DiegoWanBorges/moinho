@@ -20,6 +20,7 @@ import com.twokeys.moinho.entities.LaborPayment;
 import com.twokeys.moinho.repositories.EmployeeRepository;
 import com.twokeys.moinho.repositories.LaborCostTypeRepository;
 import com.twokeys.moinho.repositories.LaborPaymentRepository;
+import com.twokeys.moinho.services.exceptions.BusinessRuleException;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 
@@ -33,6 +34,8 @@ public class LaborPaymentService {
 	private EmployeeRepository employeeRepository;
 	@Autowired
 	private LaborCostTypeRepository laborCostTypeRepository;
+	@Autowired
+	private CostCalculationService costCalculationService;
 	
 	@Transactional(readOnly=true)
 	public Page<LaborPaymentDTO> findByDateAndEmployeeAndLaborCostType(Long employeeId,Long laborCostTypeId,LocalDate startDate,LocalDate endDate,PageRequest pageRequest){
@@ -51,9 +54,14 @@ public class LaborPaymentService {
 	@Transactional
 	public LaborPaymentDTO insert(LaborPaymentDTO dto) {
 		try {
-		LaborPayment entity =new LaborPayment();
+			if(costCalculationService.hasCostCalculation(dto.getDate().getYear(),dto.getDate().getMonth().getValue())) {
+				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
+			}
+			LaborPayment entity =new LaborPayment();
 			convertToEntity(dto, entity);
 			return new LaborPaymentDTO(repository.save(entity));
+		}catch(BusinessRuleException e) {
+			throw new BusinessRuleException(e.getMessage());
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
 		}
@@ -62,16 +70,28 @@ public class LaborPaymentService {
 	public LaborPaymentDTO update(Long id, LaborPaymentDTO dto) {
 		try {
 			LaborPayment entity = repository.getOne(id);
+			if(costCalculationService.hasCostCalculation(entity.getDate().getYear(),entity.getDate().getMonth().getValue())) {
+				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
+			}
 			convertToEntity(dto, entity);
 			entity = repository.save(entity);
 			return new LaborPaymentDTO(entity);
+		}catch(BusinessRuleException e) {
+			throw new BusinessRuleException(e.getMessage());
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}
 	}
+	@Transactional
 	public void delete(Long id) {
 		try {
-			repository.deleteById(id);
+			 LaborPayment entity = repository.getOne(id);
+			 if(costCalculationService.hasCostCalculation(entity.getDate().getYear(),entity.getDate().getMonth().getValue())) {
+				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
+			 }
+			 repository.deleteById(id);
+		}catch(BusinessRuleException e) {
+			throw new BusinessRuleException(e.getMessage());
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}catch (DataIntegrityViolationException e) {

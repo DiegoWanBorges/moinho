@@ -18,6 +18,7 @@ import com.twokeys.moinho.entities.OperationalCostType;
 import com.twokeys.moinho.entities.OperationalPayment;
 import com.twokeys.moinho.repositories.OperationalCostTypeRepository;
 import com.twokeys.moinho.repositories.OperationalPaymentRepository;
+import com.twokeys.moinho.services.exceptions.BusinessRuleException;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 
@@ -29,7 +30,8 @@ public class OperationalPaymentService {
 	private OperationalPaymentRepository repository;
 	@Autowired
 	private OperationalCostTypeRepository operationalCostTypeRepository;
-	
+	@Autowired
+	private CostCalculationService costCalculationService;
 	@Transactional(readOnly=true)
 	public Page<OperationalPaymentDTO> findByDateAndType(Long operationalCostId,LocalDate startDate,LocalDate endDate,PageRequest pageRequest){
 		OperationalCostType operationalCostType = (operationalCostId==0) ? null : operationalCostTypeRepository.getOne(operationalCostId);
@@ -46,9 +48,14 @@ public class OperationalPaymentService {
 	@Transactional
 	public OperationalPaymentDTO insert(OperationalPaymentDTO dto) {
 		try {
-		OperationalPayment entity =new OperationalPayment();
+			OperationalPayment entity =new OperationalPayment();
 			convertToEntity(dto, entity);
+			if(costCalculationService.hasCostCalculation(dto.getDate().getYear(),dto.getDate().getMonth().getValue())){
+				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
+			}
 			return new OperationalPaymentDTO(repository.save(entity));
+		}catch(BusinessRuleException e) {
+			throw new BusinessRuleException(e.getMessage());
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
 		}
@@ -57,16 +64,26 @@ public class OperationalPaymentService {
 	public OperationalPaymentDTO update(Long id, OperationalPaymentDTO dto) {
 		try {
 			OperationalPayment entity = repository.getOne(id);
+			if(costCalculationService.hasCostCalculation(entity.getDate().getYear(),entity.getDate().getMonth().getValue())){
+				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
+			}
 			convertToEntity(dto, entity);
 			entity = repository.save(entity);
 			return new OperationalPaymentDTO(entity);
+		}catch(BusinessRuleException e) {
+			throw new BusinessRuleException(e.getMessage());
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}
 	}
+	@Transactional
 	public void delete(Long id) {
 		try {
-			repository.deleteById(id);
+			 OperationalPayment entity = repository.getOne(id);
+			 if(costCalculationService.hasCostCalculation(entity.getDate().getYear(),entity.getDate().getMonth().getValue())){
+				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
+			 }
+			 repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}catch (DataIntegrityViolationException e) {

@@ -75,8 +75,8 @@ const LaborPaymentForm = () => {
                 toast.success("Pagamento registrado salvo com sucesso!")
                 history.push('/payments/labor/')
             })
-            .catch(() => {
-                toast.error("Erro ao salvar pagamento!")
+            .catch((error) => {
+                toast.error(error.response.data.message)
             })
     }
 

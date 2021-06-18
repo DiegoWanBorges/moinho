@@ -52,8 +52,8 @@ function ProductionOrderList() {
                     history.push('/productions/registrations')
                     getProductionOrders();
                 })
-                .catch(() => {
-                    toast.error("Falha ao cancelar order de produção!")
+                .catch((error) => {
+                    toast.error(error.response.data.message)
                     history.push('/productions/registrations')
                 })
         }

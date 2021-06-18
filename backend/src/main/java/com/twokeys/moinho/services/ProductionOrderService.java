@@ -1,6 +1,8 @@
 package com.twokeys.moinho.services;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +35,7 @@ import com.twokeys.moinho.entities.enums.ProductionOrderItemType;
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
 import com.twokeys.moinho.repositories.FormulationRepository;
 import com.twokeys.moinho.repositories.ProductionOrderRepository;
+import com.twokeys.moinho.services.exceptions.BusinessRuleException;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 import com.twokeys.moinho.services.exceptions.UntreatedException;
@@ -46,18 +49,16 @@ public class ProductionOrderService {
 	
 	@Autowired
 	private ProductionOrderRepository repository;
-	
 	@Autowired
 	private FormulationRepository formulationRepository;
-	
 	@Autowired
 	private FormulationService formulationService;
-	
 	@Autowired
 	private ProductionOrderItemService productionOrderItemsService;
 	@Autowired
 	private StockMovementService stockMovementService;
-	
+	@Autowired
+	private CostCalculationService costCalculationService;
 	
 	@Transactional
 	public ProductionOrderDTO createProductionOrder(Long formulationId, Double ammount,Boolean persistence, Instant startDate){
@@ -138,6 +139,12 @@ public class ProductionOrderService {
 	@Transactional
 	public ProductionOrderDTO insert(ProductionOrderDTO dto) {
 		try {
+			LocalDateTime date = LocalDateTime.ofInstant(dto.getStartDate(), ZoneId.of("America/Sao_Paulo"));
+			if(costCalculationService.hasCostCalculation(date.getYear(),date.getMonth().getValue())) {
+				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
+			}
+			
+			
 			ProductionOrder entity =new ProductionOrder();
 			convertToEntity(dto, entity);
 			entity=repository.save(entity);
@@ -151,6 +158,8 @@ public class ProductionOrderService {
 			list=productionOrderItemsService.insert(dto.getProductionOrderItems());
 			
 			return new ProductionOrderDTO(entity,list);
+		}catch(BusinessRuleException e) {
+			throw new BusinessRuleException(e.getMessage());
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
 		}catch(Exception e) {
@@ -175,13 +184,15 @@ public class ProductionOrderService {
 					}
 				}
 			}else {
-				throw new ValidationException("Ordem de Produção com encerramento finalizado");
+				throw new BusinessRuleException("Ordem de Produção com apuração finalizada!");
 			}
 			return new ProductionOrderDTO(repository.save(entity));
+		}catch(BusinessRuleException e) {
+			throw new BusinessRuleException(e.getMessage());
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}catch(Exception e) {
-			throw new UntreatedException("untreated exception: " + e.getMessage());
+			throw new UntreatedException(e.getMessage());
 		}
 	}
 	
@@ -208,6 +219,9 @@ public class ProductionOrderService {
 	public void delete(Long id) {
 		try {
 			ProductionOrder entity = repository.getOne(id);
+			if (entity.getStatus() == ProductionOrderStatus.APURACAO_FINALIZADA) {
+				throw new BusinessRuleException("Ordem de Produção com apuração finalizada!");
+			}
 			/*REMOVER MOVIMENTAÇÃO DE ESTOQUE DE CONSUMO*/
 			for (ProductionOrderItem item : entity.getProductionOrderItems()) {
 				stockMovementService.delete(item.getStockId());
@@ -219,6 +233,8 @@ public class ProductionOrderService {
 			entity.setStatus(ProductionOrderStatus.CANCELADO);
 			entity.setDateCancel(Instant.now());
 			repository.save(entity);
+		}catch(BusinessRuleException e) {
+			throw new BusinessRuleException(e.getMessage());
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}catch (DataIntegrityViolationException e) {

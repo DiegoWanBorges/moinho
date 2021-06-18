@@ -53,7 +53,7 @@ function ProductionOrderCreate() {
                 history.push('/productions/registrations/')
             })
             .catch((error) => {
-                toast.error("Falha ao cadastrar ordem de produção:" + error.response.data.message)
+                toast.error(error.response.data.message)
             })
 
     }

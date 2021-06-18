@@ -63,19 +63,19 @@ const OperationalPaymentList = () => {
     }
 
     const onRemove = (OperationalPaymentId: number) => {
-        const confirm = window.confirm("Deseja excluir o movimento selecionado?");
+        const confirm = window.confirm("Deseja excluir o pagamento selecionado?");
         if (confirm) {
             makePrivateRequest({
                 url: `/operationalpayments/${OperationalPaymentId}`,
                 method: 'DELETE'
             })
                 .then(() => {
-                    toast.success("Movimentação de estoque excluida com sucesso!")
+                    toast.success("Pagamento excluida com sucesso!")
                     history.push('/payments/operational/')
                     getOperationalPayments();
                 })
-                .catch(() => {
-                    toast.error("Falha ao excluir movimentação de estoque!")
+                .catch((error) => {
+                    toast.error(error.response.data.message)
                     history.push('/payments/operational/')
                 })
         }

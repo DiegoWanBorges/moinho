@@ -44,8 +44,8 @@ const ProductionOrderHeader = ({ productionOrder }: Props) => {
                 toast.success("Ordem de produção atualizada com sucesso!")
                 history.push('/productions/registrations/')
             })
-            .catch(() => {
-                toast.error("Erro ao salvar ordem de produção !")
+            .catch((error) => {
+                toast.error(error.response.data.message);
             })
 
     }

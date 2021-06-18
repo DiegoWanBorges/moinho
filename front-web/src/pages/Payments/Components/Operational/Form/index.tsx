@@ -64,8 +64,8 @@ const OperationalPaymentForm = () => {
                 toast.success("Pagamento registrado com sucesso!")
                 history.push('/payments/operational/')
             })
-            .catch(() => {
-                toast.error("Erro ao salvar pagamento!")
+            .catch((error) => {
+                toast.error(error.response.data.message)
             })
     }
 

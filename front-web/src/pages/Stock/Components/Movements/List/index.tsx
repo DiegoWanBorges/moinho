@@ -69,8 +69,8 @@ const StockMovementList = () => {
                     history.push('/stock/movements/')
                     getStockMovements();
                 })
-                .catch(() => {
-                    toast.error("Falha ao excluir movimentação de estoque!")
+                .catch((error) => {
+                    toast.error(error.response.data.message)
                     history.push('/stock/movements/')
                 })
         }

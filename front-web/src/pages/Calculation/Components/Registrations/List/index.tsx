@@ -43,19 +43,19 @@ function CalculationList() {
         history.push("/calculations/registrations/create");
     }
     const onRemove = (costCalculationId: number) => {
-        const confirm = window.confirm("Deseja excluir o grupo selecionado?");
+        const confirm = window.confirm("Deseja excluir a apuração selecionada?");
         if (confirm) {
             makePrivateRequest({
                 url: `/costcalculations/${costCalculationId}`,
                 method: 'DELETE'
             })
                 .then(() => {
-                    toast.success("Grupo excluido com sucesso!")
+                    toast.success("Apuração excluida com sucesso!")
                     history.push('/calculations/registrations')
                     getCostCalculations();
                 })
                 .catch(() => {
-                    toast.error("Falha ao excluir grupo!")
+                    toast.error("Falha ao excluir apuração!")
                     history.push('/calculations/registrations')
                 })
         }

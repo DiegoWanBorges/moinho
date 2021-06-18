@@ -27,7 +27,7 @@ const CostCalculationCreate = () => {
             data
         })
             .then(response => {
-                toast.success("Apuração cadastrada com sucesso!")
+                toast.success("Apuração finalizada com sucesso!")
                 history.push('/calculations/registrations/')
             })
             .catch((error) => {

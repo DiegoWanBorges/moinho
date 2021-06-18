@@ -14,8 +14,13 @@ import com.twokeys.moinho.entities.CostCalculation;
 public interface CostCalculationRepository extends JpaRepository<CostCalculation, Long> {
 
 	@Query("SELECT obj FROM CostCalculation obj "
-			 + "WHERE (obj.referenceMonth between :startDate and :endDate) ")
+		 + "WHERE (obj.referenceMonth between :startDate and :endDate) ")
 	Page<CostCalculation> findByReferenceMonthAndStatus(LocalDate startDate,LocalDate endDate, Pageable pageable);
-		
+	
+	@Query("SELECT obj FROM CostCalculation obj "
+		 + "WHERE YEAR(obj.referenceMonth)= :year  "
+		 + "AND MONTH(obj.referenceMonth)= :month "
+		 + "AND obj.status=1 ")
+	CostCalculation findByReferenceMonthAndYearAndMonth(Integer year, Integer month);
 }
 

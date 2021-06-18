@@ -24,6 +24,7 @@ import com.twokeys.moinho.entities.Product;
 import com.twokeys.moinho.entities.StockMovement;
 import com.twokeys.moinho.repositories.ProductRepository;
 import com.twokeys.moinho.repositories.StockMovementRepository;
+import com.twokeys.moinho.services.exceptions.BusinessRuleException;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
 import com.twokeys.moinho.services.exceptions.ResourceNotFoundException;
 import com.twokeys.moinho.services.exceptions.UntreatedException;
@@ -36,6 +37,9 @@ public class StockMovementService {
 	private StockMovementRepository repository;
 	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
+	private CostCalculationService costCalculationService;
+	
 	
 	@Transactional(readOnly=true)
 	public Page<StockMovementDTO> findByStartDateAndProduct(Long productId,LocalDate startDate,LocalDate endDate,PageRequest pageRequest){
@@ -128,6 +132,12 @@ public class StockMovementService {
 			Product product = new Product();
 			convertToEntity(dto, entity);
 			entity =repository.save(entity);
+			
+			if(costCalculationService.hasCostCalculation(dto.getDate().getYear(),dto.getDate().getMonth().getValue())) {
+				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
+			}
+			
+			
 			StockBalanceDTO stockBalance = currentStockByProduct(dto.getProduct().getId());
 			
 			/*Atualiza o custo e saldo de estoque*/
@@ -139,6 +149,8 @@ public class StockMovementService {
 			productRepository.save(product);
 
 			return new StockMovementDTO(entity);
+		}catch(BusinessRuleException e) {
+			throw new BusinessRuleException(e.getMessage());
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found");
 		}catch (DataIntegrityViolationException e ) {
@@ -152,7 +164,9 @@ public class StockMovementService {
 		try {
 			StockMovement entity = repository.getOne(id);
 			Product product = new Product();
-			
+			if(costCalculationService.hasCostCalculation(entity.getDate().getYear(),entity.getDate().getMonth().getValue())) {
+				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
+			}
 			convertToEntity(dto, entity);
 			entity = repository.save(entity);
 			StockBalanceDTO stockBalance = currentStockByProduct(dto.getProduct().getId());
@@ -165,6 +179,8 @@ public class StockMovementService {
 			product.setCostLastEntry(entity.getCost());
 			productRepository.save(product);
 			return new StockMovementDTO(entity);
+		}catch(BusinessRuleException e) {
+			throw new BusinessRuleException(e.getMessage());
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}catch(Exception e) {
@@ -175,6 +191,9 @@ public class StockMovementService {
 	public void delete(Long id) {
 		try {
 			StockMovement entity = repository.getOne(id);
+			if(costCalculationService.hasCostCalculation(entity.getDate().getYear(),entity.getDate().getMonth().getValue())) {
+				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
+			}
 			Product product = new Product();
 			repository.deleteById(id);
 			
@@ -185,7 +204,8 @@ public class StockMovementService {
 			product.setAverageCost(stockBalance.getAverageCost());
 			product.setCostLastEntry(entity.getCost());
 			productRepository.save(product);
-			
+		}catch(BusinessRuleException e) {
+			throw new BusinessRuleException(e.getMessage());	
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}catch (DataIntegrityViolationException e) {
