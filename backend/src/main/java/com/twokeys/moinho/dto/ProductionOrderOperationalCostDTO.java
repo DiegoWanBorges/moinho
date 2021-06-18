@@ -8,21 +8,21 @@ public class ProductionOrderOperationalCostDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long productionOrderId;
-	private OperationalCostTypeDTO apportionmentType;
+	private OperationalCostTypeDTO operationalCostType;
 	private Double value;
 	
 	public ProductionOrderOperationalCostDTO() {
 	}
 
-	public ProductionOrderOperationalCostDTO(Long productionOrderId, OperationalCostTypeDTO apportionmentType,
+	public ProductionOrderOperationalCostDTO(Long productionOrderId, OperationalCostTypeDTO operationalCostType,
 											 Double value) {
 		this.productionOrderId = productionOrderId;
-		this.apportionmentType = apportionmentType;
+		this.operationalCostType = operationalCostType;
 		this.value = value;
 	}
 	public ProductionOrderOperationalCostDTO(ProductionOrderOperationalCost entity) {
 		this.productionOrderId =entity.getProductionOrder().getId();
-		this.apportionmentType = new OperationalCostTypeDTO(entity.getApportionmentType());
+		this.operationalCostType = new OperationalCostTypeDTO(entity.getOperationalCostType());
 		this.value = entity.getValue();
 	}
 
@@ -34,12 +34,12 @@ public class ProductionOrderOperationalCostDTO implements Serializable {
 		this.productionOrderId = productionOrderId;
 	}
 
-	public OperationalCostTypeDTO getApportionmentType() {
-		return apportionmentType;
+	public OperationalCostTypeDTO getOperationalCostType() {
+		return operationalCostType;
 	}
 
-	public void setApportionmentType(OperationalCostTypeDTO apportionmentType) {
-		this.apportionmentType = apportionmentType;
+	public void setOperationalCostType(OperationalCostTypeDTO operationalCostType) {
+		this.operationalCostType = operationalCostType;
 	}
 
 	public Double getValue() {

@@ -8,6 +8,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.twokeys.moinho.entities.ProductionOrder;
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
+import com.twokeys.moinho.util.Util;
 
 public class ProductionOrderDTO   implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -163,7 +164,7 @@ public class ProductionOrderDTO   implements Serializable {
 			    
 				sum+=items.getCost() * items.getQuantity();
 		}
-		return sum;
+		return Util.roundHalfUp2(sum);
 	}
 	public Double getTotalIndirectCost() {
 		Double sum =0.0;
@@ -175,5 +176,13 @@ public class ProductionOrderDTO   implements Serializable {
 		}
 		return sum;
 	}
+	public Double getUnitCost() {
+		Double sum =0.0;
+		if (status != ProductionOrderStatus.ABERTO) {
+			sum=(getTotalDirectCost()+getTotalIndirectCost())/getTotalProduced();
+		}
+		return Util.roundHalfUp2(sum);
+	}
+	
 	
 }

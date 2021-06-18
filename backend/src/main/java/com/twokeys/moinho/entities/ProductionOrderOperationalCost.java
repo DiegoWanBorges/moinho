@@ -20,9 +20,9 @@ public class ProductionOrderOperationalCost implements Serializable {
 	public ProductionOrderOperationalCost() {
 	}
 
-	public ProductionOrderOperationalCost(ProductionOrder productionOrder,OperationalCostType apportionmentType, Double value) {
+	public ProductionOrderOperationalCost(ProductionOrder productionOrder,OperationalCostType operationalCostType, Double value) {
 		this.id.setProductionOrder(productionOrder);
-		this.id.setApportionmentType(apportionmentType);
+		this.id.setOperationalCostType(operationalCostType);
 		this.value = value;
 	}
 
@@ -34,12 +34,12 @@ public class ProductionOrderOperationalCost implements Serializable {
 		this.id.setProductionOrder(productionOrder);
 	}
 	
-	public OperationalCostType getApportionmentType() {
-		return id.getApportionmentType();
+	public OperationalCostType getOperationalCostType() {
+		return id.getOperationalCostType();
 	}
 
-	public void setApportionmentType(OperationalCostType apportionmentType) {
-		this.id.setApportionmentType(apportionmentType);
+	public void setOperationalCostType(OperationalCostType operationalCostType) {
+		this.id.setOperationalCostType(operationalCostType);
 	}
 
 	

@@ -17,15 +17,15 @@ public class ProductionOrderOperationalCostPK implements Serializable {
 	private ProductionOrder productionOrder;
 	
 	@ManyToOne
-	@JoinColumn(name="apportionmentType_id")
-	private OperationalCostType apportionmentType;
+	@JoinColumn(name="operationalCostType_id")
+	private OperationalCostType operationalCostType;
 	
 	public ProductionOrderOperationalCostPK() {
 	}
 
-	public ProductionOrderOperationalCostPK(ProductionOrder productionOrder, OperationalCostType apportionmentType) {
+	public ProductionOrderOperationalCostPK(ProductionOrder productionOrder, OperationalCostType operationalCostType) {
 		this.productionOrder = productionOrder;
-		this.apportionmentType = apportionmentType;
+		this.operationalCostType = operationalCostType;
 	}
 
 	public ProductionOrder getProductionOrder() {
@@ -36,19 +36,19 @@ public class ProductionOrderOperationalCostPK implements Serializable {
 		this.productionOrder = productionOrder;
 	}
 
-	public OperationalCostType getApportionmentType() {
-		return apportionmentType;
+	public OperationalCostType getOperationalCostType() {
+		return operationalCostType;
 	}
 
-	public void setApportionmentType(OperationalCostType apportionmentType) {
-		this.apportionmentType = apportionmentType;
+	public void setOperationalCostType(OperationalCostType operationalCostType) {
+		this.operationalCostType = operationalCostType;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((apportionmentType == null) ? 0 : apportionmentType.hashCode());
+		result = prime * result + ((operationalCostType == null) ? 0 : operationalCostType.hashCode());
 		result = prime * result + ((productionOrder == null) ? 0 : productionOrder.hashCode());
 		return result;
 	}
@@ -62,10 +62,10 @@ public class ProductionOrderOperationalCostPK implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ProductionOrderOperationalCostPK other = (ProductionOrderOperationalCostPK) obj;
-		if (apportionmentType == null) {
-			if (other.apportionmentType != null)
+		if (operationalCostType == null) {
+			if (other.operationalCostType != null)
 				return false;
-		} else if (!apportionmentType.equals(other.apportionmentType))
+		} else if (!operationalCostType.equals(other.operationalCostType))
 			return false;
 		if (productionOrder == null) {
 			if (other.productionOrder != null)
@@ -74,8 +74,6 @@ public class ProductionOrderOperationalCostPK implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
+
+		
 }

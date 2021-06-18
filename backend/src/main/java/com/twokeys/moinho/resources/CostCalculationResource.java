@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.twokeys.moinho.dto.CostCalculationDTO;
+import com.twokeys.moinho.dto.CostCalculationResultDTO;
 import com.twokeys.moinho.services.CostCalculationService;
 
 @RestController
@@ -26,7 +27,12 @@ import com.twokeys.moinho.services.CostCalculationService;
 public class CostCalculationResource {
 	@Autowired
 	CostCalculationService service;
-
+	
+	@GetMapping(value="/{id}")
+	public ResponseEntity<CostCalculationResultDTO> findById(@PathVariable Long id){
+		return  ResponseEntity.ok().body(service.findResultById(id));
+	}
+	
 	@GetMapping
 	public ResponseEntity<Page<CostCalculationDTO>> findByStartDateAndFormulation(@RequestParam(value = "startDate") LocalDate  startDate,
 																				  @RequestParam(value = "endDate") LocalDate  endDate,

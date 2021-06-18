@@ -6,6 +6,7 @@ import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,6 +16,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.twokeys.moinho.dto.ProductionOrderOperationalCostDTO;
 import com.twokeys.moinho.entities.OperationalCostType;
 import com.twokeys.moinho.entities.ProductionOrder;
 import com.twokeys.moinho.entities.ProductionOrderOperationalCost;
@@ -41,6 +43,13 @@ public class ProductionOrderOperationalCostService {
 	private OperationalPaymentRepository operationalPaymentRepository; 
 	@Autowired
 	private ProductionOrderItemRepository productionOrderItemsRepository;
+	
+	@Transactional(readOnly = true)
+	public List<ProductionOrderOperationalCostDTO> findByIdProductionOrderId(Long id){
+		List<ProductionOrderOperationalCost> list = repository.findByIdProductionOrderId(id);
+		return list.stream().map(x -> new ProductionOrderOperationalCostDTO(x)).collect(Collectors.toList());
+	}
+	
 	
 	@Transactional
 	public void prorateOperatingCost(Instant startDate, Instant endDate){
@@ -83,8 +92,8 @@ public class ProductionOrderOperationalCostService {
 							productionOrderOperationalCost = new ProductionOrderOperationalCost();
 							productionOrderOperationalCost.setValue(proratedAmount);
 							productionOrderOperationalCost.setProductionOrder(item);
-							productionOrderOperationalCost.setApportionmentType(new OperationalCostType(id,"",type));
-							repository.save(productionOrderOperationalCost);
+							productionOrderOperationalCost.setOperationalCostType(new OperationalCostType(id,"",type));
+							repository.saveAndFlush(productionOrderOperationalCost);
 						}
 						break;
 					case VOLUME_MATERIA_PRIMA:
@@ -110,8 +119,8 @@ public class ProductionOrderOperationalCostService {
 							productionOrderOperationalCost = new ProductionOrderOperationalCost();
 							productionOrderOperationalCost.setValue(proratedAmount);
 							productionOrderOperationalCost.setProductionOrder(item);
-							productionOrderOperationalCost.setApportionmentType(new OperationalCostType(id,"",type));
-							repository.save(productionOrderOperationalCost);
+							productionOrderOperationalCost.setOperationalCostType(new OperationalCostType(id,"",type));
+							repository.saveAndFlush(productionOrderOperationalCost);
 						}
 						break;
 					default:

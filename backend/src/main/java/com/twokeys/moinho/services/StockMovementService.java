@@ -62,8 +62,7 @@ public class StockMovementService {
 			List<Object[]> object= repository.currentStockByProduct(product.getId());
 			balance=(Double)object.get(0)[0];
 			financialStockBalance=(Double)object.get(0)[1];
-			logger.info("Product: " + product.getName() );
-			logger.info("Balance: " + balance );
+
 			if(balance==0) {
 				dto.setAverageCost(0.0);
 				dto.setBalance(0.0);
@@ -93,9 +92,7 @@ public class StockMovementService {
 			List<Object[]> object= repository.stockByProductAndPreviousAndEqualDate(product,date);
 			balance=(Double)object.get(0)[0];
 			financialStockBalance=(Double)object.get(0)[1];
-			logger.info("Product: " + product.getName() );
-			logger.info("Data: " + date );
-			logger.info("Balance: " + balance );
+
 			if(balance==0) {
 				dto.setAverageCost(0.0);
 				dto.setBalance(0.0);

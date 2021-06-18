@@ -127,7 +127,7 @@ public class ProductionOrderService {
 	
 	@Transactional(readOnly=true)
 	public List<ProductionOrderDTO> listByStartDateAndStatus(Instant startDate,Instant endDate, ProductionOrderStatus status, 
-															FormulationType type, Integer level){
+															 FormulationType type, Integer level){
 		List<ProductionOrder> list = repository.findByStartDateBetweenAndStatusAndFormulationTypeAndFormulationLevel(startDate, endDate, status,type,level);
 	    return list.stream().map(x -> new ProductionOrderDTO(x)).collect(Collectors.toList());
 	}

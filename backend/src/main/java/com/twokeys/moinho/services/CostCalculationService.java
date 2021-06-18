@@ -20,9 +20,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.twokeys.moinho.dto.CostCalculationDTO;
+import com.twokeys.moinho.dto.CostCalculationResultDTO;
 import com.twokeys.moinho.dto.ProductDTO;
+import com.twokeys.moinho.dto.ProductionOrderCostLaborDTO;
 import com.twokeys.moinho.dto.ProductionOrderDTO;
 import com.twokeys.moinho.dto.ProductionOrderItemDTO;
+import com.twokeys.moinho.dto.ProductionOrderOperationalCostDTO;
 import com.twokeys.moinho.dto.ProductionOrderProducedAverageCostDTO;
 import com.twokeys.moinho.dto.ProductionOrderProducedDTO;
 import com.twokeys.moinho.dto.StockBalanceDTO;
@@ -49,6 +52,7 @@ public class CostCalculationService {
 	private ProductionOrderOperationalCostService productionOrderOperationalCostService; 
 	@Autowired
 	private ProductionOrderService productionOrderService;
+	
 	@Autowired
 	private ProductionOrderProducedService productionOrderProducedService;
 	@Autowired
@@ -63,12 +67,32 @@ public class CostCalculationService {
 		Page<CostCalculation> page = repository.findByReferenceMonthAndStatus(startDate,endDate,pageRequest);
 		return page.map(x -> new CostCalculationDTO(x));
 	}
+	
+	@Transactional(readOnly=true)
+	public CostCalculationResultDTO findResultById(Long id){
+		try {
+			 CostCalculationResultDTO result = new CostCalculationResultDTO();
+			 List<ProductionOrderDTO> productionsOrders = new ArrayList<>();
+			 CostCalculation entity = repository.getOne(id);
+			 
+			 productionsOrders=productionOrderService.findByStartDateAndStatus(entity.getStartDate(), entity.getEndDate(), ProductionOrderStatus.APURACAO_FINALIZADA);
+			 
+			 result.setCostCalculation(new CostCalculationDTO(entity));
+			 result.getProductionOrders().addAll(productionsOrders);			
+			 
+			 return result;
+		} catch (Exception e) {
+			throw new UntreatedException(e.getMessage());
+		}
+	}
+	
 	@Transactional(readOnly=true)
 	public CostCalculationDTO findById(Long id){
 		Optional<CostCalculation> obj = repository.findById(id);
 		CostCalculation entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		return new CostCalculationDTO(entity);
 	}
+	
 	@Transactional(readOnly=true)
 	public Boolean hasCostCalculation(Integer year, Integer month){
 		CostCalculation entity = repository.findByReferenceMonthAndYearAndMonth(year,month);
@@ -80,13 +104,16 @@ public class CostCalculationService {
 	}
 	
 	@Transactional
-	public void calculation (CostCalculation costCalculation) {
+	public CostCalculationDTO calculation (CostCalculation costCalculation) {
 		try {
 			List<ProductionOrderDTO> listProductionOrder = new ArrayList<>();
+			List<ProductionOrderOperationalCostDTO> listProductionOrderOperationalCost = new ArrayList<>();
+			List<ProductionOrderCostLaborDTO> listProductionOrderCostLabor = new ArrayList<>();
 			List<ProductionOrderItemDTO> listProductionOrderItem = new ArrayList<>();
 			Double costUnity;
 			Double averageCost;
 			Double totalValue;
+			Double indirectCost;
 			Double totalQuantity;
 			Set<ProductDTO> products = new HashSet<>();
 			List<Integer> levels = new ArrayList<>();
@@ -109,7 +136,19 @@ public class CostCalculationService {
 				listProductionOrder = productionOrderService.listByStartDateAndStatus(costCalculation.getStartDate(), costCalculation.getEndDate(),ProductionOrderStatus.ENCERRADO,FormulationType.INTERMEDIARIO,level);
 				for (ProductionOrderDTO productionOrder : listProductionOrder) {
 					/*CALCULA O CUSTO UNITARIO DA ORDEM DE PRODUÇÃO*/
-					costUnity = (productionOrder.getTotalDirectCost()+productionOrder.getTotalIndirectCost())/productionOrder.getTotalProduced();
+					listProductionOrderOperationalCost = productionOrderOperationalCostService.findByIdProductionOrderId(productionOrder.getId());
+					listProductionOrderCostLabor = productionOrderCostLaborService.findByIdProductionOrderId(productionOrder.getId());
+					indirectCost=0.0;
+					/*TOTAL DO CUSTO OPERACIONAL ABSORVIDO PELA ORDEM DE PRODUÇÃO*/
+					for (ProductionOrderOperationalCostDTO productionOrderOperationalCost : listProductionOrderOperationalCost) {
+						indirectCost+=productionOrderOperationalCost.getValue();
+					}
+					/*TOTAL DO CUSTO DE MÃO DE OBRA ABSORVIDO PELA ORDEM DE PRODUÇÃO*/
+					for (ProductionOrderCostLaborDTO productionOrderCostLabor : listProductionOrderCostLabor) {
+						indirectCost+=productionOrderCostLabor.getValue();
+					}
+					
+					costUnity = (productionOrder.getTotalDirectCost()+indirectCost)/productionOrder.getTotalProduced();
 					costUnity=Util.roundHalfUp2(costUnity);
 					productionOrder.setStatus(ProductionOrderStatus.APURACAO_FINALIZADA);
 					productionOrderService.updateService(productionOrder.getId(), productionOrder);
@@ -149,7 +188,18 @@ public class CostCalculationService {
 		
 			for (ProductionOrderDTO productionOrder : listProductionOrder) {
 				/*CALCULA O CUSTO UNITARIO DA ORDEM DE PRODUÇÃO*/
-				costUnity = (productionOrder.getTotalDirectCost()+productionOrder.getTotalIndirectCost())/productionOrder.getTotalProduced();
+				listProductionOrderOperationalCost = productionOrderOperationalCostService.findByIdProductionOrderId(productionOrder.getId());
+				listProductionOrderCostLabor = productionOrderCostLaborService.findByIdProductionOrderId(productionOrder.getId());
+				indirectCost=0.0;
+				/*TOTAL DO CUSTO OPERACIONAL ABSORVIDO PELA ORDEM DE PRODUÇÃO*/
+				for (ProductionOrderOperationalCostDTO productionOrderOperationalCost : listProductionOrderOperationalCost) {
+					indirectCost+=productionOrderOperationalCost.getValue();
+				}
+				/*TOTAL DO CUSTO DE MÃO DE OBRA ABSORVIDO PELA ORDEM DE PRODUÇÃO*/
+				for (ProductionOrderCostLaborDTO productionOrderCostLabor : listProductionOrderCostLabor) {
+					indirectCost+=productionOrderCostLabor.getValue();
+				}
+				costUnity = (productionOrder.getTotalDirectCost()+indirectCost)/productionOrder.getTotalProduced();
 				costUnity=Util.roundHalfUp2(costUnity);
 				productionOrder.setStatus(ProductionOrderStatus.APURACAO_FINALIZADA);
 				productionOrderService.updateService(productionOrder.getId(), productionOrder);
@@ -160,7 +210,7 @@ public class CostCalculationService {
 				}
 			}
 			costCalculation.setStatus(CostCalculationStatus.ENCERRADO);
-			repository.save(costCalculation);
+		return	new CostCalculationDTO(repository.save(costCalculation));
 		} catch (Exception e) {
 			throw new UntreatedException(e.getMessage());
 		}
@@ -177,19 +227,16 @@ public class CostCalculationService {
 					throw new BusinessRuleException("O periodo selecionado possui ordem de produção em aberto");
 				}
 				list = productionOrderService.findByStartDateAndStatus(dto.getStartDate(), dto.getEndDate(), ProductionOrderStatus.ENCERRADO); 
-				/*NÃO TEM ORDEM DE PRODUÇÃO COM STATUS ENCERRADO*/
+				/*NÃO TER ORDEM DE PRODUÇÃO COM STATUS ENCERRADO*/
 				if (list.size() == 0) {
 					throw new BusinessRuleException("O periodo selecionado não possui ordem de produção encerrada");
 				}
-				
 				dto.setStatus(CostCalculationStatus.ANDAMENTO);
 				convertToEntity(dto,entity);
 				entity = repository.save(entity);
-				
-				calculation(entity);
-				
-				return new CostCalculationDTO(entity);
+				return calculation(entity);
 	}
+	
 	@Transactional
 	public CostCalculationDTO update(Long id, CostCalculationDTO dto) {
 		try {
@@ -201,6 +248,7 @@ public class CostCalculationService {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}
 	}
+	
 	@Transactional
 	public void delete(Long id) {
 		try {
@@ -230,9 +278,9 @@ public class CostCalculationService {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Integrity violation");
-		}
-		
+		}	
 	}
+	
 	public void convertToEntity(CostCalculationDTO dto,CostCalculation entity) {
 		entity.setStartDate(dto.getStartDate());
 		entity.setEndDate(dto.getEndDate());
@@ -240,4 +288,5 @@ public class CostCalculationService {
 		entity.setStatus(dto.getStatus());
 		entity.setReferenceMonth(dto.getReferenceMonth());
 	}
+	
 }
