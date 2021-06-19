@@ -78,7 +78,7 @@ INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group
 INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Leite concentrado',1,'LEITE CONCENTRADO',1,'KG',5,'KG',7,1);
 
 
-
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-05-15','',0,5,1,1.20,50000,0);
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-01','',0,5,1,1.20,50000,0);
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-10','',0,5,1,1.25,10000,0);
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-15','',0,5,1,1.05,100500,0);
@@ -97,6 +97,7 @@ INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-25','',0,5,6,31,5000,0);
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-01','',0,5,6,32.52,9999,0);
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-01','',0,5,11,0.97,9999,0);
+INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-01','',0,5,12,0.87,9999,0);
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-01','',0,5,13,9.30,9999,0);
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-01','',0,5,14,17.38,9999,0);
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-01','',0,5,15,25.10,9999,0);

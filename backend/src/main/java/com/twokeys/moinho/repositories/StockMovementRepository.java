@@ -17,21 +17,49 @@ public interface StockMovementRepository extends JpaRepository<StockMovement, Lo
 		List<StockMovement> findByProduct(Product product);
 		
 		@Query(value = "select "
+					 + "obj.product.id, "
+					 + "obj.product.name, "
+					 + "obj.product.unity.id, "
 					 + "coalesce(sum(obj.entry)-sum(obj.out),0) as balance, "
 					 + "coalesce(sum(obj.entry*obj.cost)-sum(obj.out*obj.cost),0) as financialStockBalance "
 				     + "from StockMovement  obj   "
-				     + "where obj.product.id = :productId ")
+				     + "where obj.product.id = :productId "
+				     + "group by "
+					 + "obj.product.id, "
+					 + "obj.product.name, "
+					 + "obj.product.unity.id ")
 		List<Object[]> currentStockByProduct(Long productId);
 		
 		@Query(value = "select "
+				 	 + "obj.product.id, "
+				 	 + "obj.product.name, "
+				 	 + "obj.product.unity.id, "
 					 + "coalesce(sum(obj.entry)-sum(obj.out),0) as balance, "
 				 	 + "coalesce(sum(obj.entry*obj.cost)-sum(obj.out*obj.cost),0) as financialStockBalance "
 				 	 + "from StockMovement obj   "
-				 	 + "where obj.product = :product "
-				 	 + "and obj.date <= :date ")
-		List<Object[]> stockByProductAndPreviousAndEqualDate(Product product, LocalDate date);
+				 	 + "where obj.product.id = :productId "
+				 	 + "and obj.date <= :date "
+				 	 + "group by "
+					 + "obj.product.id, "
+					 + "obj.product.name, "
+					 + "obj.product.unity.id ")
+		List<Object[]> stockByProductAndPreviousAndEqualDate(Long productId, LocalDate date);
 		
-		
+		@Query(value = "select "
+					 + "prod.id, "
+					 + "prod.name, "
+					 + "prod.unity_id, "
+				 	 + "coalesce(sum(obj.entry)-sum(obj.out),0) as balance, "
+			 	     + "coalesce(sum(obj.entry*obj.cost)-sum(obj.out*obj.cost),0) as financialStockBalance "
+			 	     + "from tb_product prod "
+			 	     + "LEFT JOIN tb_stock_movement obj on obj.product_id = prod.id   "
+			 	     + "where obj.date <= :date "
+			 	     + "group by  "
+			 	     + "prod.id, "
+					 + "prod.name, "
+					 + "prod.unity_id ",nativeQuery = true)
+		List<Object[]> stockByPreviousAndEqualDate(LocalDate date);
+				
 		
 		@Query("SELECT obj FROM StockMovement obj "
 			 + "WHERE (COALESCE(:product) IS NULL OR product = :product) "

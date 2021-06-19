@@ -1,6 +1,8 @@
 package com.twokeys.moinho.services;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,7 +19,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.twokeys.moinho.dto.ProductDTO;
 import com.twokeys.moinho.dto.StockBalanceDTO;
 import com.twokeys.moinho.dto.StockMovementDTO;
 import com.twokeys.moinho.entities.Product;
@@ -54,14 +55,15 @@ public class StockMovementService {
 		try {
 			Double balance=0.0;
 			Double financialStockBalance=0.0;
-
-			Product product = productRepository.findById(productId).get();
 			StockBalanceDTO dto = new StockBalanceDTO();
-			dto.setProduct(new ProductDTO(product));
 			
-			List<Object[]> object= repository.currentStockByProduct(product.getId());
-			balance=(Double)object.get(0)[0];
-			financialStockBalance=(Double)object.get(0)[1];
+			
+			List<Object[]> object= repository.currentStockByProduct(productId);
+			
+			dto.setId(productId);
+			
+			balance=(Double)object.get(0)[3];
+			financialStockBalance=(Double)object.get(0)[4];
 
 			if(balance==0) {
 				dto.setAverageCost(0.0);
@@ -79,19 +81,56 @@ public class StockMovementService {
 			throw new UntreatedException(e.getMessage());
 		}
 	}
+	
+	@Transactional(readOnly=true)
+	public List<StockBalanceDTO> stockByPreviousAndEqualDate(LocalDate date){
+		try {
+			Double balance=0.0;
+			Double financialStockBalance=0.0;
+			List<StockBalanceDTO> list = new ArrayList<>();
+			StockBalanceDTO dto;
+			List<Object[]> object= repository.stockByPreviousAndEqualDate(date);
+			BigInteger id;			
+			for (int i = 0; i < object.size(); i++) {
+				dto = new StockBalanceDTO();
+				id=(BigInteger)object.get(i)[0];
+				dto.setId(id.longValue());
+				dto.setName((String)object.get(i)[1]);
+				dto.setUnity((String)object.get(i)[2]);
+				balance = (Double)object.get(i)[3];
+				financialStockBalance = (Double)object.get(i)[4];
+				
+				if(balance==0) {
+					dto.setAverageCost(0.0);
+					dto.setBalance(0.0);
+				}else {
+					dto.setAverageCost(Util.roundHalfUp2(financialStockBalance/balance));
+					dto.setBalance(Util.roundHalfUp2(balance));
+				}
+				list.add(dto);
+			}
+		
+			return list;
+		} catch (Exception e) {
+			throw new UntreatedException(e.getMessage());
+		}
+	}
+	
+	
+	
 	@Transactional(readOnly=true)
 	public StockBalanceDTO stockByProductAndPreviousAndEqualDate(Long productId, LocalDate date){
 		try {
 			Double balance=0.0;
 			Double financialStockBalance=0.0;
 
-			Product product = productRepository.findById(productId).get();
-			StockBalanceDTO dto = new StockBalanceDTO();
-			dto.setProduct(new ProductDTO(product));
 			
-			List<Object[]> object= repository.stockByProductAndPreviousAndEqualDate(product,date);
-			balance=(Double)object.get(0)[0];
-			financialStockBalance=(Double)object.get(0)[1];
+			StockBalanceDTO dto = new StockBalanceDTO();
+			dto.setId(productId);
+			
+			List<Object[]> object= repository.stockByProductAndPreviousAndEqualDate(productId,date);
+			balance=(Double)object.get(0)[3];
+			financialStockBalance=(Double)object.get(0)[4];
 
 			if(balance==0) {
 				dto.setAverageCost(0.0);
@@ -153,7 +192,8 @@ public class StockMovementService {
 		}catch (DataIntegrityViolationException e ) {
 			throw new DatabaseException("Database integrity reference");
 		}catch(Exception e) {
-			throw new UntreatedException("Aqui Mesmo"+e.getMessage());
+			logger.info(e.getMessage());
+			throw new UntreatedException("Erro não tratado ao inserir estoque");
 		}
 	}
 	@Transactional
@@ -181,7 +221,8 @@ public class StockMovementService {
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}catch(Exception e) {
-			throw new UntreatedException(e.getMessage());
+			logger.info(e.getMessage());
+			throw new UntreatedException("Erro não tratado ao atualizar estoque");
 		}
 	}
 	@Transactional
@@ -208,7 +249,8 @@ public class StockMovementService {
 		}catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Integrity violation");
 		}catch(Exception e) {
-			throw new UntreatedException(e.getMessage());
+			logger.info(e.getMessage());
+			throw new UntreatedException("Erro não tratado ao deletar estoque");
 		}
 		
 	}

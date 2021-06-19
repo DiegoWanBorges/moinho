@@ -1,10 +1,10 @@
 package com.twokeys.moinho.services;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.EntityNotFoundException;
@@ -64,8 +64,8 @@ public class CostCalculationService {
 	
 	@Transactional(readOnly=true)
 	public Page<CostCalculationDTO> findByReferenceMonthAndStatus(LocalDate startDate,LocalDate endDate,PageRequest pageRequest){
-		Page<CostCalculation> page = repository.findByReferenceMonthAndStatus(startDate,endDate,pageRequest);
-		return page.map(x -> new CostCalculationDTO(x));
+		   Page<CostCalculation> page = repository.findByReferenceMonthAndStatus(startDate,endDate,pageRequest);
+		   return page.map(x -> new CostCalculationDTO(x));
 	}
 	
 	@Transactional(readOnly=true)
@@ -73,26 +73,29 @@ public class CostCalculationService {
 		try {
 			 CostCalculationResultDTO result = new CostCalculationResultDTO();
 			 List<ProductionOrderDTO> productionsOrders = new ArrayList<>();
+			 List<StockBalanceDTO> openingStockBalance = new ArrayList<>();
+			 List<StockBalanceDTO> closingStockBalance = new ArrayList<>();
 			 CostCalculation entity = repository.getOne(id);
 			 
+			 LocalDate endDate = LocalDate.ofInstant(entity.getEndDate(), ZoneId.of("America/Sao_Paulo"));
+			 
 			 productionsOrders=productionOrderService.findByStartDateAndStatus(entity.getStartDate(), entity.getEndDate(), ProductionOrderStatus.APURACAO_FINALIZADA);
+			 openingStockBalance = stockMovementService.stockByPreviousAndEqualDate(entity.getStockStartDate());
+			 closingStockBalance = stockMovementService.stockByPreviousAndEqualDate(endDate);
+			 
 			 
 			 result.setCostCalculation(new CostCalculationDTO(entity));
-			 result.getProductionOrders().addAll(productionsOrders);			
-			 
+			 result.getProductionOrders().addAll(productionsOrders);	
+			 result.getOpeningStockBalance().addAll(openingStockBalance);
+			 result.getClosingStockBalance().addAll(closingStockBalance);
 			 return result;
+		}catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found: " + id);
 		} catch (Exception e) {
 			throw new UntreatedException(e.getMessage());
 		}
 	}
-	
-	@Transactional(readOnly=true)
-	public CostCalculationDTO findById(Long id){
-		Optional<CostCalculation> obj = repository.findById(id);
-		CostCalculation entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-		return new CostCalculationDTO(entity);
-	}
-	
+		
 	@Transactional(readOnly=true)
 	public Boolean hasCostCalculation(Integer year, Integer month){
 		CostCalculation entity = repository.findByReferenceMonthAndYearAndMonth(year,month);
@@ -209,7 +212,7 @@ public class CostCalculationService {
 					productionOrderProducedService.updateService(productionOrderProduced);
 				}
 			}
-			costCalculation.setStatus(CostCalculationStatus.ENCERRADO);
+				costCalculation.setStatus(CostCalculationStatus.ENCERRADO);
 		return	new CostCalculationDTO(repository.save(costCalculation));
 		} catch (Exception e) {
 			throw new UntreatedException(e.getMessage());
@@ -220,7 +223,6 @@ public class CostCalculationService {
 	@Transactional
 	public CostCalculationDTO insert(CostCalculationDTO dto) {
 				CostCalculation entity =new CostCalculation();
-				
 				List<ProductionOrderDTO> list = productionOrderService.findByStartDateAndStatus(dto.getStartDate(), dto.getEndDate(), ProductionOrderStatus.ABERTO); 
 				/*NÃO PODE TER ORDEM DE PRODUÇÃO COM STATUS ABERTO*/
 				if (list.size() > 0) {
@@ -235,18 +237,6 @@ public class CostCalculationService {
 				convertToEntity(dto,entity);
 				entity = repository.save(entity);
 				return calculation(entity);
-	}
-	
-	@Transactional
-	public CostCalculationDTO update(Long id, CostCalculationDTO dto) {
-		try {
-			CostCalculation entity = repository.getOne(id);
-			convertToEntity(dto,entity);
-			entity = repository.save(entity);
-			return new CostCalculationDTO(entity);
-		}catch(EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Id not found: " + id);
-		}
 	}
 	
 	@Transactional
