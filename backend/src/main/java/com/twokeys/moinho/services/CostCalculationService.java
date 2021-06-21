@@ -33,6 +33,7 @@ import com.twokeys.moinho.entities.CostCalculation;
 import com.twokeys.moinho.entities.enums.CostCalculationStatus;
 import com.twokeys.moinho.entities.enums.FormulationType;
 import com.twokeys.moinho.entities.enums.ProductionOrderStatus;
+import com.twokeys.moinho.entities.enums.StockMovementType;
 import com.twokeys.moinho.repositories.CostCalculationRepository;
 import com.twokeys.moinho.services.exceptions.BusinessRuleException;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
@@ -75,19 +76,25 @@ public class CostCalculationService {
 			 List<ProductionOrderDTO> productionsOrders = new ArrayList<>();
 			 List<StockBalanceDTO> openingStockBalance = new ArrayList<>();
 			 List<StockBalanceDTO> closingStockBalance = new ArrayList<>();
+			 List<StockBalanceDTO> purchaseStockBalance = new ArrayList<>();
+			 List<ProductionOrderProducedAverageCostDTO> productionOrderProducedAverageCosts = new ArrayList<>();
 			 CostCalculation entity = repository.getOne(id);
 			 
+			 LocalDate startDate = LocalDate.ofInstant(entity.getStartDate(), ZoneId.of("America/Sao_Paulo"));
 			 LocalDate endDate = LocalDate.ofInstant(entity.getEndDate(), ZoneId.of("America/Sao_Paulo"));
 			 
 			 productionsOrders=productionOrderService.findByStartDateAndStatus(entity.getStartDate(), entity.getEndDate(), ProductionOrderStatus.APURACAO_FINALIZADA);
 			 openingStockBalance = stockMovementService.stockByPreviousAndEqualDate(entity.getStockStartDate());
 			 closingStockBalance = stockMovementService.stockByPreviousAndEqualDate(endDate);
-			 
+			 productionOrderProducedAverageCosts = productionOrderProducedService.findProducedStartDate(entity.getStartDate(), entity.getEndDate());
+			 purchaseStockBalance = stockMovementService.stockByDateBetweenAndType(startDate,endDate,StockMovementType.COMPRA);
 			 
 			 result.setCostCalculation(new CostCalculationDTO(entity));
 			 result.getProductionOrders().addAll(productionsOrders);	
 			 result.getOpeningStockBalance().addAll(openingStockBalance);
 			 result.getClosingStockBalance().addAll(closingStockBalance);
+			 result.getProductionOrderProducedAverageCosts().addAll(productionOrderProducedAverageCosts);
+			 result.getPurchaseStockBalance().addAll(purchaseStockBalance);
 			 return result;
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
@@ -174,7 +181,7 @@ public class CostCalculationService {
 						/*Estoque Inicial*/
 						stockBalance = stockMovementService.stockByProductAndPreviousAndEqualDate(product.getId(), costCalculation.getStockStartDate());
 						/*Custo Médio da produção*/
-						productionOrderProducedAverageCost = productionOrderProducedService.producedAverageCost(product.getId(), costCalculation.getStartDate(), costCalculation.getEndDate());
+						productionOrderProducedAverageCost = productionOrderProducedService.findProducedByProductAndStartDate(product.getId(), costCalculation.getStartDate(), costCalculation.getEndDate());
 						totalValue = (stockBalance.getBalance()*stockBalance.getAverageCost())+(productionOrderProducedAverageCost.getAverageCost() * productionOrderProducedAverageCost.getTotalProduced()); 
 						totalQuantity = (stockBalance.getBalance()+productionOrderProducedAverageCost.getTotalProduced());
 						averageCost=Util.roundHalfUp2(totalValue/totalQuantity);

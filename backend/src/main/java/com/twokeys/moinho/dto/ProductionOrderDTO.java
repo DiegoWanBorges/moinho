@@ -174,7 +174,7 @@ public class ProductionOrderDTO   implements Serializable {
 		for (ProductionOrderCostLaborDTO labor : productionOrderCostLabor) {
 				sum+=labor.getValue();
 		}
-		return sum;
+		return Util.roundHalfUp2(sum);
 	}
 	public Double getUnitCost() {
 		Double sum =0.0;

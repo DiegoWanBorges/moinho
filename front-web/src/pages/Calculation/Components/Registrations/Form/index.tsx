@@ -1,88 +1,118 @@
+import { CostCalculationResult } from 'core/types/CostCalculation';
 import { makePrivateRequest } from 'core/utils/request';
+import { useState } from 'react';
 import { useEffect } from 'react';
-import {  useForm } from 'react-hook-form';
-import { useHistory, useParams } from 'react-router';
-import { toast } from 'react-toastify';
+import { useParams } from 'react-router';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import CostCalculationSummary from './Summary';
+import StockBalanceCard from 'core/components/StockBalance';
 import './styles.scss';
+import CostCalculationProductionOrderDetails from './ProductionOrderDetails';
+import AverageCostProduction from './AverageCostProduction';
+import {  toISOFormatDateTime } from 'core/utils/utils';
+import moment from 'moment';
 
-export type FormState = {
-    name: string;
-}
+
 type ParamsType = {
-    groupId: string;
+    costCalculationId: string;
 }
-function GroupForm() {
-    const { register, handleSubmit, errors, setValue } = useForm<FormState>();
-    const history = useHistory();
-    const { groupId } = useParams<ParamsType>();
-    const isEditing = groupId !== 'new';
+function CostCalculationForm() {
+    const [costCalculationResult, setCostCalculationResult] = useState<CostCalculationResult>();
 
+    const { costCalculationId } = useParams<ParamsType>();
 
     useEffect(() => {
-        if (isEditing) {
-            makePrivateRequest({ url: `/groups/${groupId}` })
-                .then(response => {
-                    setValue('name', response.data.name);
-                })
-        }
-    }, [groupId, isEditing, setValue])
+        makePrivateRequest({ url: `/costcalculations/${costCalculationId}` })
+            .then(response => setCostCalculationResult(response.data))
+            .finally(() => {
 
-
-
-    const onSubmit = (data: FormState) => {
-        makePrivateRequest({
-            url: isEditing ? `/groups/${groupId}` : '/groups/',
-            method: isEditing ? 'PUT' : 'POST',
-            data: data
-        })
-            .then(() => {
-                toast.success("Grupo salvo com sucesso!")
-                history.push('/registrations/groups/')
             })
-            .catch(() => {
-                toast.error("Erro ao salvar grupo!")
-            })
-    }
+    }, [costCalculationId])
 
-    const handleCancel = () => {
-        history.push("./") 
-    }
+
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="group-form">
-            <div className="group-form-main">
+        <div className="costCalculation-main">
+            <Tabs className="tab-main">
+                <TabList>
+                    <Tab>Resumo</Tab>
+                    <Tab>Estoque Inicial</Tab>
+                    <Tab>Compras</Tab>
+                    <Tab>Produção Detalhado</Tab>
+                    <Tab>Custo Médio Produção</Tab>
+                    <Tab>Estoque Final</Tab>
+                </TabList>
 
-                <div className="group-form-name">
-                    <label className="label-base" >Nome:</label>
-                    <input
-                        name="name"
-                        type="text"
-                        className="input-base"
-                        ref={register({
-                            required: "Campo obrigatório",
-                            minLength: { value: 2, message: "O campo deve ter minímo 2 caracteres" },
-                            maxLength: { value: 50, message: "O campo deve ter no maximo 10 caracteres" },
-                        })}
-                    />
-                    {errors.name && (
-                        <div className="invalid-feedback d-block">
-                            {errors.name.message}
+                <TabPanel>
+                    {costCalculationResult && (
+                        <CostCalculationSummary
+                            costCalculation={costCalculationResult.costCalculation}
+                        />
+                    )}
+                </TabPanel>
+                <TabPanel>
+                    <div className="costCalculation-stockStart">
+                        <h6 >Data: {costCalculationResult?.costCalculation.stockStartDate}</h6>
+                    </div>
+                    {costCalculationResult && (
+                        costCalculationResult.openingStockBalance.map(item => (
+                            <StockBalanceCard
+                                key={item.id}
+                                stockBalance={item}
+                            />
+                        ))
+                    )}
+                </TabPanel>
+                <TabPanel>
+                    {costCalculationResult && (
+                        costCalculationResult.purchaseStockBalance.map(item => (
+                            <StockBalanceCard
+                                key={item.id}
+                                stockBalance={item}
+                            />
+                        ))
+                    )}
+                </TabPanel>
+                <TabPanel>
+                    {costCalculationResult && (
+                        costCalculationResult.productionOrders.map(item => (
+                            <CostCalculationProductionOrderDetails
+                                key={item.id}
+                                productionOrder={item}
+                            />
+                        ))
+                    )}
+                </TabPanel>
+                <TabPanel>
+                    {costCalculationResult && (
+                        costCalculationResult.productionOrderProducedAverageCosts.map(item => (
+                            <AverageCostProduction
+                                key={item.id}
+                                averageCostProduction={item}
+                            />
+                        ))
+                    )}
+                </TabPanel>
+                <TabPanel>
+                    {costCalculationResult && (
+                        <div className="costCalculation-stockStart">
+                            <h6 >Data: {moment(toISOFormatDateTime(costCalculationResult.costCalculation.endDate)).format("DD/MM/YYYY")}</h6>
                         </div>
                     )}
-                </div>
 
-                <div className="group-form-actions">
-                    <button
-                        className="btn btn-outline-danger"
-                        onClick={handleCancel}
-                    >
-                        CANCELAR
-                </button>
-                    <button className="btn btn-primary group-form-btn-save">
-                        SALVAR
-                </button>
-                </div>
-            </div>
-        </form>
+                    {costCalculationResult && (
+                        costCalculationResult.closingStockBalance.map(item => (
+                            <StockBalanceCard
+                                key={item.id}
+                                stockBalance={item}
+                            />
+                        ))
+                    )}
+
+                </TabPanel>
+            </Tabs>
+
+
+        </div>
     );
 }
-export default GroupForm;
+export default CostCalculationForm;

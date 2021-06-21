@@ -23,6 +23,7 @@ import com.twokeys.moinho.dto.StockBalanceDTO;
 import com.twokeys.moinho.dto.StockMovementDTO;
 import com.twokeys.moinho.entities.Product;
 import com.twokeys.moinho.entities.StockMovement;
+import com.twokeys.moinho.entities.enums.StockMovementType;
 import com.twokeys.moinho.repositories.ProductRepository;
 import com.twokeys.moinho.repositories.StockMovementRepository;
 import com.twokeys.moinho.services.exceptions.BusinessRuleException;
@@ -116,6 +117,39 @@ public class StockMovementService {
 		}
 	}
 	
+	@Transactional(readOnly=true)
+	public List<StockBalanceDTO> stockByDateBetweenAndType(LocalDate startDate,LocalDate endDate, StockMovementType type){
+		try {
+			Double balance=0.0;
+			Double financialStockBalance=0.0;
+			List<StockBalanceDTO> list = new ArrayList<>();
+			StockBalanceDTO dto;
+			List<Object[]> object= repository.stockByDateBetweenAndType(startDate,endDate,type);
+			
+			for (int i = 0; i < object.size(); i++) {
+				dto = new StockBalanceDTO();
+				dto.setId((Long)object.get(i)[0]);
+				dto.setName((String)object.get(i)[1]);
+				dto.setUnity((String)object.get(i)[2]);
+				balance = (Double)object.get(i)[3];
+				financialStockBalance = (Double)object.get(i)[4];
+				
+				if(balance==0) {
+					dto.setAverageCost(0.0);
+					dto.setBalance(0.0);
+				}else {
+					dto.setAverageCost(Util.roundHalfUp2(financialStockBalance/balance));
+					dto.setBalance(Util.roundHalfUp2(balance));
+				}
+				list.add(dto);
+			}
+		
+			return list;
+		} catch (Exception e) {
+			throw new UntreatedException(e.getMessage());
+		}
+	}
+	
 	
 	
 	@Transactional(readOnly=true)
@@ -123,19 +157,17 @@ public class StockMovementService {
 		try {
 			Double balance=0.0;
 			Double financialStockBalance=0.0;
-
-			
 			StockBalanceDTO dto = new StockBalanceDTO();
 			dto.setId(productId);
 			
 			List<Object[]> object= repository.stockByProductAndPreviousAndEqualDate(productId,date);
-			balance=(Double)object.get(0)[3];
-			financialStockBalance=(Double)object.get(0)[4];
-
-			if(balance==0) {
+			
+			if(object.size()==0) {
 				dto.setAverageCost(0.0);
 				dto.setBalance(0.0);
 			}else {
+				balance=(Double)object.get(0)[3];
+				financialStockBalance=(Double)object.get(0)[4];
 				dto.setAverageCost(Util.roundHalfUp2(financialStockBalance/balance));
 				dto.setBalance(Util.roundHalfUp2(balance));
 			}
@@ -143,7 +175,7 @@ public class StockMovementService {
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + productId);
 		} catch (Exception e) {
-			throw new UntreatedException(e.getMessage());
+			throw new UntreatedException("Exceção não tratada em: stockByProductAndPreviousAndEqualDate");
 		}
 	}
 	

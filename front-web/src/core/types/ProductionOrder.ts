@@ -1,5 +1,7 @@
 import { Product } from "./Product";
 import { Formulation } from "./Formulation";
+import { Sector } from "./Employee";
+import { OperationalCostType } from "./Payment";
 
 export type ProductionOrdersResponse ={
     content: ProductionOrder[];
@@ -24,6 +26,12 @@ export type ProductionOrder= {
     formulation: Formulation;
     productionOrderItems:ProductionOrderItem[];
     productionOrderProduceds:ProductionOrderProduced[];
+    productionOrderCostLabor:ProductionOrderCostLabor[];
+    productionOrderOperationalCost:ProductionOrderOperationalCost[];
+    totalProduced: number;
+    totalDirectCost: number;
+    unitCost: number;
+    totalIndirectCost: number;
 }
     
 export type ProductionOrderItem= {
@@ -57,5 +65,13 @@ export type ProductionOrderProduced ={
         palletStatus:Palletstatus;
         stockId:number;
 }
-// "productionOrderCostLabor": [],
-// "productionOrderOperationalCost": []
+export type ProductionOrderCostLabor ={
+    productionOrderId: number;
+    sector: Sector;
+    value: number;
+}
+export type ProductionOrderOperationalCost ={
+     productionOrderId:number;
+     operationalCostType:OperationalCostType;
+     value:number;
+}

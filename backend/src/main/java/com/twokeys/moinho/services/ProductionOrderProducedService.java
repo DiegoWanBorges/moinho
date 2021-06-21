@@ -3,6 +3,7 @@ package com.twokeys.moinho.services;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
@@ -21,7 +22,6 @@ import com.twokeys.moinho.dto.ProductDTO;
 import com.twokeys.moinho.dto.ProductionOrderProducedAverageCostDTO;
 import com.twokeys.moinho.dto.ProductionOrderProducedDTO;
 import com.twokeys.moinho.dto.StockMovementDTO;
-import com.twokeys.moinho.entities.Product;
 import com.twokeys.moinho.entities.ProductionOrder;
 import com.twokeys.moinho.entities.ProductionOrderProduced;
 import com.twokeys.moinho.entities.StockMovement;
@@ -55,15 +55,16 @@ public class ProductionOrderProducedService {
 	private StockMovementRepository stockMovementRepository;	
 	
 	@Transactional(readOnly=true)
-	public ProductionOrderProducedAverageCostDTO producedAverageCost(Long productId, Instant startDate,Instant endDate){
+	public ProductionOrderProducedAverageCostDTO findProducedByProductAndStartDate(Long productId, Instant startDate,Instant endDate){
 		try {
-			Product product = productRepository.findById(productId).get();
-			List<Object[]> object= repository.producedAverageCost(product.getId(),startDate,endDate);
+			List<Object[]> object= repository.findProducedByProductAndStartDate(productId,startDate,endDate);
 			ProductionOrderProducedAverageCostDTO dto = new ProductionOrderProducedAverageCostDTO();
-			dto.setProduct(new ProductDTO(product));
+			dto.setId(productId);
 			if (object.size() > 0) {
-				dto.setTotalProduced(Util.roundHalfUp2((Double)object.get(0)[0]));
-				dto.setAverageCost(Util.roundHalfUp2((Double)object.get(0)[1]));
+				dto.setName((String)object.get(0)[1]);
+				dto.setUnity((String)object.get(0)[2]);
+				dto.setTotalProduced(Util.roundHalfUp2((Double)object.get(0)[3]));
+				dto.setAverageCost(Util.roundHalfUp2((Double)object.get(0)[4]));
 			}else {
 				dto.setTotalProduced(0.0);
 				dto.setAverageCost(0.0);
@@ -73,6 +74,28 @@ public class ProductionOrderProducedService {
 			throw new ResourceNotFoundException("Id not found: " + productId);
 		} catch (Exception e) {
 			throw new UntreatedException(e.getMessage());
+		}
+	}
+	@Transactional(readOnly=true)
+	public List<ProductionOrderProducedAverageCostDTO> findProducedStartDate(Instant startDate,Instant endDate){
+		try {
+			List<Object[]> object= repository.findProducedByStartDate(startDate,endDate);
+			List<ProductionOrderProducedAverageCostDTO> list = new ArrayList<>();
+			ProductionOrderProducedAverageCostDTO dto;
+			
+			for (int i = 0; i < object.size(); i++) {
+				dto  = new ProductionOrderProducedAverageCostDTO();
+				dto.setId((Long)object.get(i)[0]);
+				dto.setName((String)object.get(i)[1]);
+				dto.setUnity((String)object.get(i)[2]);
+				dto.setTotalProduced(Util.roundHalfUp2((Double)object.get(i)[3]));
+				dto.setAverageCost(Util.roundHalfUp2((Double)object.get(i)[4]));
+				list.add(dto);
+			}
+						
+			return list;
+		} catch (Exception e) {
+			throw new UntreatedException("Erro não esperado em calcular custo médio");
 		}
 	}
 	

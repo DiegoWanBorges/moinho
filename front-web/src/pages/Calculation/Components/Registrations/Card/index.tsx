@@ -1,4 +1,5 @@
 import { CostCalculation } from 'core/types/CostCalculation';
+import history from 'core/utils/history';
 import { toISOFormatDate } from 'core/utils/utils';
 import moment from 'moment';
 
@@ -8,7 +9,11 @@ type Props = {
     costCalculation: CostCalculation;
     onRemove: (costCalculationId: number) => void;
 }
+
 const CostCalculationCard = ({ costCalculation, onRemove }: Props) => {
+    const view =()=>{
+        history.push(`/calculations/registrations/${costCalculation.id}`)
+    }
     return (
         <div className="costCalculation-card">
 
@@ -27,6 +32,7 @@ const CostCalculationCard = ({ costCalculation, onRemove }: Props) => {
 
             <div className="costCalculation-card-action">
                 <button
+                    onClick={view}
                     className="btn btn-outline-secondary costCalculation-card-action-btn costCalculation-card-action-btn-edit">
                     VISUALIZAR
                 </button>

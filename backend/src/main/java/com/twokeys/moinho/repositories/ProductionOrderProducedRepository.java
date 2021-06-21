@@ -16,13 +16,34 @@ public interface ProductionOrderProducedRepository extends JpaRepository<Product
 	@Query("SELECT COALESCE(MAX(obj.id.pallet),0) FROM ProductionOrderProduced obj where obj.id.productionOrder = :order")
 	Integer findMaxPallet(ProductionOrder order);	
 	
-	@Query(value = " select "
-			 + " sum(obj.quantity) as totalProduced,  "
-			 + " sum(obj.quantity*obj.unitCost)/sum(obj.quantity) as averegeCost"
-		     + " from ProductionOrderProduced  obj   "
-		     + " where obj.id.productionOrder.startDate between :startDate and :endDate  " 
-		     + " AND obj.product.id = :productId ")
-	List<Object[]> producedAverageCost(Long productId, Instant startDate, Instant endDate);
+	@Query(value = "select "
+			 	 + "obj.product.id, "
+			 	 + "obj.product.name, "
+			 	 + "obj.product.unity.id, "
+			 	 + "sum(obj.quantity) as totalProduced,  "
+			 	 + "sum(obj.quantity*obj.unitCost)/sum(obj.quantity) as averegeCost "
+			 	 + "from ProductionOrderProduced  obj   "
+			 	 + "where obj.id.productionOrder.startDate between :startDate and :endDate  " 
+			 	 + "AND obj.product.id = :productId "
+			 	 + "GROUP BY "
+			 	 + "obj.product.id, "
+			 	 + "obj.product.name, "
+			 	 + "obj.product.unity.id ")
+	List<Object[]> findProducedByProductAndStartDate(Long productId, Instant startDate, Instant endDate);
+	
+	@Query(value = "select "
+		 	 + "obj.product.id, "
+		 	 + "obj.product.name, "
+		 	 + "obj.product.unity.id, "
+		 	 + "sum(obj.quantity) as totalProduced,  "
+		 	 + "sum(obj.quantity*obj.unitCost)/sum(obj.quantity) as averegeCost "
+		 	 + "from ProductionOrderProduced  obj   "
+		 	 + "where obj.id.productionOrder.startDate between :startDate and :endDate  " 
+		 	 + "GROUP BY "
+		 	 + "obj.product.id, "
+		 	 + "obj.product.name, "
+		 	 + "obj.product.unity.id ")
+	List<Object[]> findProducedByStartDate(Instant startDate, Instant endDate);
 	
 }
 
