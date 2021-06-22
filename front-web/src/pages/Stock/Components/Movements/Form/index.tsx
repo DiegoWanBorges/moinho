@@ -97,7 +97,6 @@ const StockMovementForm = () => {
             return false
         }
 
-
         typeMove === 'entry' ? (
             payLoad = {
                 ...data,
@@ -158,7 +157,6 @@ const StockMovementForm = () => {
                     >
                         <option value="AJUSTE_ESTOQUE">Ajuste de Estoque</option>
                         <option value="COMPRA">Compra</option>
-                        <option value="VENDA">Venda</option>
                     </select>
                 </div>
 

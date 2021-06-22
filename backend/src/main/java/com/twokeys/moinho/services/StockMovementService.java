@@ -150,6 +150,39 @@ public class StockMovementService {
 		}
 	}
 	
+	@Transactional(readOnly=true)
+	public List<StockBalanceDTO> stockByCurrentAverageCost(){
+		try {
+			Double balance=0.0;
+			Double financialStockBalance=0.0;
+			List<StockBalanceDTO> list = new ArrayList<>();
+			StockBalanceDTO dto;
+			List<Object[]> object= repository.stockByCurrentAverageCost();
+			
+			for (int i = 0; i < object.size(); i++) {
+				dto = new StockBalanceDTO();
+				dto.setId((Long)object.get(i)[0]);
+				dto.setName((String)object.get(i)[1]);
+				dto.setUnity((String)object.get(i)[2]);
+				balance = (Double)object.get(i)[3];
+				financialStockBalance = (Double)object.get(i)[4];
+				
+				if(balance==0) {
+					dto.setAverageCost(0.0);
+					dto.setBalance(0.0);
+				}else {
+					dto.setAverageCost(Util.roundHalfUp2(financialStockBalance/balance));
+					dto.setBalance(Util.roundHalfUp2(balance));
+				}
+				list.add(dto);
+			}
+		
+			return list;
+		} catch (Exception e) {
+			throw new UntreatedException(e.getMessage());
+		}
+	}
+	
 	
 	
 	@Transactional(readOnly=true)
@@ -187,12 +220,14 @@ public class StockMovementService {
 		return list.stream().map(x -> new StockMovementDTO(x)).collect(Collectors.toList());
 		
 	}
+	
 	@Transactional(readOnly=true)
 	public StockMovementDTO findById(Long id){
 		Optional<StockMovement> obj = repository.findById(id);
 		StockMovement entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		return new StockMovementDTO(entity);
 	}
+	
 	@Transactional
 	public StockMovementDTO insert(StockMovementDTO dto) {
 		try {
@@ -201,9 +236,7 @@ public class StockMovementService {
 			convertToEntity(dto, entity);
 			entity =repository.save(entity);
 			
-			if(costCalculationService.hasCostCalculation(dto.getDate().getYear(),dto.getDate().getMonth().getValue())) {
-				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
-			}
+			costCalculationService.hasCostCalculation(dto.getDate());
 			
 			
 			StockBalanceDTO stockBalance = currentStockByProduct(dto.getProduct().getId());
@@ -233,11 +266,10 @@ public class StockMovementService {
 		try {
 			StockMovement entity = repository.getOne(id);
 			Product product = new Product();
-			if(costCalculationService.hasCostCalculation(entity.getDate().getYear(),entity.getDate().getMonth().getValue())) {
-				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
-			}
+			costCalculationService.hasCostCalculation(entity.getDate());
 			convertToEntity(dto, entity);
 			entity = repository.save(entity);
+		
 			StockBalanceDTO stockBalance = currentStockByProduct(dto.getProduct().getId());
 			
 			
@@ -261,9 +293,7 @@ public class StockMovementService {
 	public void delete(Long id) {
 		try {
 			StockMovement entity = repository.getOne(id);
-			if(costCalculationService.hasCostCalculation(entity.getDate().getYear(),entity.getDate().getMonth().getValue())) {
-				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
-			}
+			costCalculationService.hasCostCalculation(entity.getDate());
 			Product product = new Product();
 			repository.deleteById(id);
 			
@@ -285,6 +315,22 @@ public class StockMovementService {
 			throw new UntreatedException("Erro não tratado ao deletar estoque");
 		}
 		
+	}
+	@Transactional
+	public void updateAverageCost() {
+		try {
+			List<StockBalanceDTO> list = stockByCurrentAverageCost();
+			Product product;
+			for (StockBalanceDTO dto : list) {
+				product = productRepository.getOne(dto.getId());
+				product.setStockBalance(dto.getBalance());
+				product.setAverageCost(dto.getAverageCost());
+				product.setCostLastEntry(dto.getAverageCost());
+			}
+			
+		} catch (Exception e) {
+			throw new UntreatedException("Falha não tratada ao atualizar custo médio geral"); 
+		}
 	}
 	public void convertToEntity(StockMovementDTO dto, StockMovement entity) {
 		entity.setCost(dto.getCost());

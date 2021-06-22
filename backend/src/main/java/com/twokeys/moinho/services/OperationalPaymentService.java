@@ -50,9 +50,7 @@ public class OperationalPaymentService {
 		try {
 			OperationalPayment entity =new OperationalPayment();
 			convertToEntity(dto, entity);
-			if(costCalculationService.hasCostCalculation(dto.getDate().getYear(),dto.getDate().getMonth().getValue())){
-				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
-			}
+			costCalculationService.hasCostCalculation(dto.getDate());
 			return new OperationalPaymentDTO(repository.save(entity));
 		}catch(BusinessRuleException e) {
 			throw new BusinessRuleException(e.getMessage());
@@ -64,9 +62,7 @@ public class OperationalPaymentService {
 	public OperationalPaymentDTO update(Long id, OperationalPaymentDTO dto) {
 		try {
 			OperationalPayment entity = repository.getOne(id);
-			if(costCalculationService.hasCostCalculation(entity.getDate().getYear(),entity.getDate().getMonth().getValue())){
-				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
-			}
+			costCalculationService.hasCostCalculation(entity.getDate());
 			convertToEntity(dto, entity);
 			entity = repository.save(entity);
 			return new OperationalPaymentDTO(entity);
@@ -80,9 +76,7 @@ public class OperationalPaymentService {
 	public void delete(Long id) {
 		try {
 			 OperationalPayment entity = repository.getOne(id);
-			 if(costCalculationService.hasCostCalculation(entity.getDate().getYear(),entity.getDate().getMonth().getValue())){
-				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
-			 }
+			 costCalculationService.hasCostCalculation(entity.getDate());
 			 repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);

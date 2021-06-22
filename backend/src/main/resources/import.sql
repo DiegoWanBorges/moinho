@@ -59,23 +59,23 @@ INSERT INTO tb_pallet_status (NAME) VALUES('CONDENADO');
 INSERT INTO tb_pallet_status (NAME) VALUES('REJEITADO');
 
 
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Leite in natura',1.032,'LEITE IN NATURA',1.032,'',2,'L',0,1);
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Leite in natura desnatado',1.032,'LEITE IN NATURA DESNATADO',1.032,'',2,'L',0,1);
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Saco utilizado para envase de leite em pó da marca Moinho',0.700,'SACO MOINHO 25 KG',0.700,'',3,'UN',0,1);
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Saco utilizado para envase de leite em pó',0.700,'SACO 25 KG PARDO',0.700,'',3,'UN',0,1);
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Abraçadeira utilizada para vedar o saco interno de leite',0.1,'ABRACADEIRA DE NYLON',0.1,'',3,'UN',0,1);
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Linha de poliester utilizada para para costurar a embalagem externa',1,'LINHA DE POLIESTER',1,'',3,'KG',0,1);  
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Leite em pó integral',1,'LEITE EM PO',1,'SC COM 25KG',5,'KG',365,1);
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Leite em pó integral desnatado',1,'LEITE EM PO DESNATADO',1,'SC COM 25KG',5,'KG',365,1);
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Leite em pó - TIPO C',1,'LEITE EM PO - TIPO C',1,'SC COM 25KG',5,'KG',365,1);
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Leite em pó desnatado - TIPO C',1,'LEITE EM PO DESNATADO - TIPO C',1,'SC COM 25KG',5,'KG',365,1);
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Saco utilizado para envase do produto fracionado',0.700,'SACO MOINHO 10 KG',0.700,'',3,'UN',0,1);
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Saco utilizado para envase de leite em pó',0.700,'SACO 10 KG PARDO',0.700,'',3,'UN',0,1);
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Fita para realizar o carimbo',1,'FITA DATADORA PARA FRACIONAMENTO',1,'',3,'RL',0,1);
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Filme utilizado para envase do pallet',0.700,'FILME STRETCH',0.700,'',3,'KG',0,1);
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Embalagem utilizada para o fracionamento',0.700,'BIPET MET PE 350X0.080 LEITE EM PO MOINHO 25X400',0.700,'',3,'KG',0,1);
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Leite em pó 25x400',1,'LEITE EM PO 25x400 MOINHO',1,'SC COM 25KG',5,'KG',365,1);
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION )VALUES('Leite concentrado',1,'LEITE CONCENTRADO',1,'KG',5,'KG',7,1);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Leite in natura',1.032,'LEITE IN NATURA',1.032,'',2,'L',0,1,0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Leite in natura desnatado',1.032,'LEITE IN NATURA DESNATADO',1.032,'',2,'L',0,1,0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Saco utilizado para envase de leite em pó da marca Moinho',0.700,'SACO MOINHO 25 KG',0.700,'',3,'UN',0,1,0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Saco utilizado para envase de leite em pó',0.700,'SACO 25 KG PARDO',0.700,'',3,'UN',0,1,0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Abraçadeira utilizada para vedar o saco interno de leite',0.1,'ABRACADEIRA DE NYLON',0.1,'',3,'UN',0,1,0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Linha de poliester utilizada para para costurar a embalagem externa',1,'LINHA DE POLIESTER',1,'',3,'KG',0,1,0);  
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Leite em pó integral',1,'LEITE EM PO',1,'SC COM 25KG',5,'KG',365,1,0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Leite em pó integral desnatado',1,'LEITE EM PO DESNATADO',1,'SC COM 25KG',5,'KG',365,1,0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Leite em pó - TIPO C',1,'LEITE EM PO - TIPO C',1,'SC COM 25KG',5,'KG',365,1,0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Leite em pó desnatado - TIPO C',1,'LEITE EM PO DESNATADO - TIPO C',1,'SC COM 25KG',5,'KG',365,1,0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Saco utilizado para envase do produto fracionado',0.700,'SACO MOINHO 10 KG',0.700,'',3,'UN',0,1,0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Saco utilizado para envase de leite em pó',0.700,'SACO 10 KG PARDO',0.700,'',3,'UN',0,1,0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Fita para realizar o carimbo',1,'FITA DATADORA PARA FRACIONAMENTO',1,'',3,'RL',0,1,0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Filme utilizado para envase do pallet',0.700,'FILME STRETCH',0.700,'',3,'KG',0,1,0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Embalagem utilizada para o fracionamento',0.700,'BIPET MET PE 350X0.080 LEITE EM PO MOINHO 25X400',0.700,'',3,'KG',0,1,0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Leite em pó 25x400',1,'LEITE EM PO 25x400 MOINHO',1,'SC COM 25KG',5,'KG',365,1,0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Leite concentrado',1,'LEITE CONCENTRADO',1,'KG',5,'KG',7,1,0);
 
 
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-05-15','',0,5,1,1.20,50000,0);
@@ -193,9 +193,6 @@ INSERT INTO TB_PARAMETER(ID,COMPANY_NAME,PRODUCTION_ORDER_WITHOUT_STOCK,TYPE_COS
 INSERT INTO TB_FORMULATION_SECONDARY_PRODUCTION(FORMULATION_ID,PRODUCT_ID)VALUES(1,9);
 INSERT INTO TB_FORMULATION_SECONDARY_PRODUCTION(FORMULATION_ID,PRODUCT_ID)VALUES(2,10);  
 
-update tb_product set AVERAGE_COST=COALESCE(ROUND((SELECT sum(entry*cost)  / sum(entry)  FROM TB_STOCK_MOVEMENT WHERE TB_STOCK_MOVEMENT .PRODUCT_ID=tb_product.ID group by product_id),2),0);
-update tb_product set COST_LAST_ENTRY=COALESCE(ROUND((SELECT sum(entry*cost)  / sum(entry)  FROM TB_STOCK_MOVEMENT WHERE TB_STOCK_MOVEMENT .PRODUCT_ID=tb_product.ID group by product_id),2),0);
-update tb_product set STOCK_BALANCE=COALESCE((SELECT sum(entry)  FROM TB_STOCK_MOVEMENT WHERE TB_STOCK_MOVEMENT .PRODUCT_ID=tb_product.ID group by product_id),0);
 
 
 

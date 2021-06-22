@@ -2,6 +2,7 @@ package com.twokeys.moinho.services;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -77,6 +78,7 @@ public class CostCalculationService {
 			 List<StockBalanceDTO> openingStockBalance = new ArrayList<>();
 			 List<StockBalanceDTO> closingStockBalance = new ArrayList<>();
 			 List<StockBalanceDTO> purchaseStockBalance = new ArrayList<>();
+			 List<StockBalanceDTO> adjustmentStockBalance = new ArrayList<>();
 			 List<ProductionOrderProducedAverageCostDTO> productionOrderProducedAverageCosts = new ArrayList<>();
 			 CostCalculation entity = repository.getOne(id);
 			 
@@ -88,13 +90,14 @@ public class CostCalculationService {
 			 closingStockBalance = stockMovementService.stockByPreviousAndEqualDate(endDate);
 			 productionOrderProducedAverageCosts = productionOrderProducedService.findProducedStartDate(entity.getStartDate(), entity.getEndDate());
 			 purchaseStockBalance = stockMovementService.stockByDateBetweenAndType(startDate,endDate,StockMovementType.COMPRA);
-			 
+			 adjustmentStockBalance = stockMovementService.stockByDateBetweenAndType(startDate,endDate,StockMovementType.AJUSTE_ESTOQUE);
 			 result.setCostCalculation(new CostCalculationDTO(entity));
 			 result.getProductionOrders().addAll(productionsOrders);	
 			 result.getOpeningStockBalance().addAll(openingStockBalance);
 			 result.getClosingStockBalance().addAll(closingStockBalance);
 			 result.getProductionOrderProducedAverageCosts().addAll(productionOrderProducedAverageCosts);
 			 result.getPurchaseStockBalance().addAll(purchaseStockBalance);
+			 result.getAdjustmentStockBalance().addAll(adjustmentStockBalance);
 			 return result;
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
@@ -104,13 +107,21 @@ public class CostCalculationService {
 	}
 		
 	@Transactional(readOnly=true)
-	public Boolean hasCostCalculation(Integer year, Integer month){
-		CostCalculation entity = repository.findByReferenceMonthAndYearAndMonth(year,month);
-		if (entity==null) {
-			return false;
-		}else {
-			return true;
+	public void hasCostCalculation(LocalDate launchDate){
+		try {
+			LocalDate maxDate = repository.findMaxReferenceMonth();
+			if (maxDate != null) {
+				maxDate = maxDate.with(TemporalAdjusters.lastDayOfMonth());
+				if (launchDate.isBefore(maxDate) || launchDate.isEqual(maxDate)) {
+					throw new BusinessRuleException("Operação não permitida. Data possui apuração finalizada!");
+				}	
+			}
+		} catch (BusinessRuleException e) {
+			throw new BusinessRuleException(e.getMessage());
+		} catch (Exception e) {
+			throw new UntreatedException(e.getMessage());
 		}
+		
 	}
 	
 	@Transactional
@@ -283,7 +294,7 @@ public class CostCalculationService {
 		entity.setEndDate(dto.getEndDate());
 		entity.setStockStartDate(dto.getStockStartDate());
 		entity.setStatus(dto.getStatus());
-		entity.setReferenceMonth(dto.getReferenceMonth());
+		entity.setReferenceMonth(LocalDate.of(dto.getReferenceMonth().getYear(), dto.getReferenceMonth().getMonth().getValue(), 1));
 	}
 	
 }

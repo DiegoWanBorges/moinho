@@ -1,6 +1,7 @@
 package com.twokeys.moinho.repositories;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +19,12 @@ public interface CostCalculationRepository extends JpaRepository<CostCalculation
 	Page<CostCalculation> findByReferenceMonthAndStatus(LocalDate startDate,LocalDate endDate, Pageable pageable);
 	
 	@Query("SELECT obj FROM CostCalculation obj "
-		 + "WHERE YEAR(obj.referenceMonth)= :year  "
-		 + "AND MONTH(obj.referenceMonth)= :month "
+		 + "WHERE obj.referenceMonth <= :date "
 		 + "AND obj.status=1 ")
-	CostCalculation findByReferenceMonthAndYearAndMonth(Integer year, Integer month);
+	List<CostCalculation> findByReferenceMonth(LocalDate date);
+	
+	@Query("SELECT MAX(obj.referenceMonth) FROM CostCalculation obj "
+			 + "WHERE obj.status=1 ")
+	LocalDate findMaxReferenceMonth();
 }
 

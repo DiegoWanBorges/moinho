@@ -140,9 +140,7 @@ public class ProductionOrderService {
 	public ProductionOrderDTO insert(ProductionOrderDTO dto) {
 		try {
 			LocalDateTime date = LocalDateTime.ofInstant(dto.getStartDate(), ZoneId.of("America/Sao_Paulo"));
-			if(costCalculationService.hasCostCalculation(date.getYear(),date.getMonth().getValue())) {
-				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
-			}
+			costCalculationService.hasCostCalculation(date.toLocalDate());
 			
 			
 			ProductionOrder entity =new ProductionOrder();
@@ -177,7 +175,12 @@ public class ProductionOrderService {
 				
 			if (entity.getStatus() != ProductionOrderStatus.APURACAO_FINALIZADA) {
 				if(entity.getStatus()==ProductionOrderStatus.ABERTO && dto.getEndDate() != null  ) {
-					entity.setStatus(ProductionOrderStatus.ENCERRADO);
+					if (entity.getProductionOrderProduceds().size() > 0) {
+						entity.setStatus(ProductionOrderStatus.ENCERRADO);
+					}else {
+						throw new BusinessRuleException("Não foi informado a quantidade produzida!");
+					}
+					
 				}else {
 					if(dto.getEndDate()==null) {
 						entity.setStatus(ProductionOrderStatus.ABERTO);

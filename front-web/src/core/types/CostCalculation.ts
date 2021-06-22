@@ -18,6 +18,7 @@ export type CostCalculationResult ={
     openingStockBalance:StockBalance[];
     closingStockBalance:StockBalance[];
     purchaseStockBalance:StockBalance[];
+    adjustmentStockBalance:StockBalance[];
     productionOrderProducedAverageCosts:ProductionOrderProducedAverageCost[];
 }
 

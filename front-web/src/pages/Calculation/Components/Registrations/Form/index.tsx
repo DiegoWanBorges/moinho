@@ -1,16 +1,15 @@
+import StockBalanceCard from 'core/components/StockBalance';
 import { CostCalculationResult } from 'core/types/CostCalculation';
 import { makePrivateRequest } from 'core/utils/request';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { useParams } from 'react-router';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import CostCalculationSummary from './Summary';
-import StockBalanceCard from 'core/components/StockBalance';
-import './styles.scss';
-import CostCalculationProductionOrderDetails from './ProductionOrderDetails';
-import AverageCostProduction from './AverageCostProduction';
-import {  toISOFormatDateTime } from 'core/utils/utils';
+import { toISOFormatDateTime } from 'core/utils/utils';
 import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import AverageCostProduction from './AverageCostProduction';
+import CostCalculationProductionOrderDetails from './ProductionOrderDetails';
+import './styles.scss';
+import CostCalculationSummary from './Summary';
 
 
 type ParamsType = {
@@ -37,6 +36,7 @@ function CostCalculationForm() {
                     <Tab>Resumo</Tab>
                     <Tab>Estoque Inicial</Tab>
                     <Tab>Compras</Tab>
+                    <Tab>Ajuste de Estoque</Tab>
                     <Tab>Produção Detalhado</Tab>
                     <Tab>Custo Médio Produção</Tab>
                     <Tab>Estoque Final</Tab>
@@ -65,6 +65,16 @@ function CostCalculationForm() {
                 <TabPanel>
                     {costCalculationResult && (
                         costCalculationResult.purchaseStockBalance.map(item => (
+                            <StockBalanceCard
+                                key={item.id}
+                                stockBalance={item}
+                            />
+                        ))
+                    )}
+                </TabPanel>
+                <TabPanel>
+                    {costCalculationResult && (
+                        costCalculationResult.adjustmentStockBalance.map(item => (
                             <StockBalanceCard
                                 key={item.id}
                                 stockBalance={item}

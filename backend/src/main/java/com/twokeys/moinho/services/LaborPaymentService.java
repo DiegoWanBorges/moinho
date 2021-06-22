@@ -54,9 +54,7 @@ public class LaborPaymentService {
 	@Transactional
 	public LaborPaymentDTO insert(LaborPaymentDTO dto) {
 		try {
-			if(costCalculationService.hasCostCalculation(dto.getDate().getYear(),dto.getDate().getMonth().getValue())) {
-				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
-			}
+			costCalculationService.hasCostCalculation(dto.getDate());
 			LaborPayment entity =new LaborPayment();
 			convertToEntity(dto, entity);
 			return new LaborPaymentDTO(repository.save(entity));
@@ -70,9 +68,7 @@ public class LaborPaymentService {
 	public LaborPaymentDTO update(Long id, LaborPaymentDTO dto) {
 		try {
 			LaborPayment entity = repository.getOne(id);
-			if(costCalculationService.hasCostCalculation(entity.getDate().getYear(),entity.getDate().getMonth().getValue())) {
-				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
-			}
+			costCalculationService.hasCostCalculation(entity.getDate());
 			convertToEntity(dto, entity);
 			entity = repository.save(entity);
 			return new LaborPaymentDTO(entity);
@@ -86,9 +82,7 @@ public class LaborPaymentService {
 	public void delete(Long id) {
 		try {
 			 LaborPayment entity = repository.getOne(id);
-			 if(costCalculationService.hasCostCalculation(entity.getDate().getYear(),entity.getDate().getMonth().getValue())) {
-				throw new BusinessRuleException("Operação não permitida. Apuração de custo finalizada!");
-			 }
+			 costCalculationService.hasCostCalculation(entity.getDate());
 			 repository.deleteById(id);
 		}catch(BusinessRuleException e) {
 			throw new BusinessRuleException(e.getMessage());
