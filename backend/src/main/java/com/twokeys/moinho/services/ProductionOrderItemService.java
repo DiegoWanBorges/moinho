@@ -58,6 +58,12 @@ public class ProductionOrderItemService {
 		List<ProductionOrderItem> list = repository.findByDateAndProduct(startDate, endDate, productId);
 		return list.stream().map(x -> new ProductionOrderItemDTO(x)).collect(Collectors.toList());
 	}
+	
+	@Transactional(readOnly = true)
+	public List<ProductionOrderItemDTO> findByDate(Instant startDate, Instant endDate) {
+		List<ProductionOrderItem> list = repository.findByDate(startDate, endDate);
+		return list.stream().map(x -> new ProductionOrderItemDTO(x)).collect(Collectors.toList());
+	}
 
 	@Transactional
 	public List<ProductionOrderItemDTO> insert(List<ProductionOrderItemDTO> dto) {

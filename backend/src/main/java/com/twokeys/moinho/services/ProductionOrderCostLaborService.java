@@ -65,7 +65,10 @@ public class ProductionOrderCostLaborService {
 			Long productionDurationTotal;
 			Double percent=0.0;
 			Double proratedAmount;
+			ProductionOrder productionOrder;
 			ProductionOrderCostLabor productionOrderCostLabor;
+			Double sum = 0.0;
+			Double difSum = 0.0;
 			
 			/*Recupera os valores de por setor a ser rateado*/
 			List<PaymentCostLaborDTO> paymentBySector= laborPaymentService.listCostLaborGroupBySector(Util.toLocalDate(startDate), Util.toLocalDate(endDate));	
@@ -73,19 +76,28 @@ public class ProductionOrderCostLaborService {
 				productionDurationTotal =0L;
 				listProductionOrder.clear();
 							
-				
 				/*Recupera as Ordens de produções, vinculadas aos setores*/
 				listProductionOrder = productionOrderRepository.listProductionOrderByStartDateAndFormulationSector(startDate, endDate,dto.getId());
 				for(ProductionOrder item: listProductionOrder) {
 					productionDurationTotal+=item.getProductionMinutes();
 				}
 				
-				for(ProductionOrder item: listProductionOrder) {
-					percent = Util.roundHalfUp2(Double.valueOf(item.getProductionMinutes()) / productionDurationTotal);
+				sum=0.0;
+				for (int i = 0; i < listProductionOrder.size(); i++) {
+					productionOrder=listProductionOrder.get(i);
+					percent = Util.roundHalfUp2(Double.valueOf(productionOrder.getProductionMinutes()) / productionDurationTotal);
 					proratedAmount=Util.roundHalfUp2(percent * dto.getTotal());
+					
+					/*DIFERANÇA DO RATEIO É LANÇADO NA ULTIMA OP*/
+					sum+=proratedAmount;
+					if ((i+1)==listProductionOrder.size()) {
+						difSum=dto.getTotal()-sum;
+						proratedAmount= Util.roundHalfUp2(proratedAmount+difSum);
+					}
+										
 					productionOrderCostLabor = new ProductionOrderCostLabor();
 					productionOrderCostLabor.setValue(proratedAmount);
-					productionOrderCostLabor.setProductionOrder(item);
+					productionOrderCostLabor.setProductionOrder(productionOrder);
 					productionOrderCostLabor.setSector(new Sector(dto.getId(),""));
 					repository.saveAndFlush(productionOrderCostLabor);
 				}

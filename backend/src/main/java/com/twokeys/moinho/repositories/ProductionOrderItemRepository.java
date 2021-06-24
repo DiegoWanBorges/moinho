@@ -30,7 +30,12 @@ public interface ProductionOrderItemRepository extends JpaRepository<ProductionO
 			 + "where obj.id.productionOrder.startDate between :startDate and :endDate "
 			 + "AND obj.id.product.id= :productId " 
 			 + "and obj.id.productionOrder.dateCancel is null")
-	List<ProductionOrderItem> findByDateAndProduct(Instant startDate,Instant endDate, Long productId);
+		List<ProductionOrderItem> findByDateAndProduct(Instant startDate,Instant endDate, Long productId);
+		
+		@Query("SELECT obj FROM ProductionOrderItem obj "
+				 + "where obj.id.productionOrder.startDate between :startDate and :endDate " 
+				 + "and obj.id.productionOrder.dateCancel is null")
+		List<ProductionOrderItem> findByDate(Instant startDate,Instant endDate);
 	
 }
 

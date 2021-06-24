@@ -1,10 +1,12 @@
 package com.twokeys.moinho.services;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -142,11 +144,13 @@ public class CostCalculationService {
 			ProductionOrderProducedAverageCostDTO productionOrderProducedAverageCost;
 			
 			/*RATEIO - DESPESAS OPERACIONAIS*/
-			productionOrderOperationalCostService.prorateOperatingCost(costCalculation.getStartDate(), costCalculation.getEndDate());
+			productionOrderOperationalCostService.prorateOperationalCost(costCalculation.getStartDate(), costCalculation.getEndDate());
 			/*RATEIO - CUSTO MÃO DE OBRA*/
 			productionOrderCostLaborService.prorateCostLabor(costCalculation.getStartDate(), costCalculation.getEndDate());
 			
-			logger.info("Saiu do rateio");
+			
+			/*ATUALIZA O CUSTO MÉDIO*/
+			updateAverageCostProductionConsumptions(costCalculation.getStartDate(), costCalculation.getEndDate());
 			
 			/*FORMULAÇÃO - APURAÇÃO ITERMEDIARIO*/
 			/*CALCULA O CUSTO UNITARIO PARA CADA ORDEM DE PRODUÇÃO*/
@@ -289,6 +293,19 @@ public class CostCalculationService {
 		}	
 	}
 	
+	public void updateAverageCostProductionConsumptions(Instant startDate,Instant endDate) {
+		List<ProductionOrderItemDTO> list = new ArrayList<>();
+		StockBalanceDTO stock;
+		
+		list = productionOrderItemService.findByDate(startDate, endDate);
+		for (ProductionOrderItemDTO productionOrderItem : list) {
+			stock = stockMovementService.stockByProductAndPreviousAndEqualDate(productionOrderItem.getProduct().getId(), Util.toLocalDate(endDate));
+			productionOrderItem.setCost(stock.getAverageCost());
+			productionOrderItemService.updateService(productionOrderItem);
+		}
+		
+	}
+	
 	public void convertToEntity(CostCalculationDTO dto,CostCalculation entity) {
 		entity.setStartDate(dto.getStartDate());
 		entity.setEndDate(dto.getEndDate());
@@ -296,5 +313,6 @@ public class CostCalculationService {
 		entity.setStatus(dto.getStatus());
 		entity.setReferenceMonth(LocalDate.of(dto.getReferenceMonth().getYear(), dto.getReferenceMonth().getMonth().getValue(), 1));
 	}
+	
 	
 }
