@@ -1,6 +1,5 @@
 package com.twokeys.moinho.repositories;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,18 +17,19 @@ import com.twokeys.moinho.entities.LaborPayment;
 public interface LaborPaymentRepository extends JpaRepository<LaborPayment, Long> {
 
 	@Query(value = " SELECT "
-			+ "tb_sector.id as sector_id, "
-			+ "tb_sector.name as sector, "
-			+ "sum(tb_payment.value) as total " 
-			+ "FROM tb_labor_payment "
-			+ "inner join tb_payment ON tb_payment.id = tb_labor_payment.id "
-			+ "inner join tb_labor_cost_type ON tb_labor_cost_type.id = tb_labor_payment.labor_cost_type "
-			+ "inner join tb_employee ON tb_employee.id = tb_labor_payment.employee_id "
-			+ "inner join tb_sector ON tb_sector.id = tb_employee.sector_id "
-			+ "where tb_payment.date between :startDate and :endDate "
-			+ "group by tb_sector.name,tb_sector.id " 
-		    , nativeQuery = true)
-	List<Object[]> listCostLaborGroupBySector(Instant startDate,Instant endDate);
+				 + "s.id as sector_id, "
+				 + "s.name as sector, "
+				 + "sum(p.value) as total  "
+				 + "FROM LaborPayment lp "
+				 + "inner join Payment p ON p.id = lp.id "
+				 + "inner join LaborCostType lct ON lct.id = lp.laborCostType.id "
+				 + "inner join Employee e ON e.id = lp.employee.id "
+				 + "inner join Sector s ON s.id = e.sector.id "
+				 + "where p.date between :startDate and :endDate "
+				 + "group by "
+				 + "s.name, "
+				 + "s.id ")
+		List<Object[]> listCostLaborGroupBySector(LocalDate startDate,LocalDate endDate);
 	
 	
 	@Query("SELECT obj FROM LaborPayment obj "

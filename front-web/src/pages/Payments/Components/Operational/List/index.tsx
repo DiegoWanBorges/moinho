@@ -70,7 +70,7 @@ const OperationalPaymentList = () => {
                 method: 'DELETE'
             })
                 .then(() => {
-                    toast.success("Pagamento excluida com sucesso!")
+                    toast.success("Pagamento excluido com sucesso!")
                     history.push('/payments/operational/')
                     getOperationalPayments();
                 })

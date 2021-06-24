@@ -72,7 +72,7 @@ const LaborPaymentForm = () => {
             data: payLoad
         })
             .then(() => {
-                toast.success("Pagamento registrado salvo com sucesso!")
+                toast.success("Pagamento salvo salvo com sucesso!")
                 history.push('/payments/labor/')
             })
             .catch((error) => {

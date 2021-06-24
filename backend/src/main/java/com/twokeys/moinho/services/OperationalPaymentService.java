@@ -1,6 +1,8 @@
 package com.twokeys.moinho.services;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -13,9 +15,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.twokeys.moinho.dto.PaymentOperationalCostDTO;
 import com.twokeys.moinho.dto.OperationalPaymentDTO;
 import com.twokeys.moinho.entities.OperationalCostType;
 import com.twokeys.moinho.entities.OperationalPayment;
+import com.twokeys.moinho.entities.enums.ProductionApportionmentType;
 import com.twokeys.moinho.repositories.OperationalCostTypeRepository;
 import com.twokeys.moinho.repositories.OperationalPaymentRepository;
 import com.twokeys.moinho.services.exceptions.BusinessRuleException;
@@ -32,6 +36,7 @@ public class OperationalPaymentService {
 	private OperationalCostTypeRepository operationalCostTypeRepository;
 	@Autowired
 	private CostCalculationService costCalculationService;
+	
 	@Transactional(readOnly=true)
 	public Page<OperationalPaymentDTO> findByDateAndType(Long operationalCostId,LocalDate startDate,LocalDate endDate,PageRequest pageRequest){
 		OperationalCostType operationalCostType = (operationalCostId==0) ? null : operationalCostTypeRepository.getOne(operationalCostId);
@@ -44,6 +49,23 @@ public class OperationalPaymentService {
 		Optional<OperationalPayment> obj = repository.findById(id);
 		OperationalPayment entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		return new OperationalPaymentDTO(entity);
+	}
+	
+	@Transactional(readOnly=true)
+	public List<PaymentOperationalCostDTO> listOperationalCostGroupByType(LocalDate startDate,LocalDate endDate){
+		List<PaymentOperationalCostDTO> list = new ArrayList<>();
+		PaymentOperationalCostDTO dto;
+		List<Object[]> inf = repository.listOperationalCostGroupByType(startDate, endDate);
+		for (int i = 0; i < inf.size(); i++) {
+			dto = new PaymentOperationalCostDTO();
+			dto.setId((Long)inf.get(i)[0]);
+			dto.setName((String)inf.get(i)[1]);
+			dto.setType((ProductionApportionmentType)inf.get(i)[2]);
+			dto.setTotal((Double)inf.get(i)[3]);
+			list.add(dto);
+		}
+		
+		return list;
 	}
 	@Transactional
 	public OperationalPaymentDTO insert(OperationalPaymentDTO dto) {

@@ -76,14 +76,14 @@ const LaborPaymentList = () => {
     }
 
     const onRemove = (stockMovementId: number) => {
-        const confirm = window.confirm("Deseja excluir o movimento selecionado?");
+        const confirm = window.confirm("Deseja excluir o pagamento selecionado?");
         if (confirm) {
             makePrivateRequest({
                 url: `/laborpayments/${stockMovementId}`,
                 method: 'DELETE'
             })
                 .then(() => {
-                    toast.success("Movimentação de estoque excluida com sucesso!")
+                    toast.success("Pagamennto excluido com sucesso!")
                     history.push('/payments/labor/')
                     getLaborPayments();
                 })

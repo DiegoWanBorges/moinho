@@ -144,7 +144,7 @@ public class CostCalculationService {
 			/*RATEIO - DESPESAS OPERACIONAIS*/
 			productionOrderOperationalCostService.prorateOperatingCost(costCalculation.getStartDate(), costCalculation.getEndDate());
 			/*RATEIO - CUSTO MÃO DE OBRA*/
-			productionOrderCostLaborService.laborPaymentApportionment(costCalculation.getStartDate(), costCalculation.getEndDate());
+			productionOrderCostLaborService.prorateCostLabor(costCalculation.getStartDate(), costCalculation.getEndDate());
 			
 			logger.info("Saiu do rateio");
 			

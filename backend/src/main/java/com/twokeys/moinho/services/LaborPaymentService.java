@@ -1,6 +1,8 @@
 package com.twokeys.moinho.services;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.twokeys.moinho.dto.LaborPaymentDTO;
+import com.twokeys.moinho.dto.PaymentCostLaborDTO;
 import com.twokeys.moinho.entities.Employee;
 import com.twokeys.moinho.entities.LaborCostType;
 import com.twokeys.moinho.entities.LaborPayment;
@@ -50,6 +53,20 @@ public class LaborPaymentService {
 		Optional<LaborPayment> obj = repository.findById(id);
 		LaborPayment entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		return new LaborPaymentDTO(entity);
+	}
+	@Transactional(readOnly=true)
+	public List<PaymentCostLaborDTO> listCostLaborGroupBySector(LocalDate startDate,LocalDate endDate){
+		List<PaymentCostLaborDTO> list = new ArrayList<>();
+		PaymentCostLaborDTO dto;
+		List<Object[]> inf = repository.listCostLaborGroupBySector(startDate, endDate);
+		for (int i = 0; i < inf.size(); i++) {
+			dto = new PaymentCostLaborDTO();
+			dto.setId((Long) inf.get(i)[0]);
+			dto.setName((String)inf.get(i)[1]);
+			dto.setTotal((Double)inf.get(i)[2]);
+			list.add(dto);
+		}
+		return list;
 	}
 	@Transactional
 	public LaborPaymentDTO insert(LaborPaymentDTO dto) {

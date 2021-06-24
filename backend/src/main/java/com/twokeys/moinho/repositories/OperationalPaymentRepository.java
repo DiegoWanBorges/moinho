@@ -1,6 +1,5 @@
 package com.twokeys.moinho.repositories;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,14 +19,13 @@ public interface OperationalPaymentRepository extends JpaRepository<OperationalP
 				 + "at.name, "
 				 + "at.type, "
 				 + "sum(p.value) as total "
-				 + "FROM tb_payment p "
-				 + "inner join tb_operational_payment op  on op.id = p.id "
-				 + "inner join TB_OPERATIONAL_COST_TYPE  at ON at.id = op.apportionment_type_id "
+				 + "FROM Payment p "
+				 + "inner join OperationalPayment op  on op.id = p.id "
+				 + "inner join OperationalCostType  at ON at.id = op.operationalCostType.id "
 				 + "where p.date between :startDate and :endDate "
 				 + "group by at.id,at.name,at.type "
-				 + "order by total desc " 
-		    , nativeQuery = true)
-	List<Object[]> listOperationalCostGroupByTypeApportionment(Instant startDate,Instant endDate);
+				 + "order by total desc ")
+	List<Object[]> listOperationalCostGroupByType(LocalDate startDate,LocalDate endDate);
 	
 	@Query("SELECT obj FROM OperationalPayment obj "
 		 + "WHERE (COALESCE(:operationalCostType) IS NULL OR operationalCostType = :operationalCostType) "

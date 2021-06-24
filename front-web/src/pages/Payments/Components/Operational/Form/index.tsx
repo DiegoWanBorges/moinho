@@ -61,7 +61,7 @@ const OperationalPaymentForm = () => {
             data: payLoad
         })
             .then(() => {
-                toast.success("Pagamento registrado com sucesso!")
+                toast.success("Pagamento salvo com sucesso!")
                 history.push('/payments/operational/')
             })
             .catch((error) => {

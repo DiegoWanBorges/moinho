@@ -2,7 +2,6 @@ package com.twokeys.moinho.services;
 
 
 
-import java.math.BigInteger;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +15,11 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.twokeys.moinho.dto.PaymentCostLaborDTO;
 import com.twokeys.moinho.dto.ProductionOrderCostLaborDTO;
 import com.twokeys.moinho.entities.ProductionOrder;
 import com.twokeys.moinho.entities.ProductionOrderCostLabor;
 import com.twokeys.moinho.entities.Sector;
-import com.twokeys.moinho.repositories.LaborPaymentRepository;
 import com.twokeys.moinho.repositories.ProductionOrderCostLaborRepository;
 import com.twokeys.moinho.repositories.ProductionOrderRepository;
 import com.twokeys.moinho.services.exceptions.DatabaseException;
@@ -39,7 +38,7 @@ public class ProductionOrderCostLaborService {
 	@Autowired
 	private ProductionOrderRepository productionOrderRepository;
 	@Autowired
-	private LaborPaymentRepository laborPaymentRepository;
+	private LaborPaymentService laborPaymentService;
 	
 	@Transactional(readOnly = true)
 	public List<ProductionOrderCostLaborDTO> findByIdProductionOrderId(Long id){
@@ -60,39 +59,34 @@ public class ProductionOrderCostLaborService {
 	}
 	
 	@Transactional
-	public void laborPaymentApportionment(Instant startDate, Instant endDate) {
+	public void prorateCostLabor(Instant startDate, Instant endDate) {
 		try {
 			List<ProductionOrder> listProductionOrder = new ArrayList<>();
 			Long productionDurationTotal;
 			Double percent=0.0;
 			Double proratedAmount;
-
 			ProductionOrderCostLabor productionOrderCostLabor;
-			BigInteger sectorId;
-			Long id;
 			
 			/*Recupera os valores de por setor a ser rateado*/
-			List<Object[]> paymentBySector= laborPaymentRepository.listCostLaborGroupBySector(startDate, endDate);	
-			for(Object[] inf : paymentBySector) {
+			List<PaymentCostLaborDTO> paymentBySector= laborPaymentService.listCostLaborGroupBySector(Util.toLocalDate(startDate), Util.toLocalDate(endDate));	
+			for(PaymentCostLaborDTO dto : paymentBySector) {
 				productionDurationTotal =0L;
 				listProductionOrder.clear();
-				 
-				sectorId=(BigInteger) inf[0];
-				id = sectorId.longValue();
+							
 				
 				/*Recupera as Ordens de produções, vinculadas aos setores*/
-				listProductionOrder = productionOrderRepository.listProductionOrderByStartDateAndFormulationSector(startDate, endDate,id);
+				listProductionOrder = productionOrderRepository.listProductionOrderByStartDateAndFormulationSector(startDate, endDate,dto.getId());
 				for(ProductionOrder item: listProductionOrder) {
 					productionDurationTotal+=item.getProductionMinutes();
 				}
 				
 				for(ProductionOrder item: listProductionOrder) {
 					percent = Util.roundHalfUp2(Double.valueOf(item.getProductionMinutes()) / productionDurationTotal);
-					proratedAmount=Util.roundHalfUp2(percent * (Double) inf[2]);
+					proratedAmount=Util.roundHalfUp2(percent * dto.getTotal());
 					productionOrderCostLabor = new ProductionOrderCostLabor();
 					productionOrderCostLabor.setValue(proratedAmount);
 					productionOrderCostLabor.setProductionOrder(item);
-					productionOrderCostLabor.setSector(new Sector(id,""));
+					productionOrderCostLabor.setSector(new Sector(dto.getId(),""));
 					repository.saveAndFlush(productionOrderCostLabor);
 				}
 			}
