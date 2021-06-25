@@ -1,0 +1,29 @@
+.productionOrderDetailsModal-main{
+    position: absolute;
+    width: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #ccc;
+    background: #fff;
+    overflow: visible;
+    border-radius: 4px;
+    outline: none;
+    padding: 20px;
+}
+  
+.productionOrderDetailsModal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.75);
+}
+.productionOrderDetailsModal-inputs{
+  text-align: center;
+  margin-bottom: 10px;
+}
+.productionOrderDetailsModal-actions{
+    margin-top: 20px;
+}

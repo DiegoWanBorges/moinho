@@ -3,6 +3,7 @@ package com.twokeys.moinho.services;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -175,12 +176,15 @@ public class ProductionOrderService {
 				
 			if (entity.getStatus() != ProductionOrderStatus.APURACAO_FINALIZADA) {
 				if(entity.getStatus()==ProductionOrderStatus.ABERTO && dto.getEndDate() != null  ) {
-					if (entity.getProductionOrderProduceds().size() > 0) {
-						entity.setStatus(ProductionOrderStatus.ENCERRADO);
-					}else {
-						throw new BusinessRuleException("Não foi informado a quantidade produzida!");
+					/*VALIDAR QUANTIDADE PRODUZIDA*/
+					if (entity.getProductionOrderProduceds().size() == 0) {
+						throw new BusinessRuleException("Produção não pode ser encerrada sem informar a quantidade produzida!");
 					}
-					
+					/*VALIDAR HORAS DE PRODUÇÃO*/
+					if((dto.getStartDate().until(dto.getEndDate(), ChronoUnit.MINUTES)) <= 0) {
+						throw new BusinessRuleException("Data inicial - Data Final devem ser maior que zero!");
+					}
+					entity.setStatus(ProductionOrderStatus.ENCERRADO);
 				}else {
 					if(dto.getEndDate()==null) {
 						entity.setStatus(ProductionOrderStatus.ABERTO);

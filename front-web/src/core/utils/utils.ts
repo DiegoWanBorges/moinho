@@ -18,3 +18,7 @@ export  const toISOFormatDateTime = (dateTime :string) => {
     // Retornamos a data formatada em um padrão compatível com ISO:
     return `${YYYY}-${MM}-${DD}`;
   }
+
+  export const formatPrice =(price:number) =>{
+    return new Intl.NumberFormat('pt-BR', {minimumFractionDigits:2}).format(price);
+}

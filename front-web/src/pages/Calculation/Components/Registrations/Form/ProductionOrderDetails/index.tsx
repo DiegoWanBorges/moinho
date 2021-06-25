@@ -1,5 +1,6 @@
 
 import { ProductionOrder } from 'core/types/ProductionOrder';
+import CostCalculationProductionOrderDetailsModal from './ProductionOrderDetailsModal';
 import './styles.scss';
 
 type Props = {
@@ -38,12 +39,12 @@ const CostCalculationProductionOrderDetails = ({ productionOrder }: Props) => {
                 <small>Custo:</small>
                 <h6>{`${productionOrder.unitCost}`}</h6>
             </div>
+            
             <div className="productionOrderDetails-actions">
-                <button
-                    className="btn btn-outline-secondary productionOrderDetails-btn-details"
-                >
-                    DETALHAR
-                </button>
+                
+                <CostCalculationProductionOrderDetailsModal 
+                    productionOrder={productionOrder}
+                />
             </div>
         </div>
     );

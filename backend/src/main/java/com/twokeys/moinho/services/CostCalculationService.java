@@ -6,7 +6,6 @@ import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -294,16 +293,19 @@ public class CostCalculationService {
 	}
 	
 	public void updateAverageCostProductionConsumptions(Instant startDate,Instant endDate) {
-		List<ProductionOrderItemDTO> list = new ArrayList<>();
-		StockBalanceDTO stock;
-		
-		list = productionOrderItemService.findByDate(startDate, endDate);
-		for (ProductionOrderItemDTO productionOrderItem : list) {
-			stock = stockMovementService.stockByProductAndPreviousAndEqualDate(productionOrderItem.getProduct().getId(), Util.toLocalDate(endDate));
-			productionOrderItem.setCost(stock.getAverageCost());
-			productionOrderItemService.updateService(productionOrderItem);
+		try {
+			List<ProductionOrderItemDTO> list = new ArrayList<>();
+			StockBalanceDTO stock;
+			
+			list = productionOrderItemService.findByDate(startDate, endDate);
+			for (ProductionOrderItemDTO productionOrderItem : list) {
+				stock = stockMovementService.stockByProductAndPreviousAndEqualDate(productionOrderItem.getProduct().getId(), Util.toLocalDate(endDate));
+				productionOrderItem.setCost(stock.getAverageCost());
+				productionOrderItemService.updateService(productionOrderItem);
+			}
+		} catch (Exception e) {
+			throw new UntreatedException(e.getMessage());
 		}
-		
 	}
 	
 	public void convertToEntity(CostCalculationDTO dto,CostCalculation entity) {

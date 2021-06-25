@@ -57,21 +57,23 @@ public class StockMovementService {
 			Double balance=0.0;
 			Double financialStockBalance=0.0;
 			StockBalanceDTO dto = new StockBalanceDTO();
-			
-			
+						
 			List<Object[]> object= repository.currentStockByProduct(productId);
 			
 			dto.setId(productId);
-			
-			balance=(Double)object.get(0)[3];
-			financialStockBalance=(Double)object.get(0)[4];
-
-			if(balance==0) {
+			if(object.size()==0) {
 				dto.setAverageCost(0.0);
 				dto.setBalance(0.0);
 			}else {
-				dto.setAverageCost(Util.roundHalfUp2(financialStockBalance/balance));
-				dto.setBalance(Util.roundHalfUp2(balance));
+				if(balance > 0) {
+					balance=(Double)object.get(0)[3];
+					financialStockBalance=(Double)object.get(0)[4];
+					dto.setAverageCost(Util.roundHalfUp2(financialStockBalance/balance));
+					dto.setBalance(Util.roundHalfUp2(balance));
+				}else {
+					dto.setAverageCost(0.0);
+					dto.setBalance(0.0);
+				}
 			}
 			return dto;
 		}catch(ResourceNotFoundException e) {
@@ -79,6 +81,7 @@ public class StockMovementService {
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + productId);
 		} catch (Exception e) {
+			logger.info("currentStockByProduct");
 			throw new UntreatedException(e.getMessage());
 		}
 	}
@@ -201,13 +204,21 @@ public class StockMovementService {
 			}else {
 				balance=(Double)object.get(0)[3];
 				financialStockBalance=(Double)object.get(0)[4];
-				dto.setAverageCost(Util.roundHalfUp2(financialStockBalance/balance));
-				dto.setBalance(Util.roundHalfUp2(balance));
+				if (balance>0) {
+					dto.setAverageCost(Util.roundHalfUp2(financialStockBalance/balance));
+					dto.setBalance(Util.roundHalfUp2(balance));
+				}else {
+					dto.setAverageCost(0.0);
+					dto.setBalance(0.0);
+				}
+				
+				
 			}
 			return dto;
 		}catch(EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + productId);
 		} catch (Exception e) {
+			logger.info(e.getMessage());
 			throw new UntreatedException("Exceção não tratada em: stockByProductAndPreviousAndEqualDate");
 		}
 	}

@@ -12,10 +12,10 @@ const StockBalanceCard = ({ stockBalance }: Props) => {
                 <h6>{stockBalance.name}</h6>
             </div>
             <div className="stockBalance-balance">
-                <h6>{`${stockBalance.balance} ${ stockBalance.unity}`}</h6>
+                <h6>{`Qt: ${stockBalance.balance} ${ stockBalance.unity}`}</h6>
             </div>
             <div className="stockBalance-cost">
-                <h6>{stockBalance.averageCost}</h6>
+                <h6>{`R$: ${stockBalance.averageCost}`}</h6>
             </div>
 
         </div>
