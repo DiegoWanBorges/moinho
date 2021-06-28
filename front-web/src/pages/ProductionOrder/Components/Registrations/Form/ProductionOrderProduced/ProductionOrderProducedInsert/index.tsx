@@ -103,6 +103,7 @@ const ProductionOrderProducedInsert = ({ onInsertItem, productionOrder }: Props)
                             getOptionValue={(option: Product) => String(option.id)}
                             classNamePrefix="products-select"
                             placeholder="Produtos"
+                            defaultValue={null}
 
                         />
                         {errors.product && (
@@ -124,6 +125,7 @@ const ProductionOrderProducedInsert = ({ onInsertItem, productionOrder }: Props)
                             getOptionValue={(option: Palletstatus) => String(option.id)}
                             classNamePrefix="produced-status-select"
                             placeholder="Status"
+                            defaultValue={null}
 
                         />
                         {errors.product && (

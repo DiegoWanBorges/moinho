@@ -266,6 +266,7 @@ function ProductForm() {
                     getOptionValue={(option: Group) => String(option.id)}
                     classNamePrefix="groups-select"
                     placeholder="Grupos"
+                    defaultValue={null}
                 />
                 {errors.group && (
                     <div className="invalid-feedback d-block">
@@ -287,6 +288,7 @@ function ProductForm() {
                     getOptionValue={(option: Unity) => option.id}
                     classNamePrefix="units-select"
                     placeholder="Unidades"
+                    defaultValue={null}
                 />
                 {errors.unity && (
                     <div className="invalid-feedback d-block">

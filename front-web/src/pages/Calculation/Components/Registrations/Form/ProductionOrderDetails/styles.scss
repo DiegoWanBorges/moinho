@@ -39,7 +39,46 @@
     width: 10%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center;   
+}
+@media(max-width:576px) {
+    .productionOrderDetails-main{
+        flex-direction: column;
+    }
+    .productionOrderDetails-id{
+        width: 100%;
+        
+    }
+    .productionOrderDetails-formulation{
+        margin-left: 0px;
+        width: 100%;
+    }
+    .productionOrderDetails-period{
+        text-align: left;
+        width: 100%;
+    }
     
+    .productionOrderDetails-produced{
+        text-align: left;
+        width: 100%;
     
+    }
+    .productionOrderDetails-directCost{
+        margin-left: 0px;
+        width: 100%;
+    }
+    .productionOrderDetails-indirectCost{
+        margin-left: 0px;
+        width: 100%;
+    }
+    .productionOrderDetails-averageCost{
+        margin-left: 0px;
+        width: 100%;
+    }
+    .productionOrderDetails-actions{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;   
+    }
 }

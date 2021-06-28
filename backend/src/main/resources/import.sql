@@ -27,6 +27,8 @@ INSERT INTO tb_unity(id,description)VALUES('KG','KILO');
 INSERT INTO tb_unity(id,description)VALUES('L','LITRO');
 INSERT INTO tb_unity(id,description)VALUES('CX','CAIXA');
 INSERT INTO tb_unity(id,description)VALUES('RL','ROLO');
+INSERT INTO tb_unity(id,description)VALUES('FD','FARDO');
+INSERT INTO tb_unity(id,description)VALUES('SC','SACO');
 
 INSERT INTO tb_group(name)VALUES('INSUMO');
 INSERT INTO tb_group(name)VALUES('MATERIA PRIMA');
@@ -74,7 +76,7 @@ INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group
 INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Fita para realizar o carimbo',1,'FITA DATADORA PARA FRACIONAMENTO',1,'',3,'RL',0,1,0);
 INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Filme utilizado para envase do pallet',0.700,'FILME STRETCH',0.700,'',3,'KG',0,1,0);
 INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Embalagem utilizada para o fracionamento',0.700,'BIPET MET PE 350X0.080 LEITE EM PO MOINHO 25X400',0.700,'',3,'KG',0,1,0);
-INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Leite em pó 25x400',1,'LEITE EM PO 25x400 MOINHO',1,'SC COM 25KG',5,'KG',365,1,0);
+INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Leite em pó 25x400',1,'LEITE EM PO 25x400 MOINHO',1,'SC COM 25KG',5,'SC',365,1,0);
 INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Leite concentrado',1,'LEITE CONCENTRADO',1,'KG',5,'KG',7,1,0);
 
 

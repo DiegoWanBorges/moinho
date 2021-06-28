@@ -1,6 +1,3 @@
-.calculation-main{
-    
-}
 .calculation-list-filter{
     display: flex;
     margin-bottom: 10px;
@@ -8,4 +5,18 @@
 }
 .calculation-list-filter-end-date{
     margin-left: 10px;
+}
+@media (max-width: 576px){
+    .calculation-list-filter{
+     flex-direction: column;
+    }
+    .calculation-list-filter-end-date{
+        margin-left: 0px;
+    }
+    .calculation-list-actions{
+        width: 100%;
+    }
+    .calculation-list-actions-add{
+        width: 100%;
+    }
 }

@@ -1,0 +1,61 @@
+.stockMovementBalance-main{
+    display: flex;
+    margin-bottom: 20px;
+
+}
+.stockMovementBalance-initialStock{
+    padding: 5px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    width: 33%;
+    text-align: center;
+    
+}
+.stockMovementBalance-initialStock-inf{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.stockMovementBalance-movement{
+    padding: 5px;
+    margin-left: 5px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    width: 33%;
+    text-align: center;
+}
+.stockMovementBalance-movement-inf{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.stockMovementBalance-finalStock{
+    margin-left: 5px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    width: 33%;
+    text-align: center;
+    padding: 5px;
+}
+.stockMovementBalance-finalStock-inf{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+@media(max-width:768px) {
+    .stockMovementBalance-main{
+        flex-direction: column;
+    
+    }
+    .stockMovementBalance-initialStock{
+        width: 100%;
+    }
+    .stockMovementBalance-movement{
+        width: 100%;
+        margin-left: 0px;
+    }
+    .stockMovementBalance-finalStock{
+        width: 100%;
+        margin-left: 0px;
+    }
+}

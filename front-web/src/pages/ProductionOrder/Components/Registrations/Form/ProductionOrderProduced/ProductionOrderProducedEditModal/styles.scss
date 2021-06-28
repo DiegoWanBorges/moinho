@@ -48,30 +48,9 @@
     margin-left: 10px;
 }
 @media (max-width: 576px){
-    .modal-main{
-        display: flex;
-        flex-direction: column;
-        max-width: 100% !important;
-        top: 0;
-        left: 0;
-        transform: none;
-        
-        background: #fff;
-        overflow: visible;
-        border-radius: 4px;
-        outline: none;
-        padding: 10px;
+    .producedModal-main{
+        width: 100%;
       }
-      
-      .myoverlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-color: rgba(0, 0, 0, 0.75);
-        }
-      
       .producedModal-select-product{
           width: 100% !important;
       }

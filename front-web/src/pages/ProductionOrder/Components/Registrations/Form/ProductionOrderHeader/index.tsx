@@ -16,7 +16,7 @@ type Props = {
 const ProductionOrderHeader = ({ productionOrder }: Props) => {
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date|undefined>();
-    const [observation, setObservation] = useState(' ');
+    const [observation, setObservation] = useState("");
 
     useEffect(() => {
         setStartDate(moment(toISOFormatDateTime(productionOrder.startDate)).toDate());
@@ -56,7 +56,7 @@ const ProductionOrderHeader = ({ productionOrder }: Props) => {
     }
 
     return (
-        <form className="production-order-header-main">
+        <div className="production-order-header-main">
             <div>
                 <h6>{`O.P.: ${productionOrder.id}`}</h6>
                 <h6>{`${productionOrder.formulation.description}`}</h6>
@@ -117,7 +117,7 @@ const ProductionOrderHeader = ({ productionOrder }: Props) => {
             </div>
             <small className="production-order-header-text-inf">*Para finalizar a ordem de produção informe a data final.</small>
 
-        </form>
+        </div>
     )
 }
 

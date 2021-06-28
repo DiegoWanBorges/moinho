@@ -66,7 +66,7 @@ function CalculationList() {
         <div className="calculation-list">
             <div className="calculation-list-actions">
                 <button
-                    className="btn btn-primary btn-lg"
+                    className="btn btn-primary btn-lg calculation-list-actions-add"
                     onClick={handCreate}
                 >
                     Nova Apuração

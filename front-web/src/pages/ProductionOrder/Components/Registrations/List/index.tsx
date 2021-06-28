@@ -26,7 +26,6 @@ function ProductionOrderList() {
             orderBy: "id",
             direction: "DESC"
         }
-        console.log(params)
         makePrivateRequest({ url: '/productionorders', params })
             .then(response => setProductionOrderResponse(response.data))
             .finally(() => {

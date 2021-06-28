@@ -32,6 +32,8 @@ export type ProductionOrder= {
     totalDirectCost: number;
     unitCost: number;
     totalIndirectCost: number;
+    totalCostLabor: number;
+    totalOperationalCost: number;
 }
     
 export type ProductionOrderItem= {

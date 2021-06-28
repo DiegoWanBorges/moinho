@@ -232,6 +232,7 @@ function FormulationForm() {
                         getOptionValue={(option: Product) => String(option.id)}
                         classNamePrefix="products-select"
                         placeholder="Produtos"
+                        defaultValue={null}
                     />
                     {errors.product && (
                         <div className="invalid-feedback d-block">
@@ -251,6 +252,7 @@ function FormulationForm() {
                         getOptionValue={(option: Product) => String(option.id)}
                         classNamePrefix="sectors-select"
                         placeholder="Secundario"
+                        defaultValue={null}
                         isMulti
                     />
                 </div>
@@ -270,6 +272,7 @@ function FormulationForm() {
                         getOptionValue={(option: Sector) => String(option.id)}
                         classNamePrefix="sectors-select"
                         placeholder="Setores"
+                        defaultValue={null}
                         isMulti
                     />
                     {errors.sectors && (
@@ -292,6 +295,7 @@ function FormulationForm() {
                         getOptionValue={(option: OperationalCostType) => String(option.id)}
                         classNamePrefix="apportionments-select"
                         placeholder="Custos operacionais"
+                        defaultValue={null}
                         isMulti
                     />
                     {errors.operationalCostType && (

@@ -176,6 +176,20 @@ public class ProductionOrderDTO   implements Serializable {
 		}
 		return Util.roundHalfUp2(sum);
 	}
+	public Double getTotalOperationalCost() {
+		Double sum =0.0;
+		for (ProductionOrderOperationalCostDTO operational : productionOrderOperationalCost) {
+				sum+= operational.getValue();
+		}
+		return Util.roundHalfUp2(sum);
+	}
+	public Double getTotalCostLabor() {
+		Double sum =0.0;
+		for (ProductionOrderCostLaborDTO labor : productionOrderCostLabor) {
+				sum+=labor.getValue();
+		}
+		return Util.roundHalfUp2(sum);
+	}
 	public Double getUnitCost() {
 		Double sum =0.0;
 		if (status != ProductionOrderStatus.ABERTO) {

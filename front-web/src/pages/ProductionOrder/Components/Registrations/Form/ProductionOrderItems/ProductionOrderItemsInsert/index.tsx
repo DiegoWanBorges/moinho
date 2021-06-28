@@ -107,6 +107,7 @@ function ProductionOrderItemsInsert({ onInsertItem, productionOrder }: Props) {
                             getOptionValue={(option: Product) => String(option.id)}
                             classNamePrefix="products-select"
                             placeholder="Produtos"
+                            defaultValue={null}
 
                         />
                         {errors.product && (

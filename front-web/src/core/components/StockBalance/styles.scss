@@ -15,3 +15,19 @@
     display: flex;
     width: 33%; 
 }
+@media(max-width:576px) {
+    .stockBalance-main{
+        flex-direction: column;
+    }
+    .stockBalance-name{
+        width: 100%; 
+    }
+    .stockBalance-balance{
+        display: flex;
+        width: 100%;
+    }
+    .stockBalance-cost{
+        display: flex;
+        width: 100%; 
+    }
+}

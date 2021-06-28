@@ -29,17 +29,29 @@
 }
 @media (max-width: 576px){
     .costCalculation-card{
-        display: flex;
         flex-direction: column;
-        
     }
-    .costCalculation-card-action-btn{
-        width: 100% !important;
+    .costCalculation-card-ref{
+        width: 100%;
     }
-    .costCalculation-card-inf{
+    .costCalculation-card-date{
+        width: 100%;
+        text-align: left;
+    }
+    .costCalculation-card-status{
         width: 100%;
     }
     .costCalculation-card-action{
+        display: flex;
         width: 100%;
+        justify-content: center;
+    }
+    .costCalculation-card-action-btn{
+        border-radius: 10px;
+        width: 45%;
+        
+    }
+    .costCalculation-card-action-btn-edit{
+        margin-right: 5px;
     }
 }

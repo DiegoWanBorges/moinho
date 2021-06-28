@@ -95,6 +95,7 @@ function EmployeeForm() {
                     getOptionValue={(option: Sector) => String(option.id)}
                     classNamePrefix="sectors-select"
                     placeholder="Setores"
+                    defaultValue={null}
                 />
                 {errors.sector && (
                     <div className="invalid-feedback d-block">

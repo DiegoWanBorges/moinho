@@ -6,9 +6,15 @@ type Props = {
 
 const ProductionOrderDetailsProduced = ({ productionOrderProduced }: Props) => {
     return (
-        <div className="productionOrderDetailsInputs-main">
-            <div>
+        <div className="productionOrderDetailsProduced-main">
+            <div className="productionOrderDetailsProduced-product">
                 {productionOrderProduced.product.name}
+            </div>
+            <div className="productionOrderDetailsProduced-product">
+                {`Pallet: ${productionOrderProduced.pallet} Status: ${productionOrderProduced.palletStatus.name}`}
+            </div>
+            <div className="productionOrderDetailsProduced-quantity">
+                {`${productionOrderProduced.quantity} ${productionOrderProduced.product.unity.id}`}
             </div>
         </div>
     )

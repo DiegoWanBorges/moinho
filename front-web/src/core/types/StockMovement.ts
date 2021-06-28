@@ -17,3 +17,13 @@ export type StockMovement={
     product:Product;
 }
 
+export type StockBalance ={
+    id: number;
+    name: string;
+    unity: string;
+    balance: number;
+    averageCost: number,
+    totalEntry: number;
+    totalOut: number;
+}
+

@@ -46,7 +46,7 @@ const CostCalculationProductionOrderDetailsModal = ({ productionOrder }: Props) 
                     </TabList>
 
                     <TabPanel>
-                        <div className="productionOrderDetailsModal-inputs">
+                        <div className="productionOrderDetailsModal-title">
                             <h6>Total Insumos: {formatPrice(productionOrder.totalDirectCost)}</h6>
                         </div>
                         {productionOrder.productionOrderItems.map(item => (
@@ -57,6 +57,9 @@ const CostCalculationProductionOrderDetailsModal = ({ productionOrder }: Props) 
                         ))}
                     </TabPanel>
                     <TabPanel>
+                        <div className="productionOrderDetailsModal-title">
+                            <h6>Total Custo Operacional: {formatPrice(productionOrder.totalOperationalCost)}</h6>
+                        </div>
                         {productionOrder.productionOrderOperationalCost.map(item => (
                             <ProductionOrderDetailsOperationalCost
                                 key={item.operationalCostType.id}
@@ -65,6 +68,9 @@ const CostCalculationProductionOrderDetailsModal = ({ productionOrder }: Props) 
                         ))}
                     </TabPanel>
                     <TabPanel>
+                    <div className="productionOrderDetailsModal-title">
+                            <h6>Total Custo Mão de Obra: {formatPrice(productionOrder.totalCostLabor)}</h6>
+                        </div>
                         {productionOrder.productionOrderCostLabor.map(item => (
                             <ProductionOrderDetailsCostLabor
                                 key={item.sector.id}

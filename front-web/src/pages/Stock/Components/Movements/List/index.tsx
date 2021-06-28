@@ -11,7 +11,7 @@ import { StockMovementsResponse } from 'core/types/StockMovement';
 import StockMovementCard from '../Card';
 import history from 'core/utils/history';
 import { toast } from 'react-toastify';
-
+import StockMovementBalance from './StockMovementBalance'
 const StockMovementList = () => {
     const [startDate, setStartDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth(), 1));
     const [endDate, setEndDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth() + 1, 0));
@@ -127,6 +127,18 @@ const StockMovementList = () => {
                 </div>
 
             </div>
+            
+            {product && (
+                <div className="stockMovementList-balance">
+                    <StockMovementBalance
+                        product={product}
+                        startDate={moment(startDate).format("DD/MM/YYYY")}
+                        endDate={moment(endDate).format("DD/MM/YYYY")}
+                    />
+                </div>
+            )
+
+            }
             {stockMovementResponse?.content.map(item => (
                 <StockMovementCard
                     stockMovement={item}

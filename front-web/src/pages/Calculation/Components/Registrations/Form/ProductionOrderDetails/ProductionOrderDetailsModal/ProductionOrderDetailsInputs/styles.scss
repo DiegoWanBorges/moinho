@@ -2,19 +2,45 @@
     display: flex;
     font-size: 15px;
 }
+.productionOrderDetailsInputs-type{
+    width: 10%;
+}
 .productionOrderDetailsInputs-product{
     width: 60%;
-    
+    margin-left: 5px;
 }
 .productionOrderDetailsInputs-quantity{
-    width: 20%;
+    width: 15%;
     
 }
 .productionOrderDetailsInputs-cost{
-    width: 20%;
+    width: 15%;
     
 }
 .productionOrderDetailsInputs-total{
     width: 20%;
     
+}
+@media(max-width:576px) {
+    .productionOrderDetailsInputs-main{
+        flex-direction: column;
+    }
+    .productionOrderDetailsInputs-type{
+        width: 100%;
+    }
+    .productionOrderDetailsInputs-product{
+        width: 100%;
+        margin-left: 0px;
+    }
+    .productionOrderDetailsInputs-quantity{
+        width: 100%;
+        
+    }
+    .productionOrderDetailsInputs-cost{
+        width: 100%;
+        
+    }
+    .productionOrderDetailsInputs-total{
+        width: 100%;
+    }
 }

@@ -57,7 +57,7 @@ function FormulationItems({ onInsertItem, formulationItem }: Props) {
                         getOptionValue={(option: Product) => String(option.id)}
                         classNamePrefix="products-select"
                         placeholder="Produtos"
-                        
+                        defaultValue={null}
                     />
                     {errors.product && (
                         <div className="invalid-feedback d-block">

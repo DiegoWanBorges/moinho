@@ -7,6 +7,9 @@ type Props = {
 const ProductionOrderDetailsInputs = ({ productionOrderItem }: Props) => {
     return (
         <div className="productionOrderDetailsInputs-main">
+            <div className="productionOrderDetailsInputs-type">
+                {productionOrderItem.type}
+            </div>
             <div className="productionOrderDetailsInputs-product">
                 {productionOrderItem.product.name}
             </div>
@@ -17,6 +20,7 @@ const ProductionOrderDetailsInputs = ({ productionOrderItem }: Props) => {
             <div className="productionOrderDetailsInputs-cost">
                 {`R$: ${productionOrderItem.cost}`}
             </div>
+            <hr/>
         </div>
     )
 }

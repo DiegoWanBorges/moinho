@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.twokeys.moinho.dto.StockBalanceDTO;
+import com.twokeys.moinho.dto.StockBalanceTotalDTO;
 import com.twokeys.moinho.dto.StockMovementDTO;
 import com.twokeys.moinho.services.StockMovementService;
 
@@ -56,8 +57,26 @@ public class StockMovementResource {
 		return ResponseEntity.ok().body(dto);
 	}
 	@GetMapping
-	@RequestMapping(params = "stockByProductPreviousDateProductId")
-	public ResponseEntity<StockBalanceDTO> stockByProductAndPreviousAndEqualDate(@RequestParam(value = "stockByProductPreviousDateProductId") Long  productId,
+	@RequestMapping(params = "stockByDateBetweenAndProductId")
+	public ResponseEntity<StockBalanceTotalDTO> stockByDateBetweenAndProductId(@RequestParam(value = "stockByDateBetweenAndProductId") Long  productId,
+																			   @RequestParam(value = "startDate") LocalDate  startDate,
+																			   @RequestParam(value = "endDate") LocalDate  endDate){
+		StockBalanceTotalDTO dto = service.stockByDateBetweenAndProductId(startDate,endDate,productId);
+		return ResponseEntity.ok().body(dto);
+	}
+	@GetMapping
+	@RequestMapping(params = "stockByPreviousDateAndProductId")
+	public ResponseEntity<StockBalanceDTO> stockByPreviousDateAndProductId(@RequestParam(value = "stockByPreviousDateAndProductId") Long  productId,
+																			   @RequestParam(value = "date") LocalDate  date){
+		StockBalanceDTO dto = service.stockByPreviousDateAndProductId(productId,date);
+		return ResponseEntity.ok().body(dto);
+	}
+	
+	
+	
+	@GetMapping
+	@RequestMapping(params = "stockByPreviousAndEqualDateAndProductId")
+	public ResponseEntity<StockBalanceDTO> stockByPreviousAndEqualDateAndProductId(@RequestParam(value = "stockByPreviousAndEqualDateAndProductId") Long  productId,
 																	             @RequestParam(value = "date") LocalDate  date){
 		StockBalanceDTO dto = service.stockByProductAndPreviousAndEqualDate(productId,date);
 		return ResponseEntity.ok().body(dto);

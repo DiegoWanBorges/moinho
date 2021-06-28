@@ -132,6 +132,7 @@ function UserForm() {
                     classNamePrefix="roles-select"
                     isMulti
                     placeholder="Permissões"
+                    defaultValue={null}
                 />
                 {errors.roles && (
                     <div className="invalid-feedback d-block">
