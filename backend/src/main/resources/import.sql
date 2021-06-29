@@ -3,7 +3,6 @@ INSERT INTO tb_user (name,email,password) VALUES ('Machado de Assis','machado@gm
 INSERT INTO tb_user (name,email,password) VALUES ('José de Alencar','jose@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
 INSERT INTO tb_user (name,email,password) VALUES ('Monteiro Lobato','monteiro@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
 
-
 INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
 INSERT INTO tb_role (authority) VALUES ('ROLE_REGISTRATION_PARAMETER');
 INSERT INTO tb_role (authority) VALUES ('ROLE_REGISTRATION_USER');
@@ -78,7 +77,6 @@ INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group
 INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Embalagem utilizada para o fracionamento',0.700,'BIPET MET PE 350X0.080 LEITE EM PO MOINHO 25X400',0.700,'',3,'KG',0,1,0);
 INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Leite em pó 25x400',1,'LEITE EM PO 25x400 MOINHO',1,'SC COM 25KG',5,'SC',365,1,0);
 INSERT INTO tb_product(description, gross_weight,name,net_weight,packaging,group_id,unity_id,validity_days,RAW_MATERIAL_CONVERSION,AVERAGE_COST )VALUES('Leite concentrado',1,'LEITE CONCENTRADO',1,'KG',5,'KG',7,1,0);
-
 
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-05-15','',0,5,1,1.20,50000,0);
 INSERT INTO tb_STOCK_MOVEMENT(date,description,id_orign_movement,type,product_id,cost,entry,out)VALUES('2021-06-01','',0,5,1,1.20,50000,0);
@@ -189,12 +187,13 @@ INSERT INTO TB_LABOR_PAYMENT(ID,EMPLOYEE_ID,LABOR_COST_TYPE)VALUES(9,3,1);
 INSERT INTO TB_PAYMENT(DATE,DESCRIPTION,DOCUMENT_NUMBER,VALUE)VALUES('2021-06-30','Ref: Vale Salario','xxxx',1545.5);
 INSERT INTO TB_LABOR_PAYMENT(ID,EMPLOYEE_ID,LABOR_COST_TYPE)VALUES(10,4,1);  
 
-
 INSERT INTO TB_PARAMETER(ID,COMPANY_NAME,PRODUCTION_ORDER_WITHOUT_STOCK,TYPE_COST_USED)VALUES(1,'Moinho Ltda',true,1);
 
 INSERT INTO TB_FORMULATION_SECONDARY_PRODUCTION(FORMULATION_ID,PRODUCT_ID)VALUES(1,9);
 INSERT INTO TB_FORMULATION_SECONDARY_PRODUCTION(FORMULATION_ID,PRODUCT_ID)VALUES(2,10);  
 
-
+update tb_product set AVERAGE_COST=COALESCE(ROUND((SELECT sum(entry*cost)  / sum(entry)  FROM TB_STOCK_MOVEMENT WHERE TB_STOCK_MOVEMENT .PRODUCT_ID=tb_product.ID group by product_id),2),0);
+update tb_product set COST_LAST_ENTRY=COALESCE(ROUND((SELECT sum(entry*cost)  / sum(entry)  FROM TB_STOCK_MOVEMENT WHERE TB_STOCK_MOVEMENT .PRODUCT_ID=tb_product.ID group by product_id),2),0);
+update tb_product set STOCK_BALANCE=COALESCE((SELECT sum(entry)  FROM TB_STOCK_MOVEMENT WHERE TB_STOCK_MOVEMENT .PRODUCT_ID=tb_product.ID group by product_id),0);
 
 

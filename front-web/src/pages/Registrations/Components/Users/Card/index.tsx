@@ -1,26 +1,30 @@
 import { User } from 'core/types/User';
-import { Link } from 'react-router-dom';
+import history from 'core/utils/history';
+
 import './styles.scss';
 
-type Props={
-    user:User;
-    onRemove: (productId:number) =>void;
+type Props = {
+    user: User;
+    onRemove: (productId: number) => void;
 }
-const UserCard = ({ user,onRemove }:Props) => {
+const UserCard = ({ user, onRemove }: Props) => {
+    const onEdit = () => {
+        history.push(`/registrations/users/${user.id}`)
+    }
     return (
         <div className="user-card">
-          <div className="user-card-inf">
-            <h5>{user.name}</h5>
-            <small>{user.email}</small>
-          </div>
+            <div className="user-card-inf">
+                <h5>{user.name}</h5>
+                <small>{user.email}</small>
+            </div>
 
-          <div className="user-card-action">
-                <Link
-                    to={`/registrations/users/${user.id}`}
+            <div className="user-card-action">
+                <button
                     type="button"
+                    onClick={onEdit}
                     className="btn btn-outline-secondary user-card-action-btn user-card-action-btn-edit">
                     EDITAR
-                </Link>
+                </button>
 
                 <button
                     type="button"
@@ -28,9 +32,9 @@ const UserCard = ({ user,onRemove }:Props) => {
                     onClick={() => onRemove(user.id)}
                 >
                     EXCLUIR
-                    </button>
+                </button>
             </div>
-          
+
         </div>
     );
 }

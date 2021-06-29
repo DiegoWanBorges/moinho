@@ -10,8 +10,7 @@
 }
 .user-card-action{
     display: flex;
-    width: 50%;
-    
+    width: 50%;   
 }
 .user-card-action-btn{
     border-radius: 10px;
@@ -28,6 +27,7 @@
     }
     .user-card-action-btn{
         width: 100%;
+        margin-top: 10px;
     }
     .user-card-inf{
         width: 100%;

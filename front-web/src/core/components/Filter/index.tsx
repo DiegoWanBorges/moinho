@@ -13,7 +13,7 @@ type Props = {
 }
 
 
-const Filter = ({ name, handleChangeName, clearFilters, placeholder,linesPerPage,handleChangeLinesPerPage }: Props) => {
+const Filter = ({ name, handleChangeName, clearFilters, placeholder, linesPerPage, handleChangeLinesPerPage }: Props) => {
     return (
         <div className="card-base filters-container">
             <div className="input-search">
@@ -27,26 +27,28 @@ const Filter = ({ name, handleChangeName, clearFilters, placeholder,linesPerPage
                 <SearchIcon />
             </div>
 
-            <div className="filters-lines">
-                <select 
-                    name="typeCostUsed" 
-                    className="filters-lines-select"
-                    onChange={(e) => handleChangeLinesPerPage(parseInt(e.target.value))}
-                    value={linesPerPage}
-                >
-                    <option value="10">10</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
+            <div className="filters">
+                <div className="filters-select">
+                    <select
+                        name="typeCostUsed"
+                        className="filters-lines-select"
+                        onChange={(e) => handleChangeLinesPerPage(parseInt(e.target.value))}
+                        value={linesPerPage}
+                    >
+                        <option value="10">10</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+                <div className="filters-actions">
+                    <button
+                        className="btn btn-outline-secondary btn-filter-clean"
+                        onClick={clearFilters}
+                    >
+                        LIMPAR FILTRO
+                    </button>
+                </div>
             </div>
-
-
-            <button
-                className="btn btn-outline-secondary btn-filter-clean"
-                onClick={clearFilters}
-            >
-                LIMPAR FILTRO
-            </button>
         </div>
     )
 }

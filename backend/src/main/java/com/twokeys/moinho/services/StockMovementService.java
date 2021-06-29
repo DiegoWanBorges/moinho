@@ -64,9 +64,9 @@ public class StockMovementService {
 				dto.setAverageCost(0.0);
 				dto.setBalance(0.0);
 			} else {
+				balance = (Double) object.get(0)[3];
+				financialStockBalance = (Double) object.get(0)[4];
 				if (balance > 0) {
-					balance = (Double) object.get(0)[3];
-					financialStockBalance = (Double) object.get(0)[4];
 					dto.setAverageCost(Util.roundHalfUp2(financialStockBalance / balance));
 					dto.setBalance(Util.roundHalfUp2(balance));
 				} else {
@@ -322,7 +322,7 @@ public class StockMovementService {
 			costCalculationService.hasCostCalculation(dto.getDate());
 
 			StockBalanceDTO stockBalance = currentStockByProduct(dto.getProduct().getId());
-
+			logger.info(stockBalance.getAverageCost());
 			/* Atualiza o custo e saldo de estoque */
 			product = productRepository.findById(entity.getProduct().getId()).get();
 			product.setStockBalance(stockBalance.getBalance());

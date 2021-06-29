@@ -51,7 +51,7 @@ const StockMovementList = () => {
     useEffect(() => {
         getStockMovements()
         // eslint-disable-next-line
-    }, [activePage, getStockMovements])
+    }, [activePage, getStockMovements,product])
 
     const handCreate = () => {
         history.push("/stock/movements/new");

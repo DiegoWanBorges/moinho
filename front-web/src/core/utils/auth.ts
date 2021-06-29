@@ -6,12 +6,12 @@ import { Roles } from "./roles";
 export const CLIENTE_ID= process.env.REACT_APP_CLIENT_ID ??  'moinho-prod';
 export const CLIENTE_SECRET= process.env.CLIENTE_SECRET ?? 'moinho-prod-secret';
 
-type LoginResponse = {
+export type LoginResponse = {
     access_token: string;
     token_type: string;
     expires_in: number;
     scope: string;
-    userFirstName: string;
+    name: string;
     userId: number;
 }
 export type Role = Roles

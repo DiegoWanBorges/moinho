@@ -11,6 +11,8 @@ import { Sector } from 'core/types/Employee';
 import { OperationalCostType } from 'core/types/Payment';
 import { Formulation, FormulationItem } from 'core/types/Formulation';
 import FormulationItemsCard from './FormulationItemsCard';
+import Print from 'core/assets/images/print.png'
+import { FormulationReport } from 'core/reports/Formulation';
 
 type ParamsType = {
     formulationId: string;
@@ -29,6 +31,7 @@ function FormulationForm() {
     const [formulationItem, setFormulationItem] = useState<FormulationItem[]>([]);
     const [isLoadingSecondaryProductions, setIsLoadingSecondaryProductions] = useState(false);
     const [secondaryProductions, setSecondaryProductions] = useState<Product[]>();
+    const [formulation, setFormulation] = useState<Formulation>();
     useEffect(() => {
         setIsLoadingProducts(true)
         setIsLoadingSecondaryProductions(true)
@@ -77,10 +80,20 @@ function FormulationForm() {
                 })
         }
     }, [formulationId, isEditing, setValue])
+   
+   const getFormulation = useCallback(() => {
+            makePrivateRequest({ url: `/formulations/${formulationId}` })
+                .then(response => {
+                setFormulation(response.data)
+                })
+    }, [formulationId])
 
     useEffect(() => {
         getFormulationItems();
     }, [getFormulationItems])
+    useEffect(() => {
+        getFormulation();
+    }, [getFormulation])
 
     const onSubmit = (data: Formulation) => {
         makePrivateRequest({
@@ -150,6 +163,18 @@ function FormulationForm() {
     }
     const handleCancel = () => {
         history.push("./")
+    }
+    
+    const  onPrint = () =>{
+        makePrivateRequest({ url: `/formulations?pdf=${formulationId}`,responseType:"blob" })
+        .then(response => {
+            //Build a URL from the file
+            var file = new Blob([response.data], {type: 'application/pdf'});
+            const fileURL = URL.createObjectURL(file);
+            //Open the URL on new Window
+            window.open(fileURL);
+        })
+        .finally(() => setIsLoadingOperationalCostTypes(false))
     }
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="formulation-form">
@@ -308,6 +333,14 @@ function FormulationForm() {
             </div>
 
             <div className="formulation-form-actions">
+            
+
+                <img  
+                    className="formulation-form-btn-print" 
+                    src={Print} alt="" 
+                    onClick={onPrint}
+                />
+
                 <button
                     className="btn btn-outline-danger"
                     onClick={handleCancel}
@@ -321,14 +354,14 @@ function FormulationForm() {
 
             {
                 isEditing && (
-                <>
-                <hr className="formulation-form-hr" />
-                <FormulationItems
-                    onInsertItem={onInsertItem}
-                    formulationItem={formulationItem}
+                    <>
+                        <hr className="formulation-form-hr" />
+                        <FormulationItems
+                            onInsertItem={onInsertItem}
+                            formulationItem={formulationItem}
 
-                />
-                </>)
+                        />
+                    </>)
             }
             {
                 isEditing && (

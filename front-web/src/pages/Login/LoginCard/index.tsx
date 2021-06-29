@@ -36,6 +36,11 @@ function LoginCard() {
             <h1 className="login-card-title">
                 Informe suas credenciais:
            </h1>
+           {hasError && (
+                    <div className="alert alert-danger">
+                        Usuário ou senha inválido!
+                    </div>
+            )}
             <input
                 className="login-card-input"
                 type="email"
@@ -71,14 +76,6 @@ function LoginCard() {
             >
                 LOGAR
             </button>
-           
-            {
-                hasError && (
-                    <div className="alert alert-danger mt-5">
-                        Usuário ou senha inválido!
-                    </div>
-                )
-            }
         </form>
     );
 }

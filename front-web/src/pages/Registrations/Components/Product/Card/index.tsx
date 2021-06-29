@@ -1,25 +1,29 @@
 import { Product } from 'core/types/Product';
-import { Link } from 'react-router-dom';
+import history from 'core/utils/history';
 import './styles.scss';
 
-type Props={
-    product:Product;
-    onRemove: (productId:number) =>void;
+type Props = {
+    product: Product;
+    onRemove: (productId: number) => void;
 }
-const ProductCard = ({ product,onRemove }:Props) => {
+const ProductCard = ({ product, onRemove }: Props) => {
+    const onEdit = () => {
+        history.push(`/registrations/products/${product.id}`)
+    }
     return (
         <div className="product-card">
-          <div className="product-card-inf">
-            <h5>{product.name}</h5>
-          </div>
+            <div className="product-card-inf">
+                <h5>{`${product.id} - ${product.name}`}</h5>
+                <small>{`Estoque Atual: ${product.stockBalance} | Custo Médio: ${product.averageCost}`}</small>
+            </div>
 
-          <div className="product-card-action">
-                <Link
-                    to={`/registrations/products/${product.id}`}
+            <div className="product-card-action">
+                <button
+                    onClick={onEdit}
                     type="button"
                     className="btn btn-outline-secondary product-card-action-btn product-card-action-btn-edit">
                     EDITAR
-                </Link>
+                </button>
 
                 <button
                     type="button"
@@ -27,9 +31,8 @@ const ProductCard = ({ product,onRemove }:Props) => {
                     onClick={() => onRemove(product.id)}
                 >
                     EXCLUIR
-                    </button>
+                </button>
             </div>
-          
         </div>
     );
 }

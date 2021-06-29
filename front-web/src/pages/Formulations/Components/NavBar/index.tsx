@@ -8,9 +8,6 @@ const NavBarFormulation = () => (
             <li>
                 <NavLink to="/formulations/registrations" className="nav-registration-item">Cadastro</NavLink>
             </li>
-            <li>
-                <NavLink to="/formulations/reports" className="nav-registration-item">Relatórios</NavLink>
-            </li>
         </ul>
     </nav>
 )

@@ -1,5 +1,6 @@
 import { Employee } from 'core/types/Employee';
-import { Link } from 'react-router-dom';
+import history from 'core/utils/history';
+
 import './styles.scss';
 
 type Props={
@@ -7,6 +8,9 @@ type Props={
     onRemove: (employeeId:number) =>void;
 }
 const EmployeeCard = ({ employee,onRemove }:Props) => {
+    const onEdit = () => {
+        history.push(`/registrations/employees/${employee.id}`)
+    }
     return (
         <div className="employee-card">
           <div className="employee-card-inf">
@@ -15,12 +19,12 @@ const EmployeeCard = ({ employee,onRemove }:Props) => {
           </div>
 
           <div className="employee-card-action">
-                <Link
-                    to={`/registrations/employees/${employee.id}`}
+                <button
+                    onClick={onEdit}
                     type="button"
                     className="btn btn-outline-secondary employee-card-action-btn employee-card-action-btn-edit">
                     EDITAR
-                </Link>
+                </button>
 
                 <button
                     type="button"

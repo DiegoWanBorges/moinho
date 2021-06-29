@@ -6,11 +6,11 @@
 
 }
 .product-card-inf{
-    width: 50%;
+    width: 60%;
 }
 .product-card-action{
     display: flex;
-    width: 50%;
+    width: 40%;
     
 }
 .product-card-action-btn{
@@ -34,5 +34,6 @@
     }
     .product-card-action{
         width: 100%;
+        margin-top: 10px;
     }
 }
