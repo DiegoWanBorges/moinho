@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.twokeys.moinho.dto.FormulationDTO;
+import com.twokeys.moinho.dto.FormulationItemDTO;
 import com.twokeys.moinho.services.FormulationService;
 
 import net.sf.jasperreports.engine.JRException;
@@ -65,12 +66,14 @@ public class FormulationResource {
 	@RequestMapping(params = "pdf")
 	public ResponseEntity<byte[]> pdf(@RequestParam(value="pdf") Long id) throws FileNotFoundException, JRException{
 		FormulationDTO dto = service.findById(id);
-		List<FormulationDTO> list = new ArrayList<>();
-		list.add(dto);
+		
+		List<FormulationItemDTO> list = new ArrayList<>();
+		list.addAll(dto.getFormulationItems());
 		JRBeanCollectionDataSource beanCollectionDataSource = new  JRBeanCollectionDataSource(list);
 		JasperReport compileReport = JasperCompileManager.compileReport(new FileInputStream("src/main/resources/reports/formulation/formulation.jrxml"));
 		
 		HashMap<String,Object> map = new HashMap<>(); 
+		map.put("description", dto.getDescription() +" - "+ dto.getCoefficient()+ " " + dto.getProduct().getUnity().getId() );
 		JasperPrint report =  JasperFillManager.fillReport(compileReport, map,beanCollectionDataSource);
 		
 		byte[] data = JasperExportManager.exportReportToPdf(report);

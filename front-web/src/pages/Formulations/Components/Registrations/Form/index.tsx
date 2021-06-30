@@ -12,7 +12,7 @@ import { OperationalCostType } from 'core/types/Payment';
 import { Formulation, FormulationItem } from 'core/types/Formulation';
 import FormulationItemsCard from './FormulationItemsCard';
 import Print from 'core/assets/images/print.png'
-import { FormulationReport } from 'core/reports/Formulation';
+
 
 type ParamsType = {
     formulationId: string;
@@ -31,7 +31,7 @@ function FormulationForm() {
     const [formulationItem, setFormulationItem] = useState<FormulationItem[]>([]);
     const [isLoadingSecondaryProductions, setIsLoadingSecondaryProductions] = useState(false);
     const [secondaryProductions, setSecondaryProductions] = useState<Product[]>();
-    const [formulation, setFormulation] = useState<Formulation>();
+    
     useEffect(() => {
         setIsLoadingProducts(true)
         setIsLoadingSecondaryProductions(true)
@@ -80,20 +80,10 @@ function FormulationForm() {
                 })
         }
     }, [formulationId, isEditing, setValue])
-   
-   const getFormulation = useCallback(() => {
-            makePrivateRequest({ url: `/formulations/${formulationId}` })
-                .then(response => {
-                setFormulation(response.data)
-                })
-    }, [formulationId])
 
     useEffect(() => {
         getFormulationItems();
     }, [getFormulationItems])
-    useEffect(() => {
-        getFormulation();
-    }, [getFormulation])
 
     const onSubmit = (data: Formulation) => {
         makePrivateRequest({
