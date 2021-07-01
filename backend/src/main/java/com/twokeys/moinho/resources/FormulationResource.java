@@ -69,11 +69,19 @@ public class FormulationResource {
 		
 		List<FormulationItemDTO> list = new ArrayList<>();
 		list.addAll(dto.getFormulationItems());
+			
+		
+		
 		JRBeanCollectionDataSource beanCollectionDataSource = new  JRBeanCollectionDataSource(list);
+		
 		JasperReport compileReport = JasperCompileManager.compileReport(new FileInputStream("src/main/resources/reports/formulation/formulation.jrxml"));
+		
+		
 		
 		HashMap<String,Object> map = new HashMap<>(); 
 		map.put("description", dto.getDescription() +" - "+ dto.getCoefficient()+ " " + dto.getProduct().getUnity().getId() );
+		map.put("sectors", dto.getSectors());
+		map.put("operationalCosts", dto.getOperationalCostType());
 		JasperPrint report =  JasperFillManager.fillReport(compileReport, map,beanCollectionDataSource);
 		
 		byte[] data = JasperExportManager.exportReportToPdf(report);

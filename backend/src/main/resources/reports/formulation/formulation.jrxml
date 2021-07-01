@@ -2,7 +2,15 @@
 <!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="formulation" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="64f66071-4c1f-47a0-b247-bbfb01e2b029">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="Dataset1" uuid="687f800e-d132-4d7e-b7b6-436e3de9ac37">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="name" class="java.lang.String"/>
+	</subDataset>
 	<parameter name="description" class="java.lang.String"/>
+	<parameter name="sectors" class="java.util.List"/>
+	<parameter name="operationalCosts" class="java.util.List"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -15,7 +23,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="91" splitType="Stretch">
+		<band height="96" splitType="Stretch">
 			<staticText>
 				<reportElement x="206" y="0" width="143" height="20" uuid="36a9fbfe-07a0-4e98-a824-4b21a52f0dda"/>
 				<textElement textAlignment="Center">
@@ -54,7 +62,46 @@
 		</band>
 	</title>
 	<pageHeader>
-		<band height="22" splitType="Stretch"/>
+		<band height="151" splitType="Stretch">
+			<subreport>
+				<reportElement x="-1" y="44" width="281" height="97" uuid="67f7f76b-6132-4e89-b3fb-3fa681cfa06c"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{sectors})]]></dataSourceExpression>
+				<subreportExpression><![CDATA["src/main/resources/reports/formulation/formulationSector.jasper"]]></subreportExpression>
+			</subreport>
+			<line>
+				<reportElement x="-1" y="146" width="556" height="1" uuid="037ebdc7-0999-4ab8-b48c-ae9feedb7d42"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="612ec23a-8590-4f9d-983d-83e5ec89c56e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Centro de custo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="24" width="280" height="20" uuid="373a5ee9-8632-47ed-80ce-5cd34fa8a441"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mão de Obra]]></text>
+			</staticText>
+			<line>
+				<reportElement x="280" y="20" width="1" height="126" uuid="633769c3-c4aa-4667-9c50-27f33038f781"/>
+			</line>
+			<staticText>
+				<reportElement x="281" y="23" width="274" height="20" uuid="78fed178-a1a4-479c-a1dd-f5b781d45b91"/>
+				<textElement textAlignment="Center">
+					<font fontName="Serif" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Custos Operacionais]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="282" y="43" width="273" height="101" uuid="928da573-14ac-46d6-a741-38ab40d31e9e"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{operationalCosts})
+]]></dataSourceExpression>
+				<subreportExpression><![CDATA["src/main/resources/reports/formulation/formulationOperatinalCost.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="22" splitType="Stretch">
@@ -82,7 +129,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="24" splitType="Stretch">
+		<band height="25" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="2" width="30" height="21" uuid="c2aca416-8ffe-48f8-b28c-f2d9726be1d4">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="873e69bf-6431-4b5a-b747-f2e6a7ed7b1a"/>
@@ -120,10 +167,10 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="30" splitType="Stretch"/>
+		<band height="28" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="22" splitType="Stretch"/>
+		<band height="44" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
 		<band height="21" splitType="Stretch"/>
