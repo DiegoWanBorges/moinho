@@ -1,14 +1,21 @@
 package com.twokeys.moinho.resources;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URI;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +29,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.twokeys.moinho.dto.ProductionOrderDTO;
+import com.twokeys.moinho.dto.ProductionOrderItemDTO;
 import com.twokeys.moinho.services.ProductionOrderService;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @RestController
 @RequestMapping(value="/productionorders")
@@ -62,6 +78,25 @@ public class ProductionOrderResource {
 		}else {
 			return ResponseEntity.ok().body(dto);
 		}		
+	}
+	
+	@RequestMapping(params = "pdf")
+	public ResponseEntity<byte[]> pdf(@RequestParam(value ="pdf") Long id) throws FileNotFoundException, JRException{
+		ProductionOrderDTO dto = service.findById(id);
+		
+		List<ProductionOrderItemDTO> list = new ArrayList<>();
+		list.addAll(dto.getProductionOrderItems());
+		
+		JRBeanCollectionDataSource beanCollectionDataSource = new  JRBeanCollectionDataSource(list);
+		JasperReport compileReport = JasperCompileManager.compileReport(new FileInputStream("src/main/resources/reports/productionOrder/productionOrder.jrxml"));
+		
+		HashMap<String,Object> map = new HashMap<>(); 
+		map.put("productionOrder", dto );
+		JasperPrint report =  JasperFillManager.fillReport(compileReport, map,beanCollectionDataSource);
+		byte[] data = JasperExportManager.exportReportToPdf(report);
+		HttpHeaders headers = new HttpHeaders();
+		headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=formulation.pdf");
+		return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(data);
 	}
 	
 	@GetMapping(value="/{id}")

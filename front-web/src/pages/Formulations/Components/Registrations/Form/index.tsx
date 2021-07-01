@@ -11,7 +11,7 @@ import { Sector } from 'core/types/Employee';
 import { OperationalCostType } from 'core/types/Payment';
 import { Formulation, FormulationItem } from 'core/types/Formulation';
 import FormulationItemsCard from './FormulationItemsCard';
-import Print from 'core/assets/images/print.png'
+
 
 
 type ParamsType = {
@@ -31,7 +31,7 @@ function FormulationForm() {
     const [formulationItem, setFormulationItem] = useState<FormulationItem[]>([]);
     const [isLoadingSecondaryProductions, setIsLoadingSecondaryProductions] = useState(false);
     const [secondaryProductions, setSecondaryProductions] = useState<Product[]>();
-    
+
     useEffect(() => {
         setIsLoadingProducts(true)
         setIsLoadingSecondaryProductions(true)
@@ -154,18 +154,8 @@ function FormulationForm() {
     const handleCancel = () => {
         history.push("./")
     }
+
     
-    const  onPrint = () =>{
-        makePrivateRequest({ url: `/formulations?pdf=${formulationId}`,responseType:"blob" })
-        .then(response => {
-            //Build a URL from the file
-            var file = new Blob([response.data], {type: 'application/pdf'});
-            const fileURL = URL.createObjectURL(file);
-            //Open the URL on new Window
-            window.open(fileURL);
-        })
-        .finally(() => setIsLoadingOperationalCostTypes(false))
-    }
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="formulation-form">
 
@@ -323,14 +313,6 @@ function FormulationForm() {
             </div>
 
             <div className="formulation-form-actions">
-            
-
-                <img  
-                    className="formulation-form-btn-print" 
-                    src={Print} alt="" 
-                    onClick={onPrint}
-                />
-
                 <button
                     className="btn btn-outline-danger"
                     onClick={handleCancel}

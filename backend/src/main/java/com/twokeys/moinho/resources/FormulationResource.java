@@ -62,34 +62,29 @@ public class FormulationResource {
 		List<FormulationDTO> list = service.findByNameLikeIgnoreCase(description);
 		return ResponseEntity.ok().body(list);
 	}
-	@GetMapping
+	
+	
 	@RequestMapping(params = "pdf")
-	public ResponseEntity<byte[]> pdf(@RequestParam(value="pdf") Long id) throws FileNotFoundException, JRException{
+	public ResponseEntity<byte[]> pdf(@RequestParam(value ="pdf") Long id) throws FileNotFoundException, JRException{
 		FormulationDTO dto = service.findById(id);
 		
 		List<FormulationItemDTO> list = new ArrayList<>();
 		list.addAll(dto.getFormulationItems());
-			
-		
 		
 		JRBeanCollectionDataSource beanCollectionDataSource = new  JRBeanCollectionDataSource(list);
-		
 		JasperReport compileReport = JasperCompileManager.compileReport(new FileInputStream("src/main/resources/reports/formulation/formulation.jrxml"));
-		
-		
 		
 		HashMap<String,Object> map = new HashMap<>(); 
 		map.put("description", dto.getDescription() +" - "+ dto.getCoefficient()+ " " + dto.getProduct().getUnity().getId() );
 		map.put("sectors", dto.getSectors());
 		map.put("operationalCosts", dto.getOperationalCostType());
 		JasperPrint report =  JasperFillManager.fillReport(compileReport, map,beanCollectionDataSource);
-		
 		byte[] data = JasperExportManager.exportReportToPdf(report);
-		
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=formulation.pdf");
 		return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(data);
 	}
+	
 	@GetMapping(value="/{id}")
 	public ResponseEntity<FormulationDTO> findById(@PathVariable Long id){
 		return  ResponseEntity.ok().body(service.findById(id));

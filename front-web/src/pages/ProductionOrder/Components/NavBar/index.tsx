@@ -8,9 +8,6 @@ const NavBarProduction = () => (
             <li>
                 <NavLink to="/productions/registrations" className="nav-registration-item">Cadastro</NavLink>
             </li>
-            <li>
-                <NavLink to="/productions/reports" className="nav-registration-item">Relatórios</NavLink>
-            </li>
         </ul>
     </nav>
 )
