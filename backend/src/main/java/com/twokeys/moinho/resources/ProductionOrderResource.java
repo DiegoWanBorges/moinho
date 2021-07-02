@@ -9,6 +9,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -41,78 +43,101 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @RestController
-@RequestMapping(value="/productionorders")
+@RequestMapping(value = "/productionorders")
 public class ProductionOrderResource {
 	@Autowired
 	ProductionOrderService service;
-	
+
 	@GetMapping
 	public ResponseEntity<Page<ProductionOrderDTO>> findByStartDateAndFormulation(
-			@RequestParam(value = "formulationId", defaultValue = "0") Long  formulationId,
-			@RequestParam(value = "startDate") LocalDateTime  startDate,
-			@RequestParam(value = "endDate") LocalDateTime  endDate,
+			@RequestParam(value = "formulationId", defaultValue = "0") Long formulationId,
+			@RequestParam(value = "startDate") LocalDateTime startDate,
+			@RequestParam(value = "endDate") LocalDateTime endDate,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "emission") String orderBy,
-			@RequestParam(value = "direction", defaultValue = "DESC") String direction
-			){
-			Instant start = startDate.atZone(ZoneId.of("America/Sao_Paulo")).toInstant();
-			Instant end = endDate.atZone(ZoneId.of("America/Sao_Paulo")).toInstant();
-			PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
-			Page<ProductionOrderDTO> list = service.findByStartDateAndFormulation(formulationId,start,end, pageRequest);
-			return ResponseEntity.ok().body(list);
-	}
-	
-	
-	@PostMapping
-	public ResponseEntity<ProductionOrderDTO> createProductionOrder(@RequestParam(value = "formulationId") Long  formulationId,
-													   				@RequestParam(value = "ammount") Double ammount,
-													   				@RequestParam(value = "persistence", defaultValue = "false") Boolean persistence,
-													   				@RequestParam(value = "startDate")LocalDateTime  startDate){
+			@RequestParam(value = "direction", defaultValue = "DESC") String direction) {
 		Instant start = startDate.atZone(ZoneId.of("America/Sao_Paulo")).toInstant();
-		ProductionOrderDTO dto = service.createProductionOrder(formulationId,ammount,persistence,start);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				  .buildAndExpand(dto.getId()).toUri();
-		if(persistence) {
-			return ResponseEntity.created(uri).body(dto);
-		}else {
-			return ResponseEntity.ok().body(dto);
-		}		
+		Instant end = endDate.atZone(ZoneId.of("America/Sao_Paulo")).toInstant();
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Page<ProductionOrderDTO> list = service.findByStartDateAndFormulation(formulationId, start, end, pageRequest);
+		return ResponseEntity.ok().body(list);
 	}
-	
-	@RequestMapping(params = "pdf")
-	public ResponseEntity<byte[]> pdf(@RequestParam(value ="pdf") Long id) throws FileNotFoundException, JRException{
+
+	@PostMapping
+	public ResponseEntity<ProductionOrderDTO> createProductionOrder(
+			@RequestParam(value = "formulationId") Long formulationId, @RequestParam(value = "ammount") Double ammount,
+			@RequestParam(value = "persistence", defaultValue = "false") Boolean persistence,
+			@RequestParam(value = "startDate") LocalDateTime startDate) {
+		Instant start = startDate.atZone(ZoneId.of("America/Sao_Paulo")).toInstant();
+		ProductionOrderDTO dto = service.createProductionOrder(formulationId, ammount, persistence, start);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
+		if (persistence) {
+			return ResponseEntity.created(uri).body(dto);
+		} else {
+			return ResponseEntity.ok().body(dto);
+		}
+	}
+
+	@RequestMapping(value = "/pdf", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> pdf(@RequestParam(value = "id") Long id,
+			@RequestParam(value = "serie", defaultValue = "1") Integer serie)
+			throws FileNotFoundException, JRException {
 		ProductionOrderDTO dto = service.findById(id);
-		
+
 		List<ProductionOrderItemDTO> list = new ArrayList<>();
-		list.addAll(dto.getProductionOrderItems());
+		list.addAll(dto.getProductionOrderItems().stream().filter(item -> item.getSerie() == serie)
+				.collect(Collectors.toList()));
+
+		JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(list);
 		
-		JRBeanCollectionDataSource beanCollectionDataSource = new  JRBeanCollectionDataSource(list);
-		JasperReport compileReport = JasperCompileManager.compileReport(new FileInputStream("src/main/resources/reports/productionOrder/productionOrder.jrxml"));
+		JasperReport compileReport;
+		if (serie == 1) {
+			compileReport = JasperCompileManager.compileReport(
+					new FileInputStream("src/main/resources/reports/productionOrder/productionOrder.jrxml"));
+		} else {
+			compileReport = JasperCompileManager.compileReport(
+					new FileInputStream("src/main/resources/reports/productionOrder/productionOrderSerie.jrxml"));
+		}
+
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("productionOrder", dto);
+		JasperPrint report = JasperFillManager.fillReport(compileReport, map, beanCollectionDataSource);
 		
-		HashMap<String,Object> map = new HashMap<>(); 
-		map.put("productionOrder", dto );
-		JasperPrint report =  JasperFillManager.fillReport(compileReport, map,beanCollectionDataSource);
+		
+		/*TESTE PARA IMPRESSÃO DE MULTIPLAS PAGINAS*/
+//		JRBeanCollectionDataSource beanCollectionDataSource2 = new JRBeanCollectionDataSource(list);
+//		JasperReport compileReport2 = JasperCompileManager.compileReport(
+//				new FileInputStream("src/main/resources/reports/productionOrder/productionOrderSerie.jrxml"));
+//		JasperPrint report2 = JasperFillManager.fillReport(compileReport2, map, beanCollectionDataSource2);
+//
+//		for (int j = 0; j < report2.getPages().size(); j++) {
+//			JRPrintPage object = report2.getPages().get(j);
+//			report.addPage(object);
+//		}
+
+		
+
 		byte[] data = JasperExportManager.exportReportToPdf(report);
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=formulation.pdf");
 		return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(data);
 	}
-	
-	@GetMapping(value="/{id}")
-	public ResponseEntity<ProductionOrderDTO> findById(@PathVariable Long id){
-		return  ResponseEntity.ok().body(service.findById(id));
+
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<ProductionOrderDTO> findById(@PathVariable Long id) {
+		return ResponseEntity.ok().body(service.findById(id));
 	}
-	
-	@PutMapping(value="/{id}")
-	public ResponseEntity<ProductionOrderDTO> update(@PathVariable Long id,@RequestBody ProductionOrderDTO dto){
-		dto = service.update(id,dto);
-		return ResponseEntity.ok().body(dto); 
+
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<ProductionOrderDTO> update(@PathVariable Long id, @RequestBody ProductionOrderDTO dto) {
+		dto = service.update(id, dto);
+		return ResponseEntity.ok().body(dto);
 	}
-	@DeleteMapping(value="/{id}")
-	public ResponseEntity<ProductionOrderDTO> delete(@PathVariable Long id){
+
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<ProductionOrderDTO> delete(@PathVariable Long id) {
 		service.delete(id);
-		return ResponseEntity.noContent().build(); 
+		return ResponseEntity.noContent().build();
 	}
 }
-

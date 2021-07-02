@@ -54,6 +54,24 @@ public class ProductionOrderProducedService {
 	@Autowired
 	private StockMovementRepository stockMovementRepository;	
 	
+	
+	@Transactional(readOnly=true)
+	public ProductionOrderProducedDTO findById(Long productionOrderId, Integer pallet) {
+		try {
+			ProductionOrder productionOrder = productionOrderRepository.getOne(productionOrderId);
+			ProductionOrderProducedPK pk = new ProductionOrderProducedPK(productionOrder, pallet);
+			ProductionOrderProduced entity = repository.getOne(pk);
+			return new ProductionOrderProducedDTO(entity);
+		}catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found: " + productionOrderId);
+		} catch (Exception e) {
+			throw new UntreatedException(e.getMessage());
+		}
+		
+	}
+	
+	
+	
 	@Transactional(readOnly=true)
 	public ProductionOrderProducedAverageCostDTO findProducedByProductAndStartDate(Long productId, Instant startDate,Instant endDate){
 		try {

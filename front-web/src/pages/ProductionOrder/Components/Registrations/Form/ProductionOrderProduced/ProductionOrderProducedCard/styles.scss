@@ -36,6 +36,12 @@
 .producedCard-btn-del{
     margin-left: 10px;
 }
+.producedCard-btn-print{
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+    cursor: pointer;
+}
 @media (max-width: 1200px){
     .producedCard-inf{
         display: flex;

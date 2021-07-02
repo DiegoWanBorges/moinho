@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="productionOrderTag" columnCount="4" printOrder="Horizontal" pageWidth="566" pageHeight="595" columnWidth="134" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" isIgnorePagination="true" uuid="61e04443-1dc4-4cae-af8f-9f8d385bf957">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<parameter name="validity" class="java.time.Instant"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="product.name" class="java.lang.String"/>
+	<field name="productionOrderId" class="java.lang.Long"/>
+	<field name="pallet" class="java.lang.Integer"/>
+	<field name="quantity" class="java.lang.Double"/>
+	<field name="product.unity.id" class="java.lang.String"/>
+	<field name="lote" class="java.lang.String"/>
+	<field name="manufacturingDate" class="java.time.Instant"/>
+	<field name="palletStatus.name" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="195" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="538" height="20" uuid="092f609e-a362-419a-a88f-c5eb293e9777"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black" size="14"/>
+				</textElement>
+				<text><![CDATA[IDENTIFICAÇÃO DO PRODUTO]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="24" width="538" height="1" uuid="1e0e9856-931b-4580-958a-b8cdd0f68f81"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="28" width="538" height="22" uuid="b9c976d4-514f-4dee-ba28-5cf1acac2087"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="19"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{product.name}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="54" width="538" height="1" uuid="9e9ce141-2cec-45ab-8b37-a9616e4a3133"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="57" width="70" height="18" uuid="b46fa93d-898b-4990-a72c-6ef6c838cf65"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[O.P]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="80" width="70" height="20" uuid="7019a496-16c1-4c69-8f9d-77ea1d50c50f"/>
+				<textElement textAlignment="Center">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{productionOrderId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="83" y="80" width="50" height="20" uuid="6ac22d96-7105-4b7e-957d-16f4e689ad54"/>
+				<textElement textAlignment="Center">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pallet}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="78" y="80" width="1" height="21" uuid="5c925be9-431c-4e7d-87d8-10901a172f8e"/>
+			</line>
+			<line>
+				<reportElement x="136" y="55" width="1" height="49" uuid="8bc7a1c5-2d45-4148-b0b4-52ff1487fe84"/>
+			</line>
+			<staticText>
+				<reportElement x="83" y="55" width="50" height="20" uuid="de9d7c10-8874-4911-9101-93bbb0136bc7"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pallet]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="104" width="538" height="1" uuid="ea331cee-4f85-4886-933d-48f80a84f129"/>
+			</line>
+			<staticText>
+				<reportElement x="138" y="57" width="92" height="20" uuid="0fd0f1ee-43b3-4f2c-b3b6-d4a434dcdd1a"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantidade]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement x="140" y="80" width="60" height="20" uuid="86d27acd-e517-41d3-b5fc-8db57217f05a"/>
+				<textElement textAlignment="Center">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="80" width="30" height="20" uuid="a924e2ae-bceb-4d06-addd-03162ca77407"/>
+				<textElement textAlignment="Left">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{product.unity.id}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="232" y="55" width="1" height="49" uuid="cdbcb93a-8829-4313-a17c-24f8e4544b9c"/>
+			</line>
+			<staticText>
+				<reportElement x="233" y="57" width="118" height="20" uuid="ebe9b45c-80f2-4899-9acd-99398539dbb7"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dt. Fabricação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="354" y="57" width="96" height="20" uuid="f44959f6-a760-458c-8d63-797123574bff"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dt. Validade]]></text>
+			</staticText>
+			<line>
+				<reportElement x="353" y="55" width="1" height="49" uuid="09aa8537-ad8f-435c-b8a8-498bd00f82d4"/>
+			</line>
+			<line>
+				<reportElement x="451" y="55" width="1" height="49" uuid="01948ca3-e09a-42ad-8c1f-64722fc02349"/>
+			</line>
+			<staticText>
+				<reportElement x="452" y="57" width="86" height="20" uuid="c1fa8a79-1d5b-4810-adbb-227676a8b4c0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lote]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="454" y="77" width="82" height="25" uuid="7529e59e-1968-4816-b2ef-226f02e4ad26"/>
+				<textElement textAlignment="Center">
+					<font size="19"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lote}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="354" y="77" width="96" height="23" uuid="c240a652-4c04-48b0-a95d-bbeea80a0f7a"/>
+				<textElement textAlignment="Center">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[java.util.Date.from($P{validity})]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="233" y="77" width="118" height="23" uuid="2e1b4b10-6e00-4706-86fa-fa2246991de0"/>
+				<textElement textAlignment="Center">
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[java.util.Date.from($F{manufacturingDate})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="107" width="538" height="20" uuid="814781a4-8c27-41da-8507-0a1bd704ba5d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial Black" size="14"/>
+				</textElement>
+				<text><![CDATA[STATUS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="127" width="538" height="23" uuid="f6d1464f-0a04-424c-b46f-3ce5d74f1ef9"/>
+				<textElement textAlignment="Center">
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{palletStatus.name}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="152" width="538" height="1" uuid="73ec037e-b9a8-494e-8690-6c4efb05e910"/>
+			</line>
+			<textField pattern="dd/MM/yyyy HH:mm">
+				<reportElement x="83" y="158" width="187" height="18" uuid="bd22be36-75f7-4e57-9d08-ba601e848fef"/>
+				<textElement textAlignment="Left">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[java.util.Date.from($F{manufacturingDate})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="158" width="82" height="18" uuid="1f1578e2-e7ac-4115-892f-da5a161269b3"/>
+				<text><![CDATA[Pallet gerado em:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="180" width="83" height="14" uuid="a2d2412b-17a1-4741-b1ef-6f6a56e2cc97"/>
+				<text><![CDATA[Impresso em:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy HH:mm">
+				<reportElement x="83" y="180" width="187" height="14" uuid="54e45f75-5048-4f8b-a5d7-9934b86fb5df"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

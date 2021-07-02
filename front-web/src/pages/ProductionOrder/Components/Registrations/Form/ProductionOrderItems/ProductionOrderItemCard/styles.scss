@@ -29,10 +29,15 @@
 .productionOrderItemCard-actions{
     display: flex;
     width: 30%;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
 }
-
+.ProductionOrderItemCard-btn-print{
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+    cursor: pointer;
+}
 @media (max-width: 1200px){
     .productionOrderItemCard-inf{
         display: flex;

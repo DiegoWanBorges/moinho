@@ -1,7 +1,10 @@
 import { ProductionOrderItem } from 'core/types/ProductionOrder';
 import ProductionOrderItemEditModal from '../ProductionOrderItemsEditModal';
-
+import Print from 'core/assets/images/print.png'
+import { makePrivateRequest } from 'core/utils/request';
+import { toast } from 'react-toastify';
 import './styles.scss';
+
 
 type Props = {
     productionOrderItem: ProductionOrderItem;
@@ -15,7 +18,18 @@ function ProductionOrderItemCard({ productionOrderItem, onEditItem, onDeleteItem
         e.preventDefault()
         onDeleteItem(productionOrderItem)
     }
-
+    const onPrint = () => {
+        makePrivateRequest({ url: `/productionorders/pdf?id=${productionOrderItem.productionOrderId}&serie=${productionOrderItem.serie}`, responseType: "blob" })
+            .then(response => {
+                //Build a URL from the file
+                var file = new Blob([response.data], { type: 'application/pdf' });
+                const fileURL = URL.createObjectURL(file);
+                //Open the URL on new Window
+                window.open(fileURL);
+            }).catch(() => {
+                toast.error("Erro ao gerar relatório")
+            })
+    }
     return (
         <div className="productionOrderItemCard-main">
             <div className="productionOrderItemCard-inf">
@@ -30,17 +44,28 @@ function ProductionOrderItemCard({ productionOrderItem, onEditItem, onDeleteItem
                 <h6 className="productionOrderItemCard-inf-quantity">{productionOrderItem.quantity} {productionOrderItem.product.unity.id} </h6>
 
                 <div className="productionOrderItemCard-actions">
+                    {
+                        productionOrderItem.serie !== 1 ? (
+                            <img
+                                className="ProductionOrderItemCard-btn-print"
+                                src={Print} alt=""
+                                onClick={onPrint}
+                            />
+                        ) : null
+                    }
+
+
                     <ProductionOrderItemEditModal
                         productionOrderItem={productionOrderItem}
                         onEditItem={onEditItem}
 
                     />
                     <button
-                        className="btn btn-danger btn-sm "
+                        className="btn btn-danger btn-sm"
                         onClick={(e) => deleteItem(e)}
                     >
                         Deletar
-                </button>
+                    </button>
                 </div>
 
             </div>

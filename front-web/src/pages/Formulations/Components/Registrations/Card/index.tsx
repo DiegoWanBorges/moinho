@@ -24,15 +24,15 @@ const FormulationCard = ({ formulation,onRemove }:Props) => {
             })
     }
     return (
-        <div className="sector-card">
+        <div className="formulation-card">
          
-          <div className="sector-card-inf">
+          <div className="formulation-card-inf">
             <h5>{formulation.description}</h5>
           </div>
 
-          <div className="sector-card-action">
+          <div className="formulation-card-action">
                 <img  
-                    className="formulation-form-btn-print" 
+                    className="formulation-card-btn-print" 
                     src={Print} alt="" 
                     onClick={onPrint}
                 />
@@ -40,13 +40,13 @@ const FormulationCard = ({ formulation,onRemove }:Props) => {
                 <Link
                     to={`/formulations/registrations/${formulation.id}`}
                     type="button"
-                    className="btn btn-outline-secondary sector-card-action-btn sector-card-action-btn-edit">
+                    className="btn btn-outline-secondary formulation-card-action-btn formulation-card-action-btn-edit">
                     EDITAR
                 </Link>
 
                 <button
                     type="button"
-                    className="btn btn-outline-danger sector-card-action-btn"
+                    className="btn btn-outline-danger formulation-card-action-btn"
                     onClick={() => onRemove(formulation.id)}
                 >
                     EXCLUIR

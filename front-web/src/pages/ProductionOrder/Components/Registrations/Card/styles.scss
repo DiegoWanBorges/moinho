@@ -24,7 +24,12 @@
     margin-left: 10px;
     height: 60%;
 }
-
+.ProductionOrderCard-btn-print{
+    height: 38px;
+    width: 38px;
+    margin-right: 10px;
+    cursor: pointer;
+}
 @media (max-width: 576px){
     .ProductionOrderCard-card{
         flex-direction: column;
