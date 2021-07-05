@@ -104,20 +104,6 @@ public class ProductionOrderResource {
 		map.put("productionOrder", dto);
 		JasperPrint report = JasperFillManager.fillReport(compileReport, map, beanCollectionDataSource);
 		
-		
-		/*TESTE PARA IMPRESSÃO DE MULTIPLAS PAGINAS*/
-//		JRBeanCollectionDataSource beanCollectionDataSource2 = new JRBeanCollectionDataSource(list);
-//		JasperReport compileReport2 = JasperCompileManager.compileReport(
-//				new FileInputStream("src/main/resources/reports/productionOrder/productionOrderSerie.jrxml"));
-//		JasperPrint report2 = JasperFillManager.fillReport(compileReport2, map, beanCollectionDataSource2);
-//
-//		for (int j = 0; j < report2.getPages().size(); j++) {
-//			JRPrintPage object = report2.getPages().get(j);
-//			report.addPage(object);
-//		}
-
-		
-
 		byte[] data = JasperExportManager.exportReportToPdf(report);
 		HttpHeaders headers = new HttpHeaders();
 		headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=formulation.pdf");

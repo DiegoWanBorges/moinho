@@ -1,9 +1,11 @@
 import { Formulation } from 'core/types/Formulation';
 import { Link } from 'react-router-dom';
 import Print from 'core/assets/images/print.png'
-import './styles.scss';
-import { makePrivateRequest } from 'core/utils/request';
 import { toast } from 'react-toastify';
+import { makePrivateRequest } from 'core/utils/request';
+
+import './styles.scss';
+
 
 type Props={
     formulation:Formulation;
