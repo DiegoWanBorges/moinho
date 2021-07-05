@@ -4,7 +4,7 @@ import history from './history'
 import { Roles } from "./roles";
 
 export const CLIENTE_ID= process.env.REACT_APP_CLIENT_ID
-export const CLIENTE_SECRET= process.env.CLIENTE_SECRET
+export const CLIENTE_SECRET= process.env.CLIENT_SECRET
 
 export type LoginResponse = {
     access_token: string;
