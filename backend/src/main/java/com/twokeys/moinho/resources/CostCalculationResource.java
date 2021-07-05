@@ -125,6 +125,23 @@ public class CostCalculationResource {
 		mapProductionOrder.put("endDate",dto.getCostCalculation().getEndDate());
 		JasperPrint productionOrder = JasperFillManager.fillReport(productionOrderReport, mapProductionOrder, dtSourceProductionOrder);
 		
+		/*Production Average Cost*/
+		JRBeanCollectionDataSource dtSourceProductionAverageCost = new JRBeanCollectionDataSource(dto.getProductionOrderProducedAverageCosts());
+		JasperReport productionAverageCostReport = JasperCompileManager.compileReport(
+				new FileInputStream("src/main/resources/reports/costCalculation/result/productionAverageCost.jrxml"));
+		HashMap<String, Object> mapProductionAverageCost = new HashMap<>();
+		mapProductionAverageCost.put("initialDate",dto.getCostCalculation().getStartDate());
+		mapProductionAverageCost.put("endDate",dto.getCostCalculation().getEndDate());
+		JasperPrint productionAverageCost = JasperFillManager.fillReport(productionAverageCostReport, mapProductionAverageCost, dtSourceProductionAverageCost);
+		
+		/*End Stock*/
+		JRBeanCollectionDataSource dtSourceEndStock = new JRBeanCollectionDataSource(dto.getClosingStockBalance());
+		JasperReport endStockReport = JasperCompileManager.compileReport(
+				new FileInputStream("src/main/resources/reports/costCalculation/result/endStock.jrxml"));
+		HashMap<String, Object> mapEndStock = new HashMap<>();
+		mapEndStock.put("initialStockDate",dto.getCostCalculation().getEndDate());
+		JasperPrint endStock = JasperFillManager.fillReport(endStockReport, mapEndStock, dtSourceEndStock);
+		
 		/*Added pages into main report*/
 		for (int i = 0; i < initialStock.getPages().size(); i++) {
 			JRPrintPage object = initialStock.getPages().get(i);
@@ -143,6 +160,16 @@ public class CostCalculationResource {
 		
 		for (int i = 0; i < productionOrder.getPages().size(); i++) {
 			JRPrintPage object = productionOrder.getPages().get(i);
+			costCalculation.addPage(object);
+		}
+		
+		for (int i = 0; i < productionAverageCost.getPages().size(); i++) {
+			JRPrintPage object = productionAverageCost.getPages().get(i);
+			costCalculation.addPage(object);
+		}
+		
+		for (int i = 0; i < endStock.getPages().size(); i++) {
+			JRPrintPage object = endStock.getPages().get(i);
 			costCalculation.addPage(object);
 		}
 		
