@@ -1,2 +1,3 @@
-# Moinho - Sistema de controle de produção e apuração de custo.
+# Moinho
+# Sistema de controle de produção e apuração de custo.
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/DiegoWanBorges/moinho/blob/main/LICENSE)
