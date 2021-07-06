@@ -45,14 +45,14 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{costCalculation.id}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="dd/MM/yyyy HH:mm">
 				<reportElement x="80" y="281" width="174" height="30" uuid="b755c037-c20a-4553-82a8-258acaff02f2"/>
 				<textElement textAlignment="Right">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[java.util.Date.from($F{costCalculation.startDate})]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="dd/MM/yyyy HH:mm">
 				<reportElement x="300" y="281" width="180" height="30" uuid="be29e7ce-9674-48e4-8b25-2e8d7a6b1bad"/>
 				<textElement>
 					<font size="14"/>
