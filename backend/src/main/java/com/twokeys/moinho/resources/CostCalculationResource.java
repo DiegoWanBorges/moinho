@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,6 +47,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 @RestController
 @RequestMapping(value="/costcalculations")
 public class CostCalculationResource {
+	protected final Log logger = LogFactory.getLog(getClass());
 	@Autowired
 	CostCalculationService service;
 	
@@ -180,6 +183,7 @@ public class CostCalculationResource {
 			headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=formulation.pdf");
 			return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF).body(data);
 		} catch (Exception e) {
+			logger.error("ERROR JASPER: "+ e.getMessage());
 			throw new UntreatedException(e.getMessage()); 
 		}
 	}
