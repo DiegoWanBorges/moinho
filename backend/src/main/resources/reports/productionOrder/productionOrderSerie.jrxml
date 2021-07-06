@@ -21,14 +21,14 @@
 			<staticText>
 				<reportElement x="0" y="0" width="380" height="20" uuid="5be8d158-e363-4960-adf6-812b472c9f42"/>
 				<textElement textAlignment="Right">
-					<font fontName="Arial" size="16" isBold="true"/>
+					<font fontName="SansSerif" size="15" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ordem de Produção - Nº:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="390" y="0" width="60" height="20" uuid="062c3ea1-cf3d-4e18-87c5-e00e235b13e2"/>
 				<textElement textAlignment="Left">
-					<font fontName="Arial" size="16" isBold="true"/>
+					<font fontName="SansSerif" size="15" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{productionOrder}.getId()]]></textFieldExpression>
 			</textField>
@@ -37,7 +37,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="14"/>
+					<font fontName="SansSerif" size="14"/>
 				</textElement>
 				<text><![CDATA[Emissão:]]></text>
 			</staticText>
@@ -46,7 +46,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="14"/>
+					<font fontName="SansSerif" size="14"/>
 				</textElement>
 				<text><![CDATA[Tipo de Requisição:]]></text>
 			</staticText>
@@ -55,28 +55,28 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="14"/>
+					<font fontName="SansSerif" size="14"/>
 				</textElement>
 				<text><![CDATA[Serie:]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="85" y="36" width="355" height="19" uuid="0aa9a338-3406-43c2-9497-32f7f93bc0b1"/>
 				<textElement>
-					<font fontName="Arial" size="14"/>
+					<font fontName="SansSerif" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[java.util.Date.from($P{productionOrder}.getEmission())]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="130" y="55" width="160" height="21" uuid="82ea2cd2-2555-46c6-8502-29cfdb6c2a72"/>
 				<textElement>
-					<font fontName="Arial" size="14"/>
+					<font fontName="SansSerif" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="85" y="76" width="100" height="19" uuid="bdb0086c-453c-45bb-b968-836d533cb5b0"/>
 				<textElement>
-					<font fontName="Arial" size="14"/>
+					<font fontName="SansSerif" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{serie}]]></textFieldExpression>
 			</textField>
@@ -88,14 +88,14 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="14"/>
+					<font fontName="SansSerif" size="14"/>
 				</textElement>
 				<text><![CDATA[Ocorrência:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="80" y="97" width="464" height="19" uuid="e2527571-a70b-45e1-85fa-b126f35e3185"/>
 				<textElement>
-					<font fontName="Arial" size="14"/>
+					<font fontName="SansSerif" size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{occurrence.name}]]></textFieldExpression>
 			</textField>
@@ -111,7 +111,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font fontName="Arial" size="12" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ingrediente]]></text>
 			</staticText>
@@ -120,7 +120,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font fontName="Arial" size="12" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Quantidade]]></text>
 			</staticText>
@@ -129,7 +129,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font fontName="Arial" size="12" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Qt. Utilizada]]></text>
 			</staticText>
@@ -179,7 +179,7 @@
 			<staticText>
 				<reportElement x="13" y="17" width="172" height="23" uuid="9b3800cb-399e-4ce6-b0c1-bcc097da1d2a"/>
 				<textElement>
-					<font fontName="Arial" size="14"/>
+					<font fontName="SansSerif" size="14"/>
 				</textElement>
 				<text><![CDATA[Observações Gerais:]]></text>
 			</staticText>

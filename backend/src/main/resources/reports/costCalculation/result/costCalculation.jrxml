@@ -27,7 +27,7 @@
 			<staticText>
 				<reportElement x="80" y="46" width="400" height="30" uuid="08685442-c856-44eb-ac51-a5f148c84104"/>
 				<textElement textAlignment="Center">
-					<font fontName="Arial" size="22" isBold="true"/>
+					<font fontName="SansSerif" size="22" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Apuração de Custo]]></text>
 			</staticText>
@@ -69,7 +69,7 @@
 			<staticText>
 				<reportElement x="80" y="241" width="400" height="30" uuid="10f95c02-91e0-4d57-82be-c9c8939ec7b0"/>
 				<textElement textAlignment="Center">
-					<font fontName="Arial" size="19" isBold="true"/>
+					<font fontName="SansSerif" size="19" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Periodo da apuração:]]></text>
 			</staticText>
