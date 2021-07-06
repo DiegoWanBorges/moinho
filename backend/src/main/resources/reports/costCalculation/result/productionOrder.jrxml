@@ -124,7 +124,7 @@
 				<reportElement x="459" y="-10" width="43" height="40" uuid="1a9836aa-d9ec-4014-baa0-f6ebff3612a2">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="08865f27-3edc-4272-bb1d-824b1c7cf96c"/>
 				</reportElement>
-				<textElement textAlignment="Right">
+				<textElement textAlignment="Left">
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Custo Unit.]]></text>
@@ -200,7 +200,7 @@
 				<reportElement x="459" y="11" width="43" height="20" uuid="500e6fe9-4b65-4a9f-8bff-4f0065e45039">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="69d8cace-7f3f-42d4-b0f5-a75c8ede4465"/>
 				</reportElement>
-				<textElement textAlignment="Right">
+				<textElement textAlignment="Left">
 					<font fontName="SansSerif" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{unitCost}]]></textFieldExpression>
