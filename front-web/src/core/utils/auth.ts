@@ -3,8 +3,8 @@ import jwtDecode from "jwt-decode";
 import history from './history'
 import { Roles } from "./roles";
 
-export const CLIENTE_ID= process.env.REACT_APP_CLIENT_ID
-export const CLIENTE_SECRET= process.env.REACT_APP_CLIENT_SECRET
+export const CLIENTE_ID= process.env.REACT_APP_CLIENT_ID ?? "moinho-prod"
+export const CLIENTE_SECRET= process.env.REACT_APP_CLIENT_SECRET ?? "moinho-prod-secret"
 
 export type LoginResponse = {
     access_token: string;
