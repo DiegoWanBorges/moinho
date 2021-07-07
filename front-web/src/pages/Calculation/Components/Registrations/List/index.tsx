@@ -10,15 +10,17 @@ import Pagination from 'core/components/Pagination';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import CostCalculationCard from '../Card';
+import CardLoader from 'core/components/CardLoader';
 
 function CalculationList() {
     const [startReferenceMonth, setStartReferenceMonth] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth(), 1));
     const [endReferenceMonth, setEndReferenceMonth] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth(), 1));
-
     const [costCalculationsResponse, setCostCalculationsResponse] = useState<CostCalculationsResponse>();
     const [activePage, setActivePage] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
     const getCostCalculations = useCallback(() => {
+        setIsLoading(true)
         const params = {
             page: activePage,
             startDate: moment(startReferenceMonth).format("DD/MM/YYYY"),
@@ -27,9 +29,7 @@ function CalculationList() {
         }
         makePrivateRequest({ url: '/costcalculations', params })
             .then(response => setCostCalculationsResponse(response.data))
-            .finally(() => {
-
-            })
+            .finally(() => setIsLoading(false))
     }, [activePage, startReferenceMonth, endReferenceMonth])
 
     useEffect(() => {
@@ -97,12 +97,12 @@ function CalculationList() {
                     />
                 </div>
             </div>
-            {costCalculationsResponse?.content.map(item => (
+            {isLoading ? <CardLoader/> : (costCalculationsResponse?.content.map(item => (
                 <CostCalculationCard
                     costCalculation={item} key={item.id}
                     onRemove={onRemove}
                 />
-            ))}
+            )))}
             {costCalculationsResponse &&
                 <Pagination
                     totalPages={costCalculationsResponse?.totalPages}

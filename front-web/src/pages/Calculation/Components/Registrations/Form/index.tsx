@@ -1,3 +1,4 @@
+import './styles.scss';
 import StockBalanceCard from 'core/components/StockBalance';
 import { CostCalculationResult } from 'core/types/CostCalculation';
 import { makePrivateRequest } from 'core/utils/request';
@@ -8,24 +9,22 @@ import { useParams } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import AverageCostProduction from './AverageCostProduction';
 import CostCalculationProductionOrderDetails from './ProductionOrderDetails';
-import './styles.scss';
 import CostCalculationSummary from './Summary';
-
+import Loader from "react-loader-spinner";
 
 type ParamsType = {
     costCalculationId: string;
 }
 function CostCalculationForm() {
     const [costCalculationResult, setCostCalculationResult] = useState<CostCalculationResult>();
-
+    const [isLoading, setIsLoading] = useState(false);
     const { costCalculationId } = useParams<ParamsType>();
 
     useEffect(() => {
+        setIsLoading(true)
         makePrivateRequest({ url: `/costcalculations/${costCalculationId}` })
             .then(response => setCostCalculationResult(response.data))
-            .finally(() => {
-
-            })
+            .finally(() => setIsLoading(false))
     }, [costCalculationId])
 
 
@@ -43,11 +42,20 @@ function CostCalculationForm() {
                 </TabList>
 
                 <TabPanel>
-                    {costCalculationResult && (
-                        <CostCalculationSummary
-                            costCalculation={costCalculationResult.costCalculation}
-                        />
-                    )}
+                    {isLoading ?
+                        <div className="costCalculation-tab-loader">
+                            <Loader
+                                type="TailSpin"
+                                height={100}
+                                width={100}
+                                color="#0670B8"
+                            />
+                        </div> :
+                        (costCalculationResult && (
+                            <CostCalculationSummary
+                                costCalculation={costCalculationResult.costCalculation}
+                            />
+                        ))}
                 </TabPanel>
                 <TabPanel>
                     <div className="costCalculation-stockStart">

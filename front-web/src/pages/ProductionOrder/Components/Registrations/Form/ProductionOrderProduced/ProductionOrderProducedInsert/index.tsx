@@ -1,3 +1,5 @@
+import './styles.scss';
+
 import { Product } from 'core/types/Product';
 import { ProductionOrder, ProductionOrderProduced, Palletstatus } from 'core/types/ProductionOrder';
 import { makePrivateRequest } from 'core/utils/request';
@@ -7,7 +9,6 @@ import DateTime from 'react-datetime'
 import { useForm, Controller } from 'react-hook-form';
 import Select from 'react-select';
 
-import './styles.scss';
 
 type Props = {
     onInsertItem: (productionOrderProduced: ProductionOrderProduced) => void;
@@ -18,12 +19,10 @@ const ProductionOrderProducedInsert = ({ onInsertItem, productionOrder }: Props)
     const [manufacturingDate, setManufacturingDate] = useState(new Date());
     const [isLoadingProducts, setIsLoadingProducts] = useState(false);
     const [products, setProducts] = useState<Product[]>([]);
-
     const [isLoadingProducedProductStatus, setIsLoadingProducedProductStatus] = useState(false);
     const [producedProductStatus, setProducedProductStatus] = useState<Palletstatus[]>([]);
-
     const { register, errors, control, handleSubmit } = useForm<ProductionOrderProduced>();
-
+    
     useEffect(() => {
         setIsLoadingProducts(true)
         makePrivateRequest({ url: `/products/listproduced?formulationId=${productionOrder.formulation.id}` })

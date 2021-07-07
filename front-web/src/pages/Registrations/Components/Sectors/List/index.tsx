@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import GroupCard from '../Card';
+import CardLoader from 'core/components/CardLoader';
 import './styles.scss';
 
 function SectorList() {
@@ -13,7 +14,10 @@ function SectorList() {
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
     const [linesPerPage,setLinesPerPage]=useState(10);
+    const [isLoading, setIsLoading] = useState(false);
+
     const getSectors = useCallback(() => {
+        setIsLoading(true)
         const params = {
             page: activePage,
             linesPerPage: linesPerPage,
@@ -24,7 +28,7 @@ function SectorList() {
         makePrivateRequest({ url: '/sectors', params })
             .then(response => setSectorsResponse(response.data))
             .finally(() => {
-    
+                setIsLoading(false)
             })
     }, [activePage,name,linesPerPage])
 
@@ -88,12 +92,13 @@ function SectorList() {
                 />
            </div>
            <div className="admin-list-container">
-                {sectorsResponse?.content.map(sector => (
+                {isLoading ? <CardLoader/> : (
+                    sectorsResponse?.content.map(sector => (
                     <GroupCard
                         sector={sector} key={sector.id}
                         onRemove={onRemove}
                     />
-                ))}
+                )))}
 
                 {sectorsResponse &&
                     <Pagination

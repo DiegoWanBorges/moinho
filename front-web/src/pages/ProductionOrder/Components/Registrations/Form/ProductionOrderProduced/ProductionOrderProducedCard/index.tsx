@@ -1,9 +1,12 @@
+import './styles.scss';
+
 import { ProductionOrderProduced } from 'core/types/ProductionOrder';
 import ProductionOrderProducedEditModal from '../ProductionOrderProducedEditModal';
 import Print from 'core/assets/images/print.png'
 import { makePrivateRequest } from 'core/utils/request';
 import { toast } from 'react-toastify';
-import './styles.scss';
+import Loader from "react-loader-spinner";
+import { useState } from 'react';
 
 type Props = {
     productionOrderProduced: ProductionOrderProduced;
@@ -13,17 +16,19 @@ type Props = {
 }
 
 function ProductionOrderProducedCard({ productionOrderProduced, onEditItem, onDeleteItem, formulationId }: Props) {
+    const [isLoading, setIsLoading] = useState(false);
+
     const onPrint = () => {
-        makePrivateRequest({ url: `/productionordersproduced/pdf?productionOrderId=${productionOrderProduced.productionOrderId}&pallet=${productionOrderProduced.pallet}`, responseType: "blob" })
+        setIsLoading(true)
+        makePrivateRequest({ url: `/productionordersproduced/reports?id=${productionOrderProduced.productionOrderId}&pallet=${productionOrderProduced.pallet}`, responseType: "blob" })
             .then(response => {
-                //Build a URL from the file
                 var file = new Blob([response.data], { type: 'application/pdf' });
                 const fileURL = URL.createObjectURL(file);
-                //Open the URL on new Window
                 window.open(fileURL);
             }).catch(() => {
                 toast.error("Erro ao gerar relatório")
             })
+            .finally(() => setIsLoading(false))
     }
     const deleteItem = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
@@ -49,11 +54,13 @@ function ProductionOrderProducedCard({ productionOrderProduced, onEditItem, onDe
 
                 <div className="producedCard-actions">
 
-                    <img
-                        className="ProductionOrderItemCard-btn-print"
-                        src={Print} alt=""
-                        onClick={onPrint}
-                    />
+                    {isLoading ? <Loader type="Rings" width={38} height={38} color="#0670B8" /> :
+                        (<img
+                            className="formulation-card-btn-print"
+                            src={Print} alt=""
+                            onClick={onPrint}
+                        />)
+                    }
 
                     <ProductionOrderProducedEditModal
                         productionOrderProduced={productionOrderProduced}

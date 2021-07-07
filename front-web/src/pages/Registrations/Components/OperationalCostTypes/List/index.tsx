@@ -6,28 +6,31 @@ import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import OperationalCostTypesCard from '../Card';
-
+import CardLoader from 'core/components/CardLoader';
 import './styles.scss';
 
 function OperationalCostTypesList() {
     const [operationalCostTypesResponse, setOperationalCostTypesResponse] = useState<OperationalCostTypesResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
-    const [linesPerPage,setLinesPerPage]=useState(10);
+    const [linesPerPage, setLinesPerPage] = useState(10);
+    const [isLoading, setIsLoading] = useState(false);
+
     const getOperationalCostTypes = useCallback(() => {
+        setIsLoading(true)
         const params = {
             page: activePage,
             linesPerPage: linesPerPage,
-            name:name,
-            orderBy:"id",
-            direction:"DESC"
+            name: name,
+            orderBy: "id",
+            direction: "DESC"
         }
         makePrivateRequest({ url: '/operationalcosttypes', params })
             .then(response => setOperationalCostTypesResponse(response.data))
             .finally(() => {
-    
+                setIsLoading(false)
             })
-    }, [activePage,name,linesPerPage])
+    }, [activePage, name, linesPerPage])
 
     useEffect(() => {
         getOperationalCostTypes();
@@ -72,29 +75,30 @@ function OperationalCostTypesList() {
     }
     return (
         <div className="operationalCostTypeCard-list">
-           <div className="operationalCostTypeCard-list-add-filter">
-               <button
-                className="btn btn-primary btn-lg operationalCostTypeCard-list-btn-add"
-                onClick={handCreate}
-               >
-                   ADCIONAR
-               </button>
-               <Filter
-                        name={name}
-                        handleChangeName={handleChangeName}
-                        linesPerPage={linesPerPage}
-                        handleChangeLinesPerPage={handleChangeLinesPerPage}
-                        clearFilters={clearFilters}
-                        placeholder="Digite o nome do tipo de custo operacional"
+            <div className="operationalCostTypeCard-list-add-filter">
+                <button
+                    className="btn btn-primary btn-lg operationalCostTypeCard-list-btn-add"
+                    onClick={handCreate}
+                >
+                    ADCIONAR
+                </button>
+                <Filter
+                    name={name}
+                    handleChangeName={handleChangeName}
+                    linesPerPage={linesPerPage}
+                    handleChangeLinesPerPage={handleChangeLinesPerPage}
+                    clearFilters={clearFilters}
+                    placeholder="Digite o nome do tipo de custo operacional"
                 />
-           </div>
-           <div className="admin-list-container">
-                {operationalCostTypesResponse?.content.map(operationalCostType => (
-                    <OperationalCostTypesCard
-                        operationalCostType={operationalCostType} key={operationalCostType.id}
-                        onRemove={onRemove}
-                    />
-                ))}
+            </div>
+            <div className="admin-list-container">
+                {isLoading ? <CardLoader /> : (
+                    operationalCostTypesResponse?.content.map(operationalCostType => (
+                        <OperationalCostTypesCard
+                            operationalCostType={operationalCostType} key={operationalCostType.id}
+                            onRemove={onRemove}
+                        />
+                    )))}
 
                 {operationalCostTypesResponse &&
                     <Pagination

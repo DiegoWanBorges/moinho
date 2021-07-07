@@ -1,3 +1,4 @@
+import './styles.scss'
 import { useCallback, useEffect, useState } from 'react';
 import DateTime from 'react-datetime'
 import moment from 'moment';
@@ -9,18 +10,17 @@ import history from 'core/utils/history';
 import { toast } from 'react-toastify';
 import { OperationalCostType, OperationalPaymentsResponse } from 'core/types/Payment';
 import OperationalPaymentCard from '../Card';
-import './styles.scss'
+import CardLoader from 'core/components/CardLoader';
 
 const OperationalPaymentList = () => {
     const [startDate, setStartDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth(), 1, 0, 0));
     const [endDate, setEndDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth() + 1, 0, 23, 59));
-    
     const [isLoadingOperationalCostTypes, setIsLoadingOperationalCostTypes] = useState(false);
     const [operationalCostTypes, setOperationalCostTypes] = useState<OperationalCostType[]>([]);
     const [operationalCostType, setOperationalCostType] = useState<OperationalCostType | null>();
-   
     const [operationalPaymentsResponse, setOperationalPaymentsResponse] = useState<OperationalPaymentsResponse>();
     const [activePage, setActivePage] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         setIsLoadingOperationalCostTypes(true)
@@ -31,9 +31,8 @@ const OperationalPaymentList = () => {
             .finally(() => setIsLoadingOperationalCostTypes(false))
     }, [])
 
-    
-
     const getOperationalPayments = useCallback(() => {
+        setIsLoading(true)
         const params = {
             page: activePage,
             startDate: moment(startDate).format("DD/MM/YYYY"),
@@ -41,21 +40,19 @@ const OperationalPaymentList = () => {
             linesPerPage: 10,
             orderBy: "date",
             direction: "DESC",
-            operationalCostId:operationalCostType?.id
+            operationalCostId: operationalCostType?.id
         }
 
         makePrivateRequest({ url: '/operationalpayments', params })
             .then(response => {
                 setOperationalPaymentsResponse(response.data)
-                })
-            .finally(() => {
-
             })
+            .finally(() => setIsLoading(false))
     }, [activePage, startDate, endDate, operationalCostType])
 
     useEffect(() => {
         getOperationalPayments()
-        
+
     }, [activePage, getOperationalPayments])
 
     const handCreate = () => {
@@ -88,7 +85,7 @@ const OperationalPaymentList = () => {
                     onClick={handCreate}
                 >
                     ADCIONAR
-               </button>
+                </button>
             </div>
 
             <div className="OperationalPaymentList-filter">
@@ -118,7 +115,7 @@ const OperationalPaymentList = () => {
                     />
                 </div>
 
-                
+
                 <div className="OperationalPaymentList-filter-product">
                     <label className="label-base">Tipo:</label>
                     <Select
@@ -133,15 +130,14 @@ const OperationalPaymentList = () => {
                 </div>
 
             </div>
-            {operationalPaymentsResponse?.content.map(item => (
-                <OperationalPaymentCard 
+            {isLoading ? <CardLoader /> : (operationalPaymentsResponse?.content.map(item => (
+                <OperationalPaymentCard
                     operationalPayment={item}
                     onRemove={onRemove}
                     key={item.id}
                 />
-            ))
+            )))}
 
-            }
             {operationalPaymentsResponse &&
                 <Pagination
                     totalPages={operationalPaymentsResponse?.totalPages}

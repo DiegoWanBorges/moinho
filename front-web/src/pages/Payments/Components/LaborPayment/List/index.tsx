@@ -11,21 +11,20 @@ import { toast } from 'react-toastify';
 import { Employee } from 'core/types/Employee';
 import { LaborCosType, LaborPaymentsResponse } from 'core/types/Payment';
 import LaborPaymentCard from '../Card';
+import CardLoader from 'core/components/CardLoader';
 
 const LaborPaymentList = () => {
     const [startDate, setStartDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth(), 1, 0, 0));
     const [endDate, setEndDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth() + 1, 0, 23, 59));
-    
     const [isLoadingEmployees, setIsLoadingEmployees] = useState(false);
     const [employees, setEmployees] = useState<Employee[]>([]);
     const [employee, setEmployee] = useState<Employee | null>();
-   
     const [isLoadingLaborCostTypes, setIsLoadingLaborCostTypes] = useState(false);
     const [laborCostTypes, setLaborCostTypes] = useState<LaborCosType[]>([]);
     const [laborCostType, setLaborCostType] = useState<LaborCosType | null>();
-   
     const [laborPaymentsResponse, setLaborPaymentsResponse] = useState<LaborPaymentsResponse>();
     const [activePage, setActivePage] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         setIsLoadingEmployees(true)
@@ -46,6 +45,7 @@ const LaborPaymentList = () => {
     }, [])
 
     const getLaborPayments = useCallback(() => {
+        setIsLoading(true)
         const params = {
             page: activePage,
             startDate: moment(startDate).format("DD/MM/YYYY"),
@@ -61,9 +61,7 @@ const LaborPaymentList = () => {
             .then(response => {
                 setLaborPaymentsResponse(response.data)
                 })
-            .finally(() => {
-
-            })
+            .finally(() => setIsLoading(false))
     }, [activePage, startDate, endDate, employee,laborCostType])
 
     useEffect(() => {
@@ -157,15 +155,14 @@ const LaborPaymentList = () => {
                 </div>
 
             </div>
-            {laborPaymentsResponse?.content.map(item => (
+            {isLoading ? <CardLoader/> : (laborPaymentsResponse?.content.map(item => (
                 <LaborPaymentCard 
                     laborPayment={item}
                     onRemove={onRemove}
                     key={item.id}
                 />
-            ))
+            )))}
 
-            }
             {laborPaymentsResponse &&
                 <Pagination
                     totalPages={laborPaymentsResponse?.totalPages}

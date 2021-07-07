@@ -1,3 +1,4 @@
+import CardLoader from 'core/components/CardLoader';
 import Filter from 'core/components/Filter';
 import Pagination from 'core/components/Pagination';
 import { ProductsResponse } from 'core/types/Product';
@@ -13,21 +14,23 @@ function ProductList() {
     const [productsResponse, setProductsResponse] = useState<ProductsResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
-    const [linesPerPage,setLinesPerPage]=useState(10);
+    const [linesPerPage, setLinesPerPage] = useState(10);
+    const [isLoading, setIsLoading] = useState(false);
     const getProducts = useCallback(() => {
+        setIsLoading(true)
         const params = {
             page: activePage,
             linesPerPage: linesPerPage,
-            name:name,
-            orderBy:"name",
-            direction:"ASC"
+            name: name,
+            orderBy: "name",
+            direction: "ASC"
         }
         makePrivateRequest({ url: '/products', params })
             .then(response => setProductsResponse(response.data))
             .finally(() => {
-    
+                setIsLoading(false)
             })
-    }, [activePage,name,linesPerPage])
+    }, [activePage, name, linesPerPage])
 
     useEffect(() => {
         getProducts();
@@ -72,29 +75,30 @@ function ProductList() {
     }
     return (
         <div className="product-list">
-           <div className="product-list-add-filter">
-               <button
-                className="btn btn-primary btn-lg product-list-btn-add"
-                onClick={handCreate}
-               >
-                   ADCIONAR
-               </button>
-               <Filter
-                        name={name}
-                        handleChangeName={handleChangeName}
-                        linesPerPage={linesPerPage}
-                        handleChangeLinesPerPage={handleChangeLinesPerPage}
-                        clearFilters={clearFilters}
-                        placeholder="Digite o nome do produto"
+            <div className="product-list-add-filter">
+                <button
+                    className="btn btn-primary btn-lg product-list-btn-add"
+                    onClick={handCreate}
+                >
+                    ADCIONAR
+                </button>
+                <Filter
+                    name={name}
+                    handleChangeName={handleChangeName}
+                    linesPerPage={linesPerPage}
+                    handleChangeLinesPerPage={handleChangeLinesPerPage}
+                    clearFilters={clearFilters}
+                    placeholder="Digite o nome do produto"
                 />
-           </div>
-           <div className="admin-list-container">
-                {productsResponse?.content.map(product => (
-                    <ProductCard
-                        product={product} key={product.id}
-                        onRemove={onRemove}
-                    />
-                ))}
+            </div>
+            <div className="admin-list-container">
+                {isLoading ? <CardLoader /> : (
+                    productsResponse?.content.map(product => (
+                        <ProductCard
+                            product={product} key={product.id}
+                            onRemove={onRemove}
+                        />
+                    )))}
 
                 {productsResponse &&
                     <Pagination

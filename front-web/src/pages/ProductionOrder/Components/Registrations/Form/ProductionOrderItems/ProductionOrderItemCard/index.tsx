@@ -1,9 +1,12 @@
+import './styles.scss';
 import { ProductionOrderItem } from 'core/types/ProductionOrder';
 import ProductionOrderItemEditModal from '../ProductionOrderItemsEditModal';
 import Print from 'core/assets/images/print.png'
 import { makePrivateRequest } from 'core/utils/request';
 import { toast } from 'react-toastify';
-import './styles.scss';
+import Loader from "react-loader-spinner";
+import { useState } from 'react';
+
 
 
 type Props = {
@@ -13,22 +16,22 @@ type Props = {
 }
 
 function ProductionOrderItemCard({ productionOrderItem, onEditItem, onDeleteItem }: Props) {
-
+    const [isLoading, setIsLoading] = useState(false);
     const deleteItem = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
         onDeleteItem(productionOrderItem)
     }
     const onPrint = () => {
-        makePrivateRequest({ url: `/productionorders/pdf?id=${productionOrderItem.productionOrderId}&serie=${productionOrderItem.serie}`, responseType: "blob" })
+        setIsLoading(true)
+        makePrivateRequest({ url: `/productionorders/reports?id=${productionOrderItem.productionOrderId}&serie=${productionOrderItem.serie}`, responseType: "blob" })
             .then(response => {
-                //Build a URL from the file
                 var file = new Blob([response.data], { type: 'application/pdf' });
                 const fileURL = URL.createObjectURL(file);
-                //Open the URL on new Window
                 window.open(fileURL);
             }).catch(() => {
                 toast.error("Erro ao gerar relatório")
             })
+            .finally(()=>setIsLoading(false))
     }
     return (
         <div className="productionOrderItemCard-main">
@@ -44,7 +47,7 @@ function ProductionOrderItemCard({ productionOrderItem, onEditItem, onDeleteItem
                 <h6 className="productionOrderItemCard-inf-quantity">{productionOrderItem.quantity} {productionOrderItem.product.unity.id} </h6>
 
                 <div className="productionOrderItemCard-actions">
-                    {
+                    {isLoading ? <Loader type="Rings" width={38} height={38} color="#0670B8" /> :(
                         productionOrderItem.serie !== 1 ? (
                             <img
                                 className="ProductionOrderItemCard-btn-print"
@@ -52,7 +55,7 @@ function ProductionOrderItemCard({ productionOrderItem, onEditItem, onDeleteItem
                                 onClick={onPrint}
                             />
                         ) : null
-                    }
+                    )}
 
 
                     <ProductionOrderItemEditModal

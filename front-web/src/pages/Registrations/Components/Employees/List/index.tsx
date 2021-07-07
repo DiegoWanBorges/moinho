@@ -6,29 +6,31 @@ import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import EmployeeCard from '../Card';
-
+import CardLoader from 'core/components/CardLoader';
 import './styles.scss';
 
 function EmployeeList() {
     const [employeesResponse, setEmployeesResponse] = useState<EmployeesResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
-    const [linesPerPage,setLinesPerPage]=useState(10);
+    const [linesPerPage, setLinesPerPage] = useState(10);
+    const [isLoading, setIsLoading] = useState(false);
 
     const getEmployees = useCallback(() => {
+        setIsLoading(true)
         const params = {
             page: activePage,
             linesPerPage: linesPerPage,
-            name:name,
-            orderBy:"id",
-            direction:"DESC"
+            name: name,
+            orderBy: "id",
+            direction: "DESC"
         }
         makePrivateRequest({ url: '/employees', params })
             .then(response => setEmployeesResponse(response.data))
             .finally(() => {
-    
+                setIsLoading(false)
             })
-    }, [activePage,name,linesPerPage])
+    }, [activePage, name, linesPerPage])
 
     useEffect(() => {
         getEmployees();
@@ -73,29 +75,30 @@ function EmployeeList() {
     }
     return (
         <div className="employee-list">
-           <div className="employee-list-add-filter">
-               <button
-                className="btn btn-primary btn-lg employee-list-btn-add"
-                onClick={handCreate}
-               >
-                   ADCIONAR
-               </button>
-               <Filter
-                        name={name}
-                        handleChangeName={handleChangeName}
-                        linesPerPage={linesPerPage}
-                        handleChangeLinesPerPage={handleChangeLinesPerPage}
-                        clearFilters={clearFilters}
-                        placeholder="Digite o nome do funcionario"
+            <div className="employee-list-add-filter">
+                <button
+                    className="btn btn-primary btn-lg employee-list-btn-add"
+                    onClick={handCreate}
+                >
+                    ADCIONAR
+                </button>
+                <Filter
+                    name={name}
+                    handleChangeName={handleChangeName}
+                    linesPerPage={linesPerPage}
+                    handleChangeLinesPerPage={handleChangeLinesPerPage}
+                    clearFilters={clearFilters}
+                    placeholder="Digite o nome do funcionario"
                 />
-           </div>
-           <div className="admin-list-container">
-                {employeesResponse?.content.map(employee => (
-                    <EmployeeCard
-                        employee={employee} key={employee.id}
-                        onRemove={onRemove}
-                    />
-                ))}
+            </div>
+            <div className="admin-list-container">
+                {isLoading ? <CardLoader /> : (
+                    employeesResponse?.content.map(employee => (
+                        <EmployeeCard
+                            employee={employee} key={employee.id}
+                            onRemove={onRemove}
+                        />
+                    )))}
 
                 {employeesResponse &&
                     <Pagination

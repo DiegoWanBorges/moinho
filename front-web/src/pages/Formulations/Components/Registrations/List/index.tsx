@@ -6,28 +6,29 @@ import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import FormulationCard from '../Card';
+import CardLoader from 'core/components/CardLoader';
 import './styles.scss';
 
 function FormulationList() {
     const [formulationsResponse, setFormulationsResponse] = useState<FormulationResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
-    const [linesPerPage,setLinesPerPage]=useState(10);
-  
+    const [linesPerPage, setLinesPerPage] = useState(10);
+    const [isLoading, setIsLoading] = useState(false);
+
     const getFormulations = useCallback(() => {
+        setIsLoading(true)
         const params = {
             page: activePage,
             linesPerPage: linesPerPage,
-            description:name,
-            orderBy:"id",
-            direction:"DESC"
+            description: name,
+            orderBy: "id",
+            direction: "DESC"
         }
         makePrivateRequest({ url: '/formulations', params })
             .then(response => setFormulationsResponse(response.data))
-            .finally(() => {
-    
-            })
-    }, [activePage,name,linesPerPage])
+            .finally(() => setIsLoading(false))
+    }, [activePage, name, linesPerPage])
 
     useEffect(() => {
         getFormulations();
@@ -72,29 +73,29 @@ function FormulationList() {
     }
     return (
         <div className="group-list">
-           <div className="group-list-add-filter">
-               <button
-                className="btn btn-primary btn-lg group-list-btn-add"
-                onClick={handCreate}
-               >
-                   ADCIONAR
-               </button>
-               <Filter
-                        name={name}
-                        handleChangeName={handleChangeName}
-                        linesPerPage={linesPerPage}
-                        handleChangeLinesPerPage={handleChangeLinesPerPage}
-                        clearFilters={clearFilters}
-                        placeholder="Digite o nome do grupo"
+            <div className="group-list-add-filter">
+                <button
+                    className="btn btn-primary btn-lg group-list-btn-add"
+                    onClick={handCreate}
+                >
+                    ADCIONAR
+                </button>
+                <Filter
+                    name={name}
+                    handleChangeName={handleChangeName}
+                    linesPerPage={linesPerPage}
+                    handleChangeLinesPerPage={handleChangeLinesPerPage}
+                    clearFilters={clearFilters}
+                    placeholder="Digite o nome do grupo"
                 />
-           </div>
-           <div className="admin-list-container">
-                {formulationsResponse?.content.map(formulation => (
+            </div>
+            <div className="admin-list-container">
+                {isLoading ? <CardLoader /> : (formulationsResponse?.content.map(formulation => (
                     <FormulationCard
                         formulation={formulation} key={formulation.id}
                         onRemove={onRemove}
                     />
-                ))}
+                )))}
 
                 {formulationsResponse &&
                     <Pagination

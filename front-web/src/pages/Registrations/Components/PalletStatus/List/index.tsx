@@ -6,24 +6,29 @@ import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import ProducedproductstatusCard from '../Card';
+import CardLoader from 'core/components/CardLoader';
 import './styles.scss';
 
 function ProducedProductStatusList() {
     const [producedProductStatusResponse, setProducedProductStatusResponse] = useState<PalletstatusResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
-    const [linesPerPage,setLinesPerPage]=useState(10);
+    const [linesPerPage, setLinesPerPage] = useState(10);
+    const [isLoading, setIsLoading] = useState(false);
+
     const getProducedProductStatus = useCallback(() => {
+        setIsLoading(true)
         const params = {
             page: activePage,
             linesPerPage: linesPerPage,
-            name:name,
-            orderBy:"id",
-            direction:"DESC"
+            name: name,
+            orderBy: "id",
+            direction: "DESC"
         }
         makePrivateRequest({ url: '/palletstatus', params })
             .then(response => setProducedProductStatusResponse(response.data))
-    }, [activePage,name,linesPerPage])
+            .finally(()=>setIsLoading(false))
+    }, [activePage, name, linesPerPage])
 
     useEffect(() => {
         getProducedProductStatus();
@@ -68,29 +73,30 @@ function ProducedProductStatusList() {
     }
     return (
         <div className="producedProductStatus-list">
-           <div className="producedProductStatus-list-add-filter">
-               <button
-                className="btn btn-primary btn-lg producedProductStatus-list-btn-add"
-                onClick={handCreate}
-               >
-                   ADCIONAR
-               </button>
-               <Filter
-                        name={name}
-                        handleChangeName={handleChangeName}
-                        linesPerPage={linesPerPage}
-                        handleChangeLinesPerPage={handleChangeLinesPerPage}
-                        clearFilters={clearFilters}
-                        placeholder="Digite o nome do status"
+            <div className="producedProductStatus-list-add-filter">
+                <button
+                    className="btn btn-primary btn-lg producedProductStatus-list-btn-add"
+                    onClick={handCreate}
+                >
+                    ADCIONAR
+                </button>
+                <Filter
+                    name={name}
+                    handleChangeName={handleChangeName}
+                    linesPerPage={linesPerPage}
+                    handleChangeLinesPerPage={handleChangeLinesPerPage}
+                    clearFilters={clearFilters}
+                    placeholder="Digite o nome do status"
                 />
-           </div>
-           <div className="admin-list-container">
-                {producedProductStatusResponse?.content.map(status => (
-                    <ProducedproductstatusCard
-                        producedProductStatus={status} key={status.id}
-                        onRemove={onRemove}
-                    />
-                ))}
+            </div>
+            <div className="admin-list-container">
+                {isLoading ? <CardLoader /> : (
+                    producedProductStatusResponse?.content.map(status => (
+                        <ProducedproductstatusCard
+                            producedProductStatus={status} key={status.id}
+                            onRemove={onRemove}
+                        />
+                    )))}
 
                 {producedProductStatusResponse &&
                     <Pagination

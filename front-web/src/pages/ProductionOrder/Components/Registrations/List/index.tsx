@@ -1,4 +1,5 @@
 import './styles.scss';
+
 import { useCallback, useEffect, useState } from 'react';
 import DateTime from 'react-datetime'
 import moment from 'moment';
@@ -9,15 +10,17 @@ import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import Pagination from 'core/components/Pagination';
 import ProductionOrderCard from '../Card';
-
+import CardLoader from 'core/components/CardLoader';
 
 function ProductionOrderList() {
     const [startDate, setStartDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth(), 1, 0, 0));
     const [endDate, setEndDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth() + 1, 0, 23, 59));
     const [productionOrderResponse, setProductionOrderResponse] = useState<ProductionOrdersResponse>();
     const [activePage, setActivePage] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
     const getProductionOrders = useCallback(() => {
+        setIsLoading(true)
         const params = {
             page: activePage,
             startDate: moment(startDate).format("DD/MM/YYYY HH:mm"),
@@ -28,9 +31,7 @@ function ProductionOrderList() {
         }
         makePrivateRequest({ url: '/productionorders', params })
             .then(response => setProductionOrderResponse(response.data))
-            .finally(() => {
-
-            })
+            .finally(() => setIsLoading(false))
     }, [activePage, startDate, endDate])
 
     useEffect(() => {
@@ -100,12 +101,13 @@ function ProductionOrderList() {
 
 
             <div className="admin-list-container">
-                {productionOrderResponse?.content.map(productionOrder => (
-                    <ProductionOrderCard
-                        productionOrder={productionOrder} key={productionOrder.id}
-                        onRemove={onRemove}
-                    />
-                ))}
+                {isLoading ? <CardLoader /> : (
+                    productionOrderResponse?.content.map(productionOrder => (
+                        <ProductionOrderCard
+                            productionOrder={productionOrder} key={productionOrder.id}
+                            onRemove={onRemove}
+                        />
+                    )))}
 
                 {productionOrderResponse &&
                     <Pagination

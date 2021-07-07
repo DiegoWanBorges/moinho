@@ -6,27 +6,31 @@ import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import UnityCard from '../Card';
+import CardLoader from 'core/components/CardLoader';
 import './styles.scss';
 
 function UnityList() {
     const [unitysResponse, setUnitysResponse] = useState<UnitysResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
-    const [linesPerPage,setLinesPerPage]=useState(10);
+    const [linesPerPage, setLinesPerPage] = useState(10);
+    const [isLoading, setIsLoading] = useState(false);
+
     const getunitys = useCallback(() => {
+        setIsLoading(true)
         const params = {
             page: activePage,
             linesPerPage: linesPerPage,
-            description:name,
-            orderBy:"id",
-            direction:"DESC"
+            description: name,
+            orderBy: "id",
+            direction: "DESC"
         }
         makePrivateRequest({ url: '/units', params })
             .then(response => setUnitysResponse(response.data))
             .finally(() => {
-    
+                setIsLoading(false)
             })
-    }, [activePage,name,linesPerPage])
+    }, [activePage, name, linesPerPage])
 
     useEffect(() => {
         getunitys();
@@ -71,29 +75,32 @@ function UnityList() {
     }
     return (
         <div className="unity-list">
-           <div className="unity-list-add-filter">
-               <button
-                className="btn btn-primary btn-lg unity-list-btn-add"
-                onClick={handCreate}
-               >
-                   ADCIONAR
-               </button>
-               <Filter
-                        name={name}
-                        handleChangeName={handleChangeName}
-                        linesPerPage={linesPerPage}
-                        handleChangeLinesPerPage={handleChangeLinesPerPage}
-                        clearFilters={clearFilters}
-                        placeholder="Digite o nome da unidade"
+            <div className="unity-list-add-filter">
+                <button
+                    className="btn btn-primary btn-lg unity-list-btn-add"
+                    onClick={handCreate}
+                >
+                    ADCIONAR
+                </button>
+                <Filter
+                    name={name}
+                    handleChangeName={handleChangeName}
+                    linesPerPage={linesPerPage}
+                    handleChangeLinesPerPage={handleChangeLinesPerPage}
+                    clearFilters={clearFilters}
+                    placeholder="Digite o nome da unidade"
                 />
-           </div>
-           <div className="admin-list-container">
-                {unitysResponse?.content.map(unity => (
-                    <UnityCard
-                        unity={unity} key={unity.id}
-                        onRemove={onRemove}
-                    />
-                ))}
+            </div>
+            <div className="admin-list-container">
+                {isLoading ? <CardLoader /> : (
+                    unitysResponse?.content.map(unity => (
+                        <UnityCard
+                            unity={unity} key={unity.id}
+                            onRemove={onRemove}
+                        />
+                    ))
+                )}
+
 
                 {unitysResponse &&
                     <Pagination

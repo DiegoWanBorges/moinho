@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import UserCard from '../Card';
-
+import CardLoader from 'core/components/CardLoader';
 import './styles.scss';
 
 function UserList() {
@@ -14,7 +14,9 @@ function UserList() {
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
     const [linesPerPage,setLinesPerPage]=useState(10);
+    const [isLoading, setIsLoading] = useState(false);
     const getUsers = useCallback(() => {
+        setIsLoading(true)
         const params = {
             page: activePage,
             linesPerPage: linesPerPage,
@@ -25,7 +27,7 @@ function UserList() {
         makePrivateRequest({ url: '/users', params })
             .then(response => setUsersResponse(response.data))
             .finally(() => {
-    
+                setIsLoading(false)
             })
     }, [activePage,name,linesPerPage])
 
@@ -89,13 +91,14 @@ function UserList() {
                 />
            </div>
            <div className="admin-list-container">
-                {usersResponse?.content.map(user => (
-                    <UserCard
-                        user={user} key={user.id}
-                        onRemove={onRemove}
-                    />
-                ))}
-
+                {isLoading ? <CardLoader/> :
+                (usersResponse?.content.map(user => (
+                        <UserCard
+                            user={user} key={user.id}
+                            onRemove={onRemove}
+                        />
+                )))}
+                
                 {usersResponse &&
                     <Pagination
                         totalPages={usersResponse?.totalPages}

@@ -6,27 +6,31 @@ import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import LaborCostTypeCard from '../Card';
+import CardLoader from 'core/components/CardLoader';
 import './styles.scss';
 
 function LaborCostTypeList() {
     const [laborCostTypesResponse, setLaborCostTypesResponse] = useState<LaborCosTypesResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
-    const [linesPerPage,setLinesPerPage]=useState(10);
+    const [linesPerPage, setLinesPerPage] = useState(10);
+    const [isLoading, setIsLoading] = useState(false);
+
     const getLaborCostTypes = useCallback(() => {
+        setIsLoading(true)
         const params = {
             page: activePage,
             linesPerPage: linesPerPage,
-            name:name,
-            orderBy:"id",
-            direction:"DESC"
+            name: name,
+            orderBy: "id",
+            direction: "DESC"
         }
         makePrivateRequest({ url: '/laborcosttypes', params })
             .then(response => setLaborCostTypesResponse(response.data))
             .finally(() => {
-    
+                setIsLoading(false)
             })
-    }, [activePage,name,linesPerPage])
+    }, [activePage, name, linesPerPage])
 
     useEffect(() => {
         getLaborCostTypes();
@@ -71,29 +75,30 @@ function LaborCostTypeList() {
     }
     return (
         <div className="laborCosType-list">
-           <div className="laborCosType-list-add-filter">
-               <button
-                className="btn btn-primary btn-lg laborCosType-list-btn-add"
-                onClick={handCreate}
-               >
-                   ADCIONAR
-               </button>
-               <Filter
-                        name={name}
-                        handleChangeName={handleChangeName}
-                        linesPerPage={linesPerPage}
-                        handleChangeLinesPerPage={handleChangeLinesPerPage}
-                        clearFilters={clearFilters}
-                        placeholder="Digite o nome do custo funcionario"
+            <div className="laborCosType-list-add-filter">
+                <button
+                    className="btn btn-primary btn-lg laborCosType-list-btn-add"
+                    onClick={handCreate}
+                >
+                    ADCIONAR
+                </button>
+                <Filter
+                    name={name}
+                    handleChangeName={handleChangeName}
+                    linesPerPage={linesPerPage}
+                    handleChangeLinesPerPage={handleChangeLinesPerPage}
+                    clearFilters={clearFilters}
+                    placeholder="Digite o nome do custo funcionario"
                 />
-           </div>
-           <div className="admin-list-container">
-                {laborCostTypesResponse?.content.map(laborCosTypeCard => (
-                    <LaborCostTypeCard
-                        laborCosType={laborCosTypeCard} key={laborCosTypeCard.id}
-                        onRemove={onRemove}
-                    />
-                ))}
+            </div>
+            <div className="admin-list-container">
+                {isLoading ? <CardLoader /> : (
+                    laborCostTypesResponse?.content.map(laborCosTypeCard => (
+                        <LaborCostTypeCard
+                            laborCosType={laborCosTypeCard} key={laborCosTypeCard.id}
+                            onRemove={onRemove}
+                        />
+                    )))}
 
                 {laborCostTypesResponse &&
                     <Pagination

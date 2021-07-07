@@ -6,25 +6,31 @@ import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import OccurrenceCard from '../Card';
+import CardLoader from 'core/components/CardLoader';
 import './styles.scss';
 
 function OccurrenceList() {
     const [occurrencesResponse, setOccurrencesResponse] = useState<OccurrencesResponse>();
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
-    const [linesPerPage,setLinesPerPage]=useState(10);
+    const [linesPerPage, setLinesPerPage] = useState(10);
+    const [isLoading, setIsLoading] = useState(false);
 
     const getOccurrences = useCallback(() => {
+        setIsLoading(true)
         const params = {
             page: activePage,
             linesPerPage: linesPerPage,
-            name:name,
-            orderBy:"id",
-            direction:"DESC"
+            name: name,
+            orderBy: "id",
+            direction: "DESC"
         }
         makePrivateRequest({ url: '/occurrences', params })
             .then(response => setOccurrencesResponse(response.data))
-    }, [activePage,name,linesPerPage])
+            .finally(() => {
+                setIsLoading(false)
+            })
+    }, [activePage, name, linesPerPage])
 
     useEffect(() => {
         getOccurrences();
@@ -69,29 +75,30 @@ function OccurrenceList() {
     }
     return (
         <div className="group-list">
-           <div className="group-list-add-filter">
-               <button
-                className="btn btn-primary btn-lg group-list-btn-add"
-                onClick={handCreate}
-               >
-                   ADCIONAR
-               </button>
-               <Filter
-                        name={name}
-                        handleChangeName={handleChangeName}
-                        linesPerPage={linesPerPage}
-                        handleChangeLinesPerPage={handleChangeLinesPerPage}
-                        clearFilters={clearFilters}
-                        placeholder="Digite o nome da ocorrência"
+            <div className="group-list-add-filter">
+                <button
+                    className="btn btn-primary btn-lg group-list-btn-add"
+                    onClick={handCreate}
+                >
+                    ADCIONAR
+                </button>
+                <Filter
+                    name={name}
+                    handleChangeName={handleChangeName}
+                    linesPerPage={linesPerPage}
+                    handleChangeLinesPerPage={handleChangeLinesPerPage}
+                    clearFilters={clearFilters}
+                    placeholder="Digite o nome da ocorrência"
                 />
-           </div>
-           <div className="admin-list-container">
-                {occurrencesResponse?.content.map(occurrence => (
-                    <OccurrenceCard
-                        occurrence={occurrence} key={occurrence.id}
-                        onRemove={onRemove}
-                    />
-                ))}
+            </div>
+            <div className="admin-list-container">
+                {isLoading ? <CardLoader /> : (
+                    occurrencesResponse?.content.map(occurrence => (
+                        <OccurrenceCard
+                            occurrence={occurrence} key={occurrence.id}
+                            onRemove={onRemove}
+                        />
+                    )))}
 
                 {occurrencesResponse &&
                     <Pagination

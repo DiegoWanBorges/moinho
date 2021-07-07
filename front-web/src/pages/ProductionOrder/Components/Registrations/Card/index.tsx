@@ -1,9 +1,13 @@
+import './styles.scss';
+
 import { ProductionOrder } from 'core/types/ProductionOrder';
 import history from 'core/utils/history';
 import { makePrivateRequest } from 'core/utils/request';
 import { toast } from 'react-toastify';
 import Print from 'core/assets/images/print.png'
-import './styles.scss';
+import Loader from "react-loader-spinner";
+import { useState } from 'react';
+
 
 
 type Props = {
@@ -11,20 +15,22 @@ type Props = {
     onRemove: (productionOrderId: number) => void;
 }
 const ProductionOrderCard = ({ productionOrder, onRemove }: Props) => {
+    const [isLoading, setIsLoading] = useState(false);
+
     const onEdit = () => {
         history.push(`/productions/registrations/${productionOrder.id}`)
     }
     const onPrint = () => {
+        setIsLoading(true)
         makePrivateRequest({ url: `/productionorders/reports?id=${productionOrder.id}`, responseType: "blob" })
             .then(response => {
-                //Build a URL from the file
                 var file = new Blob([response.data], { type: 'application/pdf' });
-                const fileURL = URL.createObjectURL(file); 
-                //Open the URL on new Window
+                const fileURL = URL.createObjectURL(file);
                 window.open(fileURL);
             }).catch(() => {
                 toast.error("Erro ao gerar relatório")
             })
+            .finally(() => setIsLoading(false))
     }
     return (
         <div className="ProductionOrderCard-card">
@@ -38,11 +44,13 @@ const ProductionOrderCard = ({ productionOrder, onRemove }: Props) => {
 
 
             <div className="ProductionOrderCard-card-action">
-                <img
-                    className="ProductionOrderCard-btn-print"
-                    src={Print} alt=""
-                    onClick={onPrint}
-                />
+                {isLoading ? <Loader type="Rings" width={38} height={38} color="#0670B8" /> :
+                    (<img
+                        className="formulation-card-btn-print"
+                        src={Print} alt=""
+                        onClick={onPrint}
+                    />)
+                }
 
                 <button
                     onClick={onEdit}

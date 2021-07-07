@@ -44,7 +44,7 @@ function LoginCard() {
                 isLoading ?
                     <div className="login-card-loader">
                         <Loader
-                            type="Oval"
+                            type="Rings"
                             height={100}
                             width={100}
                             color="#0670B8"

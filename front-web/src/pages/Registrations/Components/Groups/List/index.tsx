@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import GroupCard from '../Card';
+import CardLoader from 'core/components/CardLoader'
 import './styles.scss';
 
 function GroupList() {
@@ -13,8 +14,9 @@ function GroupList() {
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
     const [linesPerPage,setLinesPerPage]=useState(10);
-  
+    const [isLoading, setIsLoading] = useState(false);
     const getGroups = useCallback(() => {
+        setIsLoading(true)
         const params = {
             page: activePage,
             linesPerPage: linesPerPage,
@@ -25,7 +27,7 @@ function GroupList() {
         makePrivateRequest({ url: '/groups', params })
             .then(response => setGroupsResponse(response.data))
             .finally(() => {
-    
+                setIsLoading(false)
             })
     }, [activePage,name,linesPerPage])
 
@@ -89,12 +91,15 @@ function GroupList() {
                 />
            </div>
            <div className="admin-list-container">
-                {groupsResponse?.content.map(group => (
-                    <GroupCard
-                        group={group} key={group.id}
-                        onRemove={onRemove}
-                    />
-                ))}
+                {isLoading ? <CardLoader/> :(
+                    groupsResponse?.content.map(group => (
+                        <GroupCard
+                            group={group} key={group.id}
+                            onRemove={onRemove}
+                        />
+                    ))
+                )}
+                
 
                 {groupsResponse &&
                     <Pagination

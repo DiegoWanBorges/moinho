@@ -1,3 +1,5 @@
+import './styles.scss';
+
 import { ProductionOrder } from 'core/types/ProductionOrder';
 import history from 'core/utils/history';
 import { makePrivateRequest } from 'core/utils/request';
@@ -7,9 +9,6 @@ import { toISOFormatDateTime } from 'core/utils/utils';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 
-
-import './styles.scss';
-
 type Props = {
     productionOrder: ProductionOrder;
 }
@@ -17,6 +16,7 @@ const ProductionOrderHeader = ({ productionOrder }: Props) => {
     const [startDate, setStartDate] = useState<Date>();
     const [endDate, setEndDate] = useState<Date|undefined>();
     const [observation, setObservation] = useState("");
+
 
     useEffect(() => {
         setStartDate(moment(toISOFormatDateTime(productionOrder.startDate)).toDate());

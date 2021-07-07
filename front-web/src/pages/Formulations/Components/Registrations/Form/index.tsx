@@ -31,7 +31,7 @@ function FormulationForm() {
     const [formulationItem, setFormulationItem] = useState<FormulationItem[]>([]);
     const [isLoadingSecondaryProductions, setIsLoadingSecondaryProductions] = useState(false);
     const [secondaryProductions, setSecondaryProductions] = useState<Product[]>();
-
+    
     useEffect(() => {
         setIsLoadingProducts(true)
         setIsLoadingSecondaryProductions(true)
@@ -66,6 +66,7 @@ function FormulationForm() {
 
     const getFormulationItems = useCallback(() => {
         if (isEditing) {
+            
             makePrivateRequest({ url: `/formulations/${formulationId}` })
                 .then(response => {
                     setValue('description', response.data.description);
@@ -155,196 +156,194 @@ function FormulationForm() {
         history.push("./")
     }
 
-    
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="formulation-form">
-
-            <div className="formulation-form-row">
-                <div className="formulation-form-row-description">
-                    <label className="label-base">Descrição:</label>
-                    <input
-                        name="description"
-                        type="text"
-                        className="input-base"
-                        ref={register({
-                            required: "Campo obrigatório",
-                            minLength: { value: 2, message: "O campo deve ter minímo 2 caracteres" },
-                            maxLength: { value: 50, message: "O campo deve ter no maximo 10 caracteres" },
-                        })}
-                    />
-                    {errors.description && (
-                        <div className="invalid-feedback d-block">
-                            {errors.description.message}
-                        </div>
-                    )}
-                </div>
-
-                <div className="formulation-form-row-coefficient">
-                    <label className="label-base">Coeficiente:</label>
-                    <input
-                        name="coefficient"
-                        type="number"
-                        className="input-base"
-                        ref={register({
-                            required: "Campo obrigatório",
-                            min: { value: 1, message: "O valor dever ser maior que zero" },
-                        })}
-                    />
-                    {errors.coefficient && (
-                        <div className="invalid-feedback d-block">
-                            {errors.coefficient.message}
-                        </div>
-                    )}
-                </div>
-
-                <div className="formulation-form-type">
-                    <label className="label-base">Tipo: </label>
-                    <select name="type" ref={register} className="parameter-content-type-cost-select">
-                        <option value="INTERMEDIARIO">Intermediario</option>
-                        <option value="ACABADO">Acabado</option>
-                    </select>
-                </div>
-
-                <div className="formulation-form-row-level">
-                    <label className="label-base">Nível:</label>
-                    <input
-                        name="level"
-                        type="number"
-                        className="input-base"
-                        ref={register({
-                            required: "Campo obrigatório",
-                        })}
-                    />
-                    {errors.level && (
-                        <div className="invalid-feedback d-block">
-                            {errors.level.message}
-                        </div>
-                    )}
-                </div>
-            </div>
-
-            <div className="formulation-form-row">
-                <div className="formulation-select-product">
-                    <label className="label-base">Produto principal:</label>
-                    <Controller
-                        as={Select}
-                        name="product"
-                        rules={{ required: true }}
-                        control={control}
-                        isLoading={isLoadingProducts}
-                        options={products}
-                        getOptionLabel={(option: Product) => option.name}
-                        getOptionValue={(option: Product) => String(option.id)}
-                        classNamePrefix="products-select"
-                        placeholder="Produtos"
-                        defaultValue={null}
-                    />
-                    {errors.product && (
-                        <div className="invalid-feedback d-block">
-                            Campo obrigatório
-                        </div>
-                    )}
-                </div>
-                <div className="formulation-select-product-secondary">
-                    <label className="label-base">Produto Secundario:</label>
-                    <Controller
-                        as={Select}
-                        name="secondaryProduction"
-                        control={control}
-                        isLoading={isLoadingSecondaryProductions}
-                        options={secondaryProductions}
-                        getOptionLabel={(option: Product) => option.name}
-                        getOptionValue={(option: Product) => String(option.id)}
-                        classNamePrefix="sectors-select"
-                        placeholder="Secundario"
-                        defaultValue={null}
-                        isMulti
-                    />
-                </div>
-            </div>
-
-            <div className="formulation-form-row">
-                <div className="formulation-select-sector">
-                    <label className="label-base">Setores:</label>
-                    <Controller
-                        as={Select}
-                        name="sectors"
-                        rules={{ required: true }}
-                        control={control}
-                        isLoading={isLoadingSectors}
-                        options={sectors}
-                        getOptionLabel={(option: Sector) => option.name}
-                        getOptionValue={(option: Sector) => String(option.id)}
-                        classNamePrefix="sectors-select"
-                        placeholder="Setores"
-                        defaultValue={null}
-                        isMulti
-                    />
-                    {errors.sectors && (
-                        <div className="invalid-feedback d-block">
-                            Campo obrigatório
-                        </div>
-                    )}
-                </div>
-
-                <div className="formulation-select-operational">
-                    <label className="label-base">Custos Operacionais:</label>
-                    <Controller
-                        as={Select}
-                        name="operationalCostType"
-                        rules={{ required: true }}
-                        control={control}
-                        isLoading={isLoadingOperationalCostTypes}
-                        options={operationalCostTypes}
-                        getOptionLabel={(option: OperationalCostType) => option.name}
-                        getOptionValue={(option: OperationalCostType) => String(option.id)}
-                        classNamePrefix="apportionments-select"
-                        placeholder="Custos operacionais"
-                        defaultValue={null}
-                        isMulti
-                    />
-                    {errors.operationalCostType && (
-                        <div className="invalid-feedback d-block">
-                            Campo obrigatório
-                        </div>
-                    )}
-                </div>
-
-            </div>
-
-            <div className="formulation-form-actions">
-                <button
-                    className="btn btn-outline-danger"
-                    onClick={handleCancel}
-                >
-                    CANCELAR
-                </button>
-                <button className="btn btn-primary formulation-form-btn-save">
-                    SALVAR
-                </button>
-            </div>
-
-            {
-                isEditing && (
-                    <>
-                        <hr className="formulation-form-hr" />
-                        <FormulationItems
-                            onInsertItem={onInsertItem}
-                            formulationItem={formulationItem}
-
+                <div className="formulation-form-row">
+                    <div className="formulation-form-row-description">
+                        <label className="label-base">Descrição:</label>
+                        <input
+                            name="description"
+                            type="text"
+                            className="input-base"
+                            ref={register({
+                                required: "Campo obrigatório",
+                                minLength: { value: 2, message: "O campo deve ter minímo 2 caracteres" },
+                                maxLength: { value: 50, message: "O campo deve ter no maximo 10 caracteres" },
+                            })}
                         />
-                    </>)
-            }
-            {
-                isEditing && (
-                    formulationItem?.map(item => (
-                        <FormulationItemsCard
-                            formulationItems={item} key={item.product.id}
-                            onDeleteItem={onDeleteItem}
-                            onEditItem={onEditItem}
+                        {errors.description && (
+                            <div className="invalid-feedback d-block">
+                                {errors.description.message}
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="formulation-form-row-coefficient">
+                        <label className="label-base">Coeficiente:</label>
+                        <input
+                            name="coefficient"
+                            type="number"
+                            className="input-base"
+                            ref={register({
+                                required: "Campo obrigatório",
+                                min: { value: 1, message: "O valor dever ser maior que zero" },
+                            })}
                         />
-                    )))}
-        </form>
+                        {errors.coefficient && (
+                            <div className="invalid-feedback d-block">
+                                {errors.coefficient.message}
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="formulation-form-type">
+                        <label className="label-base">Tipo: </label>
+                        <select name="type" ref={register} className="parameter-content-type-cost-select">
+                            <option value="INTERMEDIARIO">Intermediario</option>
+                            <option value="ACABADO">Acabado</option>
+                        </select>
+                    </div>
+
+                    <div className="formulation-form-row-level">
+                        <label className="label-base">Nível:</label>
+                        <input
+                            name="level"
+                            type="number"
+                            className="input-base"
+                            ref={register({
+                                required: "Campo obrigatório",
+                            })}
+                        />
+                        {errors.level && (
+                            <div className="invalid-feedback d-block">
+                                {errors.level.message}
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                <div className="formulation-form-row">
+                    <div className="formulation-select-product">
+                        <label className="label-base">Produto principal:</label>
+                        <Controller
+                            as={Select}
+                            name="product"
+                            rules={{ required: true }}
+                            control={control}
+                            isLoading={isLoadingProducts}
+                            options={products}
+                            getOptionLabel={(option: Product) => option.name}
+                            getOptionValue={(option: Product) => String(option.id)}
+                            classNamePrefix="products-select"
+                            placeholder="Produtos"
+                            defaultValue={null}
+                        />
+                        {errors.product && (
+                            <div className="invalid-feedback d-block">
+                                Campo obrigatório
+                            </div>
+                        )}
+                    </div>
+                    <div className="formulation-select-product-secondary">
+                        <label className="label-base">Produto Secundario:</label>
+                        <Controller
+                            as={Select}
+                            name="secondaryProduction"
+                            control={control}
+                            isLoading={isLoadingSecondaryProductions}
+                            options={secondaryProductions}
+                            getOptionLabel={(option: Product) => option.name}
+                            getOptionValue={(option: Product) => String(option.id)}
+                            classNamePrefix="sectors-select"
+                            placeholder="Secundario"
+                            defaultValue={null}
+                            isMulti
+                        />
+                    </div>
+                </div>
+
+                <div className="formulation-form-row">
+                    <div className="formulation-select-sector">
+                        <label className="label-base">Setores:</label>
+                        <Controller
+                            as={Select}
+                            name="sectors"
+                            rules={{ required: true }}
+                            control={control}
+                            isLoading={isLoadingSectors}
+                            options={sectors}
+                            getOptionLabel={(option: Sector) => option.name}
+                            getOptionValue={(option: Sector) => String(option.id)}
+                            classNamePrefix="sectors-select"
+                            placeholder="Setores"
+                            defaultValue={null}
+                            isMulti
+                        />
+                        {errors.sectors && (
+                            <div className="invalid-feedback d-block">
+                                Campo obrigatório
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="formulation-select-operational">
+                        <label className="label-base">Custos Operacionais:</label>
+                        <Controller
+                            as={Select}
+                            name="operationalCostType"
+                            rules={{ required: true }}
+                            control={control}
+                            isLoading={isLoadingOperationalCostTypes}
+                            options={operationalCostTypes}
+                            getOptionLabel={(option: OperationalCostType) => option.name}
+                            getOptionValue={(option: OperationalCostType) => String(option.id)}
+                            classNamePrefix="apportionments-select"
+                            placeholder="Custos operacionais"
+                            defaultValue={null}
+                            isMulti
+                        />
+                        {errors.operationalCostType && (
+                            <div className="invalid-feedback d-block">
+                                Campo obrigatório
+                            </div>
+                        )}
+                    </div>
+
+                </div>
+
+                <div className="formulation-form-actions">
+                    <button
+                        className="btn btn-outline-danger"
+                        onClick={handleCancel}
+                    >
+                        CANCELAR
+                    </button>
+                    <button className="btn btn-primary formulation-form-btn-save">
+                        SALVAR
+                    </button>
+                </div>
+                {
+                    isEditing && (
+                        <>
+                            <hr className="formulation-form-hr" />
+                            <FormulationItems
+                                onInsertItem={onInsertItem}
+                                formulationItem={formulationItem}
+
+                            />
+                        </>)
+                }
+                {
+                    isEditing && (
+                        formulationItem?.map(item => (
+                            <FormulationItemsCard
+                                formulationItems={item} key={item.product.id}
+                                onDeleteItem={onDeleteItem}
+                                onEditItem={onEditItem}
+                            />
+                        )))}
+            </form>
     );
 }
 export default FormulationForm;

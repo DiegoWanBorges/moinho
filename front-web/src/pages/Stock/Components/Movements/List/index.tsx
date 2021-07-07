@@ -12,6 +12,8 @@ import StockMovementCard from '../Card';
 import history from 'core/utils/history';
 import { toast } from 'react-toastify';
 import StockMovementBalance from './StockMovementBalance'
+import CardLoader from 'core/components/CardLoader';
+
 const StockMovementList = () => {
     const [startDate, setStartDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth(), 1));
     const [endDate, setEndDate] = useState(new Date(new Date(Date.now()).getFullYear(), new Date(Date.now()).getMonth() + 1, 0));
@@ -20,6 +22,7 @@ const StockMovementList = () => {
     const [product, setProduct] = useState<Product | null>();
     const [stockMovementResponse, setStockMovementResponse] = useState<StockMovementsResponse>();
     const [activePage, setActivePage] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         setIsLoadingProducts(true);
@@ -31,7 +34,7 @@ const StockMovementList = () => {
     }, [])
 
     const getStockMovements = useCallback(() => {
-      
+        setIsLoading(true)
         const params = {
             page: activePage,
             startDate: moment(startDate).format("DD/MM/YYYY"),
@@ -43,15 +46,13 @@ const StockMovementList = () => {
         }
         makePrivateRequest({ url: '/stocks', params })
             .then(response => setStockMovementResponse(response.data))
-            .finally(() => {
-
-            })
+            .finally(() => setIsLoading(false))
     }, [activePage, startDate, endDate, product])
 
     useEffect(() => {
         getStockMovements()
         // eslint-disable-next-line
-    }, [activePage, getStockMovements,product])
+    }, [activePage, getStockMovements, product])
 
     const handCreate = () => {
         history.push("/stock/movements/new");
@@ -83,7 +84,7 @@ const StockMovementList = () => {
                     onClick={handCreate}
                 >
                     ADCIONAR
-               </button>
+                </button>
             </div>
 
             <div className="stockMovementList-filter">
@@ -97,7 +98,6 @@ const StockMovementList = () => {
                         closeOnSelect={true}
                         locale="pt-br"
                         initialValue={startDate}
-
                     />
                 </div>
 
@@ -125,9 +125,8 @@ const StockMovementList = () => {
                         isClearable
                     />
                 </div>
-
             </div>
-            
+
             {product && (
                 <div className="stockMovementList-balance">
                     <StockMovementBalance
@@ -136,26 +135,23 @@ const StockMovementList = () => {
                         endDate={moment(endDate).format("DD/MM/YYYY")}
                     />
                 </div>
-            )
+            )}
 
-            }
-            {stockMovementResponse?.content.map(item => (
-                <StockMovementCard
-                    stockMovement={item}
-                    onRemove={onRemove}
-                    key={item.id}
-                />
-            ))
+            {isLoading ? <CardLoader /> : (
+                stockMovementResponse?.content.map(item => (
+                    <StockMovementCard
+                        stockMovement={item}
+                        onRemove={onRemove}
+                        key={item.id}
+                    />
+                )))}
 
-            }
             {stockMovementResponse &&
                 <Pagination
                     totalPages={stockMovementResponse?.totalPages}
                     onChange={page => setActivePage(page)}
                 />
             }
-
-
         </div>
     )
 }

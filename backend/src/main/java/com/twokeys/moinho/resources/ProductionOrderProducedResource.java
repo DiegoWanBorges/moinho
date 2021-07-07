@@ -44,8 +44,8 @@ public class ProductionOrderProducedResource {
 	@Autowired
 	ProductionOrderProducedService service;
 	
-	@RequestMapping(value  = "/pdf",method = RequestMethod.GET )
-	public ResponseEntity<byte[]> pdf(@RequestParam(value="productionOrderId") Long productionOrderId, 
+	@RequestMapping(value  = "/reports",method = RequestMethod.GET )
+	public ResponseEntity<byte[]> pdf(@RequestParam(value="id") Long productionOrderId, 
 									  @RequestParam(value="pallet") Integer pallet) throws FileNotFoundException, JRException{
 		ProductionOrderProducedDTO dto = service.findById(productionOrderId, pallet);
 		
