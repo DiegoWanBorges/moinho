@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -29,21 +30,19 @@ public class UnityResource {
 	UnityService service;
 	
 	@GetMapping
-	public ResponseEntity<Page<UnityDTO>> findAll(
-			@RequestParam(value = "page", defaultValue = "0") Integer page,
-			@RequestParam(value = "description", defaultValue = "") String  description,
-			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
-			@RequestParam(value = "orderBy", defaultValue = "description") String orderBy,
-			@RequestParam(value = "direction", defaultValue = "ASC") String direction
+	public ResponseEntity<Page<UnityDTO>> findByPagination(@RequestParam(value = "page", defaultValue = "0") Integer page,
+														   @RequestParam(value = "description", defaultValue = "") String  description,
+														   @RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
+														   @RequestParam(value = "orderBy", defaultValue = "description") String orderBy,
+														   @RequestParam(value = "direction", defaultValue = "ASC") String direction
 			){
 		PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
 		Page<UnityDTO> list = service.findAllPaged(description,pageRequest);
 		return ResponseEntity.ok().body(list);
 	}
 	
-	@GetMapping
-	@RequestMapping(params = "unitylist")
-	public ResponseEntity<List<UnityDTO>> findAll(@RequestParam(value="unitylist") String description){
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ResponseEntity<List<UnityDTO>> findByDescription(@RequestParam(value="description") String description){
 		List<UnityDTO> list = service.findByDescriptionLikeIgnoreCase(description);
 		return ResponseEntity.ok().body(list);
 	}

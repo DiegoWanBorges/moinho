@@ -15,21 +15,21 @@ const StockMovementBalance = ({ product, startDate, endDate }: Props) => {
     const [stockEnd, setStockEnd] = useState<StockBalance>();
 
     useEffect(() => {
-        makePrivateRequest({ url: `/stocks?stockByPreviousDateAndProductId=${product.id}&date=${startDate}` })
+        makePrivateRequest({ url: `/stocks/stockpreviousdate?productId=${product.id}&date=${startDate}` })
             .then(response => {
                 setStockStart(response.data)
             })
     }, [product, startDate])
 
     useEffect(() => {
-        makePrivateRequest({ url: `/stocks?stockByDateBetweenAndProductId=${product.id}&startDate=${startDate}&endDate=${endDate}` })
+        makePrivateRequest({ url: `/stocks/stockmovement?productId=${product.id}&startDate=${startDate}&endDate=${endDate}` })
             .then(response => {
                 setStockMovement(response.data)
             })
     }, [product, startDate, endDate])
 
     useEffect(() => {
-        makePrivateRequest({ url: `/stocks?stockByPreviousAndEqualDateAndProductId=${product.id}&date=${endDate}` })
+        makePrivateRequest({ url: `/stocks/stockpreviousandequaldate?productId=${product.id}&date=${endDate}` })
             .then(response => {
                 setStockEnd(response.data)
             })

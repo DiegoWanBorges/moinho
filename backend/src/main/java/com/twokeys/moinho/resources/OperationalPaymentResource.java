@@ -23,46 +23,47 @@ import com.twokeys.moinho.dto.OperationalPaymentDTO;
 import com.twokeys.moinho.services.OperationalPaymentService;
 
 @RestController
-@RequestMapping(value="/operationalpayments")
+@RequestMapping(value = "/operationalpayments")
 public class OperationalPaymentResource {
 	@Autowired
 	OperationalPaymentService service;
 
 	@GetMapping
-	public ResponseEntity<Page<OperationalPaymentDTO>> findByDateAndType(@RequestParam(value = "operationalCostId", defaultValue = "0") Long  operationalCostId,
-																		 @RequestParam(value = "startDate") LocalDate  startDate,
-																		 @RequestParam(value = "endDate") LocalDate  endDate,
-																		 @RequestParam(value = "page", defaultValue = "0") Integer page,
-																		 @RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
-																		 @RequestParam(value = "orderBy", defaultValue = "date") String orderBy,
-																		 @RequestParam(value = "direction", defaultValue = "DESC") String direction){
-			
-			
-			PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
-			Page<OperationalPaymentDTO> list = service.findByDateAndType(operationalCostId,startDate,endDate, pageRequest);
-			return ResponseEntity.ok().body(list);
+	public ResponseEntity<Page<OperationalPaymentDTO>> findByPagination(@RequestParam(value = "operationalCostId", defaultValue = "0") Long operationalCostId,
+																		@RequestParam(value = "startDate") LocalDate startDate, @RequestParam(value = "endDate") LocalDate endDate,
+																		@RequestParam(value = "page", defaultValue = "0") Integer page,
+																		@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
+																		@RequestParam(value = "orderBy", defaultValue = "date") String orderBy,
+																		@RequestParam(value = "direction", defaultValue = "DESC") String direction) {
+
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Page<OperationalPaymentDTO> list = service.findByDateAndType(operationalCostId, startDate, endDate,
+				pageRequest);
+		return ResponseEntity.ok().body(list);
 	}
-	@GetMapping(value="/{id}")
-	public ResponseEntity<OperationalPaymentDTO> findById(@PathVariable Long id){
-		return  ResponseEntity.ok().body(service.findById(id));
+
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<OperationalPaymentDTO> findById(@PathVariable Long id) {
+		return ResponseEntity.ok().body(service.findById(id));
 	}
+
 	@PostMapping
-	public ResponseEntity<OperationalPaymentDTO> insert(@RequestBody OperationalPaymentDTO dto){
+	public ResponseEntity<OperationalPaymentDTO> insert(@RequestBody OperationalPaymentDTO dto) {
 		dto = service.insert(dto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				  .buildAndExpand(dto.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
-	@PutMapping(value="/{id}")
-	public ResponseEntity<OperationalPaymentDTO> update(@PathVariable Long id,@RequestBody OperationalPaymentDTO dto){
-		dto = service.update(id,dto);
-		
-		return ResponseEntity.ok().body(dto); 
+
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<OperationalPaymentDTO> update(@PathVariable Long id, @RequestBody OperationalPaymentDTO dto) {
+		dto = service.update(id, dto);
+
+		return ResponseEntity.ok().body(dto);
 	}
-	@DeleteMapping(value="/{id}")
-	public ResponseEntity<OperationalPaymentDTO> delete(@PathVariable Long id){
+
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<OperationalPaymentDTO> delete(@PathVariable Long id) {
 		service.delete(id);
-		return ResponseEntity.noContent().build(); 
+		return ResponseEntity.noContent().build();
 	}
 }
-

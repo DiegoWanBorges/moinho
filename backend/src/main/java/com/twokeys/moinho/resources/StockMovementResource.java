@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,7 +33,7 @@ public class StockMovementResource {
 	StockMovementService service;
 	
 	@GetMapping
-	public ResponseEntity<Page<StockMovementDTO>> findByStartDateAndFormulation(@RequestParam(value = "productId", defaultValue = "0") Long  productId,
+	public ResponseEntity<Page<StockMovementDTO>> findByPagination(@RequestParam(value = "productId", defaultValue = "0") Long  productId,
 																				@RequestParam(value = "startDate") LocalDate  startDate,
 																				@RequestParam(value = "endDate") LocalDate  endDate,
 																				@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -44,40 +45,35 @@ public class StockMovementResource {
 			return ResponseEntity.ok().body(list);
 	}
 	
-	@GetMapping
-	@RequestMapping(params = "listByproductId")
-	public ResponseEntity<List<StockMovementDTO>> findByProduct(@RequestParam(value = "listByproductId") Long  productId){
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ResponseEntity<List<StockMovementDTO>> findByProduct(@RequestParam(value = "productId") Long  productId){
 		List<StockMovementDTO> list = service.findByProduct(productId);
 		return ResponseEntity.ok().body(list);
 	}
-	@GetMapping
-	@RequestMapping(params = "currentStockByProduct")
-	public ResponseEntity<StockBalanceDTO> currentStockByProduct(@RequestParam(value = "currentStockByProduct") Long  productId){
+	
+	@RequestMapping(value = "/currentStock", method = RequestMethod.GET)
+	public ResponseEntity<StockBalanceDTO> currentStockByProduct(@RequestParam(value = "productId") Long  productId){
 		StockBalanceDTO dto = service.currentStockByProduct(productId);
 		return ResponseEntity.ok().body(dto);
 	}
-	@GetMapping
-	@RequestMapping(params = "stockByDateBetweenAndProductId")
-	public ResponseEntity<StockBalanceTotalDTO> stockByDateBetweenAndProductId(@RequestParam(value = "stockByDateBetweenAndProductId") Long  productId,
+	@RequestMapping(value = "/stockmovement", method = RequestMethod.GET)
+	public ResponseEntity<StockBalanceTotalDTO> stockByDateBetweenAndProductId(@RequestParam(value = "productId") Long  productId,
 																			   @RequestParam(value = "startDate") LocalDate  startDate,
 																			   @RequestParam(value = "endDate") LocalDate  endDate){
 		StockBalanceTotalDTO dto = service.stockByDateBetweenAndProductId(startDate,endDate,productId);
 		return ResponseEntity.ok().body(dto);
 	}
-	@GetMapping
-	@RequestMapping(params = "stockByPreviousDateAndProductId")
-	public ResponseEntity<StockBalanceDTO> stockByPreviousDateAndProductId(@RequestParam(value = "stockByPreviousDateAndProductId") Long  productId,
-																			   @RequestParam(value = "date") LocalDate  date){
+	
+	@RequestMapping(value = "/stockpreviousdate", method = RequestMethod.GET)
+	public ResponseEntity<StockBalanceDTO> stockByPreviousDateAndProductId(@RequestParam(value = "productId") Long  productId,
+																		   @RequestParam(value = "date") LocalDate  date){
 		StockBalanceDTO dto = service.stockByPreviousDateAndProductId(productId,date);
 		return ResponseEntity.ok().body(dto);
 	}
 	
-	
-	
-	@GetMapping
-	@RequestMapping(params = "stockByPreviousAndEqualDateAndProductId")
-	public ResponseEntity<StockBalanceDTO> stockByPreviousAndEqualDateAndProductId(@RequestParam(value = "stockByPreviousAndEqualDateAndProductId") Long  productId,
-																	             @RequestParam(value = "date") LocalDate  date){
+	@RequestMapping(value = "/stockpreviousandequaldate", method = RequestMethod.GET)
+	public ResponseEntity<StockBalanceDTO> stockByPreviousAndEqualDateAndProductId(@RequestParam(value = "productId") Long  productId,
+																	               @RequestParam(value = "date") LocalDate  date){
 		StockBalanceDTO dto = service.stockByProductAndPreviousAndEqualDate(productId,date);
 		return ResponseEntity.ok().body(dto);
 	}

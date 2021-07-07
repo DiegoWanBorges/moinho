@@ -12,7 +12,7 @@ type Props = {
 
 const CostCalculationSummary = ({ costCalculation }: Props) => {
     const onPrint = () => {
-        makePrivateRequest({ url: `/costcalculations/pdf?id=${costCalculation.id}`, responseType: "blob" })
+        makePrivateRequest({ url: `/costcalculations/reports?id=${costCalculation.id}`, responseType: "blob" })
             .then(response => {
                 //Build a URL from the file
                 var file = new Blob([response.data], { type: 'application/pdf' });

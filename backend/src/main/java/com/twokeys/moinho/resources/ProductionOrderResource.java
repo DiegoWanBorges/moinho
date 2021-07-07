@@ -79,7 +79,7 @@ public class ProductionOrderResource {
 		}
 	}
 
-	@RequestMapping(value = "/pdf", method = RequestMethod.GET)
+	@RequestMapping(value = "/reports", method = RequestMethod.GET)
 	public ResponseEntity<byte[]> pdf(@RequestParam(value = "id") Long id,
 			@RequestParam(value = "serie", defaultValue = "1") Integer serie)
 			throws FileNotFoundException, JRException {

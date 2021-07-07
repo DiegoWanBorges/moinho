@@ -26,7 +26,7 @@ const ProductionOrderProducedInsert = ({ onInsertItem, productionOrder }: Props)
 
     useEffect(() => {
         setIsLoadingProducts(true)
-        makePrivateRequest({ url: `/products?formulationProduct=${productionOrder.formulation.id}` })
+        makePrivateRequest({ url: `/products/listproduced?formulationId=${productionOrder.formulation.id}` })
             .then((response) => {
                 setProducts(response.data)
             })
@@ -35,7 +35,7 @@ const ProductionOrderProducedInsert = ({ onInsertItem, productionOrder }: Props)
 
     useEffect(() => {
         setIsLoadingProducedProductStatus(true)
-        makePrivateRequest({ url: `/palletstatus?listname=` })
+        makePrivateRequest({ url: `/palletstatus/list?name=` })
             .then((response) => {
                 setProducedProductStatus(response.data)
             })
@@ -45,7 +45,7 @@ const ProductionOrderProducedInsert = ({ onInsertItem, productionOrder }: Props)
     const onSubmit = (data: ProductionOrderProduced) => {
         const payLoad = {
             ...data,
-            productionOrderId:productionOrder.id,
+            productionOrderId: productionOrder.id,
             manufacturingDate: moment(manufacturingDate).format("DD/MM/YYYY HH:mm")
         }
         onInsertItem(payLoad);
@@ -64,7 +64,7 @@ const ProductionOrderProducedInsert = ({ onInsertItem, productionOrder }: Props)
                             closeOnSelect={true}
                             locale="pt-br"
                             initialValue={manufacturingDate}
-                            
+
                         />
                     </div>
 
@@ -72,10 +72,18 @@ const ProductionOrderProducedInsert = ({ onInsertItem, productionOrder }: Props)
                         <label className="label-base">Quantidade:</label>
                         <input
                             name="quantity"
-                            ref={register}
+                            ref={register({
+                                required: "Campo obrigatório",
+                                min: { value: 1, message: "O valor minimo para o campo é 1" },        
+                            })}
                             type="number"
                             className="input-base"
                         />
+                        {errors.quantity && (
+                            <div className="invalid-feedback d-block">
+                                {errors.quantity.message}
+                            </div>
+                        )}
                     </div>
 
                     <div className="producedInsert-quantity">

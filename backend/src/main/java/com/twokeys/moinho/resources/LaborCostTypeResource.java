@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -23,52 +24,51 @@ import com.twokeys.moinho.dto.LaborCostTypeDTO;
 import com.twokeys.moinho.services.LaborCostTypeService;
 
 @RestController
-@RequestMapping(value="/laborcosttypes")
+@RequestMapping(value = "/laborcosttypes")
 public class LaborCostTypeResource {
 	@Autowired
 	LaborCostTypeService service;
-	
+
 	@GetMapping
-	public ResponseEntity<Page<LaborCostTypeDTO>> findAll(
+	public ResponseEntity<Page<LaborCostTypeDTO>> findByPagination(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
-			@RequestParam(value = "name", defaultValue = "") String  name,
+			@RequestParam(value = "name", defaultValue = "") String name,
 			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
-			@RequestParam(value = "direction", defaultValue = "ASC") String direction
-			){
-		PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
-		Page<LaborCostTypeDTO> list = service.findAllPaged(name,pageRequest);
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Page<LaborCostTypeDTO> list = service.findAllPaged(name, pageRequest);
 		return ResponseEntity.ok().body(list);
 	}
-	
-	@GetMapping
-	@RequestMapping(params = "listname")
-	public ResponseEntity<List<LaborCostTypeDTO>> findAll(@RequestParam(value="listname")String name){
+
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ResponseEntity<List<LaborCostTypeDTO>> findByName(@RequestParam(value = "name") String name) {
 		List<LaborCostTypeDTO> list = service.findByNameLikeIgnoreCase(name);
 		return ResponseEntity.ok().body(list);
 	}
-	
-	@GetMapping(value="/{id}")
-	public ResponseEntity<LaborCostTypeDTO> findById(@PathVariable Long id){
-		return  ResponseEntity.ok().body(service.findById(id));
+
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<LaborCostTypeDTO> findById(@PathVariable Long id) {
+		return ResponseEntity.ok().body(service.findById(id));
 	}
+
 	@PostMapping
-	public ResponseEntity<LaborCostTypeDTO> insert(@RequestBody LaborCostTypeDTO dto){
+	public ResponseEntity<LaborCostTypeDTO> insert(@RequestBody LaborCostTypeDTO dto) {
 		dto = service.insert(dto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				  .buildAndExpand(dto.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
-	@PutMapping(value="/{id}")
-	public ResponseEntity<LaborCostTypeDTO> update(@PathVariable Long id,@RequestBody LaborCostTypeDTO dto){
-		dto = service.update(id,dto);
-		
-		return ResponseEntity.ok().body(dto); 
+
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<LaborCostTypeDTO> update(@PathVariable Long id, @RequestBody LaborCostTypeDTO dto) {
+		dto = service.update(id, dto);
+
+		return ResponseEntity.ok().body(dto);
 	}
-	@DeleteMapping(value="/{id}")
-	public ResponseEntity<LaborCostTypeDTO> delete(@PathVariable Long id){
+
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<LaborCostTypeDTO> delete(@PathVariable Long id) {
 		service.delete(id);
-		return ResponseEntity.noContent().build(); 
+		return ResponseEntity.noContent().build();
 	}
 }
-

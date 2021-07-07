@@ -23,7 +23,7 @@ function ProductForm() {
     
     useEffect(() => {
         setIsLoadingGroups(true);
-        makePrivateRequest({ url: `/groups?listname=` })
+        makePrivateRequest({ url: `/groups/list?name=` })
             .then(response => {
                 setGroup(response.data)
             })
@@ -33,7 +33,7 @@ function ProductForm() {
     }, [])
     useEffect(() => {
         setIsLoadingUnits(true);
-        makePrivateRequest({ url: `/units?unitylist=` })
+        makePrivateRequest({ url: `/units/list?description=` })
             .then(response => {
                 setUnity(response.data)
             })

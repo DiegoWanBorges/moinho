@@ -21,7 +21,7 @@ function EmployeeForm() {
         
     useEffect(() => {
         setIsLoadingSectors(true);
-        makePrivateRequest({ url: `/sectors?listname=` })
+        makePrivateRequest({ url: `/sectors/list?name=` })
             .then(response => {
                 setSector(response.data)
             })

@@ -29,7 +29,7 @@ const LaborPaymentList = () => {
 
     useEffect(() => {
         setIsLoadingEmployees(true)
-        makePrivateRequest({ url: `/employees?listname=` })
+        makePrivateRequest({ url: `/employees/list?name=` })
             .then((response) => {
                 setEmployees(response.data)
             })
@@ -38,7 +38,7 @@ const LaborPaymentList = () => {
 
     useEffect(() => {
         setIsLoadingLaborCostTypes(true)
-        makePrivateRequest({ url: `/laborcosttypes?listname=` })
+        makePrivateRequest({ url: `/laborcosttypes/list?name=` })
             .then((response) => {
                 setLaborCostTypes(response.data)
             })

@@ -23,7 +23,7 @@ const StockMovementList = () => {
 
     useEffect(() => {
         setIsLoadingProducts(true);
-        makePrivateRequest({ url: `/products?listname=` })
+        makePrivateRequest({ url: `/products/list?name=` })
             .then(response => {
                 setProducts(response.data)
             })

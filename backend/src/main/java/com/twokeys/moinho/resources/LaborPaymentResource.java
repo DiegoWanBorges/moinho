@@ -29,7 +29,7 @@ public class LaborPaymentResource {
 	LaborPaymentService service;
 	
 	@GetMapping
-	public ResponseEntity<Page<LaborPaymentDTO>> findByDateAndEmployeeAndLaborCostType(@RequestParam(value = "employeeId", defaultValue = "0") Long  employeeId,
+	public ResponseEntity<Page<LaborPaymentDTO>> findByPagination(@RequestParam(value = "employeeId", defaultValue = "0") Long  employeeId,
 																					   @RequestParam(value = "laborCostTypeId", defaultValue = "0") Long  laborCostTypeId,
 																					   @RequestParam(value = "startDate") LocalDate  startDate,
 																					   @RequestParam(value = "endDate") LocalDate  endDate,

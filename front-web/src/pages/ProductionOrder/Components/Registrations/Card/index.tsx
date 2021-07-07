@@ -15,7 +15,7 @@ const ProductionOrderCard = ({ productionOrder, onRemove }: Props) => {
         history.push(`/productions/registrations/${productionOrder.id}`)
     }
     const onPrint = () => {
-        makePrivateRequest({ url: `/productionorders/pdf?id=${productionOrder.id}`, responseType: "blob" })
+        makePrivateRequest({ url: `/productionorders/reports?id=${productionOrder.id}`, responseType: "blob" })
             .then(response => {
                 //Build a URL from the file
                 var file = new Blob([response.data], { type: 'application/pdf' });

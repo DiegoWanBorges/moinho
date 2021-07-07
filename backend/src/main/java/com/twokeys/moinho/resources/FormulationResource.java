@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -44,7 +45,7 @@ public class FormulationResource {
 	FormulationService service;
 	
 	@GetMapping
-	public ResponseEntity<Page<FormulationDTO>> findAll(
+	public ResponseEntity<Page<FormulationDTO>> findByPagination(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "description", defaultValue = "") String  description,
 			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
@@ -56,16 +57,15 @@ public class FormulationResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
-	@GetMapping
-	@RequestMapping(params = "listdescription")
-	public ResponseEntity<List<FormulationDTO>> findAll(@RequestParam(value="listdescription") String description){
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ResponseEntity<List<FormulationDTO>> findByDescription(@RequestParam(value="description") String description){
 		List<FormulationDTO> list = service.findByNameLikeIgnoreCase(description);
 		return ResponseEntity.ok().body(list);
 	}
 	
 	
-	@RequestMapping(params = "pdf")
-	public ResponseEntity<byte[]> pdf(@RequestParam(value ="pdf") Long id) throws FileNotFoundException, JRException{
+	@RequestMapping(value = "/reports", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> pdf(@RequestParam(value ="id") Long id) throws FileNotFoundException, JRException{
 		FormulationDTO dto = service.findById(id);
 		
 		List<FormulationItemDTO> list = new ArrayList<>();

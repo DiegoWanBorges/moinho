@@ -57,7 +57,7 @@ public class CostCalculationResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Page<CostCalculationDTO>> findByStartDateAndFormulation(@RequestParam(value = "startDate") LocalDate  startDate,
+	public ResponseEntity<Page<CostCalculationDTO>> findByPagination(@RequestParam(value = "startDate") LocalDate  startDate,
 																				  @RequestParam(value = "endDate") LocalDate  endDate,
 																				  @RequestParam(value = "page", defaultValue = "0") Integer page,
 																				  @RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
@@ -81,7 +81,7 @@ public class CostCalculationResource {
 		service.delete(id);
 		return ResponseEntity.noContent().build(); 
 	}
-	@RequestMapping(value = "/pdf", method = RequestMethod.GET)
+	@RequestMapping(value = "/reports", method = RequestMethod.GET)
 	public ResponseEntity<byte[]> pdf(@RequestParam(value = "id") Long id) throws FileNotFoundException, JRException {
 		try {
 			/*Cost Calculation*/

@@ -24,7 +24,7 @@ const OperationalPaymentList = () => {
 
     useEffect(() => {
         setIsLoadingOperationalCostTypes(true)
-        makePrivateRequest({ url: `/operationalcosttypes?listname=` })
+        makePrivateRequest({ url: `/operationalcosttypes/list?name=` })
             .then((response) => {
                 setOperationalCostTypes(response.data)
             })

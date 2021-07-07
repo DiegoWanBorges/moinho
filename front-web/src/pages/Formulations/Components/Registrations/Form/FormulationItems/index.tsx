@@ -21,7 +21,7 @@ function FormulationItems({ onInsertItem, formulationItem }: Props) {
     useEffect(() => {
         setValue('product','');
         setIsLoadingProducts(true);
-        makePrivateRequest({ url: `/products?formulation=${formulationItem.length && (formulationItem[0].formulationId)    }` })
+        makePrivateRequest({ url: `/products/listnotinformulation?formulationId=${formulationItem.length && (formulationItem[0].formulationId)    }` })
             .then(response => {
                 setProducts(response.data)
                 

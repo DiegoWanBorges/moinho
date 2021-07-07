@@ -35,7 +35,7 @@ function FormulationForm() {
     useEffect(() => {
         setIsLoadingProducts(true)
         setIsLoadingSecondaryProductions(true)
-        makePrivateRequest({ url: `/products?listname=` })
+        makePrivateRequest({ url: `/products/list?name=` })
             .then(response => {
                 setProducts(response.data)
                 setSecondaryProductions(response.data)
@@ -48,7 +48,7 @@ function FormulationForm() {
 
     useEffect(() => {
         setIsLoadingSectors(true)
-        makePrivateRequest({ url: `/sectors?listname=` })
+        makePrivateRequest({ url: `/sectors/list?name=` })
             .then(response => {
                 setSectors(response.data)
             })
@@ -57,7 +57,7 @@ function FormulationForm() {
 
     useEffect(() => {
         setIsLoadingOperationalCostTypes(true)
-        makePrivateRequest({ url: `/operationalcosttypes?listname=` })
+        makePrivateRequest({ url: `/operationalcosttypes/list?name=` })
             .then(response => {
                 setOperationalCostTypes(response.data)
             })

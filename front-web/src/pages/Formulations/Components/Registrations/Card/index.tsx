@@ -1,10 +1,10 @@
 import { Formulation } from 'core/types/Formulation';
-import { Link } from 'react-router-dom';
 import Print from 'core/assets/images/print.png'
 import { toast } from 'react-toastify';
 import { makePrivateRequest } from 'core/utils/request';
 
 import './styles.scss';
+import history from 'core/utils/history';
 
 
 type Props={
@@ -12,9 +12,13 @@ type Props={
     onRemove: (formulationId:number) =>void;
 }
 const FormulationCard = ({ formulation,onRemove }:Props) => {
+    const onEdit = () => {
+        history.push(`/formulations/registrations/${formulation.id}`)
+
+    }
 
     const onPrint = () => {
-        makePrivateRequest({ url: `/formulations?pdf=${formulation.id}`, responseType: "blob" })
+        makePrivateRequest({ url: `/formulations/reports?id=${formulation.id}`, responseType: "blob" })
             .then(response => {
                 //Build a URL from the file
                 var file = new Blob([response.data], { type: 'application/pdf' });
@@ -39,12 +43,11 @@ const FormulationCard = ({ formulation,onRemove }:Props) => {
                     onClick={onPrint}
                 />
 
-                <Link
-                    to={`/formulations/registrations/${formulation.id}`}
-                    type="button"
+                <button
+                    onClick={onEdit}
                     className="btn btn-outline-secondary formulation-card-action-btn formulation-card-action-btn-edit">
                     EDITAR
-                </Link>
+                </button>
 
                 <button
                     type="button"

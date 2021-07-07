@@ -25,7 +25,7 @@ function ProductionOrderCreate() {
 
     useEffect(() => {
         setIsLoadingFormulation(true)
-        makePrivateRequest({ url: `/formulations?listdescription=` })
+        makePrivateRequest({ url: `/formulations/list?description=` })
             .then(response => {
                 setFormulations(response.data)
             })

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -30,7 +31,7 @@ public class PalletStatusResource {
 
 	
 	@GetMapping
-	public ResponseEntity<Page<PalletStatusDTO>> findAll(
+	public ResponseEntity<Page<PalletStatusDTO>> findByPagination(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "name", defaultValue = "") String  name,
 			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
@@ -42,9 +43,8 @@ public class PalletStatusResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
-	@GetMapping
-	@RequestMapping(params = "listname")
-	public ResponseEntity<List<PalletStatusDTO>> findAll(@RequestParam(value = "listname")String name){
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ResponseEntity<List<PalletStatusDTO>> findByName(@RequestParam(value = "name")String name){
 		List<PalletStatusDTO> list = service.findByNameLikeIgnoreCase(name);
 		return ResponseEntity.ok().body(list);
 	}
