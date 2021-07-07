@@ -39,18 +39,23 @@ function LoginCard() {
     }
     return (
         <form className="login-card-main" onSubmit={handleSubmit(onSubmit)}>
-            <h1 className="login-card-title">
-                Informe suas credenciais:
-            </h1>
+
             {
-                isLoading ? <Loader
-                    type="Oval"
-                    height={100}
-                    width={100}
-                    color="#0670B8"
-                /> :
+                isLoading ?
+                    <div className="login-card-loader">
+                        <Loader
+                            type="Oval"
+                            height={100}
+                            width={100}
+                            color="#0670B8"
+                        />
+                    </div>
+                    :
                     (
                         <>
+                            <h1 className="login-card-title">
+                                Informe suas credenciais:
+                            </h1>
                             {hasError && (
                                 <div className="alert alert-danger">
                                     Usuário ou senha inválido!
