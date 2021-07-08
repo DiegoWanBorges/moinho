@@ -12,11 +12,8 @@ const Calculation = () => (
         <NavBarCalculation />
         <div className="admin-content">
             <Switch>
-                <PrivateRoute path="/calculations/registrations" >
+                <PrivateRoute path="/calculations/registrations" allowedRoutes={["ROLE_ADMIN","ROLE_COST_CALCULATION"]}>
                     <CalculationRegistration/>
-                </PrivateRoute>
-                <PrivateRoute path="/calculations/reports" >
-                    <h1>Relatorios</h1>
                 </PrivateRoute>
             </Switch>
         </div>

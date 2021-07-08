@@ -11,11 +11,8 @@ const Formulation = () => (
         <NavBarFormulation />
         <div className="admin-content">
             <Switch>
-                <PrivateRoute path="/formulations/registrations" >
+                <PrivateRoute path="/formulations/registrations" allowedRoutes={["ROLE_ADMIN","ROLE_FORMULATION"]}>
                     <FormulationRegistration/>
-                </PrivateRoute>
-                <PrivateRoute path="/formulations/reports" >
-                    <h1>Relatorios</h1>
                 </PrivateRoute>
             </Switch>
         </div>

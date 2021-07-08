@@ -1,4 +1,3 @@
-import MainPage from 'core/components/MainPage'
 import PrivateRoute from 'core/routes/PrivateRoutes'
 import { Switch } from 'react-router'
 import NavBarStockMovemente from './Components/NavBar'
@@ -11,11 +10,7 @@ const StockMovement = () => {
             <NavBarStockMovemente />
             <div className="admin-content">
                 <Switch>
-                    <PrivateRoute path="/stock/" exact={true}>
-                        <MainPage/>
-                    </PrivateRoute>
-                    
-                    <PrivateRoute path="/stock/movements" >
+                    <PrivateRoute path="/stock/movements" allowedRoutes={["ROLE_ADMIN","ROLE_STOCK"]}>
                         <Stockmovements/>
                     </PrivateRoute>
                 </Switch>

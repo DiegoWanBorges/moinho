@@ -34,31 +34,29 @@ const Routes = () => {
                     <Home />
                 </ProtectedRoute>
 
-                
                 <PrivateRoute path="/registrations">
                     <Registration />
                 </PrivateRoute>
-                
-                <Redirect from="/formulations" to="/formulations/registrations" exact/>
+
+                <Redirect from="/formulations" to="/formulations/registrations" exact />
                 <PrivateRoute path="/formulations">
                     <Formulation />
                 </PrivateRoute>
-               
-                <Redirect from="/productions" to="/productions/registrations" exact/>
+
+                <Redirect from="/productions" to="/productions/registrations" exact />
                 <PrivateRoute path="/productions">
                     <Production />
                 </PrivateRoute>
 
-                <Redirect from="/stock" to="/stock/movements" exact/>
+                <Redirect from="/stock" to="/stock/movements" exact />
                 <PrivateRoute path="/stock">
                     <Stock />
                 </PrivateRoute>
-                
-                <Redirect from="/payments" to="/payments/labor" exact/>
+
                 <PrivateRoute path="/payments">
                     <Payment />
                 </PrivateRoute>
-                <Redirect from="/calculations" to="/calculations/registrations" exact/>
+                <Redirect from="/calculations" to="/calculations/registrations" exact />
                 <PrivateRoute path="/calculations">
                     <Calculation />
                 </PrivateRoute>

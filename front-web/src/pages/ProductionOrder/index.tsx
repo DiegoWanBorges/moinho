@@ -8,11 +8,8 @@ const Production = () => (
         <NavBarProduction/>
         <div className="admin-content">
             <Switch>
-                <PrivateRoute path="/productions/registrations" >
+                <PrivateRoute path="/productions/registrations" allowedRoutes={["ROLE_ADMIN","ROLE_PRODUCTION"]}>
                     <ProductionOrderRegistration/>
-                </PrivateRoute>
-                <PrivateRoute path="/productions/reports" >
-                    <h1>Relatorios</h1>
                 </PrivateRoute>
             </Switch>
         </div>

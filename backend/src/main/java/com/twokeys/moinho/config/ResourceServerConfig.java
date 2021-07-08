@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -64,18 +65,70 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 		
 		http.authorizeRequests()
 				.antMatchers(PUBLIC).permitAll()
+				
 				.antMatchers(PARAMETER).hasAnyRole("REGISTRATION_PARAMETER", "ADMIN")
-				.antMatchers(USER).hasAnyRole("REGISTRATION_PARAMETER", "ADMIN")
-				.antMatchers(GROUP).hasAnyRole("REGISTRATION_GROUP", "ADMIN")
-				.antMatchers(UNITY).hasAnyRole("REGISTRATION_UNITY", "ADMIN")
-				.antMatchers(PRODUCT).hasAnyRole("REGISTRATION_PRODUCT", "ADMIN")
-				.antMatchers(SECTOR).hasAnyRole("REGISTRATION_SECTOR", "ADMIN")
-				.antMatchers(EMPLOYEE).hasAnyRole("REGISTRATION_EMPLOYEE", "ADMIN")
-				.antMatchers(LABORCOSTTYPE).hasAnyRole("REGISTRATION_LABORCOSTTYPE", "ADMIN")
-				.antMatchers(OPERATIONALCOSTTYPE).hasAnyRole("REGISTRATION_OPERATIONALCOSTTYPE", "ADMIN")
-				.antMatchers(OCCURRENCE).hasAnyRole("REGISTRATION_OCCURRENCE", "ADMIN")
-				.antMatchers(STATUSPALLET).hasAnyRole("REGISTRATION_STATUSPALLET", "ADMIN")
-				.antMatchers(FORMULATION).hasAnyRole("FORMULATION", "ADMIN")
+				.antMatchers(USER).hasAnyRole("REGISTRATION_USER", "ADMIN")
+				
+				/*GROUP*/
+				.antMatchers(HttpMethod.POST, GROUP).hasAnyRole("REGISTRATION_GROUP", "ADMIN")
+				.antMatchers(HttpMethod.PUT, GROUP).hasAnyRole("REGISTRATION_GROUP", "ADMIN")
+				.antMatchers(HttpMethod.DELETE, GROUP).hasAnyRole("REGISTRATION_GROUP", "ADMIN")
+				.antMatchers(HttpMethod.GET, GROUP).hasAnyRole("REGISTRATION_GROUP", "ADMIN","REGISTRATION_PRODUCT")
+				
+				/*UNITY*/
+				.antMatchers(HttpMethod.POST, UNITY).hasAnyRole("REGISTRATION_UNITY", "ADMIN")
+				.antMatchers(HttpMethod.PUT, UNITY).hasAnyRole("REGISTRATION_UNITY", "ADMIN")
+				.antMatchers(HttpMethod.DELETE, UNITY).hasAnyRole("REGISTRATION_UNITY", "ADMIN")
+				.antMatchers(HttpMethod.GET, UNITY).hasAnyRole("REGISTRATION_UNITY","ADMIN","REGISTRATION_PRODUCT")
+				
+				/*PRODUCT*/
+				.antMatchers(HttpMethod.POST, PRODUCT).hasAnyRole("REGISTRATION_PRODUCT","ADMIN")
+				.antMatchers(HttpMethod.PUT, PRODUCT).hasAnyRole("REGISTRATION_PRODUCT","ADMIN")
+				.antMatchers(HttpMethod.DELETE, PRODUCT).hasAnyRole("ADMIN","REGISTRATION_PRODUCT","ADMIN")
+				.antMatchers(HttpMethod.GET, PRODUCT).hasAnyRole("REGISTRATION_PRODUCT","ADMIN","FORMULATION","PRODUCTION","STOCK")
+				
+				/*SECTOR*/
+				.antMatchers(HttpMethod.POST, SECTOR).hasAnyRole("REGISTRATION_SECTOR", "ADMIN")
+				.antMatchers(HttpMethod.PUT, SECTOR).hasAnyRole("REGISTRATION_SECTOR", "ADMIN")
+				.antMatchers(HttpMethod.DELETE, SECTOR).hasAnyRole("REGISTRATION_SECTOR", "ADMIN")
+				.antMatchers(HttpMethod.GET, SECTOR).hasAnyRole("REGISTRATION_SECTOR", "ADMIN","REGISTRATION_EMPLOYEE","FORMULATION")
+				
+				/*EMPLOYEE*/
+				.antMatchers(HttpMethod.POST, EMPLOYEE).hasAnyRole("REGISTRATION_EMPLOYEE", "ADMIN")
+				.antMatchers(HttpMethod.PUT, EMPLOYEE).hasAnyRole("REGISTRATION_EMPLOYEE", "ADMIN")
+				.antMatchers(HttpMethod.DELETE, EMPLOYEE).hasAnyRole("REGISTRATION_EMPLOYEE", "ADMIN")
+				.antMatchers(HttpMethod.GET, EMPLOYEE).hasAnyRole("REGISTRATION_EMPLOYEE", "ADMIN","LABOR_PAYMENT")
+				
+				/*LABOR COST TYPE*/
+				.antMatchers(HttpMethod.POST,LABORCOSTTYPE).hasAnyRole("REGISTRATION_LABORCOSTTYPE", "ADMIN")
+				.antMatchers(HttpMethod.PUT,LABORCOSTTYPE).hasAnyRole("REGISTRATION_LABORCOSTTYPE", "ADMIN")
+				.antMatchers(HttpMethod.DELETE,LABORCOSTTYPE).hasAnyRole("REGISTRATION_LABORCOSTTYPE", "ADMIN")
+				.antMatchers(HttpMethod.GET,LABORCOSTTYPE).hasAnyRole("REGISTRATION_LABORCOSTTYPE", "ADMIN","LABOR_PAYMENT")
+				
+				/*OPERATIONAL COST TYPE*/
+				.antMatchers(HttpMethod.POST,OPERATIONALCOSTTYPE).hasAnyRole("REGISTRATION_OPERATIONALCOSTTYPE", "ADMIN")
+				.antMatchers(HttpMethod.PUT,OPERATIONALCOSTTYPE).hasAnyRole("REGISTRATION_OPERATIONALCOSTTYPE", "ADMIN")
+				.antMatchers(HttpMethod.DELETE,OPERATIONALCOSTTYPE).hasAnyRole("REGISTRATION_OPERATIONALCOSTTYPE", "ADMIN")
+				.antMatchers(HttpMethod.GET,OPERATIONALCOSTTYPE).hasAnyRole("REGISTRATION_OPERATIONALCOSTTYPE", "ADMIN","OPERATIONAL_PAYMENT","FORMULATION")
+				
+				/*OCCURRENCE*/
+				.antMatchers(HttpMethod.POST,OCCURRENCE).hasAnyRole("REGISTRATION_OCCURRENCE", "ADMIN")
+				.antMatchers(HttpMethod.PUT,OCCURRENCE).hasAnyRole("REGISTRATION_OCCURRENCE", "ADMIN")
+				.antMatchers(HttpMethod.DELETE,OCCURRENCE).hasAnyRole("REGISTRATION_OCCURRENCE", "ADMIN")
+				.antMatchers(HttpMethod.GET,OCCURRENCE).hasAnyRole("REGISTRATION_OCCURRENCE", "ADMIN","PRODUCTION")
+				
+				/*STATUS PALLET*/
+				.antMatchers(HttpMethod.POST,STATUSPALLET).hasAnyRole("REGISTRATION_STATUSPALLET", "ADMIN")
+				.antMatchers(HttpMethod.PUT,STATUSPALLET).hasAnyRole("REGISTRATION_STATUSPALLET", "ADMIN")
+				.antMatchers(HttpMethod.DELETE,STATUSPALLET).hasAnyRole("REGISTRATION_STATUSPALLET", "ADMIN")
+				.antMatchers(HttpMethod.GET,STATUSPALLET).hasAnyRole("REGISTRATION_STATUSPALLET", "ADMIN","PRODUCTION")
+				
+				/*FORMULATION*/
+				.antMatchers(HttpMethod.POST,FORMULATION).hasAnyRole("FORMULATION", "ADMIN")
+				.antMatchers(HttpMethod.PUT,FORMULATION).hasAnyRole("FORMULATION", "ADMIN")
+				.antMatchers(HttpMethod.DELETE,FORMULATION).hasAnyRole("FORMULATION", "ADMIN")
+				.antMatchers(HttpMethod.GET,FORMULATION).hasAnyRole("FORMULATION", "ADMIN","PRODUCTION")				
+				
 				.antMatchers(PRODUCTION).hasAnyRole("PRODUCTION", "ADMIN")
 				.antMatchers(STOCK).hasAnyRole("STOCK", "ADMIN")
 				.antMatchers(LABOR_PAYMENT).hasAnyRole("LABOR_PAYMENT", "ADMIN")
