@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -90,14 +92,14 @@ public class FormulationResource {
 		return  ResponseEntity.ok().body(service.findById(id));
 	}
 	@PostMapping
-	public ResponseEntity<FormulationDTO> insert(@RequestBody FormulationDTO dto){
+	public ResponseEntity<FormulationDTO> insert(@Valid @RequestBody FormulationDTO dto){
 		dto = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				  .buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
 	@PutMapping(value="/{id}")
-	public ResponseEntity<FormulationDTO> update(@PathVariable Long id,@RequestBody FormulationDTO dto){
+	public ResponseEntity<FormulationDTO> update(@Valid @PathVariable Long id,@RequestBody FormulationDTO dto){
 		dto = service.update(id,dto);
 		
 		return ResponseEntity.ok().body(dto); 

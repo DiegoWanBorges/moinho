@@ -4,6 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.twokeys.moinho.entities.Formulation;
 import com.twokeys.moinho.entities.enums.FormulationType;
 
@@ -11,7 +17,14 @@ public class FormulationDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
+	
+	@NotNull(message = "Não pode ser nulo")
+	@Min(value=1, message="O Valor deve ser maior que zero")
 	private Double coefficient;
+	
+	@NotNull(message = "Não pode ser nulo")
+	@NotBlank(message = "Não pode estar em branco")
+	@Length(min=2,max=100, message = "Deve possuir entre 2 e 100 caracteres")
 	private String description;
 	private ProductDTO product;
 	private FormulationType type;

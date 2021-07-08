@@ -3,6 +3,8 @@ package com.twokeys.moinho.resources;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -54,14 +56,14 @@ public class GroupResource {
 		return  ResponseEntity.ok().body(service.findById(id));
 	}
 	@PostMapping
-	public ResponseEntity<GroupDTO> insert(@RequestBody GroupDTO dto){
+	public ResponseEntity<GroupDTO> insert(@Valid @RequestBody GroupDTO dto){
 		dto = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				  .buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
 	@PutMapping(value="/{id}")
-	public ResponseEntity<GroupDTO> update(@PathVariable Long id,@RequestBody GroupDTO dto){
+	public ResponseEntity<GroupDTO> update(@Valid @PathVariable Long id,@RequestBody GroupDTO dto){
 		dto = service.update(id,dto);
 		
 		return ResponseEntity.ok().body(dto); 
