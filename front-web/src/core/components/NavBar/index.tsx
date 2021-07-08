@@ -75,7 +75,7 @@ function NavBar() {
               </NavLink>) : null}
           </li>
           <li>
-            {isAllowedByRole(["ROLE_ADMIN", "ROLE_STOCK"]) ?
+            {isAllowedByRole(["ROLE_ADMIN", "ROLE_COST_CALCULATION"]) ?
               (<NavLink className="nav-link" to="/calculations" onClick={() => setDrawerActive(false)} >
                 APURAÇÃO
               </NavLink>) : null}
