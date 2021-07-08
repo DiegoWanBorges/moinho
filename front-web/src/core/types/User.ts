@@ -6,6 +6,7 @@ export type UsersResponse ={
 export type Role ={
     id:number;
     authority:string;
+    description:string;
 }
 
 export type User={

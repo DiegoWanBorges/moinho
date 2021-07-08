@@ -11,18 +11,21 @@ public class RoleDTO implements Serializable {
 	
 	private Long id;
 	private String authority;
+	private String description;
 	
 	public RoleDTO() {
 		
 	}
 
-	public RoleDTO(Long id, String authority) {
+	public RoleDTO(Long id, String authority,String description) {
 		this.id = id;
 		this.authority = authority;
+		this.description=description;
 	}
 	public RoleDTO(Role entity) {
-		this.id = entity.getId();
-		this.authority = entity.getAuthority();
+		id = entity.getId();
+		authority = entity.getAuthority();
+		description=entity.getDescription();		
 	}
 
 	public Long getId() {
@@ -41,4 +44,13 @@ public class RoleDTO implements Serializable {
 		this.authority = authority;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	
 }

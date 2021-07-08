@@ -4,6 +4,8 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,12 +36,12 @@ public class StockMovementResource {
 	
 	@GetMapping
 	public ResponseEntity<Page<StockMovementDTO>> findByPagination(@RequestParam(value = "productId", defaultValue = "0") Long  productId,
-																				@RequestParam(value = "startDate") LocalDate  startDate,
-																				@RequestParam(value = "endDate") LocalDate  endDate,
-																				@RequestParam(value = "page", defaultValue = "0") Integer page,
-																				@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
-																				@RequestParam(value = "orderBy", defaultValue = "date") String orderBy,
-																				@RequestParam(value = "direction", defaultValue = "DESC") String direction){
+																   @RequestParam(value = "startDate") LocalDate  startDate,
+															       @RequestParam(value = "endDate") LocalDate  endDate,
+														    	   @RequestParam(value = "page", defaultValue = "0") Integer page,
+																   @RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
+																   @RequestParam(value = "orderBy", defaultValue = "date") String orderBy,
+																   @RequestParam(value = "direction", defaultValue = "DESC") String direction){
 			PageRequest pageRequest = PageRequest.of(page,linesPerPage,Direction.valueOf(direction),orderBy);
 			Page<StockMovementDTO> list = service.findByStartDateAndProduct(productId,startDate,endDate, pageRequest);
 			return ResponseEntity.ok().body(list);
@@ -83,7 +85,7 @@ public class StockMovementResource {
 		return  ResponseEntity.ok().body(service.findById(id));
 	}
 	@PostMapping
-	public ResponseEntity<StockMovementDTO> insert(@RequestBody StockMovementDTO dto){
+	public ResponseEntity<StockMovementDTO> insert(@Valid @RequestBody StockMovementDTO dto){
 		dto = service.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				  .buildAndExpand(dto.getId()).toUri();

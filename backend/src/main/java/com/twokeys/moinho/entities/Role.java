@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name="tb_role")
 public class Role  implements Serializable {
@@ -18,13 +17,15 @@ public class Role  implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String authority;
+	private String description;
 	
 	public Role() {
 	}
 
-	public Role(Long id, String authority) {
+	public Role(Long id, String authority, String description) {
 		this.id = id;
 		this.authority = authority;
+		this.description = description;
 	}
 
 	public Long getId() {
@@ -41,6 +42,14 @@ public class Role  implements Serializable {
 
 	public void setAuthority(String authority) {
 		this.authority = authority;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override

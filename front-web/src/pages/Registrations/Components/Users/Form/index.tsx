@@ -127,7 +127,7 @@ function UserForm() {
                     control={control}
                     isLoading={isLoadingRoles}
                     options={roles}
-                    getOptionLabel={(option: Role) => option.authority}
+                    getOptionLabel={(option: Role) => option.description}
                     getOptionValue={(option: Role) => String(option.id)}
                     classNamePrefix="roles-select"
                     isMulti

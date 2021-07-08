@@ -3,6 +3,9 @@ package com.twokeys.moinho.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.twokeys.moinho.entities.StockMovement;
 import com.twokeys.moinho.entities.enums.StockMovementType;
@@ -13,8 +16,13 @@ public class StockMovementDTO   implements Serializable {
 	private Long id;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone="GMT-3")
 	private LocalDate date;
+	@NotNull(message="Campo entrada não pode ser null")
 	private Double entry;
+	@NotNull(message="Campo saida não pode ser null")
 	private Double out;
+	
+	@NotNull(message="Campo custo não pode ser null")
+	@DecimalMin(value="0.001", message = "O valor deve ser maior que zero")
 	private Double cost;
 	private String description;
 	private StockMovementType type;
