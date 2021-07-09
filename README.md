@@ -12,3 +12,11 @@
 ## Front end
 - HTML / CSS / JS / TypeScript
 - ReactJS
+
+
+
+# Autor
+
+Diego Wandrofski Borges
+
+https://www.linkedin.com/in/diego-wandrofski-borges-93a5a059/
