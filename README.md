@@ -1,7 +1,7 @@
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/DiegoWanBorges/moinho/blob/main/LICENSE)
 
 # Moinho - Controle de produção e apuração de custo
-## Cadastro [![YouTube Video Views](https://img.shields.io/youtube/views/GY9IN5eLZmA?label=Cadastro Web&style=social)](https://www.youtube.com/watch?v=GY9IN5eLZmA)
+## Cadastro [![YouTube Video Views](https://img.shields.io/youtube/views/GY9IN5eLZmA?label=Cadastro%20Web&style=social)](https://www.youtube.com/watch?v=GY9IN5eLZmA)
 
 A rotina de cadastro é composta pelas seguintes funcionalidades:
 - Parâmetros - Responsável por configurações  gerais do sistema.
