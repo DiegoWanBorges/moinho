@@ -15,11 +15,11 @@ A rotina de cadastro é composta pelas seguintes funcionalidades:
 - Ocorrências - Cadastro de ocorrências relacionadas aos consumos que excedem a formulação.
 - Status Pallet - Cadastro que determina o status do produto acabado.
 
-## Formulação  
-O cadastro da formulação é a base para o controle e qualidade de cada produção e, consequentemente, a apuração de custo, pois a partir dela serão geradas as quantidades dos ingredientes (insumos, matéria-prima, etc..) que deverão ser utilizados em cada ordem de produção. É a partir da formulação que também configuramos os rateios, vinculamos a ela os setores dos funcionários que participam do processo produtivo e os centros de custos operacionais, por exemplo, energia elétrica, custos relacionados à limpeza, etc.
+## Formulação
+  O cadastro da formulação é a base para o controle e qualidade de cada produção e, consequentemente, a apuração de custo, pois a partir dela serão geradas as quantidades dos ingredientes (insumos, matéria-prima, etc..) que deverão ser utilizados em cada ordem de produção. É a partir da formulação que também configuramos os rateios, vinculamos a ela os setores dos funcionários que participam do processo produtivo e os centros de custos operacionais, por exemplo, energia elétrica, custos relacionados à limpeza, etc.
 
 ## Ordem de Produção
-	Para cada produto produzido, deve ter uma ordem de produção. Para gerar a OP, informa-se a quantidade que se espera produzir. Levando como base a formulação, o sistema irá gerar a quantidade dos ingredientes necessários para se produzir a quantidade esperada. Caso ocorra alguma perda de ingredientes, deve-se gerar um consumo complementar dentro da produção, informando o motivo do consumo que excede a formulação.
+  Para cada produto produzido, deve ter uma ordem de produção. Para gerar a OP, informa-se a quantidade que se espera produzir. Levando como base a formulação, o sistema irá gerar a quantidade dos ingredientes necessários para se produzir a quantidade esperada. Caso ocorra alguma perda de ingredientes, deve-se gerar um consumo complementar dentro da produção, informando o motivo do consumo que excede a formulação.
 	A informação sobre o que foi produzido será separada em “pallets”,  para cada “pallet” será impressa uma etiqueta, que terá as informações de data de fabricação, validade, ordem de produção de origem, lote e status, este último, informará a liberação ou não do que foi produzido, levando em consideração o controle de qualidade.
 
 ## Estoque
