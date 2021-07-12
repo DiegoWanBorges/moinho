@@ -23,7 +23,7 @@ A rotina de cadastro é composta pelas seguintes funcionalidades:
 Para cada produto produzido, deve ter uma ordem de produção. Para gerar a OP, informa-se a quantidade que se espera produzir. Levando como base a formulação, o sistema irá gerar a quantidade dos ingredientes necessários para se produzir a quantidade esperada. Caso ocorra alguma perda de ingredientes, deve-se gerar um consumo complementar dentro da produção, informando o motivo do consumo que excede a formulação.  
 A informação sobre o que foi produzido será separada em “pallets”,  para cada “pallet” será impressa uma etiqueta, que terá as informações de data de fabricação, validade, ordem de produção de origem, lote e status, este último, informará a liberação ou não do que foi produzido, levando em consideração o controle de qualidade.
 
-## Estoque
+## Estoque [![YouTube Video Views](https://img.shields.io/youtube/views/sz3MOZjUyW0?label=Estoque%20Web&style=social)](https://www.youtube.com/watch?v=sz3MOZjUyW0) [![YouTube Video Views](https://img.shields.io/youtube/views/uDIC1kJJ-gM?label=Estoque%20Mobile&style=social)](https://www.youtube.com/watch?v=uDIC1kJJ-gM)
 A rotina de estoque irá listar toda a movimentação, podendo ter o controle de custo médio por data, bastando apenas filtrar o produto desejado.
 
 ## Pagamentos
