@@ -134,16 +134,16 @@
 	<detail>
 		<band height="44" splitType="Stretch">
 			<textField>
-				<reportElement x="30" y="11" width="170" height="20" uuid="e62f2c87-6d1d-4c3b-9b34-36190caad8a0">
+				<reportElement x="30" y="11" width="160" height="20" uuid="e62f2c87-6d1d-4c3b-9b34-36190caad8a0">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e747af6b-2900-46b0-8427-d38fcaea3910"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font fontName="SansSerif" size="11" isItalic="false"/>
+					<font fontName="SansSerif" size="10" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{formulation.description}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy HH:mm">
-				<reportElement x="200" y="1" width="86" height="20" uuid="b54d7591-e71c-48d0-91da-bcd34fd0279a">
+				<reportElement x="190" y="1" width="96" height="20" uuid="b54d7591-e71c-48d0-91da-bcd34fd0279a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3b007f60-0b90-4131-97e3-2ea041ca787c"/>
 				</reportElement>
 				<textElement>
@@ -152,7 +152,7 @@
 				<textFieldExpression><![CDATA[java.util.Date.from($F{startDate})]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy HH:mm">
-				<reportElement x="200" y="21" width="86" height="20" uuid="76d89191-fe8a-4f51-9c8d-ad15e4f6b164">
+				<reportElement x="190" y="21" width="96" height="20" uuid="76d89191-fe8a-4f51-9c8d-ad15e4f6b164">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3b007f60-0b90-4131-97e3-2ea041ca787c"/>
 				</reportElement>
 				<textElement>
@@ -165,7 +165,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c5cdd581-834a-4a2b-bb33-befdbce90aa8"/>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="SansSerif" size="11"/>
+					<font fontName="SansSerif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalProduced}]]></textFieldExpression>
 			</textField>
@@ -174,7 +174,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d91ba5a2-3410-4c7b-8736-39281e8cb70f"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font fontName="SansSerif" size="11"/>
+					<font fontName="SansSerif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{formulation.product.unity.id}]]></textFieldExpression>
 			</textField>
@@ -183,7 +183,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="af80b5a9-3205-44fa-a52f-b4793572d6e0"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="11"/>
+					<font fontName="SansSerif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalDirectCost}]]></textFieldExpression>
 			</textField>
@@ -192,7 +192,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="87586b9b-80d9-45ed-8f87-a76b9867a112"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="11"/>
+					<font fontName="SansSerif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalIndirectCost}]]></textFieldExpression>
 			</textField>
@@ -201,7 +201,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="69d8cace-7f3f-42d4-b0f5-a75c8ede4465"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="11"/>
+					<font fontName="SansSerif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{unitCost}]]></textFieldExpression>
 			</textField>
@@ -210,7 +210,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2de662fb-f248-44d1-99db-8940798cb566"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="11"/>
+					<font fontName="SansSerif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
