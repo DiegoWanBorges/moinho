@@ -1,6 +1,6 @@
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/DiegoWanBorges/moinho/blob/main/LICENSE)
 
-# Moinho - Controle de produção e apuração de custo.
+# Moinho - Controle de produção e apuração de custo
 ## Cadastro
 A rotina de cadastro é composta pelas seguintes funcionalidades:
 - Parâmetros - Responsável por configurações  gerais do sistema.
@@ -33,6 +33,10 @@ Custos Operacionais – Demais custos indiretos que possuem algum vínculo com a
 A rotina de apuração é responsável pela consolidação de todas as informações. Seleciona-se um período e o sistema irá realizar o cálculo por ordem de produção, levando em consideração todo custo direto (ingredientes) e indireto (custo de mão de obra e custos operacionais) que foram absorvidos pela produção. Ao final, será possível ter o custo médio de produção do período e o custo médio geral.
 
 # Tecnologias utilizadas
+## Implantação em produção
+- Back end: Heroku
+- Front web: Netlify
+- Banco de dados: Postgresql
 ## Back end
 - Java
 - Spring Boot
