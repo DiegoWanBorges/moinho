@@ -2,7 +2,7 @@
 
 # Moinho - Controle de produção e apuração de custo
 ## Cadastro
-![YouTube Video Views](https://img.shields.io/youtube/views/GY9IN5eLZmA?style=social)
+[![YouTube Video Views](https://img.shields.io/youtube/views/GY9IN5eLZmA?style=social)](https://www.youtube.com/watch?v=GY9IN5eLZmA)  
 A rotina de cadastro é composta pelas seguintes funcionalidades:
 - Parâmetros - Responsável por configurações  gerais do sistema.
 - Usuários - Cadastro de usuários e permissão de acesso.
