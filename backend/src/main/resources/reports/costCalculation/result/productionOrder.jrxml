@@ -94,7 +94,7 @@
 				<text><![CDATA[Período de produção]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="286" y="10" width="67" height="20" uuid="5a8c1c0f-23b3-4aca-9d67-fe788a1a59ba">
+				<reportElement x="282" y="10" width="75" height="20" uuid="5a8c1c0f-23b3-4aca-9d67-fe788a1a59ba">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="08865f27-3edc-4272-bb1d-824b1c7cf96c"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -112,7 +112,7 @@
 				<text><![CDATA[Custo direto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="405" y="-10" width="53" height="40" uuid="c959e630-a527-4b77-b615-12af89edc6b9">
+				<reportElement x="400" y="-10" width="59" height="40" uuid="c959e630-a527-4b77-b615-12af89edc6b9">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="08865f27-3edc-4272-bb1d-824b1c7cf96c"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -124,7 +124,7 @@
 				<reportElement x="459" y="-10" width="43" height="40" uuid="1a9836aa-d9ec-4014-baa0-f6ebff3612a2">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="08865f27-3edc-4272-bb1d-824b1c7cf96c"/>
 				</reportElement>
-				<textElement textAlignment="Left">
+				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Custo Unit.]]></text>
@@ -147,7 +147,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3b007f60-0b90-4131-97e3-2ea041ca787c"/>
 				</reportElement>
 				<textElement>
-					<font fontName="SansSerif" size="11"/>
+					<font fontName="SansSerif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[java.util.Date.from($F{startDate})]]></textFieldExpression>
 			</textField>
@@ -156,7 +156,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3b007f60-0b90-4131-97e3-2ea041ca787c"/>
 				</reportElement>
 				<textElement>
-					<font fontName="SansSerif" size="11"/>
+					<font fontName="SansSerif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[java.util.Date.from($F{endDate})]]></textFieldExpression>
 			</textField>
@@ -188,7 +188,7 @@
 				<textFieldExpression><![CDATA[$F{totalDirectCost}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.##;">
-				<reportElement x="405" y="11" width="53" height="20" uuid="c6e758ce-5135-4e45-885d-f6ec60978a54">
+				<reportElement x="400" y="11" width="59" height="20" uuid="c6e758ce-5135-4e45-885d-f6ec60978a54">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="87586b9b-80d9-45ed-8f87-a76b9867a112"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -200,7 +200,7 @@
 				<reportElement x="459" y="11" width="43" height="20" uuid="500e6fe9-4b65-4a9f-8bff-4f0065e45039">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="69d8cace-7f3f-42d4-b0f5-a75c8ede4465"/>
 				</reportElement>
-				<textElement textAlignment="Left">
+				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{unitCost}]]></textFieldExpression>
