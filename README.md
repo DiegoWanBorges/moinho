@@ -23,14 +23,14 @@ Para cada produto produzido, deve ter uma ordem de produção. Para gerar a OP, 
 A informação sobre o que foi produzido será separada em “pallets”,  para cada “pallet” será impressa uma etiqueta, que terá as informações de data de fabricação, validade, ordem de produção de origem, lote e status, este último, informará a liberação ou não do que foi produzido, levando em consideração o controle de qualidade.
 
 ## Estoque
-	A rotina de estoque irá listar toda a movimentação, podendo ter o controle de custo médio por data, bastando apenas filtrar o produto desejado.
+A rotina de estoque irá listar toda a movimentação, podendo ter o controle de custo médio por data, bastando apenas filtrar o produto desejado.
 
 ## Pagamentos
-	Rotina responsável pelo cadastro das despesas que serão rateadas junto à produção. É separada em dois grupos:
-	 	Mão de obra – Todo custo referente a funcionários.
-	          	Custos Operacionais – Demais custos indiretos que possuem algum vínculo com a produção.
+Rotina responsável pelo cadastro das despesas que serão rateadas junto à produção. É separada em dois grupos:  
+Mão de obra – Todo custo referente a funcionários.  
+Custos Operacionais – Demais custos indiretos que possuem algum vínculo com a produção.
 ## Apuração
-	A rotina de apuração é responsável pela consolidação de todas as informações. Seleciona-se um período e o sistema irá realizar o cálculo por ordem de produção, levando em consideração todo custo direto (ingredientes) e indireto (custo de mão de obra e custos operacionais) que foram absorvidos pela produção. Ao final, será possível ter o custo médio de produção do período e o custo médio geral.
+A rotina de apuração é responsável pela consolidação de todas as informações. Seleciona-se um período e o sistema irá realizar o cálculo por ordem de produção, levando em consideração todo custo direto (ingredientes) e indireto (custo de mão de obra e custos operacionais) que foram absorvidos pela produção. Ao final, será possível ter o custo médio de produção do período e o custo médio geral.
 
 # Tecnologias utilizadas
 ## Back end
