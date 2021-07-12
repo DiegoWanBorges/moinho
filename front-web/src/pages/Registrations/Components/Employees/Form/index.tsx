@@ -83,7 +83,7 @@ function EmployeeForm() {
             </div>
 
             <div className="employee-form-select">
-                <label className="label-base">Selecione o grupo:</label>
+                <label className="label-base">Selecione o setor:</label>
                 <Controller
                     as={Select}
                     name="sector"
