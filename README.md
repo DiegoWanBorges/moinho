@@ -16,7 +16,7 @@ A rotina de cadastro é composta pelas seguintes funcionalidades:
 - Ocorrências - Cadastro de ocorrências relacionadas aos consumos que excedem a formulação.
 - Status Pallet - Cadastro que determina o status do produto acabado.
 
-## Formulação
+## Formulação [![YouTube Video Views](https://img.shields.io/youtube/views/5g2lOgRidjM?label=Formulação%20Web&style=social)](https://www.youtube.com/watch?v=5g2lOgRidjM) [![YouTube Video Views](https://img.shields.io/youtube/views/gkfm7Wzv3dg?label=Formulação%20Mobile&style=social)](https://www.youtube.com/watch?v=gkfm7Wzv3dg)
   O cadastro da formulação é a base para o controle e qualidade de cada produção e, consequentemente, a apuração de custo, pois a partir dela serão geradas as quantidades dos ingredientes (insumos, matéria-prima, etc..) que deverão ser utilizados em cada ordem de produção. É a partir da formulação que também configuramos os rateios, vinculamos a ela os setores dos funcionários que participam do processo produtivo e os centros de custos operacionais, por exemplo, energia elétrica, custos relacionados à limpeza, etc.
 
 ## Ordem de Produção
