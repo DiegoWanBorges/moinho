@@ -26,7 +26,7 @@ A informação sobre o que foi produzido será separada em “pallets”,  para 
 ## Estoque [![YouTube Video Views](https://img.shields.io/youtube/views/sz3MOZjUyW0?label=Estoque%20Web&style=social)](https://www.youtube.com/watch?v=sz3MOZjUyW0) [![YouTube Video Views](https://img.shields.io/youtube/views/uDIC1kJJ-gM?label=Estoque%20Mobile&style=social)](https://www.youtube.com/watch?v=uDIC1kJJ-gM)
 A rotina de estoque irá listar toda a movimentação, podendo ter o controle de custo médio por data, bastando apenas filtrar o produto desejado.
 
-## Pagamentos [![YouTube Video Views](https://img.shields.io/youtube/views/8BTScSh1Kxg?label=Pagamento%20Web&style=social)](https://www.youtube.com/watch?v=8BTScSh1Kxg) [![YouTube Video Views](https://img.shields.io/youtube/views/8BTScSh1Kxg?label=Pagamento%20Mobile&style=social)](https://www.youtube.com/watch?v=8BTScSh1Kxg)
+## Pagamentos [![YouTube Video Views](https://img.shields.io/youtube/views/8BTScSh1Kxg?label=Pagamento%20Web&style=social)](https://www.youtube.com/watch?v=8BTScSh1Kxg) [![YouTube Video Views](https://img.shields.io/youtube/views/5uzq5yeBMvo?label=Pagamento%20Mobile&style=social)](https://www.youtube.com/watch?v=5uzq5yeBMvo)
 Rotina responsável pelo cadastro das despesas que serão rateadas junto à produção. É separada em dois grupos:  
 Mão de obra – Todo custo referente a funcionários.  
 Custos Operacionais – Demais custos indiretos que possuem algum vínculo com a produção.
