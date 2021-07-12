@@ -1,7 +1,7 @@
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/DiegoWanBorges/moinho/blob/main/LICENSE)
 # Moinho - Controle de produção e apuração de custo.
-##Cadastro
-A rotina de cadastro é composta pelas seguintes funcionalidades:
+#Cadastro
+##A rotina de cadastro é composta pelas seguintes funcionalidades:
 - Parâmetros - Responsável por configurações  gerais do sistema.
 - Usuários - Cadastro de usuários e permissão de acesso.
 - Grupos - Cadastro de grupos de produtos.
