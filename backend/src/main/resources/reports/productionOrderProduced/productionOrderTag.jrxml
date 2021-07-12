@@ -74,7 +74,7 @@
 			<staticText>
 				<reportElement x="83" y="55" width="50" height="20" uuid="de9d7c10-8874-4911-9101-93bbb0136bc7"/>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="15" isBold="true"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Pallet]]></text>
 			</staticText>
@@ -84,7 +84,7 @@
 			<staticText>
 				<reportElement x="138" y="57" width="92" height="20" uuid="0fd0f1ee-43b3-4f2c-b3b6-d4a434dcdd1a"/>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="15" isBold="true"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Quantidade]]></text>
 			</staticText>
@@ -108,14 +108,14 @@
 			<staticText>
 				<reportElement x="233" y="57" width="118" height="20" uuid="ebe9b45c-80f2-4899-9acd-99398539dbb7"/>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="15" isBold="true"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Dt. Fabricação]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="354" y="57" width="96" height="20" uuid="f44959f6-a760-458c-8d63-797123574bff"/>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="15" isBold="true"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Dt. Validade]]></text>
 			</staticText>
@@ -128,7 +128,7 @@
 			<staticText>
 				<reportElement x="452" y="57" width="86" height="20" uuid="c1fa8a79-1d5b-4810-adbb-227676a8b4c0"/>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="15" isBold="true"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Lote]]></text>
 			</staticText>
@@ -182,11 +182,11 @@
 				<text><![CDATA[Pallet gerado em:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="180" width="83" height="14" uuid="a2d2412b-17a1-4741-b1ef-6f6a56e2cc97"/>
+				<reportElement x="0" y="177" width="83" height="14" uuid="a2d2412b-17a1-4741-b1ef-6f6a56e2cc97"/>
 				<text><![CDATA[Impresso em:]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy HH:mm">
-				<reportElement x="83" y="180" width="187" height="14" uuid="54e45f75-5048-4f8b-a5d7-9934b86fb5df"/>
+				<reportElement x="83" y="177" width="187" height="14" uuid="54e45f75-5048-4f8b-a5d7-9934b86fb5df"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>

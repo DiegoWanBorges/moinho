@@ -142,7 +142,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{formulation.description}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="dd/MM/yyyy HH:mm">
 				<reportElement x="205" y="1" width="77" height="20" uuid="b54d7591-e71c-48d0-91da-bcd34fd0279a">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3b007f60-0b90-4131-97e3-2ea041ca787c"/>
 				</reportElement>
@@ -151,7 +151,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[java.util.Date.from($F{startDate})]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="dd/MM/yyyy HH:mm">
 				<reportElement x="205" y="21" width="77" height="20" uuid="76d89191-fe8a-4f51-9c8d-ad15e4f6b164">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3b007f60-0b90-4131-97e3-2ea041ca787c"/>
 				</reportElement>
@@ -178,7 +178,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{formulation.product.unity.id}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.##">
+			<textField pattern="#,##0.##;">
 				<reportElement x="357" y="11" width="43" height="20" uuid="925715a3-d0f9-4f7f-b376-36d4aed243b3">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="af80b5a9-3205-44fa-a52f-b4793572d6e0"/>
 				</reportElement>
@@ -187,7 +187,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalDirectCost}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.##">
+			<textField pattern="#,##0.##;">
 				<reportElement x="405" y="11" width="53" height="20" uuid="c6e758ce-5135-4e45-885d-f6ec60978a54">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="87586b9b-80d9-45ed-8f87-a76b9867a112"/>
 				</reportElement>

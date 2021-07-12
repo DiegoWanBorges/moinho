@@ -71,7 +71,7 @@
 				<textElement textAlignment="Center">
 					<font size="15" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Custo Médio:]]></text>
+				<text><![CDATA[Custo Médio]]></text>
 			</staticText>
 		</band>
 	</columnHeader>

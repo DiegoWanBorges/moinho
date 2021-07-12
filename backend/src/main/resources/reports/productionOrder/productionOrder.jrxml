@@ -185,7 +185,7 @@
 				<text><![CDATA[Quantidade]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="356" y="0" width="83" height="20" uuid="8242f778-688f-451e-b7e3-43089a779f8d">
+				<reportElement x="356" y="0" width="104" height="20" uuid="8242f778-688f-451e-b7e3-43089a779f8d">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -226,7 +226,7 @@
 				<textFieldExpression><![CDATA[$F{product.unity.id}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="360" y="18" width="80" height="1" uuid="7436bff2-9a6c-4236-9fe4-a9de5f1e986f"/>
+				<reportElement x="360" y="17" width="100" height="2" uuid="7436bff2-9a6c-4236-9fe4-a9de5f1e986f"/>
 			</line>
 		</band>
 	</detail>
