@@ -30,7 +30,8 @@ A rotina de estoque irá listar toda a movimentação, podendo ter o controle de
 Rotina responsável pelo cadastro das despesas que serão rateadas junto à produção. É separada em dois grupos:  
 Mão de obra – Todo custo referente a funcionários.  
 Custos Operacionais – Demais custos indiretos que possuem algum vínculo com a produção.
-## Apuração
+
+## Apuração [![YouTube Video Views](https://img.shields.io/youtube/views/_KmpXqdByIQ?label=Apuração%20Web&style=social)](https://www.youtube.com/watch?v=_KmpXqdByIQ) [![YouTube Video Views](https://img.shields.io/youtube/views/zDd2qCZBUNk?label=Apuração%20Mobile&style=social)](https://www.youtube.com/watch?v=zDd2qCZBUNk)
 A rotina de apuração é responsável pela consolidação de todas as informações. Seleciona-se um período e o sistema irá realizar o cálculo por ordem de produção, levando em consideração todo custo direto (ingredientes) e indireto (custo de mão de obra e custos operacionais) que foram absorvidos pela produção. Ao final, será possível ter o custo médio de produção do período e o custo médio geral.
 
 # Tecnologias utilizadas
