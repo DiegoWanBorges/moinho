@@ -90,13 +90,13 @@
 				<reportElement x="374" y="2" width="70" height="20" uuid="bb3af8d1-96bb-44c9-8414-af0a082243d5">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1ee058af-833c-4db5-a24e-aecf4060a41e"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Right">
 					<font size="15"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{balance}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="444" y="0" width="30" height="22" uuid="d4e3e07f-0a7f-4d53-8341-2be665f7675e">
+				<reportElement x="448" y="2" width="30" height="20" uuid="d4e3e07f-0a7f-4d53-8341-2be665f7675e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4a0cdd5c-8fdd-4617-8421-cfeb75fbd26b"/>
 				</reportElement>
 				<textElement textAlignment="Left">
