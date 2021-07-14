@@ -1,4 +1,4 @@
-[![NPM](https://img.shields.io/npm/l/react)](https://github.com/DiegoWanBorges/moinho/blob/main/LICENSE)
+[![NPM](https://img.shields.io/npm/l/react)](https://github.com/DiegoWanBorges/moinho/blob/main/LICENSE) [![Netlify Status](https://api.netlify.com/api/v1/badges/f0905887-1259-4cec-8d65-01a0fa121428/deploy-status)](https://app.netlify.com/sites/moinho/deploys)
 
 # Moinho - Controle de produção e apuração de custo
 ### Moinho é uma aplicação web para controle de produção e apuração de custo.
