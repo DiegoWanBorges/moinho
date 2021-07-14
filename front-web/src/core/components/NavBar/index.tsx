@@ -1,94 +1,128 @@
-import { useEffect, useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import * as FaIcons from 'react-icons/fa';
+import * as AiIcons from 'react-icons/ai';
+import * as GiIcons from 'react-icons/gi';
+import * as MdIcons from 'react-icons/md';
+import * as BsIcons from 'react-icons/bs';
+import { Link, useLocation } from 'react-router-dom';
 import './styles.scss';
-import menu from 'core/assets/images/menu.svg';
-import { getAccessTokenDecoded, isAllowedByRole, logout } from 'core/utils/auth';
+import { IconContext } from 'react-icons';
+import { getAccessTokenDecoded, isTokenValid, logout } from 'core/utils/auth';
 
 
-function NavBar() {
-  const [drawerActive, setDrawerActive] = useState(false);
+const Navbar = () => {
   const [currentUser, setCurrentUser] = useState('');
+  const [sidebar, setSidebar] = useState(false);
+  const showSidebar = () => setSidebar(!sidebar);
   const location = useLocation();
-
 
   useEffect(() => {
     const currenUserData = getAccessTokenDecoded();
     setCurrentUser(currenUserData.user_name);
-  }, [location])
+  }, [location,sidebar])
 
   return (
-    <nav className="nav-main">
 
-      <Link to="/home" className="nav-title-text">
-        <h4>Moinho</h4>
-      </Link>
-      {currentUser && (
-        <button
-          className="menu-mobile-btn"
-          type="button"
-          onClick={() => setDrawerActive(!drawerActive)}
-        >
-          <img src={menu} alt="mobile menu" />
-        </button>)}
+    <IconContext.Provider value={{ color: '#fff' }}>
 
-      <div className={drawerActive ? "menu-mobile-container" : "menu-container"}>
-        {currentUser && (<ul className="main-menu">
-          <li >
-          {isAllowedByRole(["ROLE_ADMIN", 
-                            "ROLE_REGISTRATION_PARAMETER",
-                            "ROLE_REGISTRATION_USER",
-                            "ROLE_REGISTRATION_GROUP",
-                            "ROLE_REGISTRATION_UNITY",
-                            "ROLE_REGISTRATION_PRODUCT",
-                            "ROLE_REGISTRATION_SECTOR",
-                            "ROLE_REGISTRATION_EMPLOYEE",
-                            "ROLE_REGISTRATION_LABORCOSTTYPE",
-                            "ROLE_REGISTRATION_OPERATIONALCOSTTYPE",
-                            "ROLE_REGISTRATION_OCCURRENCE",
-                            "ROLE_REGISTRATION_STATUSPALLET"]) ?
-            (<NavLink className="nav-link" to="/registrations" onClick={() => setDrawerActive(false)}>
-              CADASTROS
-            </NavLink>) : null}
-          </li>
-          <li>
-            {isAllowedByRole(["ROLE_ADMIN", "ROLE_FORMULATION"]) ?
-              (<NavLink className="nav-link" to="/formulations" onClick={() => setDrawerActive(false)}>
-                FORMULAÇÃO
-              </NavLink>) : null}
-          </li>
-          <li>
-            {isAllowedByRole(["ROLE_ADMIN", "ROLE_PRODUCTION"]) ?
-              (<NavLink className="nav-link" to="/productions" onClick={() => setDrawerActive(false)} >
-                PRODUÇÃO
-              </NavLink>) : null}
-          </li>
-          <li>
-            {isAllowedByRole(["ROLE_ADMIN", "ROLE_STOCK"]) ?
-              (<NavLink className="nav-link" to="/stock" onClick={() => setDrawerActive(false)} >
-                ESTOQUE
-              </NavLink>) : null}
-          </li>
-          <li>
-            {isAllowedByRole(["ROLE_ADMIN", "ROLE_LABOR_PAYMENT", "ROLE_OPERATIONAL_PAYMENT"]) ?
-              (<NavLink className="nav-link" to="/payments" onClick={() => setDrawerActive(false)} >
-                PAGAMENTOS
-              </NavLink>) : null}
-          </li>
-          <li>
-            {isAllowedByRole(["ROLE_ADMIN", "ROLE_COST_CALCULATION"]) ?
-              (<NavLink className="nav-link" to="/calculations" onClick={() => setDrawerActive(false)} >
-                APURAÇÃO
-              </NavLink>) : null}
-          </li>
-          <li>
-            <NavLink className="nav-link" to="" onClick={() => logout()} >
-              SAIR
-            </NavLink>
-          </li>
-        </ul>)}
+      <div className='navbar'>
+        <div className="navbar-left">
+          {isTokenValid() ? (
+            <>
+              <Link to='#' className='menu-bars'>
+                <FaIcons.FaBars onClick={showSidebar} />
+              </Link>
+            </>
+          ) : (
+            <h3 className="navbar-left-title"> Moinho</h3>
+          )}
+        </div>
+        <div className="navbar-right">
+          {isTokenValid() ? (
+            <>
+              <AiIcons.AiOutlineLogout
+                className="navbar-right-icon"
+                onClick={()=>{logout();setSidebar(false)}}
+              />
+              <h6 className="navbar-right-title">{currentUser}</h6>
+            </>
+          ) : (null)}
+        </div>
 
       </div>
-    </nav>
+
+      <nav className={(sidebar && isTokenValid) ? 'nav-menu active' : 'nav-menu'}>
+        <ul className='nav-menu-items' onClick={showSidebar}>
+          <li className='navbar-toggle'>
+            <Link to='#' className='menu-bars'>
+              <AiIcons.AiOutlineClose />
+            </Link>
+          </li>
+
+          <li className="nav-text">
+            <Link to="/home">
+              <AiIcons.AiFillHome />
+              <span>Home</span>
+            </Link>
+          </li>
+
+          <li className="nav-text">
+            <Link to="/registrations">
+              <FaIcons.FaRegIdCard />
+              <span>Cadastro</span>
+            </Link>
+          </li>
+
+          <li className="nav-text">
+            <Link to="/formulations">
+              <GiIcons.GiChemicalDrop />
+              <span>Formulação</span>
+            </Link>
+          </li>
+
+          <li className="nav-text">
+            <Link to="/productions">
+              <GiIcons.GiFactory />
+              <span>Produção</span>
+            </Link>
+          </li>
+
+          <li className="nav-text">
+            <Link to="/stock">
+              <GiIcons.GiForklift />
+              <span>Estoque</span>
+            </Link>
+          </li>
+
+          <li className="nav-text">
+            <Link to="/payments">
+              <MdIcons.MdPayment />
+              <span>Pagamentos</span>
+            </Link>
+          </li>
+
+          <li className="nav-text">
+            <Link to="/calculations">
+              <BsIcons.BsGraphUp />
+              <span>Apuração</span>
+            </Link>
+          </li>
+
+          <li className="nav-text">
+            <Link to="#"
+              onClick={()=>{logout();setSidebar(false)}}
+            >
+              <AiIcons.AiOutlineLogout className="logout-icon" />
+              <span>Sair</span>
+            </Link>
+          </li>
+
+        </ul>
+      </nav>
+
+    </IconContext.Provider>
+
   );
 }
-export default NavBar;
+
+export default Navbar;

@@ -7,7 +7,6 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import './styles.scss';
 
-
 type ParamsType = {
     employeeId: string;
 }
