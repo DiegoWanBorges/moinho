@@ -10,7 +10,7 @@ import { IconContext } from 'react-icons';
 import { getAccessTokenDecoded, isAllowedByRole, isTokenValid, logout } from 'core/utils/auth';
 
 
-const Navbar = () => {
+const Navbar = () => { 
   const [currentUser, setCurrentUser] = useState('');
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);
