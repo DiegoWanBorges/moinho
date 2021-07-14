@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
 import * as GiIcons from 'react-icons/gi';
@@ -7,7 +7,7 @@ import * as BsIcons from 'react-icons/bs';
 import { Link, useLocation } from 'react-router-dom';
 import './styles.scss';
 import { IconContext } from 'react-icons';
-import { getAccessTokenDecoded, isTokenValid, logout } from 'core/utils/auth';
+import { getAccessTokenDecoded, isAllowedByRole, isTokenValid, logout } from 'core/utils/auth';
 
 
 const Navbar = () => {
@@ -19,7 +19,7 @@ const Navbar = () => {
   useEffect(() => {
     const currenUserData = getAccessTokenDecoded();
     setCurrentUser(currenUserData.user_name);
-  }, [location,sidebar])
+  }, [location, sidebar])
 
   return (
 
@@ -42,7 +42,7 @@ const Navbar = () => {
             <>
               <AiIcons.AiOutlineLogout
                 className="navbar-right-icon"
-                onClick={()=>{logout();setSidebar(false)}}
+                onClick={() => { logout(); setSidebar(false) }}
               />
               <h6 className="navbar-right-title">{currentUser}</h6>
             </>
@@ -67,50 +67,67 @@ const Navbar = () => {
           </li>
 
           <li className="nav-text">
-            <Link to="/registrations">
-              <FaIcons.FaRegIdCard />
-              <span>Cadastro</span>
-            </Link>
+            {isAllowedByRole(["ROLE_ADMIN",
+              "ROLE_REGISTRATION_PARAMETER",
+              "ROLE_REGISTRATION_USER",
+              "ROLE_REGISTRATION_GROUP",
+              "ROLE_REGISTRATION_UNITY",
+              "ROLE_REGISTRATION_PRODUCT",
+              "ROLE_REGISTRATION_SECTOR",
+              "ROLE_REGISTRATION_EMPLOYEE",
+              "ROLE_REGISTRATION_LABORCOSTTYPE",
+              "ROLE_REGISTRATION_OPERATIONALCOSTTYPE",
+              "ROLE_REGISTRATION_OCCURRENCE",
+              "ROLE_REGISTRATION_STATUSPALLET"]) ?
+              (<Link to="/registrations">
+                <FaIcons.FaRegIdCard />
+                <span>Cadastro</span>
+              </Link>) : null}
           </li>
 
           <li className="nav-text">
-            <Link to="/formulations">
-              <GiIcons.GiChemicalDrop />
-              <span>Formulação</span>
-            </Link>
+            {isAllowedByRole(["ROLE_ADMIN", "ROLE_FORMULATION"]) ?
+              (<Link to="/formulations">
+                <GiIcons.GiChemicalDrop />
+                <span>Formulação</span>
+              </Link>) : null}
           </li>
 
           <li className="nav-text">
-            <Link to="/productions">
-              <GiIcons.GiFactory />
-              <span>Produção</span>
-            </Link>
+            {isAllowedByRole(["ROLE_ADMIN", "ROLE_PRODUCTION"]) ?
+              (<Link to="/productions">
+                <GiIcons.GiFactory />
+                <span>Produção</span>
+              </Link>) : null}
           </li>
 
           <li className="nav-text">
-            <Link to="/stock">
-              <GiIcons.GiForklift />
-              <span>Estoque</span>
-            </Link>
+            {isAllowedByRole(["ROLE_ADMIN", "ROLE_STOCK"]) ?
+              (<Link to="/stock">
+                <GiIcons.GiForklift />
+                <span>Estoque</span>
+              </Link>) : null}
           </li>
 
           <li className="nav-text">
-            <Link to="/payments">
-              <MdIcons.MdPayment />
-              <span>Pagamentos</span>
-            </Link>
+            {isAllowedByRole(["ROLE_ADMIN", "ROLE_LABOR_PAYMENT", "ROLE_OPERATIONAL_PAYMENT"]) ?
+              (<Link to="/payments">
+                <MdIcons.MdPayment />
+                <span>Pagamentos</span>
+              </Link>) : null}
           </li>
 
           <li className="nav-text">
-            <Link to="/calculations">
-              <BsIcons.BsGraphUp />
-              <span>Apuração</span>
-            </Link>
+            {isAllowedByRole(["ROLE_ADMIN", "ROLE_COST_CALCULATION"]) ?
+              (<Link to="/calculations">
+                <BsIcons.BsGraphUp />
+                <span>Apuração</span>
+              </Link>) : null}
           </li>
 
           <li className="nav-text">
             <Link to="#"
-              onClick={()=>{logout();setSidebar(false)}}
+              onClick={() => { logout(); setSidebar(false) }}
             >
               <AiIcons.AiOutlineLogout className="logout-icon" />
               <span>Sair</span>
