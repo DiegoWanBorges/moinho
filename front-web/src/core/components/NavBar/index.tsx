@@ -66,64 +66,70 @@ const Navbar = () => {
             </Link>
           </li>
 
-          <li className="nav-text">
-            {isAllowedByRole(["ROLE_ADMIN",
-              "ROLE_REGISTRATION_PARAMETER",
-              "ROLE_REGISTRATION_USER",
-              "ROLE_REGISTRATION_GROUP",
-              "ROLE_REGISTRATION_UNITY",
-              "ROLE_REGISTRATION_PRODUCT",
-              "ROLE_REGISTRATION_SECTOR",
-              "ROLE_REGISTRATION_EMPLOYEE",
-              "ROLE_REGISTRATION_LABORCOSTTYPE",
-              "ROLE_REGISTRATION_OPERATIONALCOSTTYPE",
-              "ROLE_REGISTRATION_OCCURRENCE",
-              "ROLE_REGISTRATION_STATUSPALLET"]) ?
-              (<Link to="/registrations">
+          {isAllowedByRole(["ROLE_ADMIN",
+            "ROLE_REGISTRATION_PARAMETER",
+            "ROLE_REGISTRATION_USER",
+            "ROLE_REGISTRATION_GROUP",
+            "ROLE_REGISTRATION_UNITY",
+            "ROLE_REGISTRATION_PRODUCT",
+            "ROLE_REGISTRATION_SECTOR",
+            "ROLE_REGISTRATION_EMPLOYEE",
+            "ROLE_REGISTRATION_LABORCOSTTYPE",
+            "ROLE_REGISTRATION_OPERATIONALCOSTTYPE",
+            "ROLE_REGISTRATION_OCCURRENCE",
+            "ROLE_REGISTRATION_STATUSPALLET"]) ? (
+            <li className="nav-text">
+              <Link to="/registrations">
                 <FaIcons.FaRegIdCard />
                 <span>Cadastro</span>
-              </Link>) : null}
-          </li>
+              </Link>
+            </li>
+          ) : null}
 
-          <li className="nav-text">
-            {isAllowedByRole(["ROLE_ADMIN", "ROLE_FORMULATION"]) ?
-              (<Link to="/formulations">
+          {isAllowedByRole(["ROLE_ADMIN", "ROLE_FORMULATION"]) ? (
+            <li className="nav-text">
+              <Link to="/formulations">
                 <GiIcons.GiChemicalDrop />
                 <span>Formulação</span>
-              </Link>) : null}
-          </li>
+              </Link>
+            </li>
+          ) : null}
 
-          <li className="nav-text">
-            {isAllowedByRole(["ROLE_ADMIN", "ROLE_PRODUCTION"]) ?
-              (<Link to="/productions">
+          {isAllowedByRole(["ROLE_ADMIN", "ROLE_PRODUCTION"]) ? (
+            <li className="nav-text">
+              <Link to="/productions">
                 <GiIcons.GiFactory />
                 <span>Produção</span>
-              </Link>) : null}
-          </li>
+              </Link>
+            </li>
+          ) : null}
 
-          <li className="nav-text">
-            {isAllowedByRole(["ROLE_ADMIN", "ROLE_STOCK"]) ?
-              (<Link to="/stock">
+          {isAllowedByRole(["ROLE_ADMIN", "ROLE_STOCK"]) ? (
+            <li className="nav-text">
+              <Link to="/stock">
                 <GiIcons.GiForklift />
                 <span>Estoque</span>
-              </Link>) : null}
-          </li>
+              </Link>
+            </li>
+          ) : null}
 
-          <li className="nav-text">
-            {isAllowedByRole(["ROLE_ADMIN", "ROLE_LABOR_PAYMENT", "ROLE_OPERATIONAL_PAYMENT"]) ?
-              (<Link to="/payments">
+          {isAllowedByRole(["ROLE_ADMIN", "ROLE_LABOR_PAYMENT", "ROLE_OPERATIONAL_PAYMENT"]) ? (
+            <li className="nav-text">
+              <Link to="/payments">
                 <MdIcons.MdPayment />
                 <span>Pagamentos</span>
-              </Link>) : null}
-          </li>
+              </Link>
+            </li>
+          ) : null}
 
-          <li className="nav-text">
-            {isAllowedByRole(["ROLE_ADMIN", "ROLE_COST_CALCULATION"]) ?
-              (<Link to="/calculations">
+          {isAllowedByRole(["ROLE_ADMIN", "ROLE_COST_CALCULATION"]) ? (
+            <li className="nav-text">
+              <Link to="/calculations">
                 <BsIcons.BsGraphUp />
                 <span>Apuração</span>
-              </Link>) : null}
-          </li>
+              </Link>
+            </li>
+          ) : null}
 
           <li className="nav-text">
             <Link to="#"
