@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import { useHistory, useLocation } from 'react-router';
 import './styles.scss';
 import Loader from "react-loader-spinner";
+import EyesOpened from 'core/assets/images/eyesOpened.png'
+import EyesClosed from 'core/assets/images/eyesClosed.png'
 type FormState = {
     username: string;
     password: string;
@@ -19,7 +21,7 @@ function LoginCard() {
     const [isLoading, setIsLoading] = useState(false);
     const location = useLocation<LocationState>();
     let { from } = location.state || { from: { pathname: "/home" } };
-
+    const [hidePassword, setHidePassword] = useState(false);
     const onSubmit = (data: FormState) => {
         setIsLoading(true)
         makeLogin(data)
@@ -36,6 +38,10 @@ function LoginCard() {
             })
 
             ;
+    }
+    const hidenShowPwd = (e : React.MouseEvent<HTMLButtonElement>) =>{
+        e.preventDefault();
+        setHidePassword(!hidePassword)
     }
     return (
         <form className="login-card-main" onSubmit={handleSubmit(onSubmit)}>
@@ -79,13 +85,22 @@ function LoginCard() {
                                     {errors.username.message}
                                 </div>
                             )}
-                            <input
-                                className="login-card-input login-card-input-pwd"
-                                type="password"
-                                placeholder="Senha"
-                                name="password"
-                                ref={register({ required: "Campo obrigatório" })}
-                            />
+                            <div className="login-card-pwd">
+                                <input
+                                    className="login-card-input login-card-input-pwd"
+                                    type={hidePassword ? "text" : "password"}
+                                    placeholder="Senha"
+                                    name="password"
+                                    ref={register({ required: "Campo obrigatório" })}
+                                />
+                                <button
+                                    className="card-login-hide-password"
+                                    onClick={(e) => hidenShowPwd(e)}
+                                >
+                                    <img src={hidePassword ? EyesClosed : EyesOpened} alt="" />
+                                </button>
+                            </div>
+
                             {errors.password && (
                                 <div className="invalid-feedback d-block">
                                     {errors.password.message}

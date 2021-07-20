@@ -27,9 +27,13 @@
     width: 100% !important;
     padding-left: 20px;   
 }
+.login-card-pwd{
+    width: 100%;   
+}
 .login-card-input-pwd{
     margin-top: 15px;
 }
+
 .login-card-btn{
     margin-top: 60px;
     margin-bottom: 30px;
@@ -46,4 +50,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.card-login-hide-password{
+    width: 30px;
+    height: 30px;
+    margin-left: -35px;
+    border: none;
+    cursor: pointer;
+    outline: none;
 }
